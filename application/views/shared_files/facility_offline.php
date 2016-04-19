@@ -60,8 +60,8 @@
 	    bottom: 0;
 	    position: absolute;
 	    content: " ";
-	    width: 75%;
-	    margin:0 12%;
+	    width: 66%;
+	    margin:0 16%;
 	    height: 1px;
 	    background-color: #ccc;
 	    z-order: 0;
@@ -91,6 +91,19 @@
 		color:#000!important;
 	    border: 3px solid #5293C2;
 	}
+	.uncustomiser-green{
+		/*background: #fff!important;*/
+		color:#fff!important;
+	    border: 3px solid #47A447;
+	}
+	.uncustomiser-blue{
+		/*background: #fff!important;*/
+		color:#fff!important;
+	    border: 3px solid #5293C2;
+	}
+	.bold{
+		font-weight: bold!important;
+	}
 
 </style>
 <div class="container-fluid">
@@ -111,35 +124,28 @@
 				</div>
 			</div>
 		<div class="container-fluid">
-			<?php 
-							//echo "<pre>";print_r($facilities);die;
-
-						?>
+			<?php //echo "<pre>";print_r($facilities);die;?>
 			<div class="row">
 
 			<div class="col-md-12">
 				<div class="stepwizard">
 				    <div class="stepwizard-row setup-panel col-md-12">
-				        <div class="stepwizard-step col-md-3">
-				            <a href="#step-1" type="button" class="btn btn-primary btn-circle customiser">1</a>
-				            <p>Step 1</p>
-				            <p>Select and activate a facility</p>
+				        <div class="stepwizard-step col-md-4">
+				            <a href="#step-1" id="step-1" type="button" class="btn btn-success btn-circle uncustomiser-green">1</a>
+				            <p id="step-1-p" class="bold">Step 1</br>Select and activate a facility</p>
 				        </div>
-				        <div class="stepwizard-step col-md-3">
+				        <div class="stepwizard-step col-md-4">
 				            <a href="#step-2" id="step-2" type="button" class="btn btn-default btn-circle customiser" disabled="disabled">2</a>
-				            <p>Step 2</p>
-				            <p>User Management</p>
+				            <p id="step-2-p">Step 2</br>User Management</p>
 				        </div>
-				        <div class="stepwizard-step col-md-3">
+				        <div class="stepwizard-step col-md-4">
 				            <a href="#step-3" id="step-3" type="button" class="btn btn-default btn-circle customiser" disabled="disabled">3</a>
-				            <p>Step 3</p>
-				            <p>Download facility database</p>
+				            <p id="step-3-p">Step 3</br>Download facility database and installer</p>
 				        </div>
-				        <div class="stepwizard-step col-md-3">
+				        <!-- <div class="stepwizard-step col-md-3">
 				            <a href="#step-4" id="step-4" type="button" class="btn btn-default btn-circle customiser" disabled="disabled">4</a>
-				            <p>Step 4</p>
-				            <p>Download additional setup files</p>
-				        </div>
+				            <p>Step 4</br>Congratulations!</p>
+				        </div> -->
 				    </div>
 				</div>
 			</div>
@@ -150,11 +156,14 @@
 				</div> -->
 
 
-
+				<div class="col-md-12">
+				<center><b>
+				Once a facility is selected,you will not be able to go to previous steps. Refresh the page to restart the process.</div>
+				</b></center>
 				<div class="col-md-12" style="border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding-top: 1%; " id="test">
 				<center>
 				<div class="col-md-2 col-md-offset-2">
-					<span style="font-size: 16px">Select a facility: </span>
+					<span style="font-size: 16px">Select facility: </span>
 				</div>
 				<div class="col-md-8">
 					<select id="facility_select" class="form-control" style="width:30%;margin-left: 1%;margin-bottom: 2%;float: left;">
@@ -179,27 +188,6 @@
 					<div id="step_1">
 					<center>
 						<h3>Step 1 </h3>
-						<div id="facility_details">
-							<table>
-								<tr>
-									<td>Date Activated: </td>
-									<td><span id="date_activated"></span> </td>
-								</tr>
-								<tr>
-									<td>Number of Users: </td>
-									<td><span id="number_of_users"></td>
-								</tr>
-								<tr>
-									<td>Date of Last Activity: </td>
-									<td><span id="last_activity"></td>
-								</tr>
-								<tr>
-									<td>Date of Last Order: </td>
-									<td><span id="last_order"></td>
-								</tr>
-							</table>
-						</div>
-
 						<div id="activate">
 							<p style=";color:#000;font-size:16px;">
 								<span class="glyphicon glyphicon-remove"></span></br>
@@ -241,6 +229,7 @@
 							</table>
 							<br/>
 							<button id="step2a_advance" class="step3 btn btn-success">Proceed to Step 3</button>						
+							<!-- <button id="download_zip" class="download_zip btn btn-success">Proceed to Step 3</button>						 -->
 						</div>
 
 						<div id="no_users">
@@ -285,16 +274,35 @@
 						<button id="step4_advance" class="make_bat btn btn-primary" style="">Download additional files and complete setup</button>		
 					</center>
 					</div>
+
+					<div id="step_5">
+						<center>
+						<h3>Step 3: Download required files </h3>						
+						<p style="color:#000;font-size:16px;">
+							<span>
+							Clicking the button below will dowload a zip file that will contain the database and an installer for the selected facility</br>
+							Unzip the folder and run the installer found in the file and the database will be installed on the computer 
+							</span>													
+						</p>
+						<br/>							
+						<br/>
+						<button id="step5_advance" class="make_zip btn btn-primary">Download facility data</button>						
+					</center>
+					</div>
+
+					<div id="success">
+					<center>
+						<span style="font-size:60px;" class="glyphicon glyphicon-thumbs-up"></span>
+						<h4>Congratulations!</h4>
+						<h4>You have successfully downloaded the required zip file for the above facility's data.</br>Extract it when you are ready and click on the install database file to install the database.</h4>
+					</div>
+					</center>
 				</div>			
 			</div>
 		</div>
 	</div>
 </div>
 </div>
-
-
-
-
 <!-- <div id="users_none">						
 
 <button class="form-control btn btn-success make_db" style="width:20%;float;left;margin-left:6%;margin-top: 2%;margin-bottom: 2%">
@@ -325,18 +333,18 @@
 		$("#activate").hide();
 	   	$("#activated").hide();
 	   	$("#active_users").hide();
-	   	$("#facility_details").hide();
 	   	$("#no_users").hide();
 	   	$("#step_1").hide();
 	   	$("#step_2").hide();
 	   	$("#step_3").hide();	   	
 	   	$("#step_4").hide();	   	
+	   	$("#step_5").hide();	   	
+	   	$("#success").hide();	   	
    	}
-   	
+
    	function activateFacility(){
    		var facility_code = $("#facility_select").val();
 	  	var facility_name = $("#facility_select").text();
-	  	// console.log(facility_name);
 	  	var status = $("#facility_select").find(':selected').attr('status');
 	  	if(status==0){
 	  		$("#activate").show();
@@ -349,7 +357,7 @@
 				url: url,
 				dataType: 'json',
 				success: function(s){
-					console.log(s);
+					// console.log(s);
 					var count = s.number;
 					var users = s.list;
 					if(count==0){
@@ -357,8 +365,7 @@
 					}else{
 						$.each(users, function( index, value ) {
 							// console.log(value);
-						   var count = users.length;
-						   $("#number_of_users").html(count);
+							
 	                       var row = $("<tr><td>" + value[0] + "</td><td>" + value[1] + "</td></tr>");
 	                       // $("#users_table").append(row);
 	                    });
@@ -371,16 +378,9 @@
 					console.log(e.responseText);
 				}
 			});
-
-			
 			$("#activated").show();
-			$("#facility_details").show();
 	  	}
    	}
-
-   	$("#facility_select").on("change focus", function() {
-
-   	});
 
    	function getUsers(){
    		var facility_code = $("#facility_select").val();
@@ -413,62 +413,110 @@
    	}
    	function loadStep1(){
    		hideAll();   		
-	   	$("#step_1").show();   		
+	   	$("#step_1").show();   	
+   		$("#step-2").removeClass("btn-primary");
+   		$("#step-3").removeClass("btn-primary");
+   		$("#step-4").removeClass("btn-primary");
+
    		activateFacility();
    	}
-
    	
-
    	function loadStep2(){
    		hideAll();   	   	
    		getUsers();
-   		$("#step-2").addClass("btn-primary");
+   		// alert("Ni mimi");
+   		$("#step-1").removeClass("btn-success");
+   		$("#step-1").removeClass("uncustomiser-green");
+   		$("#step-1").addClass("uncustomiser-blue");
+   		$("#step-1").addClass("btn-primary");
+   		$("#step-1-p").removeClass("bold");
+
+   		$("#step-2-p").addClass("bold");
+   		$("#step-2").removeClass("customiser");
+   		$("#step-2").addClass("uncustomiser-green");
+   		$("#step-2").addClass("btn-success");
+
    		$("#step_2").show();   		
    	}
 
    	function loadStep3(){
-   		hideAll();   		
+   		hideAll();
+
+   		$("#step-2").removeClass("btn-success");
+   		$("#step-2").removeClass("uncustomiser-green");
+   		$("#step-2").addClass("uncustomiser-blue");
+   		$("#step-2").addClass("btn-primary");
+   		$("#step-2-p").removeClass("bold");
+
+   		$("#step-3-p").addClass("bold");
+   		$("#step-3").removeClass("customiser");
+   		$("#step-3").addClass("uncustomiser-green");
+   		$("#step-3").addClass("btn-success");
+
+   		// $("#step-2").removeClass("btn-success");
+   		// $("#step-2").removeClass("customiser");
+   		// $("#step-2").addClass("uncustomiser");
    		$("#step-3").addClass("btn-primary");
+   		// $("#step-3").addClass("uncustomiser");
 	   	$("#step_3").show();   		   		
    	}
 
 	function loadStep4(){
    		hideAll();   		
    		$("#step-4").addClass("btn-primary");
+   		$("#step-4").addClass("uncustomiser");
 	   	$("#step_4").show();   		   		
    	}
 
+   	function loadStep5(){
+   		hideAll();   		
+   		$("#step-2").removeClass("btn-success");
+   		$("#step-2").removeClass("uncustomiser-green");
+   		$("#step-2").addClass("uncustomiser-blue");
+   		$("#step-2").addClass("btn-primary");
+   		$("#step-2-p").removeClass("bold");
+
+   		$("#step-3-p").addClass("bold");
+   		$("#step-3").removeClass("customiser");
+   		$("#step-3").addClass("uncustomiser-green");
+   		$("#step-3").addClass("btn-success");
+
+   		// $("#step-3").addClass("btn-primary");
+	   	$("#step_5").show();   		   		
+   	}
+
+   	function loadSuccess(){
+   		hideAll();   		
+   		$("#step-3").removeClass("btn-success");
+   		$("#step-3").removeClass("uncustomiser-green");
+   		$("#step-3").addClass("uncustomiser-blue");
+   		$("#step-3").addClass("btn-primary");
+		$("#step-3-p").removeClass("bold");
+   		// $("#success").addClass("btn-primary");
+	   	$("#success").show();   		   		
+   	}
 	$('#filter_facility').click(function() {	    
 	  	loadStep1();
-	  	var facility_code = $("#facility_select").val();
-	  	var facility_name = $("#facility_select").text();
+	  	$(this).attr('disabled','disabled');
+	  	$(this).addClass('disabled');
+	  	$("#facility_select").attr('disabled','disabled');
 
-	  	var base_url2 = "<?php echo base_url() . 'facility_activation/get_facility_details/'; ?>";
-		var url2 = base_url2 + facility_code;
-		$.ajax({
-			url: url2,
-			dataType: 'json',
-			success: function(result) {
-				console.log(result);
-				// console.log(result.last_order);
-				// console.log(result.date_created);
-				$("#date_activated").html(result.date_created);
-				$("#last_order").html(result.last_order);
-				$("#last_activity").html(result.last_activity);
-			},
-			error: function(e){
-				console.log(e.responseText);
-			}
-		});
-	  	console.log(facility_code);	  	
 	});
 
 	$('#step1_advance').click(function() {	    
 	  	loadStep2();	  	
 	});
 
+	// $('.step3').click(function() {	    
+	//   	loadStep3();	  	
+	// });
+
 	$('.step3').click(function() {	    
-	  	loadStep3();	  	
+	  	loadStep5();	  	
+	});
+
+	$('.download_zip').click(function() {	    
+	  	loadSuccess();	  	
 	});
 
 	$('#reset_pass').click(function() {
@@ -501,11 +549,11 @@
 	  	hideAll();
 	});
 
-	$('.make_db').click(function(e){
+	$('.make_db').click(function(e){//checkpoint
 		var base_url = "<?php echo base_url() . 'dumper/dump_db/'; ?>";
 	  	var facility_code = $("#facility_select").val();		
 		var url = base_url+facility_code+'/hcmp_rtk';				
-		window.open(url, '_blank'); 
+		window.open(url); 
 		loadStep4();
 	});
 
@@ -513,9 +561,18 @@
 		var base_url = "<?php echo base_url() . 'dumper/gen_bat/'; ?>";
 	  	var facility_code = $("#facility_select").val();		
 		var url = base_url+facility_code+'/hcmp_rtk';				
-		window.open(url, '_blank'); 
+		window.open(url); 
 		// loadStep4();
 	});
+
+	$('.make_zip').click(function(e){//create complete zip for download
+		var base_url = "<?php echo base_url() . 'dumper/create_zip/'; ?>";
+	  	var facility_code = $("#facility_select").val();		
+		var url = base_url+facility_code+'/hcmp_rtk';				
+		window.open(url); 
+		loadSuccess();
+	});
+
 	$("#btn_activate_facility").click(function(){
 		var facility_code = $("#facility_select").val();
 		$('#confirmActivateModal').data('id', facility_code).modal('show');
