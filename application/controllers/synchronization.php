@@ -7,14 +7,14 @@ if (!defined('BASEPATH'))
 
 class Synchronization extends MY_Controller {
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 		//this comment is for you nigga
 		//erase it 
 		//hahaha
 	}
 
-	function index(){
+	public function index(){
 		$data['title'] = "System Database Updates";
 		// $data['last_sync'] = $current_time =date('Y-m-d H:i:s');//this is wrong. last sync is to be gotten from database
 		$data['last_sync'] = 
