@@ -204,6 +204,20 @@
 						<span class="glyphicon glyphicon-ok"></span>
 							<p style="font-size:16px;">
 								<span> The selected facility is active</span>
+								<table>
+									<tr>
+										<td>Date Activated: </td>
+										<td><span id="date_activated"></span></td>
+									</tr>
+									<tr>
+										<td>Date of Last Order: </td>
+										<td><span id="last_order"></span></td>
+									</tr>
+									<tr>
+										<td>Last Activity: </td>
+										<td><span id="last_activity"></span></td>
+									</tr>
+								</table>
 								<br/>
 								<button id="step1_advance" class="step2 btn btn-success">Proceed to Step 2</button>							
 							</p>
@@ -497,6 +511,27 @@
    	}
 	$('#filter_facility').click(function() {	    
 	  	loadStep1();
+	  	var facility_code = $("#facility_select").val();
+	  	var facility_name = $("#facility_select").text();
+	  	console.log(facility_code);
+	  	var base_url2 = "<?php echo base_url() . 'facility_activation/get_facility_details/'; ?>";
+		var url2 = base_url2 + facility_code;
+		$.ajax({
+			url: url2,
+			dataType: 'json',
+			success: function(result) {
+				console.log(result);
+				// console.log(result.last_order);
+				// console.log(result.date_created);
+				$("#date_activated").html(result.date_created);
+				$("#last_order").html(result.last_order);
+				$("#last_activity").html(result.last_activity);
+			},
+			error: function(e){
+				console.log(e.responseText);
+			}
+		});
+
 	  	$(this).attr('disabled','disabled');
 	  	$(this).addClass('disabled');
 	  	$("#facility_select").attr('disabled','disabled');

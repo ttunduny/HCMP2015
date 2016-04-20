@@ -69,6 +69,7 @@
 								<th>Drugs</th>
 								<th>Total Available Units</th>
 								<th>Unit Price</th>
+								<th>Dosage</th>
 								<th>Issued Units</th>
 							</thead>
 							<tbody>
@@ -102,6 +103,7 @@
 										<input type="hidden" class="form-control row_commodity_id">
 									</td>									
 									<td><input type="number" class="form-control price" value="0" id="price" disabled="disabled"></td>
+									<td><input type="text" class="form-control dosage" id="dosage" /></td>
 									<td><input type="number" class="form-control quantity_issued" id="quantity_issued" value="0"></td>
 
  								
