@@ -186,6 +186,7 @@ class Dispensing extends MY_Controller {
 		$data['banner_text'] = "Patient Dispensing";		
 		$view = 'shared_files/template/template';
 		$data['content_view'] = 'facility/facility_dispensing/dispense';
+		// $data['content_view'] = 'facility/facility_dispensing/dispensing_commodities_prt';
 		$this->load->view($view,$data);
 	}
 

@@ -41,7 +41,7 @@
 				<div class="col-md-12">
 					
 				<div class="clearfix" style="border:1px solid #ccc;padding:1px;">
-					<div class="col-md-4 search_container" style="padding:0 1%;height:100%;background-color:#428bca;border:1px ridge #e3e3e3;float:left;color:#ffffff">
+					<div class="col-md-2 search_container" style="padding:0 1%;height:100%;background-color:#428bca;border:1px ridge #e3e3e3;float:left;color:#ffffff">
 						<h4>Search Results</h4>
 						<!-- <textarea id="search_results" disabled="disabled" style="width:96%;height:80%;color:black;"></textarea> -->
 						<table class="table table-bordered" id="search_results">
@@ -54,7 +54,7 @@
 						</table>
 					</div>
 					<div class="col-md-8">
-					 <div class="col-md-5">
+					 <div class="col-md-3">
 					 	<h4>Patient Details</h4>
 					 	<label>Patient Number:</label> <input type="text" id="p_no" disabled="disabled" style="width:80%;float-left;" class="form-control"><br/>
 						<label>Name:</label> <input type="text" id="name" disabled="disabled" style="width:80%" class="form-control"><br/>
@@ -62,7 +62,7 @@
 						<label>Gender:</label> <input type="text" id="gender" disabled="disabled" style="width:80%" class="form-control"><br/>
 					 </div>
 
-					<div class="col-md-7" style="">
+					<div class="col-md-9" style="">
 					<h4>Prescription</h4>
 						<table class="table table-bordered">
 							<thead>
@@ -103,13 +103,22 @@
 										<input type="hidden" class="form-control row_commodity_id">
 									</td>									
 									<td><input type="number" class="form-control price" value="0" id="price" disabled="disabled"></td>
-									<td><input type="text" class="form-control dosage" id="dosage" /></td>
+									<td>
+										<select class="form-control input-small dosage">
+											<option selected="selected" value="0">Select Dosage</option>
+											<option value="1x1">1 x 1</option>
+											<option value="1x2">1 x 2</option>
+											<option value="1x3">1 x 3</option>
+											<option value="2x3">2 x 3</option>
+											<option value="3x3">3 x 3</option>
+										</select>
+									</td>
 									<td><input type="number" class="form-control quantity_issued" id="quantity_issued" value="0"></td>
 
  								
 								</tr>
 								<tr>
-									<td colspan="4"><button class="btn btn-success prescribe" id="prescribe" style="float:right">Prescribe</button></td>
+									<td colspan="5"><button class="btn btn-success prescribe" id="prescribe" style="float:right">Prescribe</button></td>
 								</tr>
 							</tbody>
 						</table>
@@ -119,6 +128,7 @@
 								<th>Commodity</th>
 								<th>Unit Price</th>
 								<th>Units Prescribed</th>
+								<th>Dosage</th>
 								<th>Action</th>
 							</thead>
 							<tbody>
@@ -418,6 +428,7 @@ $(".prescribe").click(function(){
 		var current_total_available = $(".current_total_available").val(); //set the hidden available units field to default value
 		var unit_cost = $(".price").val();
 
+		var dosage = $('.dosage').find(':selected').val(); 
 		var interim_total = parseInt(quantity_issued)*parseInt(unit_cost);
 		var new_remaining = parseInt(current_total_available)-parseInt(quantity_issued);
 
@@ -449,7 +460,7 @@ $(".prescribe").click(function(){
 			var form_price_id = 'form_price_'+current_cid;
 			var form_drug_id = 'form_drug_'+current_cid;
 			if (counter == 1) {					
-			    $('#prescribed_cart').html("<tr id="+current_cid+"><td>"+drug_name+"</td><td><input type=\"number\" value="+unit_cost+" class=\"form-control input-small price\" data-available = "+unit_cost+" disabled><input type=\"hidden\" class=\"form-control input-small "+current_cid+" value="+current_cid+" \"></td><td><input type=\"number\" value="+quantity_issued+" class=\"form-control input-small prescribed_units\" data-available = "+total_available+" disabled></td><td><button class=\"btn btn-danger remove\">Remove</button></td></tr>");
+			    $('#prescribed_cart').html("<tr id="+current_cid+"><td>"+drug_name+"</td><td><input type=\"number\" value="+unit_cost+" class=\"form-control input-small price\" data-available = "+unit_cost+" disabled><input type=\"hidden\" class=\"form-control input-small "+current_cid+" value="+current_cid+" \"></td><td><input type=\"number\" value="+quantity_issued+" class=\"form-control input-small prescribed_units\" data-available = "+total_available+" disabled></td><td><input type=\"text\"  + "</td><td><button class=\"btn btn-danger remove\">Remove</button></td></tr>");
 			    $('#dispense_form').append("<input row_id="+counter+" id="+form_comm_id+" type=\"hidden\" value="+quantity_issued+" name=\"quantity["+counter+"]\"><input type=\"hidden\" id="+form_drug_id+" value="+drug_select+" name=\"id["+counter+"]\"><input id="+form_price_id+" type=\"hidden\" value="+unit_cost+" name=\"price["+counter+"]\">");
 			    // $('#dispense_form').append("<input type=\"hidden\" value="+quantity_issued+" name=\"quantity["+counter+"]\"><input type=\"hidden\" value="+drug_select+" name=\"id["+counter+"]\"><input type=\"hidden\" value="+unit_cost+" name=\"price["+counter+"]\">");
 			}else{
