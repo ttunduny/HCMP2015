@@ -256,7 +256,7 @@ public function create_bat($facility_code)
  	
    public function create_core_tables($facility_code,$database=null){
    		$database = (isset($database)) ? $database : 'hcmp_rtk';
-   		$mysqli = new mysqli("localhost", "root", "", "hcmp_rtk");
+   		$mysqli = new mysqli("localhost", "root", "hPlaB", "hcmp_rtk");
 	   	 if (mysqli_connect_errno()) {
 		    printf("Connect failed: %s", mysqli_connect_error());
 		    exit();
