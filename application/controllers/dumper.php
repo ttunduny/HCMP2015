@@ -138,7 +138,7 @@ public function create_bat($facility_code)
    		$data = "C:\\xampp\mysql\bin\mysql.exe -u root hcmp_rtk<\"%current%\"$facility_code.sql";
    		$data.=PHP_EOL;
  		// $query = "C:\\xampp\mysql\bin\mysql.exe -u root -p hcmp_rtk<".$resource_name;
- 		$header_end .= "net stop Apache2.4";
+ 		$header_end = "net stop Apache2.4";
    		$header_end .= PHP_EOL;
    		$header_end .= "net stop MySQL";
    		$header_end .= PHP_EOL;   
