@@ -114,7 +114,8 @@
 						
 					</div>
 					<?php $x = array();
-					foreach ($counts as $key) {
+					foreach ($facilities as $key) {
+					// foreach ($counts as $key) {
 						$x[] = $key['count'];
 					}
 					?>
@@ -567,7 +568,7 @@
 			users_array.push(user_id);					
 							
 		});
-		//console.log(users_array);
+		console.log(users_array);
 		if(users_array.length<1){
 			//console.log("No user selected");
 			my_message = "Kindly select a user first";				
