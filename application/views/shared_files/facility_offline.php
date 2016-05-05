@@ -233,6 +233,7 @@
 								<tr>
 									<th><input name="select_all" value="1" id="select_all_users" type="checkbox" />Select</th>
 									<th>Full Name</th>
+									<th>Email</th>
 									<th>Date Created</th>
 								</tr>
 							</table>
@@ -413,7 +414,7 @@
 						//console.log(value[0]);
 		               	//var row = $("<tr><td>" + value[1] + "</td><td>" + value[2]+"</td></tr>");
 		                //var row = $("<tr><td>" + value[1] + "</td><td>" + value[2]+"</td><td><a href=\""+reset_url+value[0]+"\" class=\"btn btn-primary btn-xs reset_pwd\" id=\"reset_pwd\"><span class=\"glyphicon glyphicon-edit\"></span>Reset Password</a></td></tr>");
-		               	var row = $("<tr><td><input class=\"selected_users\" type=\"checkbox\" value=\""+value[0]+"\"/></td><td>" + value[1] + "</td><td>" + value[2] + "</td></tr>");
+		               	var row = $("<tr><td><input class=\"selected_users\" type=\"checkbox\" value=\""+value[0]+"\"/></td><td>" + value[1] + "</td><td>" + value[2] + "</td><td>" + value[3] + "</td></tr>");
 		               $("#users_table").append(row);
 		            });
 					$("#active_users").show();	                    			
@@ -562,24 +563,25 @@
 	$('#reset_pass').click(function() {
 		var my_message = '';
 		var url = "<?php echo base_url() .'user/reset_select_multiple_pass/'; ?>";
-		var users_array = [];
+		var users_array = [];			
 		$(".selected_users:checked").each(function(){
-			var user_id = $(this).val();
-			users_array.push(user_id);					
-							
+			var user_id = $(this).val();			
+			users_array.push(user_id);								
 		});
-		console.log(users_array);
+		
 		if(users_array.length<1){
 			//console.log("No user selected");
 			my_message = "Kindly select a user first";				
 			alertify.set({ delay: 3000 });
 	        alertify.error(my_message, null);
-		}else{
+		}else{			
 			$.ajax({
 					url: url,
+					type:'POST',
 					dataType: 'json',
-					data: users_array,
-				success: function(s){				
+					data: {'users':users_array},
+				success: function(s){
+					console.log(s);		
 					my_message = "User passwords reset successfully";				
 					alertify.set({ delay: 3000 });
 	          		alertify.success(my_message, null);
