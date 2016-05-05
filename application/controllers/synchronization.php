@@ -44,7 +44,7 @@ class Synchronization extends MY_Controller {
 		// echo $update_time;
 		$update_time = json_encode($update_time);
 
-		echo $update_time;
+		echo $update_time;die;
 		// $update_time = json_decode($update_time,true);
 		// print_r($update_time[0]['id']);
 	}
