@@ -18,7 +18,7 @@ class  MY_Controller  extends  CI_Controller  {
 	{
 		$local_timestamp = update_model::get_latest_local_timestamp();
 		// echo "<pre>";print_r($local_timestamp);exit;
-		$server_update_url = "41.89.6.209/HCMP/synchronization/latest_update_time/1";
+		$server_update_url = "41.89.6.209/HCMP/synchronization/latest_update_time";
 		// create curl resource 
         $ch = curl_init(); 
 
@@ -34,7 +34,7 @@ class  MY_Controller  extends  CI_Controller  {
         // close curl resource to free up system resources 
         curl_close($ch); 
 
-        echo $server_latest_update_time;exit;
+        echo print_r($server_latest_update_time);exit;
 		// $server_latest = 
 	}
 

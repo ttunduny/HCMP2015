@@ -41,8 +41,8 @@ class Synchronization extends MY_Controller {
 		$update_time = update_model::get_latest_local_timestamp($return_type);
 
 		// echo "<pre>";print_r($update_time);exit();
-
-		echo json_encode($update_time);
+		echo $update_time;
+		// echo json_encode($update_time);
 	}
 	
 	public function synchronize_data(){
