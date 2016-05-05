@@ -21,7 +21,7 @@ class Synchronization extends MY_Controller {
 		$sync_data = sync_model::get_sync_data();
 		$update_status = $this->system_update_status();
 
-		$local_timestamp = update_model::get_latest_local_timestamp();
+		$local_timestamp = update_model::get_latest_local_timestamp(1);
 		echo "<pre>";print_r($update_status);exit();
 		// echo "<pre>";print_r($local_timestamp);exit;
 		$data['sync_data'] = $sync_data;
@@ -41,7 +41,7 @@ class Synchronization extends MY_Controller {
 		$update_time = update_model::get_latest_local_timestamp();
 
 		echo "<pre>";print_r($update_time);exit();
-		
+
 		return $update_time;
 	}
 	
