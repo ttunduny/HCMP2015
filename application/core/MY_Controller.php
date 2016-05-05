@@ -17,7 +17,25 @@ class  MY_Controller  extends  CI_Controller  {
  public function system_update_status()
 	{
 		$local_timestamp = update_model::get_latest_local_timestamp();
-		
+		// echo "<pre>";print_r($local_timestamp);exit;
+		$server_update_url = "41.89.6.209/HCMP/synchronization/latest_update_time";
+		// create curl resource 
+        $ch = curl_init(); 
+
+        // set url 
+        curl_setopt($ch, CURLOPT_URL, $server_update_url); 
+
+        //return the transfer as a string 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+
+        // $output contains the output string 
+        $output = curl_exec($ch); 
+
+        // close curl resource to free up system resources 
+        curl_close($ch); 
+
+        echo $output;exit;
+		// $server_latest = 
 	}
 
 	public function get_hash(){
