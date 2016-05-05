@@ -268,7 +268,7 @@ class User extends Doctrine_Record {
 		$q_2 = Doctrine_Manager::getInstance()->getCurrentConnection()->execute($sql);
     //$this->db->query($sql);    
 	}
-	public function get_last_login($user_id){
+	public static function get_last_login($user_id){
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT MAX(end_time_of_event) as last
 			FROM log
@@ -282,7 +282,7 @@ class User extends Doctrine_Record {
 		return $date;
 	}
 
-	public function get_last_order($user_id){
+	public static function get_last_order($user_id){
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT f_o.order_no, MAX(f_o.order_date) as last_order, temp2.commodity_name, temp1.quantity_ordered_pack, temp1.quantity_ordered_unit, f_o.order_total
 
@@ -308,7 +308,7 @@ class User extends Doctrine_Record {
 		return $date;
 	}
 
-	public function get_last_issue ($user_id){
+	public static function get_last_issue ($user_id){
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT Max(f_i.date_issued) as last_issue,f_i.issued_to,c.commodity_name, f_i.qty_issued
 

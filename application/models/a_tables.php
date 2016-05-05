@@ -27,4 +27,7 @@
 | messages                            |
 | patient_details                     |
 | patient_issues                      |
-|
+| 
+*/
+
+?>

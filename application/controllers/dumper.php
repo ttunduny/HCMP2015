@@ -138,7 +138,7 @@ public function create_bat($facility_code)
    		$data = "C:\\xampp\mysql\bin\mysql.exe -u root hcmp_rtk<\"%current%\"$facility_code.sql";
    		$data.=PHP_EOL;
  		// $query = "C:\\xampp\mysql\bin\mysql.exe -u root -p hcmp_rtk<".$resource_name;
- 		$header_end .= "net stop Apache2.4";
+ 		$header_end = "net stop Apache2.4";
    		$header_end .= PHP_EOL;
    		$header_end .= "net stop MySQL";
    		$header_end .= PHP_EOL;   
@@ -267,7 +267,7 @@ public function create_bat($facility_code)
    		$header = "DROP DATABASE IF EXISTS `$database`;\n\nCREATE DATABASE `$database`;\n\nUSE `$database`;\n\n";
    		$query = '';
 		$handle = fopen($filename, 'w');
-		$core_tables = array('access_level','account_list','assignments','comments','commodities','commodity_category','commodity_division_details','commodity_source','commodity_source_other','commodity_sub_category','counties','county_drug_store_issues','county_drug_store_totals','county_drug_store_transaction_table','districts','drug_commodity_map','drug_store_issues','drug_store_totals','drug_store_transaction_table','email_listing','facilities','git_log','issue_type','menu','malaria_drugs','rca_county','recepients','sub_menu','service_points','redistribution_data','receive_redistributions','log','log_monitor','facility_order_status','facility_order_details_rejects','facility_order_details');
+		$core_tables = array('access_level','account_list','assignments','comments','commodities','commodity_category','commodity_division_details','commodity_source','commodity_source_other','commodity_sub_category','counties','county_drug_store_issues','county_drug_store_totals','county_drug_store_transaction_table','districts','drug_commodity_map','drug_store_issues','drug_store_totals','drug_store_transaction_table','email_listing','email_listing_new','facilities','git_log','issue_type','menu','malaria_drugs','rca_county','recepients','sub_menu','service_points','redistribution_data','receive_redistributions','log','log_monitor','db_sync','facility_order_status','facility_order_details_rejects','facility_order_details','dispensing_records','facility_loggins','facility_rollout_status','inventory','issue_type','patient_issues','patients','selected_service_points','service_point_stock_physical','status','sync_updates');
 
 
 
