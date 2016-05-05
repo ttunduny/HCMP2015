@@ -98,7 +98,7 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 
         // close curl resource to free up system resources 
         $close = curl_close($ch); 
-
+        $contents = json_decode($contents);
         echo $contents;exit;
         // $server_latest_update_data = json_decode($server_latest_update_data,true);
 
@@ -108,7 +108,7 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 	public function local_update_file_contents($filename){
 		$contents = file_get_contents("system_updates/".$filename);
 
-		echo $contents;
+		echo json_encode($contents);
 	}
 
 	public function extract_and_copy_files(){
