@@ -9,9 +9,10 @@ class System_updates extends MY_Controller {
 
 	function __construct() {
 		parent::__construct();
-		// ini_set('display_errors', 1);
-		// ini_set('display_startup_errors', 1);
-		// error_reporting(E_ALL);
+		$this -> load -> library(array('hcmp_functions', 'form_validation'));
+		ini_set('display_errors', 1);
+		ini_set('display_startup_errors', 1);
+		error_reporting(E_ALL);
 	}
 public function system_updates_home($update_status=NULL,$update_presence = NULL){
 		// echo "<pre>";print_r($update_presence);exit;
@@ -53,9 +54,7 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 
 	public function update_system()
 	{
-		$ts = $this->generate_filestamp();
-		echo $ts;exit;
-		
+		$get_latest_zip = $this->get_latest_zip();
 		// $hash = $this->get_hash();			
 		// $get_zip = $this->get_latest_zip();
 		// $update_files = $this->extract_and_copy_files($hash);
@@ -66,11 +65,49 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 		// $delete_residual_dir = $this->delete_residual_files($extracted_path);
 		// $update_logs = $this->update_log($hash);
 
-		
+
 		// echo "<pre>";print_r($update_files);exit;
 		// echo $set_current_commit;exit;
 		// echo "I worked";
 		redirect('/git_updater/admin_updates_home/1');
+	}
+
+	public function get_latest_zip()
+	{
+		$server_data = $this->get_server_update_data();
+
+		$d = file_get_contents("41.89.6.209/HCMP/system_updates/Thu05_210503.zip");
+
+		echo "<pre>";print_r($d);echo "</pre>";exit;	
+		// echo $d;exit;
+		// copy("", dest)
+
+		$server_update_url = "41.89.6.209/HCMP/synchronization/latest_update_time";
+		// create curl resource 
+        $ch = curl_init(); 
+
+        // set url 
+        curl_setopt($ch, CURLOPT_URL, $server_update_url); 
+
+        //return the transfer as a string 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+
+        // $output contains the output string 
+        $server_latest_update_data = curl_exec($ch); 
+
+        // close curl resource to free up system resources 
+        $close = curl_close($ch); 
+
+        $server_latest_update_data = json_decode($server_latest_update_data,true);
+
+        return $server_latest_update_data;
+
+	}
+
+	public function local_update_file_contents($filename){
+		$contents = file_get_contents("system_updates/".$filename);
+
+		return $contents;
 	}
 
 	public function extract_and_copy_files(){
@@ -106,7 +143,12 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 		return $success_status;
 	}
 
+	public function download_update($update_name)
+	{
+		$download_file = $this->hcmp_functions->download_file("41.89.6.209/HCMP/system_updates/".$update_name);
 
+		echo $download_file;
+	}
 }
 
 ?>
