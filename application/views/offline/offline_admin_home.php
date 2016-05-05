@@ -52,29 +52,27 @@
 		<div class="container-fluid">
 			
 			<div class="row" style="padding:5%;">
-					<!-- <div class="col-md-3" style="margin:10px 0;float:right;"> -->
+					<div class="col-md-6" style="margin:10px 0;float:right;">
 						<?php if ($available_update == 1) { ?>
-						<a class="btn btn-success col-md-3" href="<?php echo base_url().'git_updater/update_system'; ?>" style="margin:10px 0;">Update Available</a> 
+						<a class="btn btn-success col-md-9" href="<?php echo base_url().'system_updates/update_system'; ?>" style="margin:10px 0;">Update Available</a> 
 						<?php } else{ ?>
-						<a class="btn btn-success col-md-3" disabled="disabled" href="<?php echo base_url().'update_system'; ?>" style="margin:10px 0;">You are currently up to date</a>
-					<?php } ?>
-					<!-- </div> -->
-					<div class="col-md-12"><p>Latest hash: <?php echo $latest_hash ?></p></div>
-				<div class="col-md-12" style="border: 1px solid #ddd;padding-top: 1%; " id="test">
-					
-
+						<a class="btn btn-success col-md-9" disabled="disabled" href="#" style="margin:10px 0;">You are currently up to date</a>
+						<?php } ?>
+					</div>
+				<div class="col-md-6" style="border: 1px solid #ddd;padding-top: 1%; " id="test">
+					<div class="col-md-12"><p>Latest system update was made available on: <b><?php echo date('F, m Y',strtotime($latest_update_time)); ?></b></p></div>
 					<table class="table table-hover table-bordered table-update">
 						<thead>
-							<th>Date of Commit</th>
-							<th>Hash</th>
+							<th>Update records for this facility</th>
+							<th>Status</th>
+							<!-- <th>Hash</th> -->
 						</thead>
 						<tbody>
-							<?php foreach ($git_records as $records) { ?>
+							<?php foreach ($update_records as $records) { ?>
 							<?php //echo"<pre>";print_r($records); ?>
 								<tr>
-									<td><?php echo date('F, m Y',strtotime($records['update_time'])); ?></td>
-									<!-- <td><?php echo $records['update_time']; ?></td> -->
-									<td><?php echo $records['hash_value']; ?></td>
+									<td><?php echo date('F, m Y',strtotime($records['added_on'])); ?></td>
+									<td><p>Update successful</p></td>
 								</tr>
 							<?php } ?>
 						</tbody>

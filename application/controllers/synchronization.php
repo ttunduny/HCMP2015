@@ -22,7 +22,7 @@ class Synchronization extends MY_Controller {
 		$update_status = $this->system_update_status();
 
 		$local_timestamp = update_model::get_latest_local_timestamp();
-		echo "<pre>";print_r($update_status);exit();
+		// echo "<pre>";print_r($update_status);exit();
 		// echo "<pre>";print_r($local_timestamp);exit;
 		$data['sync_data'] = $sync_data;
 		$data['sync_status'] = $sync_status;
@@ -46,7 +46,7 @@ class Synchronization extends MY_Controller {
 
 		echo json_encode($update_time);
 		// $update_time = json_decode($update_time,true);
-		// print_r($update_time[0]['id']);
+		// print_r($update_time);
 	}
 	
 	public function synchronize_data(){
