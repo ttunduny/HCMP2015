@@ -10,11 +10,11 @@ class System_updates extends MY_Controller {
 	function __construct() {
 		parent::__construct();
 		$this -> load -> library(array('hcmp_functions', 'form_validation','unzip'));
-		ini_set('display_errors', 1);
-		ini_set('display_startup_errors', 1);
-		error_reporting(E_ALL);
+		// ini_set('display_errors', 1);
+		// ini_set('display_startup_errors', 1);
+		// error_reporting(E_ALL);
 	}
-public function system_updates_home($update_status=NULL,$update_presence = NULL){
+	public function system_updates_home($update_status=NULL,$update_presence = NULL){
 		// echo "<pre>";print_r($update_presence);exit;
 		$permissions='super_permissions';
 		$data['user_types']=Access_level::get_access_levels($permissions);
@@ -69,7 +69,7 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 		// echo "<pre>";print_r($update_files);exit;
 		// echo $set_current_commit;exit;
 		// echo "I worked";
-		redirect('/git_updater/admin_updates_home/1');
+		redirect('/system_updates/system_updates_home/1');
 	}
 
 	public function get_latest_zip()
@@ -85,13 +85,16 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 		// echo $update_filename;exit;
 		$update = $this->extract_and_copy_files($update_filename);
 		
-		$delete_zip = $this->delete($update_filename);
-		$delete_folder = $this->delete($filename_minus_extension);
+		// $perms = chmod('system_updates/'.$update_filename, 0777);
+		// $permss = chmod('system_updates/'.$filename_minus_extension,0777);
 
-        echo $delete_folder;exit;
-        // $server_latest_update_data = json_decode($server_latest_update_data,true);
+		$delete_zip = delete_files($update_filename, TRUE);//delete zip
+		$delete_folder = delete_files($filename_minus_extension,TRUE);//delete residual folder
 
+		$update_logs = $this->update_logs($update_filename);
 
+        // echo $delete_folder;exit;
+		// redirect('/git_updater/admin_updates_home/1');
 	}
 
 	public function download_update_zip($filename)//used copy instead of file_get_Contents as seen in older function as it creates an immitation of a zip,errors
@@ -102,7 +105,7 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 		$local_file = $filename;
 		 
 		/* Copy the file from source url to server */
-		$copy = copy($remote_file_url, $local_file );
+		$copy = copy($remote_file_url, 'system_updates/'.$local_file );
 
 		return $copy;
 	}
@@ -143,25 +146,29 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 	public function extract_and_copy_files($filename){
 		$success_status = array();
 
-		$unzip_status = $this->unzip->extract($filename);
+		$unzip_status = $this->unzip->extract('system_updates/'.$filename);
 
 		$filename = substr($filename, 0, strpos($filename, "."));
 		// echo $filename;exit;
 		// echo "<pre>"; print_r($unzip_status);echo "</pre>";exit;
 		$sanitized_directory = array();
 		foreach ($unzip_status as $unzip) {
-			$unzip = substr($unzip, 2);
+			$unzip = substr($unzip, 28);//removes the system_updates/Thu_xxxxxxxxxx
 			// echo "<pre>".$unzip;
+
+			/*
 			$del = "/";
 			$trimmed=strpos($unzip, $del);
 			$important=substr($unzip, $trimmed+strlen($del)-1, strlen($unzip)-1);
 			$important = substr($important, 1);
+			*/
 
-			$sanitized_directory[] = $important;
+			$sanitized_directory[] = $unzip;
 		}
 
 		// echo "<pre>";print_r($sanitized_directory);exit;
-		$status = $this->copy_and_replace($sanitized_directory,$filename);
+		$source_path = 'system_updates/'.$filename;
+		$status = $this->copy_and_replace($sanitized_directory,$source_path);
 		// echo "<pre>";print_r($status);
 		// $set_hash = $this->github_updater->_set_config_hash($hash);
 
@@ -173,7 +180,7 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 
 	public function copy_and_replace($directories,$source_path = NULL){
 		$copy_status_ = array();
-		// echo FCPATH.$source_path."<pre>";
+		// echo FCPATH.$source_path."<pre>";exit;
 		$fcpath = FCPATH;
 		$sanitized_fcpath = str_replace('\\','/', $fcpath);
 		// echo $sanitized_fcpath;
@@ -182,13 +189,27 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 			$dir = str_replace('/','\\', $dir);
 			$src = $sanitized_fcpath.$source_path."/".$dir;
 			$dest = $sanitized_fcpath.$dir;
+
+			$src = str_replace('/','\\', $src);
+			$dest = str_replace('/','\\', $dest);
+
 			$copy_status_[]['src']= "\"".$src."\"";
 			$copy_status_[]['dest']= "\"".$dest."\"";
 
 			$this->copy($src,$dest);
 		}
+		// echo "<pre>";print_r($copy_status_);exit;
 		return $copy_status_;
 	}
+
+	public function update_logs($filename){
+		$current_time =date('Y-m-d H:i:s');
+		$data = array('update_name'=>$filename);	
+		// echo "<pre>";print_r($data);die;
+		$status = $this->db->insert('update_log',$data);
+		return $status;
+	}
+
 
 	public function ignored_files(){
 		$ignored = $this->github_updater->list_ignored();
