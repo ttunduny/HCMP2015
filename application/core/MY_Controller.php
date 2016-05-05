@@ -16,8 +16,43 @@ class  MY_Controller  extends  CI_Controller  {
 /*GENERIC CLASSES FOR HCMP'S GITHUB UPDATE SIMULATION*/
  public function system_update_status()
 	{
-		$local_timestamp = update_model::get_latest_local_timestamp();
-		// echo "<pre>";print_r($local_timestamp);exit;
+		$local_data = update_model::get_latest_local_timestamp();
+		// echo "<pre>";print_r($local_data);exit;
+		
+		$server_data = $this->get_server_update_data();
+
+		$server_time = $server_data[0]['added_on'];
+		$local_time = $local_data[0]['added_on'];
+
+		if(strtotime($server_time)>strtotime($local_time)){
+			// echo "Update Required";
+			$status = 1;
+		}else{
+			// echo "No update required";
+			$status = 0;
+		}
+
+        // echo "<pre>";print_r($local_time);exit;
+		return $status;
+	}
+
+	public function latest_server_update_time(){
+		// echo "I WAS HERE";
+		$server_data = $this->get_server_update_data();
+		// echo "<pre>"; print_r($res);
+		return $server_data[0]['added_on'];
+	}
+
+	public function github_update_status_local(){
+		$hash = $this->get_hash();
+		$local_hash = git_updater_model::get_latest_hash();
+		$actual_hash = $local_hash[0]['hash_value'];
+
+		return $actual_hash;
+	}
+
+	public function get_server_update_data()
+	{
 		$server_update_url = "41.89.6.209/HCMP/synchronization/latest_update_time";
 		// create curl resource 
         $ch = curl_init(); 
@@ -29,63 +64,46 @@ class  MY_Controller  extends  CI_Controller  {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 
         // $output contains the output string 
-        $server_latest_update_time = curl_exec($ch); 
+        $server_latest_update_data = curl_exec($ch); 
 
         // close curl resource to free up system resources 
-        curl_close($ch); 
+        $close = curl_close($ch); 
 
-        $server_latest_update_time = json_decode($server_latest_update_time,true);
-        // $server_latest_update_time = substr($server_latest_update_time, 0, -1);
-        echo print_r($server_latest_update_time);exit;
+        $server_latest_update_data = json_decode($server_latest_update_data,true);
 
-		// $server_latest = 
-	}
-
-	public function get_hash(){
-		// echo "I WAS HERE";
-		$res = $this->github_updater->get_hash();
-		// echo "<pre>"; print_r($res);
-		return $res;
-	}
-
-	public function github_update_status_local(){
-		$hash = $this->get_hash();
-		$local_hash = git_updater_model::get_latest_hash();
-		$actual_hash = $local_hash[0]['hash_value'];
-
-		return $actual_hash;
+        return $server_latest_update_data;
 	}
 	/*END OF GENERIC CLASSES FOR HCMP'S UPDATE SIMULATION*/
 
     /*GENERIC CLASSES FOR GITHUB UPDATES TO LOCAL MACHINES FROM GITHUB REPOSITORY*/
-   /* public function system_update_status()
-	{
-		$hash = $this->get_hash();
-		$local_hash = $this->github_update_status_local();
-		if ($hash != $local_hash) {
-			$status = 1;
-		}else{
-			$status = 0;
+	   /* public function system_update_status()
+		{
+			$hash = $this->get_hash();
+			$local_hash = $this->github_update_status_local();
+			if ($hash != $local_hash) {
+				$status = 1;
+			}else{
+				$status = 0;
+			}
+			// echo $hash;exit;
+
+			return $status;
 		}
-		// echo $hash;exit;
 
-		return $status;
-	}
+		public function get_hash(){
+			// echo "I WAS HERE";
+			$res = $this->github_updater->get_hash();
+			// echo "<pre>"; print_r($res);
+			return $res;
+		}
 
-	public function get_hash(){
-		// echo "I WAS HERE";
-		$res = $this->github_updater->get_hash();
-		// echo "<pre>"; print_r($res);
-		return $res;
-	}
+		public function github_update_status_local(){
+			$hash = $this->get_hash();
+			$local_hash = git_updater_model::get_latest_hash();
+			$actual_hash = $local_hash[0]['hash_value'];
 
-	public function github_update_status_local(){
-		$hash = $this->get_hash();
-		$local_hash = git_updater_model::get_latest_hash();
-		$actual_hash = $local_hash[0]['hash_value'];
-
-		return $actual_hash;
-	}*/
+			return $actual_hash;
+		}*/
 	/*END OF GENERIC FUNCTION(S) FOR GITHUB UPDATES*/
 
 	/*GENERIC FUNCTION FOR GENERATING THE SYSTEM'S FORMAT FOR NAMING DYNAMICALLY GENERATED FILES*/

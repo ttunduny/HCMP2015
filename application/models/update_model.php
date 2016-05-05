@@ -17,4 +17,12 @@ class Update_model extends Doctrine_Record {
 			return $query;
 		}
 	}
+
+	public function get_prior_records(){
+		$log_data = Doctrine_Manager::getInstance()->getCurrentConnection()
+		->fetchAll("SELECT * FROM update_log");
+		
+		return $log_data;
+	}
+
 }

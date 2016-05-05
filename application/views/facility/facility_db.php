@@ -9,7 +9,7 @@
 						<i class="glyphicon glyphicon-floppy-remove" style="font-size: 40px"></i>
 						<p style="font-size: 20px;">You require a system update before synchronizing your data</p>
 
-						<a class="btn btn-primary" href="<?php echo base_url().'git_updater/admin_updates_home' ?>" style="width:200px;">Update system</a>	
+						<a class="btn btn-primary" href="<?php echo base_url().'system_updates/system_updates_home/NULL/1' ?>" style="width:200px;">Update system</a>	
 
 					</center>
 				</div>
