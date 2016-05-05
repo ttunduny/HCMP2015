@@ -35,7 +35,7 @@ class  MY_Controller  extends  CI_Controller  {
         curl_close($ch); 
 
         $server_latest_update_time = json_decode($server_latest_update_time,true);
-        substr($server_latest_update_time, 0, -1);
+        // $server_latest_update_time = substr($server_latest_update_time, 0, -1);
         echo print_r($server_latest_update_time);exit;
 
 		// $server_latest = 
