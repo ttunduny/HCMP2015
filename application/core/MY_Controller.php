@@ -7,14 +7,37 @@ class  MY_Controller  extends  CI_Controller  {
     function __construct()
     {
         parent::__construct(); 
-        ini_set("memory_limit","300M");
-		ini_set('upload_max_filesize', '100M');
-		ini_set('post_max_size', '100M'); 
+  //       ini_set("memory_limit","300M");
+		// ini_set('upload_max_filesize', '100M');
+		// ini_set('post_max_size', '100M'); 
 		// $this->load->model('git_updater_model');
 		
     }
+/*GENERIC CLASSES FOR HCMP'S GITHUB UPDATE SIMULATION*/
+ public function system_update_status()
+	{
+		$local_timestamp = update_model::get_latest_local_timestamp();
+		
+	}
+
+	public function get_hash(){
+		// echo "I WAS HERE";
+		$res = $this->github_updater->get_hash();
+		// echo "<pre>"; print_r($res);
+		return $res;
+	}
+
+	public function github_update_status_local(){
+		$hash = $this->get_hash();
+		$local_hash = git_updater_model::get_latest_hash();
+		$actual_hash = $local_hash[0]['hash_value'];
+
+		return $actual_hash;
+	}
+	/*END OF GENERIC CLASSES FOR HCMP'S UPDATE SIMULATION*/
+
     /*GENERIC CLASSES FOR GITHUB UPDATES TO LOCAL MACHINES FROM GITHUB REPOSITORY*/
-    public function system_update_status()
+   /* public function system_update_status()
 	{
 		$hash = $this->get_hash();
 		$local_hash = $this->github_update_status_local();
@@ -41,7 +64,7 @@ class  MY_Controller  extends  CI_Controller  {
 		$actual_hash = $local_hash[0]['hash_value'];
 
 		return $actual_hash;
-	}
+	}*/
 	/*END OF GENERIC FUNCTION(S) FOR GITHUB UPDATES*/
 
 	/*GENERIC FUNCTION FOR GENERATING THE SYSTEM'S FORMAT FOR NAMING DYNAMICALLY GENERATED FILES*/
