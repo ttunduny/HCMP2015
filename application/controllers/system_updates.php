@@ -76,38 +76,39 @@ public function system_updates_home($update_status=NULL,$update_presence = NULL)
 	{
 		$server_data = $this->get_server_update_data();
 
-		$d = file_get_contents("41.89.6.209/HCMP/system_updates/Thu05_210503.zip");
+		// $d = file_get_contents("41.89.6.209/HCMP/local_update_file_contents/Thu05_210503.zip");
 
-		echo "<pre>";print_r($d);echo "</pre>";exit;	
-		// echo $d;exit;
+		// echo "<pre>";print_r($server_data);echo "</pre>";exit;	
+		// echo $server_data;exit;
 		// copy("", dest)
+		$filename = $server_data[0]['update_name'];
 
-		$server_update_url = "41.89.6.209/HCMP/synchronization/latest_update_time";
+		$url = "41.89.6.209/HCMP/system_updates/local_update_file_contents/".$filename;
 		// create curl resource 
         $ch = curl_init(); 
 
         // set url 
-        curl_setopt($ch, CURLOPT_URL, $server_update_url); 
+        curl_setopt($ch, CURLOPT_URL, $url); 
 
         //return the transfer as a string 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
 
         // $output contains the output string 
-        $server_latest_update_data = curl_exec($ch); 
+        $contents = curl_exec($ch); 
 
         // close curl resource to free up system resources 
         $close = curl_close($ch); 
 
-        $server_latest_update_data = json_decode($server_latest_update_data,true);
+        echo $contents;exit;
+        // $server_latest_update_data = json_decode($server_latest_update_data,true);
 
-        return $server_latest_update_data;
 
 	}
 
 	public function local_update_file_contents($filename){
 		$contents = file_get_contents("system_updates/".$filename);
 
-		return $contents;
+		echo $contents;
 	}
 
 	public function extract_and_copy_files(){
