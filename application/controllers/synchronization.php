@@ -42,9 +42,9 @@ class Synchronization extends MY_Controller {
 
 		// echo "<pre>";print_r($update_time);exit();
 		// echo $update_time;
-		$update_time = json_encode($update_time,JSON_PRETTY_PRINT);
+		// $update_time = json_encode($update_time,JSON_PRETTY_PRINT);
 
-		echo $update_time;die;
+		echo json_encode($update_time,JSON_PRETTY_PRINT);;die;
 		// $update_time = json_decode($update_time,true);
 		// print_r($update_time[0]['id']);
 	}
