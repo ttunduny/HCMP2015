@@ -418,11 +418,10 @@ class User extends MY_Controller {
 									echo true;
 								}
 
-								public function reset_select_multiple_pass($user_array){
-
-									foreach($user_array as $user_id){
-										Users::reset_password($user_id, '123456');
-										
+								public function reset_select_multiple_pass(){
+									$user_array = $this->input->post('users');														
+									foreach($user_array as $user_id){										
+										Users::reset_password($user_id, '123456');										
 									}
 									echo true;
 

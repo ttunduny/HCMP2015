@@ -130,11 +130,11 @@ class Facility_activation extends MY_Controller
 			$user_id = $value['id'];
 			$name = $value['fname'].' '.$value['lname'];
 			$created_at = $value['created_at'];			
+			$email = $value['email'];			
 			$created = date('d F Y',strtotime($created_at));			
-			$output[] = array($user_id,$name,$created);
+			$output[] = array($user_id,$name,$email,$created);
 		}
-		$final_output = array('number' =>count($facility_data) ,'list'=>$output );
-		// echo "<pre>";print_r($final_output);exit;
+		$final_output = array('number' =>count($facility_data) ,'list'=>$output );		
 		echo json_encode($final_output);
 	}
 	//Titus
