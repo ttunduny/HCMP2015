@@ -73,6 +73,19 @@ class  MY_Controller  extends  CI_Controller  {
 
         return $server_latest_update_data;
 	}
+
+	public function copy($src,$dest){
+		$c = copy($src,$dest);
+		return $c;
+	}
+
+	public function delete($path)
+	{
+		$deletion = delete_files($path, true);
+
+		return $deletion;
+	}
+
 	/*END OF GENERIC CLASSES FOR HCMP'S UPDATE SIMULATION*/
 
     /*GENERIC CLASSES FOR GITHUB UPDATES TO LOCAL MACHINES FROM GITHUB REPOSITORY*/
