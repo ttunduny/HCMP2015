@@ -40,7 +40,7 @@ class Synchronization extends MY_Controller {
 	{
 		$update_time = update_model::get_latest_local_timestamp($return_type);
 
-		echo "<pre>";print_r($update_time);exit();
+		// echo "<pre>";print_r($update_time);exit();
 
 		return $update_time;
 	}
