@@ -267,7 +267,7 @@ class Synchronization extends MY_Controller {
 		echo "<pre>";print_r($fields);exit;
 	}
 
-	public function timestamps()
+	public function timestamps()//it's all shits and giggles until someone giggles and shits
 	{
 		$res = $this->add_timestamps_to_all_tables();
 		echo $res;
