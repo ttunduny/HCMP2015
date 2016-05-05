@@ -55,8 +55,11 @@
 					<div class="col-md-6" style="margin:10px 0;float:right;">
 						<?php if ($available_update == 1) { ?>
 						<a class="btn btn-success col-md-9" href="<?php echo base_url().'system_updates/update_system'; ?>" style="margin:10px 0;">Update Available</a> 
+						<a class="btn btn-primary col-md-9" disabled="disabled" href="<?php echo base_url().'synchronization/index'; ?>" style="margin:10px 0;">Cannot synchronize without update</a>
 						<?php } else{ ?>
 						<a class="btn btn-success col-md-9" disabled="disabled" href="#" style="margin:10px 0;">You are currently up to date</a>
+
+						<a class="btn btn-primary col-md-9" href="<?php echo base_url().'synchronization/index'; ?>" style="margin:10px 0;">Continue to synchronization</a>
 						<?php } ?>
 					</div>
 				<div class="col-md-6" style="border: 1px solid #ddd;padding-top: 1%; " id="test">

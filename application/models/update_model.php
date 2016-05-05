@@ -4,7 +4,7 @@ class Update_model extends Doctrine_Record {
 	
 	}
 
-	public function get_latest_local_timestamp($time_only = NULL,$whole_array = NULL)
+	public static function get_latest_local_timestamp($time_only = NULL,$whole_array = NULL)
 	{
 		$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("SELECT * FROM update_log WHERE added_on=(SELECT MAX(added_on) FROM update_log)");
 
@@ -18,7 +18,7 @@ class Update_model extends Doctrine_Record {
 		}
 	}
 
-	public function get_prior_records(){
+	public static function get_prior_records(){
 		$log_data = Doctrine_Manager::getInstance()->getCurrentConnection()
 		->fetchAll("SELECT * FROM update_log");
 		

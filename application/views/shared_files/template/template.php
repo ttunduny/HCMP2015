@@ -59,7 +59,7 @@ $identifier = $this -> session -> userdata('user_indicator');
       /*ENABLE ONLINE OFFLINE NOTIFICATION FOR SYNCHRONIZATION OF DATA*/
       /*FOR OFFLINE SYSTEMS*/
           
-       setInterval(function(){
+     /*  setInterval(function(){
           // var status = Offline.state;//using offline.js which doesnt work on a local server which is the whole point of offlining the damn system
 
         var status = navigator.onLine;
@@ -86,7 +86,7 @@ $identifier = $this -> session -> userdata('user_indicator');
                 // alert("down");
                 
              }
-          }, 3000);
+          }, 3000);*/
           
           function days_from_last_sync(){
             var url = "<?php echo base_url()."synchronization/days_from_last_sync";?>";
