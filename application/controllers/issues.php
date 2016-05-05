@@ -1076,16 +1076,272 @@ class issues extends MY_Controller {
 			endif;
 			redirect(home);
 	}//confirm the external issue
+	public function external_issue_offline() {
+		//security check
+			if ($this -> input -> post('mfl')) :
+				$facility_code = $this -> session -> userdata('facility_id');
+			$district_id = $this -> session -> userdata('district_id');
+			$service_point = array_values($this -> input -> post('mfl'));
+			$commodity_id = array_values($this -> input -> post('desc'));
+			$commodity_balance_before = array_values($this -> input -> post('commodity_balance'));
+			$facility_stock_id = array_values($this -> input -> post('facility_stock_id'));
+			$batch_no = array_values($this -> input -> post('batch_no'));
+			$expiry_date = array_values($this -> input -> post('expiry_date'));
+			$commodity_unit_of_issue = array_values($this -> input -> post('commodity_unit_of_issue'));
+			$quantity_issued = array_values($this -> input -> post('quantity_issued'));
+			$clone_datepicker_normal_limit_today = array_values($this -> input -> post('clone_datepicker_normal_limit_today'));
+			$manufacture = array_values($this -> input -> post('manufacture'));
+
+			$total_units = array_values($this -> input -> post('total_units'));
+			$total_items = count($facility_stock_id);
+			//var_dump($total_units);exit;
+			$data_array_issues_table = array();
+			$data_array_redistribution_table = array();
+			
+			//loops through the data collected from the forms first
+			for ($i = 0; $i < $total_items; $i++) :
+				//compute the actual stock
+
+				$total_items_issues = ($commodity_unit_of_issue[$i] == 'Pack_Size') ? $quantity_issued[$i] * $total_units[$i] : $quantity_issued[$i];
+
+				//prepare the issues data
+			$facility_name = isset($service_point[$i]) ? Facilities::get_facility_name2($service_point[$i]) : null;
+			$facility_name = isset($facility_name) ? $facility_name['facility_name'] : 'N/A';
+			$mydata = array('facility_code' => $facility_code, 's11_No' => '(-ve Adj) Stock Deduction', 'batch_no' => $batch_no[$i], 'commodity_id' => $commodity_id[$i], 'expiry_date' => date('y-m-d', strtotime($expiry_date[$i])), 'qty_issued' => $total_items_issues, 'issued_to' => "inter-facility donation:" . $facility_name, 'balance_as_of' => $commodity_balance_before[$i], 'date_issued' => date('y-m-d', strtotime($clone_datepicker_normal_limit_today[$i])), 'issued_by' => $this -> session -> userdata('user_id'));
+
+			$mydata_2 = array('manufacturer' => $manufacture[$i],'source_district_id'=> $district_id, 'source_facility_code' => $facility_code, 'batch_no' => $batch_no[$i], 'commodity_id' => $commodity_id[$i], 'expiry_date' => date('y-m-d', strtotime($expiry_date[$i])), 'quantity_sent' => $total_items_issues, 'receive_facility_code' => $service_point[$i], 'facility_stock_ref_id' => $facility_stock_id[$i], 'date_sent' => date('y-m-d'), 'sender_id' => $this -> session -> userdata('user_id'),'status'=>1);
+				// update the issues table
+			array_push($data_array_issues_table, $mydata);
+			array_push($data_array_redistribution_table, $mydata_2);
+				// reduce the stock levels
+				//var_dump($mydata);exit;
+			$a = Doctrine_Manager::getInstance() -> getCurrentConnection();
+			$a -> execute("UPDATE `facility_stocks` SET `current_balance` = `current_balance`-$total_items_issues where id='$facility_stock_id[$i]'");
+				//update the transaction table here
+			$inserttransaction = Doctrine_Manager::getInstance() -> getCurrentConnection();
+			$inserttransaction -> execute("UPDATE `facility_transaction_table` SET `total_issues` = `total_issues`+$total_items_issues,
+				`closing_stock`=`closing_stock`-$total_items_issues
+				WHERE `commodity_id`= '$commodity_id[$i]' and status='1' and facility_code='$facility_code';");
+			endfor;
+			
+			$user = $this -> session -> userdata('user_id');
+			$user_action = "redistribute";
+			//updates the log table accordingly based on the action carried out by the user involved
+			$update = Doctrine_Manager::getInstance()->getCurrentConnection();
+			$update -> execute("update log set $user_action = 1  
+				where `user_id`= $user 
+				AND action = 'Logged In' 
+				and UNIX_TIMESTAMP( `end_time_of_event`) = 0");
+			
+			$send_sms = $this->hcmp_functions ->send_system_text($user_action);
+			
+			
+			
+			$this -> db -> insert_batch('facility_issues', $data_array_issues_table);
+			$this -> db -> insert_batch('redistribution_data', $data_array_redistribution_table);
+			$this -> session -> set_flashdata('system_success_message', "You have issued $total_items item(s)");
+			// redirect(home);
+			endif;
+			redirect(home);
+	}//confirm the external issue
 
 	public function confirm_external_issue($editable = null) {
 		$facility_code = $this -> session -> userdata('facility_id');		
-		$data['title'] = "Confirm Redistribution";
-		$data['banner_text'] = "Confirm Redistribution";
+		$data['title'] = ($editable!='') ? 'Receive Redistribution' :'Confirm Redistribution' ;
+		// $data['title'] = "Confirm Redistribution";
+		$data['banner_text']= ($editable!='') ? 'Receive Redistribution' :'Confirm Redistribution' ;
+		// $data['banner_text'] = "Confirm Redistribution";
 		$data['redistribution_data'] = redistribution_data::get_all_active($facility_code, $editable);
 		$data['editable'] = $editable;
 		$data['content_view'] = "facility/facility_issues/facility_redistribute_items_confirmation_v";
 		$this -> load -> view("shared_files/template/template", $data);
 	}
+
+
+	public function confirm_external_issue_offline($type = null) {
+		$facility_code = $this -> session -> userdata('facility_id');		
+		$data['title'] = 'Receive Redistribution' ;		
+		$data['banner_text']= ($editable=='') ? 'Receive Redistribution' :'Confirm Redistribution' ;		
+		$data['redistribution_data'] = redistribution_data::get_all_received($facility_code);
+
+		$data['commodities'] = commodities::get_all();
+		
+		if ($type==null) {
+			$data['content_view'] = "facility/facility_issues/facility_redistribute_items_confirmation_v";
+		}else{
+			$data['content_view'] = "facility/facility_issues/facility_redistribute_items_confirmation_v_online";
+		}		
+		$this -> load -> view("shared_files/template/template", $data);
+	}
+
+	public function upload_redistribution_excel(){
+		// echo "<pre>";print_r($this->input->post());echo "</pre>";exit;
+		// error_reporting(E_ALL);
+		$config['upload_path'] = './print_docs/excel/uploaded_files/';
+		$config['allowed_types'] = 'xls|xlsx';
+		$config['max_size']	= '2048';
+		$name = 'redistribution'.date('d-m-Y').'_';
+		$config['file_name'] = $name;
+		$this->upload->initialize($config);
+		if ( ! $this->upload->do_upload("redistribution_excel"))
+		{
+			echo "<pre>";print_r($this->upload->display_errors());echo "</pre>";			
+		}
+		else
+		{
+			$result = $this->upload->data();
+			$file_name = $result['file_name'];
+			$this->upload_redistribution($file_name);
+			// echo "I worked";
+			$this->session->set_flashdata('message', 'The File upload was successful');
+			// redirect('admin/report_listing');
+		}
+	}//end of upload excel
+	public function upload_redistribution($file_name){
+		$inputFileName = 'print_docs/excel/uploaded_files/'.$file_name;
+		$objReader = new PHPExcel_Reader_Excel2007();
+		$objReader->setReadDataOnly(true);
+		$objPHPExcel = $objReader->load($inputFileName);
+		$sheet = $objPHPExcel->getSheet(0); 
+		$highestRow = $sheet->getHighestRow()+1; 
+		$highestColumn = $sheet->getHighestColumn();
+
+		$sending_facility = $sheet->getCell('C8')->getValue();
+		$facility_code = $this -> session -> userdata('facility_id');
+		$current_date = date($format = "Y-m-d h:i:s", PHPExcel_Shared_Date::ExcelToPHP($sheet->getCell('C9')->getValue()));
+		// echo "$current_date";die;
+		$today = date('Y-m-d h:i:s');
+		$rowData = array();
+		for ($row = 12; $row < $highestRow; $row++){ 
+		    //  Read a row of data into an array
+		    $rowData_ = $sheet->rangeToArray('B' . $row . ':G' . $row);		
+		    array_push($rowData, $rowData_[0]);		    
+		}		
+
+		foreach ($rowData as $r_data) {
+
+			$commodity_name = $r_data[0];
+			$batch_no = $r_data[1];
+			$manufacturer = $r_data[2];
+			$expiry_date = date($format = "Y-m-d h:i:s", PHPExcel_Shared_Date::ExcelToPHP($r_data[3]));
+			// $expiry_date =  date($format = "Y-m-d h:i:s", PHPExcel_Shared_Date::ExcelToPHP($expiry_date)); 
+			
+			$quantity_packs = $r_data[4];
+			$quantity_units = $r_data[5];			
+			//Get commodity details from the name
+			$commodity_details = commodities::get_details_name($commodity_name);
+			foreach ($commodity_details as $key => $value) {
+				$commodity_id = $value['id'];
+				$commodity_code = $value['commodity_code'];
+				$unit_size = $value['pack_size'];
+				$commodity_source_id = $value['commodity_source_id'];
+
+				//Convert the Packs to Units
+				$received_quantity = null;
+				if($quantity_units!=''||$quantity_units!=null){
+					$received_quantity = $quantity_units;
+				}else{
+					$unit_size = ($unit_size==0) ? 1 : $unit_size ;
+					$received_quantity = $quantity_packs * $unit_size;
+				}
+
+				//Save the Data in a temporary table 
+				$received_data = array(array('facility_code' =>$facility_code,
+													'sending_facility'=>$sending_facility,
+													'commodity_id'=>$commodity_id,
+													'batch_no'=>$batch_no,
+													'manufacturer'=>$manufacturer,													
+													'quantity_received'=>$received_quantity,
+													'expiry_date'=>$expiry_date,
+													'date_received'=>$current_date,													
+													'status'=>1));
+				//Save to receive redistributions table
+				$this -> db -> insert_batch('receive_redistributions', $received_data);
+				
+			}
+		}
+
+		$this -> session -> set_flashdata('system_success_message', "File Upload Successful");
+		redirect('issues/confirm_external_issue_offline');
+			
+
+	}//end of recepient upload
+	public function confirm_offline_issue(){
+		
+		
+		$today = date('Y-m-d h:i:s');
+		$count =count($this->input->post('commodity_id'));	
+		$commodity_name = $this->input->post('commodity_name');	
+		$commodity_id = $this->input->post('commodity_id');	
+		$expiry_date = $this->input->post('expiry_date');	
+		$manufacturer = $this->input->post('manufacturer');	
+		$batch_no = $this->input->post('batch_no');	
+		$total_commodity_units = $this->input->post('total_commodity_units');
+		$facility_code = $this -> session -> userdata('facility_id');
+
+		for ($i=0; $i <$count ; $i++) { 			
+			$commodity_details = commodities::get_details_name($commodity_name[$i]);
+			foreach ($commodity_details as $key => $value) {
+				$new_commodity_id = $value['id'];
+				$commodity_code = $value['commodity_code'];
+				$unit_size = $value['pack_size'];
+				$commodity_source_id = $value['commodity_source_id'];
+
+				//Convert the Packs to Units
+				$received_quantity = $total_commodity_units[$i];
+				
+
+				//Check if batch exists in the facility stocks table
+				$batch_details = facility_stocks::get_batch_details($batch_no[$i],$facility_code);
+
+				//If the batch does not exits
+				if(count($batch_details)<=0){
+					$facility_stocks_data = array(array('facility_code' =>$facility_code,
+													'commodity_id'=>$new_commodity_id,
+													'batch_no'=>$batch_no[$i],
+													'manufacture'=>$manufacturer[$i],
+													'initial_quantity'=>$received_quantity,
+													'current_balance'=>$received_quantity,
+													'date_added'=>$today,
+													'date_modified'=>$today,
+													'source_of_commodity'=>$commodity_source_id,
+													'status'=>1,
+													'expiry_date'=>$expiry_date[$i]
+													 ));
+					// echo "<pre>";print_r($facility_stocks_data);die;
+					$this -> db -> insert_batch('facility_stocks', $facility_stocks_data);
+				}else{
+					// echo "<pre>";print_r($batch_details);die;
+					$current_balance = intval($batch_details[0]['current_balance']);
+					$quantity_units = $total_commodity_units[$i];
+					$current_balance = $current_balance + intval($quantity_units);
+					$facility_stocks_data_update = array('batch_no'=>$batch_no[$i],								
+													'current_balance'=>$current_balance,													
+													'date_modified'=>$today,																
+													'expiry_date'=>$expiry_date[$i]
+													 );
+					// echo "<pre>";print_r($facility_stocks_data_update);die;
+					$this->db->where('batch_no', $batch_no[$i]);
+					$this->db->where('facility_code', $facility_code);
+					$this->db->update('facility_stocks', $facility_stocks_data_update); 
+					//Above code updates the facility Stocks table if the batch exists
+				}
+
+			}
+			$receive_redistribution_data_update = array('batch_no'=>$batch_no[$i],								
+													'status'=>0
+													 );
+			$this->db->where('batch_no', $batch_no[$i]);
+			$this->db->where('status',1);
+			$this->db->where('facility_code', $facility_code);
+			$this->db->update('receive_redistributions', $receive_redistribution_data_update); 
+		}
+
+		$this -> session -> set_flashdata('system_success_message', "Redistribution Data Has Been Updated");
+		redirect('home');
+			
+
+	}//end of recepient upload
 
 	public function delete_redistribution($id){
 		$redistribution_data = redistribution_data::get_one($id);
