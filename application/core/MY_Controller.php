@@ -36,7 +36,7 @@ class  MY_Controller  extends  CI_Controller  {
 
         $server_latest_update_time = json_decode($server_latest_update_time,true);
 
-        echo print_r($server_latest_update_time[0]['update_name']);exit;
+        echo print_r($server_latest_update_time);exit;
 
 		// $server_latest = 
 	}
