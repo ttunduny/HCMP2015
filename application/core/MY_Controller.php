@@ -34,7 +34,7 @@ class  MY_Controller  extends  CI_Controller  {
         // close curl resource to free up system resources 
         curl_close($ch); 
 
-        echo $output;exit;
+        echo $server_latest_update_time;exit;
 		// $server_latest = 
 	}
 
