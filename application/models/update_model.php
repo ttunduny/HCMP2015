@@ -4,11 +4,12 @@ class Update_model extends Doctrine_Record {
 	
 	}
 
-	public function get_latest_local_timestamp()
+	public function get_latest_local_timestamp($time_only = NULL,$whole_array = NULL)
 	{
 		$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("SELECT * FROM update_log WHERE added_on=(SELECT MAX(added_on) FROM update_log)");
 
-		if (!empty($query)) {
+		$return_type = (isset($time_only) && $time_only ==1)? "time_only";
+		if ($return_type == 1) {
 			return $query[0]['added_on'];
 		}
 		else{
