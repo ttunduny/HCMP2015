@@ -39,13 +39,13 @@ public function send_system_text($action)
 				$facility_message = "Dear $facility_name user, \n commodities have been redistributed to another facility. \n Log in to health-cmp.or.ke to follow up. HCMP";
 				//url encode the message
 				$message = urlencode($facility_message);
-				$facility_phone = "254723722204+254720167245+254726416795";
+				$facility_phone = "254707463571+254728778002";
 				//clean the phone numbers
 				$phone_numbers = explode("+", $facility_phone);
 				//send the message here
 				foreach ($phone_numbers as $key => $user_no)
 				{
-					file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+					//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 
 				}
 				/*End the facility Section of the functions*/
@@ -63,7 +63,7 @@ public function send_system_text($action)
 					$message = urlencode($message);
 
 					$user_no = $data['telephone'];
-					file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+					//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 				endforeach;
 
 				break;
@@ -82,7 +82,7 @@ public function send_system_text($action)
 
 				//get facility phone numbers
 				//$facility_phone = $this -> get_facility_phone_numbers($facility_code);
-				$facility_phone = "254723722204+254720167245+254726416795";
+				$facility_phone = "254707463571+254728778002";
 				//facility message
 				$facility_message = "Dear $facility_name user, \n an order has been placed. \n Log in to health-cmp.or.ke to follow up. HCMP";
 				//url encode the message
@@ -93,7 +93,7 @@ public function send_system_text($action)
 				//send the message here
 				foreach ($phone_numbers as $key => $user_no)
 				{
-					file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+					//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 					//echo "Sent to ".$user_no;
 
 				}
@@ -112,7 +112,7 @@ public function send_system_text($action)
 					$message = urlencode($message);
 
 					$user_no = $data['telephone'];
-					file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+					//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 				endforeach;
 				break;
 
@@ -129,7 +129,7 @@ public function send_system_text($action)
 
 				//get facility phone numbers
 				//$facility_phone = $this -> get_facility_phone_numbers($facility_code);
-					$facility_phone = "254723722204+254720167245+254726416795";
+					$facility_phone = "254707463571+254728778002";
 				//facility message
 				$facility_message = "Dear $facility_name user, \n commodities have been decommissioned from the Store.\n Log in to health-cmp.or.ke to follow up. HCMP";
 				//url encode the message
@@ -140,7 +140,7 @@ public function send_system_text($action)
 				//send the message here
 				foreach ($phone_numbers as $key => $user_no)
 				{
-					file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+					//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 					//echo "Sent to ".$user_no;
 
 				}
@@ -159,7 +159,7 @@ public function send_system_text($action)
 					$message = urlencode($message);
 
 					$user_no = $data['telephone'];
-					file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+					//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 				endforeach;
 				break;
 				
@@ -176,7 +176,7 @@ public function send_system_text($action)
 
 				//get facility phone numbers
 				//$facility_phone = $this -> get_facility_phone_numbers($facility_code);
-					$facility_phone = "254723722204+254720167245+254726416795";
+					$facility_phone = "254707463571+254728778002";
 				//facility message
 				$facility_message = "Dear $facility_name user, \n a stock update has been done in your facility Store.\n Log in to health-cmp.or.ke to follow up. HCMP";
 				//url encode the message
@@ -187,7 +187,7 @@ public function send_system_text($action)
 				//send the message here
 				foreach ($phone_numbers as $key => $user_no)
 				{
-					file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+					//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 					//echo "Sent to ".$user_no;
 
 				}
@@ -206,7 +206,7 @@ public function send_system_text($action)
 					$message = urlencode($message);
 
 					$user_no = $data['telephone'];
-					file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+					//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 				endforeach;
 				break;
 
@@ -227,12 +227,12 @@ public function send_system_text($action)
 		$phone = $this -> get_facility_phone_numbers($facility_code);
 		$phone .= $this -> get_ddp_phone_numbers($data[0]['district']);
 
-		$spam_sms = '254723722204+254720167245+254726416795' . $phone;
+		$spam_sms = '254707463571+254728778002' . $phone;
 
 		$phone_numbers = explode("+", $spam_sms);
 
 		foreach ($phone_numbers as $key => $user_no) {
-			file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+			//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 		}
 
 	}
@@ -246,12 +246,12 @@ public function send_system_text($action)
 		$phone .= $this -> get_ddp_phone_numbers($data[0]['district']);
 		$message = $facility_name . " have been donated commodities. HCMP";
 
-		$spam_sms = '254723722204+254720167245+254726416795' . $phone;
+		$spam_sms = '254707463571+254728778002' . $phone;
 
 		$phone_numbers = explode("+", $spam_sms);
 
 		foreach ($phone_numbers as $key => $user_no) {
-			file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+			//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 		}
 
 		//$this -> send_sms(substr($phone, 0, -1), $message);
@@ -269,12 +269,12 @@ public function send_system_text($action)
 		$phone = $this -> get_facility_phone_numbers($facility_code);
 		$phone .= $this -> get_ddp_phone_numbers($data[0]['district']);
 
-		$spam_sms = '254723722204+254720167245+254726416795' . $phone;
+		$spam_sms = '254707463571+254728778002' . $phone;
 
 		$phone_numbers = explode("+", $spam_sms);
 
 		foreach ($phone_numbers as $key => $user_no) {
-			file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+			//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 			//echo "Success sent to ".$user_no.'<br>';
 		}
 
@@ -290,12 +290,12 @@ public function send_system_text($action)
 		$phone = $this -> get_facility_phone_numbers($facility_code);
 		$phone .= $this -> get_ddp_phone_numbers($data[0]['district']);
 
-		$spam_sms = '254723722204+254720167245+254726416795' . $phone;
+		$spam_sms = '254707463571+254728778002' . $phone;
 
 		$phone_numbers = explode("+", $spam_sms);
 
 		foreach ($phone_numbers as $key => $user_no) {
-			file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+			//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 			//echo "Success sent to ".$user_no.'<br>';
 		}
 
@@ -358,7 +358,7 @@ public function send_system_text($action)
 			return null;
 		//check to ensure the demo site wount start looking for county admin
 		if ($county[0]['county'] == 1) {
-			return 'kelvinmwas@gmail.com,';
+			return 'ttunduny@gmail.com,';
 		} else {
 			if (count($county_email) > 0) {
 				return $county_email[0]['email'] . ',';
@@ -381,13 +381,13 @@ public function send_system_text($action)
 		$email_address .= $this -> get_ddp_email($data[0]['district']);
 
 		$email_address .= $this -> get_county_email($data[0]['district']);
-		$bcc_email = 'kelvinmwas@gmail.com,smutheu@clintonhealthaccess.org,collinsojenge@gmail.com,tngugi@clintonhealthaccess.org,
+		$bcc_email = 'ttunduny@gmail.com,smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,tngugi@clintonhealthaccess.org,
 		bwariari@clintonhealthaccess.org,
 		amwaura@clintonhealthaccess.org,
 		eongute@clintonhealthaccess.org,
 		rkihoto@clintonhealthaccess.org';
 
-		$this -> send_email(substr($email_address, 0, -1), $message, $subject, $attach_file, $bcc_email);
+		//$this -> send_email(substr($email_address, 0, -1), $message, $subject, $attach_file, $bcc_email);
 
 	}
 
@@ -398,7 +398,7 @@ public function send_system_text($action)
 		$email_address = $this -> get_facility_email($facility_code);
 
 		$email_address .= $this -> get_ddp_email($data[0]['district']);
-		$cc_email = ($this -> test_mode) ? 'kelvinmwas@gmail.com, collinsojenge@gmail.com,smutheu@clintonhealthaccess.org' : $this -> get_county_email($data[0]['district']);
+		$cc_email = ($this -> test_mode) ? 'ttunduny@gmail.com, karsanrichard@gmail.com,smutheu@clintonhealthaccess.org' : $this -> get_county_email($data[0]['district']);
 		return $this -> send_email(substr($email_address, 0, -1), $message, $subject, $attach_file, null, substr($cc_email, 0, -1));
 
 	}
@@ -408,7 +408,7 @@ public function send_system_text($action)
 		$cc_email = "";
 		$bcc_email = "karsanrichard@gmail.com";
 		/*
-		$bcc_email = 'kelvinmwas@gmail.com,smutheu@clintonhealthaccess.org,collinsojenge@gmail.com,tngugi@clintonhealthaccess.org,
+		$bcc_email = 'ttunduny@gmail.com,smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,tngugi@clintonhealthaccess.org,
 		bwariari@clintonhealthaccess.org,
 		amwaura@clintonhealthaccess.org,
 		eongute@clintonhealthaccess.org,
@@ -440,7 +440,7 @@ public function send_system_text($action)
 
 	public function send_order_delivery_email($message, $subject, $attach_file = null) {
 		$cc_email = '';
-		$bcc_email = 'kelvinmwas@gmail.com,smutheu@clintonhealthaccess.org,collinsojenge@gmail.com,tngugi@clintonhealthaccess.org';
+		$bcc_email = 'ttunduny@gmail.com,smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,tngugi@clintonhealthaccess.org';
 		$facility_code = $this -> session -> userdata('facility_id');
 		$data = Users::getUsers($facility_code) -> toArray();
 		$cc_email .= $this -> get_facility_email($facility_code);
@@ -453,8 +453,8 @@ public function send_system_text($action)
 	public function send_sms($phones, $message) {
 
 		$message = urlencode($message);
-		//$spam_sms='254726534272+254720167245';
-		$spam_sms = '254720167245+254726534272+254726416795+254725227833+' . $phones;
+		//$spam_sms='254726534272+254728778002';
+		$spam_sms = '254728778002+254726534272+254725227833+' . $phones;
 		$phone_numbers = explode("+", $spam_sms);
 		//  $spam_sms='254726534272';
 		# code...
@@ -573,7 +573,7 @@ public function send_email($email_address,$message,$subject,$attach_file=NULL,$b
     $config['smtp_port']    = '465';
     $config['smtp_timeout'] = '7';
     $config['smtp_user']    = 'hcmpkenya@gmail.com';
-   	$config['smtp_pass']    = 'healthkenya16';//healthkenya //hcmpkenya@gmail.com
+   	$config['smtp_pass']    = 'healthkenya16';//healthkenya16 //hcmpkenya@gmail.com
  	$config['charset']    = 'utf-8';
     $config['newline']    = "\r\n";
     $config['mailtype'] = 'html'; // or html
@@ -670,7 +670,8 @@ exit;
 			// Save Excel 2007 file
 			//echo date('H:i:s') . " Write to Excel2007 format\n";
 			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-
+			
+			ob_clean();
 			// We'll be outputting an excel file
 			if (isset($excel_data['report_type'])) {
 
@@ -750,7 +751,8 @@ for ($row = 17; $row <= $highestRow; $row++){
    $objWriter = PHPExcel_IOFactory::createWriter($excel2, 'Excel5');
    if($report_type=='download_file'){
    	// We'll be outputting an excel file
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+	ob_clean();
+	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
         header("Cache-Control: no-store, no-cache, must-revalidate");
         header("Cache-Control: post-check=0, pre-check=0", false);
         header("Pragma: no-cache");
@@ -765,80 +767,6 @@ for ($row = 17; $row <= $highestRow; $row++){
    }
    endif;
 
- }
- public function clone_redistribution_template($file_name=null){
- 				
-    $inputFileName = 'print_docs/excel/excel_template/Facility_redistributions.xlsx';
-    $commodities = commodities::get_all();    
-	
-    $excel2 = PHPExcel_IOFactory::createReader('Excel2007');
-	$excel2 = $excel2->load($inputFileName); // Empty Sheet
-	$excel2->setActiveSheetIndex(1);
-
-    $count = 1;
-    foreach ($commodities as $key => $value) {
-    	$count++;
-    	$row = 'A'.$count;
-    	$commodity = $value['commodity_name'];    	
-    	$excel2->getActiveSheet()->setCellValue($row,$commodity);
-    }
-	$file_name =isset($file_name) ? $file_name: time().'.xlsx';
-	$objWriter = PHPExcel_IOFactory::createWriter($excel2, 'Excel2007');
-
-	$excel2->setActiveSheetIndex(0);
-
-
-	for ($i=12; $i < 2000 ; $i++) { 
-		$cell = 'B'.$i;
-		// Set data validation
-		$objValidation = $excel2->getActiveSheet()->getCell($cell)->getDataValidation();
-		$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_LIST );
-		$objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_INFORMATION );
-		$objValidation->setAllowBlank(false);
-		$objValidation->setShowInputMessage(true);
-		$objValidation->setShowErrorMessage(true);
-		$objValidation->setShowDropDown(true);
-		$objValidation->setErrorTitle('Input error');
-		$objValidation->setError('Commodity is not In the List');
-		$objValidation->setPromptTitle('Pick from list');
-		$objValidation->setPrompt('Please pick a Commodity from the drop-down list');
-		$objValidation->setFormula1('\'Commodities\'!$A$2:$A$5000'); 		
-	}	
-	
-	ob_end_clean();
-	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-	header("Cache-Control: no-store, no-cache, must-revalidate");
-	header("Cache-Control: post-check=0, pre-check=0", false);
-	header("Pragma: no-cache");	
-	header("Content-Disposition: attachment; filename=$file_name");	
-	$objWriter -> save('php://output');
-	$excel2 -> disconnectWorksheets();
-	unset($excel2);   
-  
- }
-
- //Upload the Redistribution Excel
- public function redistribution_excel_uploader($inputFileName){
- 	if (isset($inputFileName)) :
- 		$ext = pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
-		if ($ext == 'xls') {
-			$excel2 = PHPExcel_IOFactory::createReader('Excel5');
-		} else if ($ext == 'xlsx') {
-			$excel2 = PHPExcel_IOFactory::createReader('Excel2007');
-		} else {
-			die('Invalid file format given' . $_FILES['file']);
-		}
-		//exit;
-		$excel2 = $objPHPExcel = $excel2 -> load($inputFileName);
-		// Empty Sheet
-
-		$sheet = $objPHPExcel -> getSheet(0);
-		$highestRow = $sheet -> getHighestRow();
-
-		$highestColumn = $sheet -> getHighestColumn();
-		$temp = array();
-		$facility_code = $sheet -> getCell('H4') -> getValue();
- 	endif;
  }
 	/*********KEMSA UPLOADER**********/
 	public function kemsa_excel_order_uploader($inputFileName) {
@@ -888,8 +816,8 @@ for ($row = 17; $row <= $highestRow; $row++){
 	/* HCMP file downloader
 	 /********/
 	public function download_file($path) {
-		ob_clean();
-		$data = file_get_contents($path);
+	ob_clean();	
+	$data = file_get_contents($path);
 		// Read the file's contents
 		force_download(basename($path), $data);
 	}
@@ -1303,4 +1231,7 @@ public function amc($county= null,$district= null,$facility_code= null){
 					
 	}
 }
+
+
+
 
