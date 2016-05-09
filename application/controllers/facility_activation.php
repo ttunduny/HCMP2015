@@ -61,10 +61,10 @@ class Facility_activation extends MY_Controller
 		$county = $this -> session -> userdata('county_id');
 
 		if ($identifier == "district") {
-			$data['facilities'] = Facilities::get_facility_details($district);
+			$data['facilities'] = Facilities::get_facility_details($district,NULL,1);
 			$data['identifier'] = $identifier;
 		}elseif ($identifier == "county") {
-			$data['facilities'] = Facilities::get_facility_details(NULL,$county);
+			$data['facilities'] = Facilities::get_facility_details(NULL,$county,1);
 			$data['identifier'] = $identifier;
 			$data['district_info'] = Districts::get_districts($county);
 		}

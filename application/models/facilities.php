@@ -1125,15 +1125,16 @@ AND f.owner like '%$owner_type%'
 return $q;
 }
 
-public static function get_facility_details($district = NULL,$county = NULL){
+public static function get_facility_details($district = NULL,$county = NULL,$offline=null){
 		$district = isset($district)? "AND d.id= $district": NULL;
 		$county = isset($county)? "AND d.county = $county": NULL;
+		$offline = isset($offline)? "AND f.using_hcmp != 2";
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 SELECT DISTINCT f.id, f.facility_code, f.date_of_activation, f.facility_name, f.district, f.owner, c.county, d.district as district_name,f.using_hcmp
 FROM facilities f, districts d, counties c
 WHERE f.district = d.id
 AND d.county=c.id
-$district $county");
+$district $county $offline");
 return $q;
 }
 ////////////////////////////////////////////////
