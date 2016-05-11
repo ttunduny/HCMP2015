@@ -114,7 +114,7 @@ class Synchronization extends MY_Controller {
 		
 	    $data_from_table['facility_code'] = $facility_code;
 	    $ts = array();
-		ini_set("memory_limit","1000M");
+		ini_set("memory_limit","-1");
 		// $timestamp_column = $this->get_column_by_type('facility_stocks','timestamp');
 		// echo $timestamp_column;exit;
 
