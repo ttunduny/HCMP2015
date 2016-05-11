@@ -20,7 +20,7 @@
 				<?php endif ?>
 
 					<?php if (!empty($sync_data)&&$sync_data!=''): ?>
-						<p class="col-md-12">Your last sync was on <b><?php echo date('F, m Y H:i:s',strtotime($last_sync));?></b></p>
+						<p class="col-md-12">Your last sync was on <b><?php echo date('F, d Y H:i:s',strtotime($last_sync));?></b></p>
 						<table class="table table-bordered">
 							<thead>
 								<th>Past database synchronizations</th>
@@ -28,7 +28,7 @@
 							<tbody>
 								<?php foreach ($sync_data as $key): ?>
 									<tr>
-										<td><?php echo date('F, m Y H:i:s',strtotime($key['last_sync'])); ?></td>
+										<td><?php echo date('F, d Y H:i:s',strtotime($key['last_sync'])); ?></td>
 									</tr>
 								<?php endforeach ?>
 							</tbody>
