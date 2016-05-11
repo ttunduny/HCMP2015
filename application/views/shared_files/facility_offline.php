@@ -104,7 +104,15 @@
 	.bold{
 		font-weight: bold!important;
 	}
+	.facility_select{
+		/*height:50px!important;*/
+		border-radius: 0;
+	}
 
+.select2-container .select2-choice{
+	    height: 34px!important;
+        padding: 3px 0px 0 8px!important;
+}
 </style>
 <div class="container-fluid">
 	<div class="page_content">
@@ -167,12 +175,12 @@
 				</div>
 				<div class="col-md-12" style="border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding-top: 1%; " id="test">
 				<center>
-				<div class="col-md-2 col-md-offset-2">
+				<div class="col-md-1 col-md-offset-2">
 					<span style="font-size: 16px">Select facility: </span>
 				</div>
 				<div class="col-md-8">
-					<select id="facility_select" class="form-control" style="width:30%;margin-left: 1%;margin-bottom: 2%;float: left;">
-
+					<select id="facility_select" class="facility_select" style="width:50%; height:100%;float: left;">
+						<option value="-000-">Search By Facility Code or Name</option>
 						<?php 
 							foreach ($facilities as $key => $value) {
 								$id = $value['id'];
@@ -338,6 +346,14 @@
 
 <script>
    $(document).ready(function () {
+
+   	$(".facility_select").select2({
+    placeholder: "-000-",
+    allowClear: true,
+    minimumInputLength: 3,
+    escapeMarkup: function(m) { return m; }
+  });
+
    	hideAll();
    	function hideAll(){
 		$("#activate").hide();
