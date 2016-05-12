@@ -151,6 +151,7 @@
 				            <a href="#step-3" id="step-3" type="button" class="btn btn-default btn-circle customiser" disabled="disabled">3</a>
 				            <p id="step-3-p">Step 3</br>Download facility database and installer</p>
 				        </div>
+				      
 				        <!-- <div class="stepwizard-step col-md-3">
 				            <a href="#step-4" id="step-4" type="button" class="btn btn-default btn-circle customiser" disabled="disabled">4</a>
 				            <p>Step 4</br>Congratulations!</p>
@@ -194,6 +195,7 @@
 						?>
 					</select>
 					<button id="filter_facility" class="form-control btn btn-success" style="width:20%;margin-bottom: 2%;float: left">Get Details</button>
+					<button id="back_to_start" class="form-control btn btn-success" style="width:10%;margin-bottom: 2%;float: right"><span class="glyphicon glyphicon-repeat"></span>Restart Setup</button>
 				</div>
 				</center>
 				</div>
@@ -531,6 +533,9 @@
    		// $("#success").addClass("btn-primary");
 	   	$("#success").show();   		   		
    	}
+	$('#back_to_start').click(function() {	    
+	  	window.location.reload(true);
+	});
 	$('#filter_facility').click(function() {	    
 	  	loadStep1();
 	  	$(this).attr('disabled','disabled');
