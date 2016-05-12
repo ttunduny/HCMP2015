@@ -223,10 +223,20 @@ class Facilities extends Doctrine_Record {
 
 	public static function get_activation_logs() {
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
-			SELECT 
-			    *
+			SELECT
+				u.id AS 'user_id',
+				CONCAT(u.fname, ' ', u.lname) AS 'full_name',
+				f.facility_code AS 'facility_code',
+			    f.facility_name AS 'facility_name',
+			    fl.action AS 'action',
+			    fl.date AS 'date_of_action'
 			FROM
-			    facility_activation_logs;
+			    user u JOIN
+			    facilities f
+			        JOIN
+			    facility_activation_logs fl ON f.facility_code = fl.facility_code
+			        AND u.id = fl.user_id;
+						    facility_activation_logs;
 			");
 		return $q;
 	}
@@ -392,7 +402,7 @@ class Facilities extends Doctrine_Record {
 		return $data[0];
 	}
 
-	public function get_facility_data_specific($report_type,$county,$district_id = NULL,$facility_code = NULL,$scope = NULL){
+	public static function get_facility_data_specific($report_type,$county,$district_id = NULL,$facility_code = NULL,$scope = NULL){
 		/*
 		@author karsan AS AT 2015-08-04
 		*/

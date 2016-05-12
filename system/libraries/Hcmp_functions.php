@@ -582,11 +582,12 @@ public function send_email($email_address,$message,$subject,$attach_file=NULL,$b
 	$this->load->library('email', $config);
     
 //echo $html_body;exit;
+		$from = 'hcmp.kenya@gmail.com';
 
         $this->email->initialize($config);
 		
   		$this->email->set_newline("\r\n");
-  		$this->email->from($fromm,'Health Commodities Management Platform'); // change it to yours
+  		$this->email->from($from, "Health Commodities Management Platform"); // change it to yours
   		$this->email->to($email_address); // change it to yours
   		//echo $bcc_email;
   		// exit;

@@ -50,7 +50,6 @@ class Facility_activation extends MY_Controller
 		// $data['report_view'] = "shared_files/Facility_activation_v";
 		$data['content_view'] = "shared_files/facility_activation_v";
 		$this -> load -> view($template, $data);
-
 	}
 
 
@@ -141,17 +140,21 @@ class Facility_activation extends MY_Controller
 	public function change_status_new($facility_code = NULL,$status = NULL){
 		$facility_code = $_POST['facility_code'];
 		$status = $_POST['status'];
+		$user_id = $this -> session -> userdata('user_id');
 		$new_status =null;
 		if($status==0){
 			$new_status = 1;
 			$current_date = date("Y-m-d");
+			$update_activation_log = Doctrine_Manager::getInstance()->getCurrentConnection();
+			$update_activation_log->execute("INSERT INTO facility_activation_logs (user_id, facility_code, action) VALUES ('$user_id', '$facility_code','Activation')");
 		}else{
 			$new_status = 0;
 			$current_date = '0000-00-00 00:00:00';
-
+			$update_activation_log->execute("INSERT INTO facility_activation_logs (user_id, facility_code, action) VALUES ('$user_id', '$facility_code','Deactivation')");
 		}
 		$update_user = Doctrine_Manager::getInstance()->getCurrentConnection();
 		$update_user->execute("UPDATE `facilities` SET using_hcmp = '$new_status',date_of_activation='$current_date' WHERE `facility_code`= '$facility_code'");
+
 		$sql = "select DISTINCT f.id, f.facility_code,f.date_of_activation,f.using_hcmp, f.facility_name, f.district, f.owner, c.county, d.district as district_name
 		FROM facilities f, districts d, counties c
 		WHERE f.facility_code='$facility_code'

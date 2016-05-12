@@ -45,7 +45,7 @@
   </div>
   <div class="tab-pane" id="logs">
     <?php
-      
+      $this->load->view('Admin/facility_activation_logs');
     ?>
   </div>
   <!-- <div class="tab-pane" id="profile">
