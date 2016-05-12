@@ -2938,11 +2938,13 @@ public function log_summary_weekly_view(){
 								<td>
 
 									<p class='lead'>Find attached a summary of Facility Activity Log, as at $time</p>
+									<br/>
 									<h2>Utilization Summary</h2>
-									<p>No. of Active Facilities: $facilities_active </p>
-									<p>Facilities Never Logged On: $facilities_never_logged_on</p>
-									<p>Facilities not logged in (2 weeks): $facilities_not_logged_in_two_weeks</p>
-									<p>Facilities not logged in one month (1 month): $facilities_not_logged_in_one_month</p>
+									<br/>
+									<p># of Active Facilities: $facilities_active </p>
+									<p># of Facilities that have never logged On: $facilities_never_logged_on</p>
+									<p># of Facilities that have not logged in for the past 2 weeks: $facilities_not_logged_in_two_weeks</p>
+									<p># of Facilities that have not logged logged in for the past 1 month: $facilities_not_logged_in_one_month</p>
 									<table class='social' width='100%'>
 										<tr>
 											<td>
@@ -2979,7 +2981,7 @@ public function log_summary_weekly_view(){
 		$subject = "System Usage as at ".$time;
 
 		// $email_address = "smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com";
-		$email_address = "arnoldkyaye@gmail.com";
+		$email_address = "arnoldkyaye@gmail.com,ttunduny@gmail.com";
 		// $email_address = "karsanrichard@gmail.com";
 							// $email_address = "karsanrichard@gmail.com,ttunduny@gmail.com";
 	                        // $email_address = "ttunduny@gmail.com";
