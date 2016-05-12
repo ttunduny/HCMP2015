@@ -23,7 +23,8 @@ class Synchronization extends MY_Controller {
 
 		$local_timestamp = update_model::get_latest_local_timestamp();
 		// echo "<pre>";print_r($update_status);exit();
-		// echo "<pre>";print_r($local_timestamp);exit;
+		// echo "<pre>";print_r($time);
+		// echo "<pre>";print_r(date('F, d Y H:i:s',strtotime($time)));exit;
 		$data['sync_data'] = $sync_data;
 		$data['sync_status'] = $sync_status;
 		$data['update_status'] = $update_status;
@@ -114,7 +115,7 @@ class Synchronization extends MY_Controller {
 		
 	    $data_from_table['facility_code'] = $facility_code;
 	    $ts = array();
-		ini_set("memory_limit","1000M");
+		ini_set("memory_limit","-1");
 		// $timestamp_column = $this->get_column_by_type('facility_stocks','timestamp');
 		// echo $timestamp_column;exit;
 
@@ -123,10 +124,11 @@ class Synchronization extends MY_Controller {
 			$table_name = $table_data[0];
 			$timestamp_column = $table_data[1];
 			// echo "<pre>";print_r($timestamp_column);
-
-		    $data_from_table[$table_name] = Sync_model::get_new_data($table_name,$latest_sync_time,$timestamp_column);
-	   		// echo "<pre>";print_r($data_from_table);
+			$pulled_data = Sync_model::get_new_data($table_name,$latest_sync_time,$timestamp_column);
+		    $data_from_table[$table_name] = json_encode($pulled_data);
+	   		// echo "<pre>";print_r(json_encode($pulled_data));
         }
+        // exit;
 	   		// echo "<pre>";print_r($data_from_table);exit;
 
 		// echo "<pre>";print_r($ts);exit;
@@ -134,14 +136,17 @@ class Synchronization extends MY_Controller {
 		
 		// echo FCPATH;exit;
 		// echo $write_to_file;exit;
-		
-		/*ini_set('display_errors', 1);
+		/*
+		ini_set('display_errors', 1);
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
 		*/
-		$stringify = print_r($data_from_table,true);
+		// $stringify = print_r($data_from_table,true);
 
-		$queried_data = http_build_query($data_from_table);
+		// $queried_data = http_build_query($data_from_table);
+		$data_from_table = json_encode($data_from_table);
+		// echo "<pre>";print_r($data_from_table);exit;
+		// echo "<pre> I reach here ";echo json_encode($data_from_table);exit;
 		$file_write = $this->receive_data($facility_code,$data_from_table);
 
 		// echo "<pre>";print_r($file_write);
@@ -200,7 +205,7 @@ class Synchronization extends MY_Controller {
 		// $zip_file_path = trim($zip_file_path);
 
 		//upload file to ftp folder on the server
-		$transfer = $this->ftp_upload($zip_file_path,$zip_file_name);
+		// $transfer = $this->ftp_upload($zip_file_path,$zip_file_name);
 		// echo $transfer;
 
 		$query = $this->db->query("INSERT INTO `db_sync` (`facility_code`) VALUES ('$facility_code')");
