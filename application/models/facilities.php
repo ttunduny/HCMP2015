@@ -220,6 +220,16 @@ class Facilities extends Doctrine_Record {
 			
 		return $q;
 	}
+
+	public static function get_activation_logs() {
+		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+			SELECT 
+			    *
+			FROM
+			    facility_activation_logs;
+			");
+		return $q;
+	}
 	//In case the stock outs or expiries for Taita Taveta are not sent out
 	public static function get_Taita()
 	{
@@ -343,6 +353,43 @@ class Facilities extends Doctrine_Record {
 	 "); 
 		return $q;  
     
+	}
+
+	public static function get_facilities_not_logged_in_count() {
+		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+			SELECT DISTINCT
+			    (COUNT(l.facility_code)) AS 'not_logged_in'
+			FROM
+			    facilities f
+			        JOIN
+			    log l ON f.facility_code = l.facility_code
+			WHERE
+			    f.facility_code NOT IN (l.facility_code) 
+			    AND f.using_hcmp = 1;");
+		return $data[0];
+		
+	}
+
+	public static function facilities_not_logged_in_two_weeks() {
+		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+			SELECT 
+			    COUNT(DISTINCT (l.facility_code)) AS 'last_two_weeks'
+			FROM
+			    log l
+			WHERE
+			    l.end_time_of_event < (CURDATE() < 14);");
+		return $data[0];
+	}
+
+	public static function facilities_not_logged_in_one_month() {
+		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+			SELECT 
+			    COUNT(DISTINCT (l.facility_code)) AS 'last_one_month'
+			FROM
+			    log l
+			WHERE
+			    l.end_time_of_event < (CURDATE() < 30);");
+		return $data[0];
 	}
 
 	public function get_facility_data_specific($report_type,$county,$district_id = NULL,$facility_code = NULL,$scope = NULL){

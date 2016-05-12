@@ -32,6 +32,7 @@
 			
 			<ul class="nav nav-tabs" id="Tab">
   <li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>Active Facilities</a></li>
+  <li class=""><a href="#logs" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>Activation/Deactivation Logs</a></li>
   <!-- <li><a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-list"></span> Inactive Facilities</a></li> -->
 </ul>
 
@@ -41,6 +42,11 @@
   	 $this -> load -> view('Admin/facilities_listing_active');
   	 ?>
   	
+  </div>
+  <div class="tab-pane" id="logs">
+    <?php
+      
+    ?>
   </div>
   <!-- <div class="tab-pane" id="profile">
     <?php 
@@ -62,6 +68,7 @@
 <script>
 	
 	$(document).ready(function () {
+
 		$(".deactivate_facility").click(function(e){
         e.preventDefault();
 
