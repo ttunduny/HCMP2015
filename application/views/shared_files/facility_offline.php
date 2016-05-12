@@ -536,11 +536,16 @@
 	$('#back_to_start').click(function() {	    
 	  	window.location.reload(true);
 	});
-	$('#filter_facility').click(function() {	    
-	  	loadStep1();
-	  	$(this).attr('disabled','disabled');
-	  	$(this).addClass('disabled');
-	  	$("#facility_select").attr('disabled','disabled');
+	$('#filter_facility').click(function() {
+		var facility_code = $("#facility_select").val();		
+		if($("#facility_select").val()=='-000-'){
+			alert('You need to Select a Facility first');return false;
+		}else{    
+	  		loadStep1();
+	  		$(this).attr('disabled','disabled');
+	  		$(this).addClass('disabled');
+	  		$("#facility_select").attr('disabled','disabled');
+	  	}
 
 	});
 
