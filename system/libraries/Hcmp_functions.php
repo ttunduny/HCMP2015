@@ -1,3 +1,4 @@
+
 <?php
 /**
  * @author Kariuki
@@ -572,7 +573,7 @@ public function send_email($email_address,$message,$subject,$attach_file=NULL,$b
     $config['smtp_host']    = 'ssl://smtp.gmail.com';
     $config['smtp_port']    = '465';
     $config['smtp_timeout'] = '7';
-    $config['smtp_user']    = 'hcmpkenya@gmail.com';
+    $config['smtp_user']    = 'hcmp.kenya@gmail.com';
    	$config['smtp_pass']    = 'healthkenya16';//healthkenya //hcmpkenya@gmail.com
  	$config['charset']    = 'utf-8';
     $config['newline']    = "\r\n";
