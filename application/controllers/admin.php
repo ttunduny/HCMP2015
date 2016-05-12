@@ -55,6 +55,7 @@ class Admin extends MY_Controller {
 		$data['facilities']=Facilities::getAll();
 		$data['sub_counties']=Districts::getAll();
 		$data['user_types']=Access_level::get_access_levels($permissions);
+		$data['activation_logs'] = Facilities::get_activation_logs();
 		$this -> load -> view("shared_files/template/dashboard_v", $data);
 	}
 	public function report_management() {
@@ -366,11 +367,12 @@ class Admin extends MY_Controller {
 	}	
 
 	public function deactivate_facility(){
+		$user_id = $this -> session -> userdata('user_id');
 		$le_facility = $_POST['ndata'];
 		$le_status = $_POST['status'];
 		//echo "This  ".$le_status;exit;
 		//something
-		$double_tap = Users::deactivate_facility($le_facility,$le_status);
+		$double_tap = Users::deactivate_facility($le_facility,$le_status, $user_id);
 		//echo "Success";
 	}
 

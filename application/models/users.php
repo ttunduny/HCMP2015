@@ -476,7 +476,7 @@ public static function get_county_details($county_id){
 
 
 
-	public static function deactivate_facility($facility_code,$status){
+	public static function deactivate_facility($facility_code,$status, $user_id){
 		if ($status == 0) {
 			$stmt = 'using_hcmp = 1';
 		}elseif ($status == 1) {
