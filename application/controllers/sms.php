@@ -2691,8 +2691,22 @@ public function log_summary_weekly_view(){
 		$redistributed_count = count($redistributed);
 		$added_stock_count = count($added_stock);
 
+		$facilities_active = count($active_facilities); 
+		// echo "<pre>"; var_dump($facilities_active); echo "</pre>";  exit;
 
+		$not_logged_on = Facilities::get_facilities_not_logged_in_count();
+		$facilities_never_logged_on = $not_logged_on['not_logged_in'];
+	    // echo "<pre>"; print_r($facilities_never_logged_on); echo "</pre>";  exit;
 
+		// $facilities_never_issued = count();
+		$not_logged_in_two_wks = Facilities::facilities_not_logged_in_two_weeks();
+		$facilities_not_logged_in_two_weeks = $not_logged_in_two_wks['last_two_weeks'];
+		// echo "<pre>"; print_r($facilities_not_logged_in_two_weeks); echo "</pre>"; exit;
+
+		$not_logged_in_one_month = Facilities::facilities_not_logged_in_one_month();
+		$facilities_not_logged_in_one_month = $not_logged_in_one_month['last_one_month'];
+		// echo "<pre>"; print_r($facilities_not_logged_in_one_month); echo "</pre>"; exit;
+		// $facilities_not_logged_in_more_than_a_month = count();
 
 		foreach ($active_facilities as $a_c) { 
 			$final_array[] = array(
@@ -2924,7 +2938,11 @@ public function log_summary_weekly_view(){
 								<td>
 
 									<p class='lead'>Find attached a summary of Facility Activity Log, as at $time</p>
-
+									<h2>Utilization Summary</h2>
+									<p>No. of Active Facilities: $facilities_active </p>
+									<p>Facilities Never Logged On: $facilities_never_logged_on</p>
+									<p>Facilities not logged in (2 weeks): $facilities_not_logged_in_two_weeks</p>
+									<p>Facilities not logged in one month (1 month): $facilities_not_logged_in_one_month</p>
 									<table class='social' width='100%'>
 										<tr>
 											<td>
@@ -2960,7 +2978,8 @@ public function log_summary_weekly_view(){
 		$handler = "./print_docs/excel/excel_files/" . $excel_data['file_name'] . ".xls";
 		$subject = "System Usage as at ".$time;
 
-		$email_address = "smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com";
+		// $email_address = "smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com";
+		$email_address = "arnoldkyaye@gmail.com";
 		// $email_address = "karsanrichard@gmail.com";
 							// $email_address = "karsanrichard@gmail.com,ttunduny@gmail.com";
 	                        // $email_address = "ttunduny@gmail.com";
