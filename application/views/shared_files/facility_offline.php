@@ -234,20 +234,22 @@
 						<div id="active_users">
 							<p style="color:#000;font-size:16px;">
 								<span>The following users are present in the selected facility</span></br>
-								<button id="reset_pass" class="btn btn-danger">Reset Passwords
-								</button>
+								<!-- <button id="reset_pass" class="btn btn-danger">Reset Passwords</button> -->
 								<button id="add_user_active" class="add_user btn btn-primary" data-toggle="modal" data-target="#addModal">Add User</button>							
 							</p>
 							<br/>
 							<table id="users_table" class="table table-hover table-bordered table-update">
 								<tr>
-									<th><input name="select_all" value="1" id="select_all_users" type="checkbox" />Select</th>
+									<!-- <th><input name="select_all" value="1" id="select_all_users" type="checkbox" />Select</th> -->
 									<th>Full Name</th>
 									<th>Email</th>
 									<th>Date Created</th>
 								</tr>
 							</table>
 							<br/>
+							<span class="message">
+								The User passwords will be reset to 123456
+							</span>
 							<button id="step2a_advance" class="step3 btn btn-success">Proceed to Step 3</button>						
 							<!-- <button id="download_zip" class="download_zip btn btn-success">Proceed to Step 3</button>						 -->
 						</div>
@@ -432,7 +434,8 @@
 						//console.log(value[0]);
 		               	//var row = $("<tr><td>" + value[1] + "</td><td>" + value[2]+"</td></tr>");
 		                //var row = $("<tr><td>" + value[1] + "</td><td>" + value[2]+"</td><td><a href=\""+reset_url+value[0]+"\" class=\"btn btn-primary btn-xs reset_pwd\" id=\"reset_pwd\"><span class=\"glyphicon glyphicon-edit\"></span>Reset Password</a></td></tr>");
-		               	var row = $("<tr><td><input class=\"selected_users\" type=\"checkbox\" value=\""+value[0]+"\"/></td><td>" + value[1] + "</td><td>" + value[2] + "</td><td>" + value[3] + "</td></tr>");
+		               	// var row = $("<tr><td><input class=\"selected_users\" type=\"checkbox\" value=\""+value[0]+"\"/></td><td>" + value[1] + "</td><td>" + value[2] + "</td><td>" + value[3] + "</td></tr>");
+		               	var row = $("<tr><td>" + value[1] + "</td><td>" + value[2] + "</td><td>" + value[3] + "</td></tr>");
 		               $("#users_table").append(row);
 		            });
 					$("#active_users").show();	                    			
@@ -444,9 +447,9 @@
 		});	
    	}
 
-   	$("#select_all_users").change(function () {
-    	$("input:checkbox").prop('checked', $(this).prop("checked"));
-	});
+ //   	$("#select_all_users").change(function () {
+ //    	$("input:checkbox").prop('checked', $(this).prop("checked"));
+	// });
 
 
    	function loadStep1(){
@@ -478,8 +481,7 @@
    	}
 
    	function loadStep3(){
-   		hideAll();
-
+   		hideAll();   		
    		$("#step-2").removeClass("btn-success");
    		$("#step-2").removeClass("uncustomiser-green");
    		$("#step-2").addClass("uncustomiser-blue");
@@ -553,6 +555,10 @@
 	  	loadStep2();	  	
 	});
 
+	$('#step2a_advance').click(function(){
+		reset_passwords();
+	});
+
 	// $('.step3').click(function() {	    
 	//   	loadStep3();	  	
 	// });
@@ -585,7 +591,26 @@
 	// 	});
 	  	
 	// });
-
+	function reset_passwords(){
+		var facility_code = $("#facility_select").val();
+		var url = "<?php echo base_url() .'user/reset_multiple_pass/'; ?>";
+		var newurl = url+facility_code;
+		// alert(newurl);return false;
+		$.ajax({
+			url: newurl,
+			type:'POST',
+			dataType: 'json',
+		success: function(s){
+			console.log(s);		
+			my_message = "User passwords reset successfully";				
+			alertify.set({ delay: 3000 });
+      		alertify.success(my_message, null);
+		},
+		error: function(e){
+			console.log(e.responseText);
+		}
+		});
+	}
 	$('#reset_pass').click(function() {
 		var my_message = '';
 		var url = "<?php echo base_url() .'user/reset_select_multiple_pass/'; ?>";

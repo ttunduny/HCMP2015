@@ -118,6 +118,14 @@ class User extends Doctrine_Record {
 		$myobj->save();
 		return true;
 	}
+
+	public static function reset_password_facility($facility_code){
+		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->execute("
+			update user set password='' where facility=$facility_code
+			");
+
+		return true;
+	}
 ///// reset password/
 	public static function activate_deactivate_user($id,$option){
 		$myobj = Doctrine::getTable('user')->findOneById($id);
