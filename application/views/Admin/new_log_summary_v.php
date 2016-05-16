@@ -87,6 +87,7 @@
   <li><a href="#nli" data-toggle="tab"><span class="glyphicon glyphicon-list"></span> Facilities that haven't Logged In</a></li>
   <li><a href="#issued" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> Facilities that Issued</a></li>
   <li><a href="#n_issued" data-toggle="tab"><span class="glyphicon glyphicon-list"></span> Facilities that haven't Issued</a></li>
+  <li><a href="#fac_off" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>Facilities Offline</a></li>
 </ul>
 
 <div class="tab-content" style="margin-top: 5px;">
@@ -337,6 +338,45 @@
 </center>
 
     
+  </div>
+  <div class="tab-pane" id="fac_off">
+    <?php // echo "<pre>"; print_r($monthly_logs['facilities_offline']); echo "</pre>"; ?>
+    <br/><br/>
+    <center>
+<div style="width:100%">
+
+<h4>Facilities Offline</h4>
+<table id="fac_off" class="table table-hover table-bordered table-update col-md-10">
+  <thead>
+    <tr>
+      <th ><b>Facility Name</b></th>
+      <th ><b>Facility Code</b></th>
+      <th ><b>Sub-County</b></th>
+      <th ><b>County</b></th>
+    </tr> 
+  </thead>
+  <tbody>
+    <?php 
+      $row_data = $monthly_logs['facilities_offline'];      
+      $count = count($row_data);
+      foreach ($row_data as $key => $value) {
+        $facility_name = $value['facility_name'];
+        $facility_code = $value['facility_code'];
+        $sub_county = $value['district'];
+        $county = $value['county']; ?>
+        <tr>
+          <td><?php echo $facility_name;?></td>
+          <td><?php echo $facility_code;?></td>
+          <td><?php echo $sub_county;?></td>
+          <td><?php echo $county;?></td>
+        </tr>
+      <?php }
+     
+    ?>
+  </tbody>
+  </table>
+</div>
+</center>
   </div>
 
   <!-- <div class="tab-pane" id="profile">

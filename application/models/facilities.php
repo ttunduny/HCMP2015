@@ -240,6 +240,22 @@ class Facilities extends Doctrine_Record {
 			");
 		return $q;
 	}
+
+	public static function get_offline_facilities() {
+		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+			SELECT 
+			    f.facility_code,
+			    f.facility_name,
+			    d.district,
+			    c.county
+			FROM
+			    facilities f
+			    JOIN districts d JOIN 
+			    counties c ON f.district = d.id AND 
+			    d.county = c.id
+			WHERE f.using_hcmp = 2;");
+		return $q;
+	}
 	//In case the stock outs or expiries for Taita Taveta are not sent out
 	public static function get_Taita()
 	{
