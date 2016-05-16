@@ -587,5 +587,27 @@ class User extends Doctrine_Record {
 				return $query;
 	}//end of previous logs function
 
+	public function getdistricts(){
+		$sql="SELECT * from districts";
+		$districts =$this->db->query($sql)->result_array();
+		echo json_encode($districts);	   
+    }
 
+    public function getfacilities(){
+    	$sql="SELECT * from facilities";
+		$districts =$this->db->query($sql)->result_array();
+		echo json_encode($districts);	
+    }
+
+	public function districts($county_id){
+		$sql="SELECT * from districts WHERE county ='$county_id'";
+		$districts =$this->db->query($sql)->result_array();
+		echo json_encode($districts);	   	
+    }
+
+    public function facilities($district=80){
+     	$sql="SELECT * from facilities WHERE district ='$district'";
+		$districts =$this->db->query($sql)->result_array();
+		echo json_encode($districts);	
+    }
 }
