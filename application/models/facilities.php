@@ -769,10 +769,12 @@ class Facilities extends Doctrine_Record {
         		$and_data";
 
         $result = $this->db->query($sql)->result_array();
-        $sql_exists = "SELECT DISTINCT l.facility_code FROM log l
-							WHERE l.end_time_of_event BETWEEN '$start_date' AND '$last_date'  $and_data $and_data_logs
+        $sql_exists = "SELECT DISTINCT l.facility_code FROM log l,facilities f, districts d, counties c
+							WHERE l.end_time_of_event BETWEEN '$start_date' AND '$last_date'  
+							and l.facility_code = f.facility_code AND f.district = d.id AND c.id = d.county
+							$and_data $and_data_logs
 						        AND l.action = 'Logged Out'";
-    	
+    	// echo "$sql_exists";die;
     	$result_exists = $this->db->query($sql_exists);  
     	foreach ($result_exists as $key => $value) {
     		array_push($array_exists, $value['facility_code']);  			# code...
