@@ -82,13 +82,13 @@ class Synchronization extends MY_Controller {
 	    // $fields = $this->db->field_data('dispensing_records');
 	    // echo "<pre>";print_r($fields);
 
-	    // $tables_to_be_ignored = array('commodities','commodity_division_details','facilities');//add tables to be ignored by database sync
+	    $tables_to_be_ignored = array('access_level','commodities','commodity_division_details','facilities');//add tables to be ignored by database sync
 
-	    /*foreach ($tables_to_be_ignored as $key => $value) {
+	    foreach ($tables_to_be_ignored as $key => $value) {
 		    if(($key = array_search($value, $all_tables)) !== false) {
 		    	unset($all_tables[$key]);
 		    }
-		}*/
+		}
 	    // echo "<pre>";print_r($all_tables);
 	    $all_tables_amped = array();
 	    $all_tables_data = array();
@@ -205,7 +205,7 @@ class Synchronization extends MY_Controller {
 		// $zip_file_path = trim($zip_file_path);
 
 		//upload file to ftp folder on the server
-		// $transfer = $this->ftp_upload($zip_file_path,$zip_file_name);
+		$transfer = $this->ftp_upload($zip_file_path,$zip_file_name);
 		// echo $transfer;
 
 		$query = $this->db->query("INSERT INTO `db_sync` (`facility_code`) VALUES ('$facility_code')");
