@@ -461,7 +461,7 @@ public function send_system_text($action)
 
 		//foreach($phone_numbers as $key=>$user_no):
 		//  break;
-		//file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
+		file("http://41.57.109.242:13000/cgi-bin/sendsms?username=clinton&password=ch41sms&to=$user_no&text=$message");
 
 		//endforeach;
 
