@@ -241,6 +241,7 @@ class Facilities extends Doctrine_Record {
 		return $q;
 	}
 
+	// This is the function
 	public static function get_offline_facilities() {
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT 
@@ -746,7 +747,7 @@ class Facilities extends Doctrine_Record {
 				group by f.facility_code,l.user_id,DAY(l.end_time_of_event) HAVING count(l.end_time_of_event) >='$number'");
 		return $data;
 	}
-	public function get_facilities_not_in_month($start_date,$last_date,$county_id=null,$district_id=null,$type){
+	public function get_facilities_not_logged_in_month($start_date,$last_date,$county_id=null,$district_id=null,$type){
 		$and_data = '';
 		$and_data_logs = '';
 		if ($county_id!=null) {
@@ -771,7 +772,7 @@ class Facilities extends Doctrine_Record {
 							WHERE l.end_time_of_event BETWEEN '$start_date' AND '$last_date'  $and_data $and_data_logs
 						        AND l.action = 'Logged Out'";
     	
-    	$result_exists = $this->db->query($sql_exists)->result_array();  
+    	$result_exists = $this->db->query($sql_exists);  
     	foreach ($result_exists as $key => $value) {
     		array_push($array_exists, $value['facility_code']);  			# code...
     	}  		
