@@ -498,4 +498,29 @@ public static function get_county_details($county_id){
 		return $query;
 	}
 
-	}
+	public function getdistricts(){
+		$sql="SELECT * from districts";
+	    $districts =$this->db->query($sql)->result_array();
+		echo json_encode($districts);	 
+    }
+
+    public function getfacilities(){
+    	$sql="SELECT * from facilities";
+	    $districts =$this->db->query($sql)->result_array();
+		echo json_encode($districts);	
+    }
+
+	public function districts($county_id){
+		$sql="SELECT * from districts WHERE county ='$county_id'";
+	    $districts =$this->db->query($sql)->result_array();
+		echo json_encode($districts);	   	
+    }
+
+
+    public function facilities($district){
+     	$sql="SELECT * from facilities WHERE district ='$district'";
+	    $districts =$this->db->query($sql)->result_array();
+		echo json_encode($districts);	
+    }
+
+}

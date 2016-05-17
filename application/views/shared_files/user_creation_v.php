@@ -104,7 +104,7 @@
 				</div>
 				<div class="col-md-12 dt" style="border: 1px solid #ddd;padding-top: 1%; " id="test">
 
-					<table  class="table table-hover table-bordered table-update" id="datatable"  >
+					<table  class="table table-hover table-bordered table-update" id="userstable"  >
 						<thead style="background-color: white">
 							<tr>
 								<th>Names</th>
@@ -126,13 +126,16 @@
 								if($list['level_id'] == 16){}else{
 							?>
 							<tr class="edit_tr" >
-								<td class="fname" ><?php echo ucfirst($list['fname'])." ".ucfirst($list['lname']);?></td>
+							<input type="hidden" class="county_id" value="<?php echo $list['county_id']; ?>">
+								<td class="fname" >
+								<?php echo ucfirst($list['fname'])." ".ucfirst($list['lname']);?></td>
 								<!-- <td class="lname"><?php echo $list['lname']; ?>	</td> -->
 								<td class="email" data-attr="<?php echo $list['user_id']; ?>"><?php echo $list['email'];?></td>
 								<td class="phone"><?php echo $list['telephone']; ?></td>
 								<td class="district" data-attr="<?php echo $list['district_id']; ?>"><?php echo $list['district']; ?></td>
 								<td class="facility_name" data-attr="<?php echo $list['facility_code']; ?>"><?php echo $list['facility_name']; ?></td>
 								<td class="level" data-attr="<?php echo $list['level_id']; ?>"><?php echo $list['level']; ?></td>
+								<!--<td class="county_id" type="hidden" data-attr="<?php echo $list['county_id']; ?>"><?php echo $list['county_id']; ?></td>-->
 								<td style="width:20px;" >
 								<?php if ($list['status']==1) {?>
 								<input type="checkbox" <?php if($current_user_id == $list['user_id']){ echo "disabled"; }?> name="status-checkbox" id="status_switch_change" data-attr="<?php echo $list['user_id']; ?>"  class="small-status-switch" checked = "checked" style="border-radius:0px!important;">
@@ -148,6 +151,7 @@
 									<span class="glyphicon glyphicon-edit"></span>Reset Password
 									 </a>	 
 								</td>
+
 
 								<td>
 								<button class="btn btn-primary btn-xs edit " data-toggle="modal" data-target="#myModal" id="<?php echo $list['user_id']; ?>" data-target="#">
@@ -236,6 +240,47 @@
 												?>
 									</select>
 								</div>
+								<div class="input-group form-group u_mgt">
+									<span class="input-group-addon sponsor">County</span>
+									<select class="form-control " id="county" name="county" required="required">
+												<option value='NULL'>Select County Name</option>
+												<?php
+												foreach ($counties as $counties) :
+													$id = $counties ['id'];
+													$counties = $counties ['county'];
+													echo "<option value='$id'>$counties</option>";
+												endforeach;
+												?>
+									</select>
+								</div>
+
+
+								<div class="input-group form-group u_mgt">
+									<span class="input-group-addon sponsor">Sub County</span>
+									<select class="form-control " id="subcounty" name="subcounty" required="required">
+												<option value='NULL'>Select District Name</option>
+												<?php
+												foreach ($districts as $districts) :
+													$id = $districts ['id'];
+													$districts = $districts ['district'];
+													echo "<option value='$id'>$districts</option>";
+												endforeach;
+												?>
+									</select>
+								</div>
+								<div class="input-group form-group u_mgt">
+									<span class="input-group-addon sponsor">Facility</span>
+									<select class="form-control " id="facility" name="facility" required="required">
+												<option value='NULL'>Select Facility Name</option>
+												<?php
+												foreach ($facilities as $facilities) :
+													$id = $faclities ['facility_code'];
+													$facilities = $facilities ['facility_name'];
+													echo "<option value='$id'>$facilities</option>";
+												endforeach;
+												?>
+									</select>
+								</div>
 									<?php
 
 									$identifier = $this -> session -> userdata('user_indicator');
@@ -301,6 +346,9 @@
 										</select>
 								</div>
 								<?php }*/?>
+								
+								
+								
 								<div class="row" style="margin:auto" id="processing">
 									<div class=" col-md-12">
 										<div class="form-group">
@@ -365,6 +413,50 @@
 							<div class="input-group form-group u_mgt">
 									<span class="input-group-addon sponsor">User Name</span>
 										<input type="email" name="username_edit" id="username_edit" required="required" class="form-control " placeholder="email@domain.com" tabindex="5" readonly>
+							</div>
+
+
+							<div class="input-group form-group u_mgt">
+									<span class="input-group-addon sponsor">County</span>
+									<select class="form-control " id="county_edit" name="county_edit" required="required">
+												<option value='NULL'>Select County Name</option>
+												<?php
+												foreach ($counties as $counties) :
+													$id = $counties ['id'];
+													$counties = $counties ['county'];
+													echo "<option value='$id'>$counties</option>";
+												endforeach;
+												?>
+									</select>
+							</div>
+
+
+							<div class="input-group form-group u_mgt">
+									<span class="input-group-addon sponsor">Sub County</span>
+									<select class="form-control " id="subcounty_edit" name="subcounty_edit" required="required">
+												<option value='NULL'>Select District Name</option>
+												<?php
+												foreach ($districts as $districts) :
+
+													$id = $districts ['id'];
+													$districts = $districts ['district'];
+													echo "<option value='$id'>$districts</option>";
+												endforeach;
+												?>
+									</select>
+							</div>
+							<div class="input-group form-group u_mgt">
+									<span class="input-group-addon sponsor">Facility</span>
+									<select class="form-control " id="facility_edit" name="facility_edit" required="required">
+												<option value='NULL'>Select Facility Name</option>
+												<?php
+												foreach ($facilities as $facilities) :
+													$id = $faclities ['facility_code'];
+													$facilities = $facilities ['facility_name'];
+													echo "<option value='$id'>$facilities</option>";
+												endforeach;
+												?>
+									</select>
 							</div>
 
 							<div class="col-md-6">
@@ -529,14 +621,14 @@
 		});
       	
       	$('#myModal').on('hidden.bs.modal', function () {
-  			$("#datatable,.modal-content").hide().fadeIn('fast');
+  			$("#userstable,.modal-content").hide().fadeIn('fast');
 		 	location.reload();
 		});
 		
 		$('.dataTables_filter label input').addClass('form-control');
 		$('.dataTables_length label select').addClass('form-control');
 		
-		$('#datatable').dataTable( {
+		$('#userstable').dataTable( {
 			"sDom": "T lfrtip",
 	       	"sScrollY": "320px",   
             "sPaginationType": "bootstrap",
@@ -553,24 +645,109 @@
 			initialize_checkboxes();
 		});
 
-		//populate facilities to drop down depending on district selected
-		$("#district_name").change(function() {
+		//populate districts to drop down depending on county selected
+		$("#county").change(function() {
 			var option_value=$(this).val();
     		if(option_value=='NULL'){
-    			$("#facility_name").hide('slow'); 
+    			$("#subcounty").hide('slow'); 
     		}else{
 				var drop_down='';
- 				var hcmp_facility_api = "<?php echo base_url(); ?>reports/get_facility_json/"+$("#district_name").val();
- 				$.getJSON( hcmp_facility_api ,function( json ) {
- 					$("#facility_id").html('<option value="NULL" selected="selected">Select Facility</option>');
+ 				var get_districts= "<?php echo base_url(); ?>user/districts/" + $("#county").val();
+ 				console.log(get_districts);
+ 				$.getJSON( get_districts ,function( json ) {
+ 					$("#subcounty").html('<option value="NULL" selected="selected">Select Sub-County</option>');
       				$.each(json, function( key, val ) {
-      					drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
+      					drop_down +="<option value='"+json[key]["id"]+"'>"+json[key]["district"]+"</option>"; 
+      					console.log(drop_down);
+
+
       				});
-      				$("#facility_id").append(drop_down);
+      				$("#subcounty").append(drop_down);
     			});
-    			$("#facility_id").show('slow');   
+    			$("#subcounty").show('slow');   
     		}
     	}); //end of district name change funtion
+
+
+    	//populate facilities to drop down depending on district selected
+		$("#subcounty").change(function() {
+			var option_value=$(this).val();
+    		if(option_value=='NULL'){
+    			$("#facility").hide('slow'); 
+    		}else{
+				var drop_down='';
+ 				var get_districts= "<?php echo base_url(); ?>user/facilities/"+$("#subcounty").val();
+ 				//console.log(get_districts);
+ 				$.getJSON( get_districts ,function( json ) {
+ 					$("#facility").html('<option value="NULL" selected="selected">Select Facility</option>');
+      				$.each(json, function( key, val ) {
+      					drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
+      					
+      				});
+      				$("#facility").append(drop_down);
+    			});
+    			$("#facility").show('slow');   
+    		}
+    	}); //end of district name change funtion
+        
+
+    
+      // on edit
+
+//populate districts to drop down depending on county selected
+		$("#county_edit").change(function() {
+			var option_value=$(this).val();
+    		if(option_value=='NULL'){
+    			$("#subcounty_edit").hide('slow'); 
+    		}else{
+				var drop_down='';
+ 				var get_districts= "<?php echo base_url(); ?>user/districts" + $("#county_edit").val();
+ 				console.log(get_districts);
+ 				$.getJSON( get_districts ,function( json ) {
+ 					$("#subcounty_edit").html('<option value="NULL" selected="selected">Select Sub-County</option>');
+      				$.each(json, function( key, val ) {
+      					drop_down +="<option value='"+json[key]["id"]+"'>"+json[key]["district"]+"</option>"; 
+      					console.log(drop_down);
+
+
+      				});
+      				$("#subcounty_edit").append(drop_down);
+    			});
+    			$("#subcounty_edit").show('slow');   
+    		}
+    	}); //end of district name change function
+
+
+
+
+
+
+                //on edit
+    	//populate facilities to drop down depending on district selected
+		$("#subcounty_edit").change(function() {
+			var option_value=$(this).val();
+    		if(option_value=='NULL'){
+    			$("#facility_edit").hide('slow'); 
+    		}else{
+				var drop_down='';
+ 				var get_districts= "<?php echo base_url(); ?>users/getfacilities/";
+ 				console.log(get_districts);
+ 				$.getJSON( get_districts ,function( json ) {
+ 					$("#facility_edit").html('<option value="NULL" selected="selected">Select Facility</option>');
+      				$.each(json, function( key, val ) {
+      					drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
+      					console.log(drop_down);
+      				});
+      				$("#facility_edit").append(drop_down);
+    			});
+    			$("#facility_edit").show('slow');   
+    		}
+    	}); //end of district name change funtion
+        
+
+       
+        
+
   	
   	$("#district_name_edit").change(function() {
   		var option_value=$(this).val();
@@ -598,9 +775,14 @@
 		var district = $(this).closest('tr').find('.district').html();
 		var fname = $(this).closest('tr').find('.fname').html();
 		var lname = $(this).closest('tr').find('.lname').html();
+		var county_id=$(this).closest('tr').find('.county_id').html();
+		var district=$(this).closest('tr').find('.district').html();
+		var facility_name=$(this).closest('tr').find('.facility_name').html();
+		var facility_id=$(this).closest('tr').find('.facility_name').attr('data-attr');
+
 		
 		//populate dropdown on click and selected current 
-		var drop_down='';
+		/*var drop_down='';
 		var facility_id=$(this).closest('tr').find('.facility_name').attr('data-attr');
  		var hcmp_facility_api = "<?php echo base_url(); ?>reports/get_facility_json_data/"+$(this).closest('tr').find('.district').attr('data-attr');
   		
@@ -612,7 +794,53 @@
       	
 	      	$("#facility_id_edit").append(drop_down);
 	      	$('#facility_id_edit').val(facility_id)
-    	});
+    	});*/
+
+    	 //populate districts to drop down depending on county selected
+		$("#county_edit").change(function() {
+			var option_value=$(this).val();
+    		if(option_value=='NULL'){
+    			$("#subcounty_edit").hide('slow'); 
+    		}else{
+				var drop_down='';
+				var county_id=$(this).closest('tr').find('.county_id').html();
+ 				var get_districts= "<?php echo base_url(); ?>user/districts/"+county_id;
+ 				console.log(get_districts);
+ 				$.getJSON( get_districts ,function( json ) {
+ 					$("#subcounty_edit").html('<option value="NULL" selected="selected">Select Sub-County</option>');
+      				$.each(json, function( key, val ) {
+      					drop_down +="<option value='"+json[key]["id"]+"'>"+json[key]["district"]+"</option>"; 
+      					console.log(drop_down);
+
+
+      				});
+      				$("#subcounty_edit").append(drop_down);
+    			});
+    			$("#subcounty_edit").show('slow');   
+    		}
+    	}); //end of district name change funtion
+    	//populate facilities to drop down depending on district selected
+		$("#subcounty_edit").change(function() {
+			var option_value=$(this).val();
+    		if(option_value=='NULL'){
+    			$("#facility").hide('slow'); 
+    		}else{
+				var drop_down='';
+ 				var get_districts= "<?php echo base_url(); ?>user/facilities/"+$("#subcounty_edit").val();
+ 				//console.log(get_districts);
+ 				$.getJSON( get_districts ,function( json ) {
+ 					$("#facility_edit").html('<option value="NULL" selected="selected">Select Sub-County</option>');
+      				$.each(json, function( key, val ) {
+      					drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
+      					console.log(drop_down);
+
+
+      				});
+      				$("#facility_edit").append(drop_down);
+    			});
+    			$("#facility_edit").show('slow');   
+    		}
+    	}); //end of district name change funtion
    		
    		//fill inputs with relevant data
 		$('#email_edit').val(email)
@@ -621,6 +849,8 @@
 		$('#fname_edit').val(fname)
 		$('#lname_edit').val(lname)
 		$('#username_edit').val(email)
+		$('#subcounty_edit').val(district)
+		$('#facility_edit').val(facility_name)
 		$('#user_type_edit').val($(this).closest('tr').find('.level').attr('data-attr'))
 		$('#district_name_edit').val($(this).closest('tr').find('.district').attr('data-attr'))
 		
@@ -652,6 +882,45 @@
 		$('#facility_id_edit_district').val(facility_id)
 
   });
+
+
+	//this function autofills the subcounty select filter
+
+
+     $("#district_name").change(function() {
+			var option_value=$(this).val();
+    		if(option_value=='NULL'){
+    			$("#facility_name").hide('slow'); 
+    		}else{
+				var drop_down='';
+ 				var hcmp_facility_api = "<?php echo base_url(); ?>reports/get_facility_json/"+$("#district_name").val();
+ 				$.getJSON( hcmp_facility_api ,function( json ) {
+ 					$("#facility_id").html('<option value="NULL" selected="selected">Select Facility</option>');
+      				$.each(json, function( key, val ) {
+      					drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
+      				});
+      				$("#facility_id").append(drop_down);
+    			});
+    			$("#facility_id").show('slow');   
+    		}
+    	}); //end of district name change funtion
+
+
+   /*	$('#county').keyup(function(){
+     
+     var subcounty =$('#subcounty').val();
+
+     $.ajax({
+       type:"POST",
+       dataType:"json",
+       url:"<?php echo base_url()."user/facilities";?>"
+       data:{'subcounty': $('#subcounty').val()}
+
+     });
+
+
+
+});*/
   
   //make sure email==username  for edits
   $('#email_edit').keyup(function() {
@@ -913,7 +1182,7 @@ $("#create_new").click(function() {
 }
 			
 			
-			oTable = $('#datatable').dataTable();
+			oTable = $('#userstable').dataTable();
 			
 			$('#active').click(function () {
 				

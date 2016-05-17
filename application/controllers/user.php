@@ -413,6 +413,16 @@ class User extends MY_Controller {
 
 								}
 
+								public function districts($county_id){
+									$districts_json = Users::districts($county_id);
+									echo $districts_json;
+								}
+
+								public function facilities($district){
+									$facilities_json = Users::facilities($district);
+									echo $facilities_json;
+								}
+
 								public function reset_multiple_pass($facility_code){
 									Users::reset_password_multiple($facility_code, '123456');
 									echo true;
