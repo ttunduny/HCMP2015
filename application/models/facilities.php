@@ -767,7 +767,7 @@ class Facilities extends Doctrine_Record {
         		$and_data";
 
         $result = $this->db->query($sql)->result_array();
-        $sql_exists = "SELECT DISTINCT l.facility_code FROM log l
+        $sql_exists = "SELECT DISTINCT l.facility_code FROM log l,districts d
 							WHERE l.end_time_of_event BETWEEN '$start_date' AND '$last_date'  $and_data $and_data_logs
 						        AND l.action = 'Logged Out'";
     	
