@@ -135,12 +135,15 @@ function calculate_actual_stock(actual_units,pack_unit_option,user_input,target_
   var issued = 0;
   if(selector!=null){
     var checker = selector.closest("tr").find(".checker").val();
-    var unit_size = selector.closest("tr").find(".unit_size").val();
+    var unit_size = selector.closest("tr").find(".total_units").val();    
     var issue_type = selector.closest("tr").find(".commodity_unit_of_issue").val();
     var issued_qtty = selector.closest("tr").find(".quantity_issued").val();
-    if (isNaN(parseInt(unit_size))) {unit_size=1}
+    if (unit_size==0) {
+      unit_size=1
+    }
     var batch_quantity_in_units = 0;
     var commodity_quantity_in_units = 0;
+    console.log("Unit Size Final"+unit_size);
     if(checker==0){
       if (issue_type == 'Pack_Size'){
           issued = parseInt(issued_qtty)*parseInt(unit_size);
