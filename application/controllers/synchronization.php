@@ -82,7 +82,7 @@ class Synchronization extends MY_Controller {
 	    // $fields = $this->db->field_data('dispensing_records');
 	    // echo "<pre>";print_r($fields);
 
-	    $tables_to_be_ignored = array('commodities','commodity_division_details','facilities');//add tables to be ignored by database sync
+	    $tables_to_be_ignored = array('access_level','assignments','comments','commodities','commodity_category','commodity_division_details','commodity_source','commodity_sub_category','counties','county_drug_store_issues','county_drug_store_totals','county_drug_store_transaction_table','districts','drug_commodity_map','drug_store_issues','drug_store_totals','drug_store_transaction_table','email_listing','email_listing_new','facilities','git_log','issue_type','menu','malaria_drugs','rca_county','recepients','sub_menu','service_points','log','log_monitor','db_sync','facility_loggins','facility_rollout_status','inventory','status','sync_updates','tuberculosis_data','commodity_source_sub_category','malaria_data','update_log');//add tables to be ignored by database sync
 
 	    foreach ($tables_to_be_ignored as $key => $value) {
 		    if(($key = array_search($value, $all_tables)) !== false) {
@@ -208,7 +208,7 @@ class Synchronization extends MY_Controller {
 		$transfer = $this->ftp_upload($zip_file_path,$zip_file_name);
 		// echo $transfer;
 		$remote_file_ = 'http://41.89.6.209/HCMP/synchronization/insert_filename/'.$zip_file_name.'/'.$facility_code;
-		$this->$remote_file_;
+		file($remote_file_);
 		$query = $this->db->query("INSERT INTO `db_sync` (`facility_code`) VALUES ('$facility_code')");
 		// echo $query;exit;
 		return $transfer;
