@@ -208,7 +208,7 @@ class Synchronization extends MY_Controller {
 		$transfer = $this->ftp_upload($zip_file_path,$zip_file_name);
 		// echo $transfer;
 		$remote_file_ = 'http://41.89.6.209/HCMP/synchronization/insert_filename/'.$zip_file_name.'/'.$facility_code;
-		file($remote_file_);
+		$this->$remote_file_;
 		$query = $this->db->query("INSERT INTO `db_sync` (`facility_code`) VALUES ('$facility_code')");
 		// echo $query;exit;
 		return $transfer;
