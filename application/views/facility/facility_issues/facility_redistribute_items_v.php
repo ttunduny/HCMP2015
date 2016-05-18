@@ -301,7 +301,7 @@ var facility_stock_data=<?php echo $facility_stock_data;     ?>;
 	        var form_data=check_if_the_form_has_been_filled_correctly(selector_object);
         	var alert_message='';
         	if (remaining_stock_items<0) {
-        		alert_message+="<li>Can not issue beyond available stock</li></br>"+"<li>You are trying to issue "+total_issued[2]+" (Units) from "+$(this).closest("tr").find(".available_stock").val()+" (Units)</li>";
+        		alert_message+="<li>Can not issue beyond available stock</li></br>"+"<li>You are trying to issue "+total_issued[2]+" (Units) from "+$(this).closest("tr").find(".stock_balance").val()+" (Units)</li>";
         		selector_object.closest("tr").find(".available_stock").val(available_stock_bal);		
 				selector_object.closest("tr").find(".balance").val(available_commodity_bal);}
 			// selector_object.closest("tr").find(".balance").val(remaining_comodity_bal);
@@ -339,7 +339,7 @@ var facility_stock_data=<?php echo $facility_stock_data;     ?>;
 
     // selector_object.closest("tr").find(".balance").val(selector_object.closest("tr").find(".total_commodity_bal").val());
 
-        });// adding a new row 
+        });// adding a new row  
         $(".add").click(function() {
         var selector_object = $('#facility_issues_table tr:last');
         var form_data = check_if_the_form_has_been_filled_correctly(selector_object);
@@ -396,6 +396,7 @@ var facility_stock_data=<?php echo $facility_stock_data;     ?>;
 
 		        
 		        locator.closest("tr").find(".available_stock").val(total_stock_bal-total_issued[1]);
+		        locator.closest("tr").find(".stock_balance").val(total_stock_bal-total_issued[1]);
 		        locator.closest("tr").find(".expiry_date").val(""+new_date+"");	        		
 			    locator.closest("tr").find(".quantity_issued").val("0");
 			    locator.closest("tr").find(".balance").val(total_commodity_bal);
@@ -407,6 +408,7 @@ var facility_stock_data=<?php echo $facility_stock_data;     ?>;
 			    locator.closest("tr").find(".expiry_date").val("");
 			    locator.closest("tr").find(".balance").val(total_commodity_bal);
 			    locator.closest("tr").find(".available_stock").val("0");
+			    locator.closest("tr").find(".stock_balance").val("0");
 			    locator.closest("tr").find(".quantity_issued").val("0");	
 			    //locator.closest("tr").find(".manufacture").val(data_array[5]);
 			    }
