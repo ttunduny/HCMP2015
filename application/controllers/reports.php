@@ -1122,8 +1122,9 @@ class Reports extends MY_Controller {
 		$logged_within_month_4 = Facilities::get_facilities_count($start_date,$end_date,4);
 		// $logged_within_month_4 = Facilities::get_facilities_logged_in_count($start_date,$end_date,4,$county_id,$district_id);
 		$issued_within_month_4 = Facilities::get_facilities_issued_in_count($start_date,$end_date,4,$county_id,$district_id);
+		$facilities_offline = Facilities::get_offline_facilities($county_id, $district_id);
 
-		$data['monthly_logs'] =array('logged_in'=>$logged_within_month,'not_logged_in'=>$not_logged_within_month,'logged_in_count'=>$logged_within_month_4,'issued_within_month'=>$issued_within_month,'issued_count'=>$issued_within_month_4,'not_issued'=>$not_issued_within_month);
+		$data['monthly_logs'] =array('logged_in'=>$logged_within_month,'not_logged_in'=>$not_logged_within_month,'logged_in_count'=>$logged_within_month_4,'issued_within_month'=>$issued_within_month,'issued_count'=>$issued_within_month_4,'not_issued'=>$not_issued_within_month, 'facilities_offline'=>$facilities_offline);
 		
 		$view = null;
 

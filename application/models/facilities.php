@@ -242,7 +242,14 @@ class Facilities extends Doctrine_Record {
 	}
 
 	// This is the function
-	public static function get_offline_facilities() {
+	public static function get_offline_facilities($county_id, $district_id) {
+		$and_data = "";
+		if(isset($county_id)) {
+			$and_data = " AND d.county = '$county_id'";
+		}
+		if(isset($district_id)) {
+			$and_data = " AND f.district = '$district_id' ";
+		}
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT 
 			    f.facility_code,
@@ -254,7 +261,7 @@ class Facilities extends Doctrine_Record {
 			    JOIN districts d JOIN 
 			    counties c ON f.district = d.id AND 
 			    d.county = c.id
-			WHERE f.using_hcmp = 2;");
+			WHERE f.using_hcmp = 2 $and_data");
 		return $q;
 	}
 

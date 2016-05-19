@@ -2385,7 +2385,7 @@ public function new_weekly_usage($year=null,$month=null){
 	$not_issued_within_month = Facilities::get_facilities_not_in_month($start_date,$end_date,null,null,'issued');
 	$logged_within_month_4 = Facilities::get_facilities_count($start_date,$end_date,4);
 	$issued_within_month_4 = Facilities::get_facilities_count($start_date,$end_date,4,null,null,'issued');
-	$facilities_offline = Facilities::get_offline_facilities();
+	$facilities_offline = Facilities::get_offline_facilities(null,null);
 
 	$data['monthly_logs'] =array('logged_in'=>$logged_within_month,'not_logged_in'=>$not_logged_within_month,'logged_in_count'=>$logged_within_month_4,'issued_within_month'=>$issued_within_month,'issued_count'=>$issued_within_month_4,'not_issued'=>$not_issued_within_month, 'facilities_offline'=>$facilities_offline);
 
