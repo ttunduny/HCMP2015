@@ -105,6 +105,8 @@ public function create_bat($facility_code)
 
    		$header .= "set old_cnf=old\\";
    		$header .= PHP_EOL;
+   		$header .= "set target_adt=C:\\xampp\\htdocs\\ADT";
+   		$header .= PHP_EOL;
    		$header .= "set old_cnf_file=old\\my.ini";
    		$header .= PHP_EOL;
    		//$header .= "set new_cnf=resources\\mysql\\new\\";
@@ -135,9 +137,15 @@ public function create_bat($facility_code)
    		$header .= PHP_EOL;
    		$header .= "net start MySQL";
    		$header .= PHP_EOL;
-   		$data = "C:\\xampp\mysql\bin\mysql.exe -u root hcmp_rtk<\"%current%\"$facility_code.sql";
+   		$header .= "if not exist \"%target_adt%\"(";
+   		$header .= PHP_EOL;
+   		$data = "C:\\xampp\mysql\bin\mysql.exe -u root test<\"%current%\"$facility_code.sql";
    		$data.=PHP_EOL;
- 		// $query = "C:\\xampp\mysql\bin\mysql.exe -u root -p hcmp_rtk<".$resource_name;
+   		$data .= ") else (";
+   		$data .= PHP_EOL;
+   		$data .= "C:\\xampp\mysql\bin\mysql.exe -u root -p \"root\" test<\"%current%\"$facility_code.sql";
+   		$data .= PHP_EOL;
+ 		$data .= ")";
  		$header_end = "net stop Apache2.4";
    		$header_end .= PHP_EOL;
    		$header_end .= "net stop MySQL";
