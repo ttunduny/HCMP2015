@@ -29,6 +29,13 @@ class Admin extends MY_Controller {
 	public function commodities_upload() {
 		
 	}
+
+	public function offline(){		
+		$data['title'] = "Offline Management";
+		$data['content_view'] = "Admin/offline_management";
+		$data['banner_text'] = "Offline Management";			
+		$this -> load -> view("shared_files/template/dashboard_v", $data);
+	}
 	public function manage_users() {
 		$permissions='super_permissions';
 		$data['title'] = "Users";
