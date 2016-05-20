@@ -135,12 +135,14 @@ function calculate_actual_stock(actual_units,pack_unit_option,user_input,target_
   var issued = 0;
   if(selector!=null){
     var checker = selector.closest("tr").find(".checker").val();
-    var unit_size = selector.closest("tr").find(".unit_size").val();
+    var unit_size = selector.closest("tr").find(".total_units").val();    
     var issue_type = selector.closest("tr").find(".commodity_unit_of_issue").val();
     var issued_qtty = selector.closest("tr").find(".quantity_issued").val();
-    if (isNaN(parseInt(unit_size))) {unit_size=1}
+    if (unit_size==0) {
+      unit_size=1
+    }
     var batch_quantity_in_units = 0;
-    var commodity_quantity_in_units = 0;
+    var commodity_quantity_in_units = 0;    
     if(checker==0){
       if (issue_type == 'Pack_Size'){
           issued = parseInt(issued_qtty)*parseInt(unit_size);
@@ -155,19 +157,20 @@ function calculate_actual_stock(actual_units,pack_unit_option,user_input,target_
         var checker = $(item).closest("tr").find(".checker").val();
         var batch_number = $(item).closest("tr").find(".batch_no").val();
         var issue_type = $(item).closest("tr").find(".commodity_unit_of_issue").val();
-        var unit_size = $(item).closest("tr").find(".unit_size").val();
+        var unit_size = $(item).closest("tr").find(".total_units").val();
         var issued_qtty = $(item).closest("tr").find(".quantity_issued").val();
         var batch_quantity_in_units = 0;
         var commodity_quantity_in_units = 0;
-        if (isNaN(parseInt(unit_size))) {unit_size=1}
+        if (unit_size==0) {
+          unit_size=1
+        }
         if(batch!=''){
           if (batch == batch_number) {
             if (checker>0) {
               if (issue_type == 'Pack_Size'){
                   batch_quantity_in_units = parseInt(issued_qtty)*parseInt(unit_size);
               }else{
-                unit_size = 1;
-                  // batch_quantity_in_units = parseInt(issued_qtty);
+                unit_size = 1;                  
                 batch_quantity_in_units = parseInt(issued_qtty)*parseInt(unit_size);
               }
             }else{

@@ -495,7 +495,7 @@ class User extends MY_Controller {
 										$data['content_view'] = "Admin/users_v";
 										$data['listing']= Users::get_user_list_all();
 										$data['counts']=Users::get_users_count();
-										$data['counties']=Counties::getAll();	
+										$data['counties']=Counties::getAll();
 										$template = 'shared_files/template/dashboard_v';
 										break;
 										case 'allocation_committee':

@@ -708,8 +708,6 @@
       				$.each(json, function( key, val ) {
       					drop_down +="<option value='"+json[key]["id"]+"'>"+json[key]["district"]+"</option>"; 
       					console.log(drop_down);
-
-
       				});
       				$("#subcounty_edit").append(drop_down);
     			});

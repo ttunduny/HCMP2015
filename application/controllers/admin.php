@@ -29,6 +29,58 @@ class Admin extends MY_Controller {
 	public function commodities_upload() {
 		
 	}
+
+	public function offline(){		
+		$data['title'] = "Offline Management";
+		$data['content_view'] = "Admin/offline_management";
+		$data['banner_text'] = "Offline Management";			
+		$this -> load -> view("shared_files/template/dashboard_v", $data);
+	}
+
+	public function upload_update() {
+		// $config['upload_path'] = 'system_updates/';
+		// $config['allowed_types'] = 'zip|rar|pdf';
+		// $config['file_name'] = $_POST['zip_upload'];		
+		// $this->load->library('upload');
+		$user_id = $this->session->userdata('user_id');
+		$this->config =  array(
+          'upload_path'     => base_url() . 'system_updates/',               
+          'allowed_types'   => "jpg|png|jpeg|pdf|doc|xml|zip",
+          'overwrite'       => TRUE,
+          'file_name'       => $_POST['zip_upload'] 
+        );
+		$this->upload->initialize($config);
+		$this->load->library('upload');
+		if($this->upload->do_upload())
+		{
+			$this->session->set_flashdata('message', 'File Upload Successful');
+		}
+		else
+		{
+			echo "<pre>"; print_r($this->upload->display_errors()); echo "</pre>"; exit;
+		   	$this->session->set_flashdata('error', 'File Upload Not Successful');
+		}
+		redirect('admin/offline');
+		// $name = $_FILES['zip_upload']['name'];
+		// // echo "<pre>";print_r($name);die;
+		// $config['upload_path'] = base_url() . 'system_updates/';
+		// $config['allowed_types'] = 'zip|rar';
+		// $config['file_name'] = $name;
+		// $this->load->library('upload', $config);
+		// $this->upload->initialize($config);
+
+		// if ($this->upload->do_upload($name))
+		// {
+		// 	// $result = $this->upload->do_upload;
+		// 	$result = array('upload_data' => $this->upload->data());
+		// 	redirect(base_url() . 'admin/offline');
+		// }
+		// else if(!$this->upload->do_upload($name))
+		// {
+		// 	echo "<pre>"; print_r($this->upload->display_errors()); echo "</pre>";
+		// }
+	}
+
 	public function manage_users() {
 		$permissions='super_permissions';
 		$data['title'] = "Users";

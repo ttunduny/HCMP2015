@@ -1,0 +1,1 @@
+<?php echo "<pre>"; print_r($facilities_offline); echo "</pre>"; exit; ?>

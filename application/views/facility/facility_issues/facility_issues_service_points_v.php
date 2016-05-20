@@ -338,6 +338,7 @@ $(".quantity_issued").on('keyup',function (){
 	        var total_issues = total_issued[1];    
 	       
 	        locator.closest("tr").find(".available_stock").val(total_stock_bal-total_issued[1]);
+	        locator.closest("tr").find(".stock_balance").val(total_stock_bal-total_issued[1]);
 	        locator.closest("tr").find(".expiry_date").val(""+new_date+"");	        		
 		    locator.closest("tr").find(".quantity_issued").val("0");
 		    locator.closest("tr").find(".balance").val(total_commodity_bal);
@@ -351,6 +352,7 @@ $(".quantity_issued").on('keyup',function (){
 		    locator.closest("tr").find(".balance").val(total_commodity_bal);
 		    // locator.closest("tr").find(".balance").val(total_commodity_bal-total_issues);
 		    locator.closest("tr").find(".available_stock").val("0");
+		    locator.closest("tr").find(".stock_balance").val("0");
 		     // locator.closest("tr").find(".total_commodity_bal").val(total_commodity_bal);
 		    locator.closest("tr").find(".quantity_issued").val("0");	
 		   }  	

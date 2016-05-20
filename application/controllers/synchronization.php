@@ -22,7 +22,7 @@ class Synchronization extends MY_Controller {
 		$update_status = $this->system_update_status();
 
 		$local_timestamp = update_model::get_latest_local_timestamp();
-		// echo "<pre>";print_r($update_status);exit();
+		 // echo "<pre>";print_r($update_status);exit();
 		// echo "<pre>";print_r($time);
 		// echo "<pre>";print_r(date('F, d Y H:i:s',strtotime($time)));exit;
 		$data['sync_data'] = $sync_data;
@@ -82,22 +82,22 @@ class Synchronization extends MY_Controller {
 	    // $fields = $this->db->field_data('dispensing_records');
 	    // echo "<pre>";print_r($fields);
 
-	    // $tables_to_be_ignored = array('commodities','commodity_division_details','facilities');//add tables to be ignored by database sync
+	    $tables_to_be_ignored = array('access_level','assignments','comments','commodities','commodity_category','commodity_division_details','commodity_source','commodity_sub_category','counties','county_drug_store_issues','county_drug_store_totals','county_drug_store_transaction_table','districts','drug_commodity_map','drug_store_issues','drug_store_totals','drug_store_transaction_table','email_listing','email_listing_new','facilities','git_log','issue_type','menu','malaria_drugs','rca_county','recepients','sub_menu','service_points','log','log_monitor','db_sync','facility_loggins','facility_rollout_status','inventory','status','sync_updates','tuberculosis_data','commodity_source_sub_category','malaria_data','update_log');//add tables to be ignored by database sync
 
-	    /*foreach ($tables_to_be_ignored as $key => $value) {
+	    foreach ($tables_to_be_ignored as $key => $value) {
 		    if(($key = array_search($value, $all_tables)) !== false) {
 		    	unset($all_tables[$key]);
 		    }
-		}*/
+		}
 	    // echo "<pre>";print_r($all_tables);
 	    $all_tables_amped = array();
 	    $all_tables_data = array();
 
 	    foreach ($all_tables as $key => $table_name) {
 			$timestamp_column = $this->get_column_by_type($table_name,'timestamp');
-	    	// echo $key."<pre>";
+	    	// echo $timestamp_column."<pre>";
 	    	$all_tables_data = array($table_name,$timestamp_column);
-
+	    	// echo "<pre>";print_r($all_tables_data);
 	    	array_push($all_tables_amped,$all_tables_data);
 			// $key['timestamp_column'] = $timestamp_column;
 	    }
@@ -205,14 +205,18 @@ class Synchronization extends MY_Controller {
 		// $zip_file_path = trim($zip_file_path);
 
 		//upload file to ftp folder on the server
-		// $transfer = $this->ftp_upload($zip_file_path,$zip_file_name);
+		$transfer = $this->ftp_upload($zip_file_path,$zip_file_name);
 		// echo $transfer;
-
+		$remote_file_ = 'http://41.89.6.209/HCMP/synchronization/insert_filename/'.$zip_file_name.'/'.$facility_code;
+		file($remote_file_);
 		$query = $this->db->query("INSERT INTO `db_sync` (`facility_code`) VALUES ('$facility_code')");
 		// echo $query;exit;
 		return $transfer;
 	}
 
+	public function insert_filename($zip_file_name,$facility_code){
+		$query = $this->db->query("INSERT INTO `ftp_uploads` (`facility_code`,`file_name`) VALUES ('$facility_code','$zip_file_name')");
+	}
 	public function days_from_last_sync()
 	{
 	    // echo date("Dd_Hms");

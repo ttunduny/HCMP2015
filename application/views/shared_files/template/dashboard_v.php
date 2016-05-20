@@ -188,7 +188,7 @@
                             <li><a style="color:#000000" href="<?php echo base_url().'admin/previous_user_logs';?>">Historical Logs</a></li>
                           </ul>
                         </li> -->
-
+                        
                         <li><a class="icon icon-user" href="<?php echo base_url().'admin/user_logs';?>">Online Users</a></li>
                         <li><a class="icon icon-user" href="<?php echo base_url().'admin/previous_user_logs';?>">Historical Logs</a></li>
                         <li><a class="icon icon-photo" href="<?php echo base_url().'admin/manage_facilities'?>">Facility Management</a></li>
@@ -198,6 +198,7 @@
                         <li><a class="icon icon-wallet" href="<?php echo base_url().'sms/new_weekly_usage'?>">System Usage</a></li>
                         <li><a class="icon icon-wallet" href="#">Counties</a></li>
                         <li><a class="icon icon-wallet" href="#">Sub-Counties</a></li>
+                        <li><a class="icon icon-user" href="<?php echo base_url().'admin/offline';?>">Offline Management</a></li>
                         <li><a class="icon icon-photo" href="<?php echo base_url().'admin/report_management'?>">Report Management</a></li>
                         <!-- <li><a class="icon icon-photo" href="<?php echo base_url().'admin/reversals'?>">Reversals</a></li> -->
                     </ul>
