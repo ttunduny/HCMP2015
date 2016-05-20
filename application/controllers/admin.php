@@ -33,52 +33,45 @@ class Admin extends MY_Controller {
 	public function offline(){		
 		$data['title'] = "Offline Management";
 		$data['content_view'] = "Admin/offline_management";
-		$data['banner_text'] = "Offline Management";			
+		$data['banner_text'] = "Offline Management";	
+		$data['system_updates'] = Update_model::get_system_files(1);	
+		$data['system_setup'] = Update_model::get_system_files(2);	
+		// echo "<pre>";print_r($data);die;	
 		$this -> load -> view("shared_files/template/dashboard_v", $data);
 	}
 
 	public function upload_update() {
-		// $config['upload_path'] = 'system_updates/';
-		// $config['allowed_types'] = 'zip|rar|pdf';
-		// $config['file_name'] = $_POST['zip_upload'];		
-		// $this->load->library('upload');
-		$user_id = $this->session->userdata('user_id');
-		$this->config =  array(
-          'upload_path'     => base_url() . 'system_updates/',               
-          'allowed_types'   => "jpg|png|jpeg|pdf|doc|xml|zip",
-          'overwrite'       => TRUE,
-          'file_name'       => $_POST['zip_upload'] 
-        );
-		$this->upload->initialize($config);
-		$this->load->library('upload');
+		// echo "<pre>";print_r($_FILES);die;
+		$file_path = 'system_updates/';
+		$zip_name =  MY_Controller::generate_filestamp(); //Generate Zip Name from My_Controller for Standardization
+
+		$config['upload_path'] = 'system_updates/';
+		$config['allowed_types'] = '*';//  
+		$config['file_name'] = $zip_name;
+
+		$this->load->library('upload');//Upload  
+		$this->upload->initialize($config);		
 		if($this->upload->do_upload())
 		{
-			$this->session->set_flashdata('message', 'File Upload Successful');
+			$this->session->set_flashdata('system_success_message', 'File Upload Successful');
 		}
 		else
 		{
 			echo "<pre>"; print_r($this->upload->display_errors()); echo "</pre>"; exit;
 		   	$this->session->set_flashdata('error', 'File Upload Not Successful');
 		}
-		redirect('admin/offline');
-		// $name = $_FILES['zip_upload']['name'];
-		// // echo "<pre>";print_r($name);die;
-		// $config['upload_path'] = base_url() . 'system_updates/';
-		// $config['allowed_types'] = 'zip|rar';
-		// $config['file_name'] = $name;
-		// $this->load->library('upload', $config);
-		// $this->upload->initialize($config);
 
-		// if ($this->upload->do_upload($name))
-		// {
-		// 	// $result = $this->upload->do_upload;
-		// 	$result = array('upload_data' => $this->upload->data());
-		// 	redirect(base_url() . 'admin/offline');
-		// }
-		// else if(!$this->upload->do_upload($name))
-		// {
-		// 	echo "<pre>"; print_r($this->upload->display_errors()); echo "</pre>";
-		// }
+		$upload_type = $this->input->post('upload_type');
+		$description = $this->input->post('description');
+		$user_id = $this -> session -> userdata('user_id');				
+		$filename = $zip_name.'.zip';
+
+		$file_data = array('file_name'=>$filename,'description'=>$description,'user_id'=>$user_id,'status'=>0,'type'=>$upload_type);
+		$this -> db -> insert('system_uploads', $file_data);
+
+
+		redirect('admin/offline');
+		
 	}
 
 	public function manage_users() {

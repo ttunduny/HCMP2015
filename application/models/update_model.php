@@ -25,4 +25,12 @@ class Update_model extends Doctrine_Record {
 		return $log_data;
 	}
 
+	public static function get_system_files($type){
+		$sql = "select su.*,  concat(u.fname,' ', u.lname) as uploader from system_uploads su, user u where su.user_id = u.id and su.type = '$type' and su.status = 0 order by su.upload_date desc";	
+		$file_data = Doctrine_Manager::getInstance()->getCurrentConnection()
+		->fetchAll("$sql");
+		
+		return $file_data;
+	}
+
 }

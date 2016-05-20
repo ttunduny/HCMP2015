@@ -42,33 +42,49 @@
 	<div class="row" style="margin-top: 1%;" >
 		<div class="col-md-12">
 			<div id="date_filter_nav">
-      <!-- <form method="POST" action="<?php // echo base_url('admin/upload_update')?>" enctype="multipart/form-data" /> -->
-      <form action="<?php echo base_url('admin/upload_update')?>" method="POST" enctype="multipart/form-data">
+      <form method="POST" action="<?php  echo base_url('admin/upload_update')?>" enctype="multipart/form-data" />    
           <label class="form-control btn btn-primary" style="width:15%;float:left;">Select Zip File: </label>
-          <input type="file" name="zip_upload" class="form-control" style="width:20%;float:left" />
-          <select name="upload_type" id="month" class="form-control" style="width:20%;float:left">
-            <option value="0">Select Upload Type</option>         
+          <input type="file" name="userfile" class="form-control" style="width:20%;float:left" required="true" />
+          <select name="upload_type" id="month" class="form-control" style="width:10%;float:left" required="true">
+            <option >Select Upload Type</option>         
             <option value="1">System Updates</option>         
             <option value="2">System Setup Files</option>         
           </select>
-          <input class="btn btn-success form-control" style="width:20%;float:left" id="upload_zip" value="Upload" type="submit" />
-       </form>
-       <!--  <form action="<?php // echo base_url('admin/upload_update')?>" method="POST" enctype="multipart/form-data" >
-          Select File To Upload:<br />
-          <input type="file" name="userfile"  />
-          
-          <input type="submit" name="submit" value="Upload" class="btn btn-success" />
-      </form> -->
-      <!-- <br/><br/><br/><br/> -->
+          <input class="form-control" style="width:40%;float:left" id="description"  name="description" type="text" placeholder="Enter a Brief Description of the File" required="true" />
+          <input class="btn btn-success form-control" style="width:10%;float:left" id="upload_zip" value="Upload" type="submit" />
+       </form> 
+    
       </div>
 			<ul class="nav nav-tabs" id="Tab">
-  <li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>System Updates</a></li>
-  <li><a href="#nli" data-toggle="tab"><span class="glyphicon glyphicon-list"></span>System Setup Files</a></li>  
+  <li class="active"><a href="#updates" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>System Updates</a></li>
+  <li><a href="#setup" data-toggle="tab"><span class="glyphicon glyphicon-list"></span>System Setup Files</a></li>  
 </ul>
 
 <div class="tab-content" style="margin-top: 5px;">
-<div class="tab-pane active" id="home">
-  	
+<div class="tab-pane active" id="updates">
+  <h5>The Following Files are the System Updates that Have been Uploaded</h5>
+  <br/>
+  <br/>
+  <table class="table table-bordered">
+    <thead>
+      <th>Date Uploaded</th>
+      <th>File Name</th>
+      <th>File Description</th>
+      <th>Uploaded By</th>
+      <th>Action</th>      
+    </thead>
+    <tbody>
+      <?php foreach ($system_updates as $data): ?>
+        <tr>
+          <td><?php echo date('d, F Y',strtotime($data['upload_date'])); ?></td>
+          <td><?php echo $data['file_name']; ?></td>
+          <td><?php echo $data['description']; ?></td>
+          <td><?php echo $data['uploader']; ?></td>
+          <td>Download</td>
+        </tr>
+      <?php endforeach ?>
+    </tbody>
+  </table>
 
 <br/><br/>
 <center>
@@ -89,10 +105,32 @@
 <br/>
   	
 </div>
-<div class="tab-pane" id="nli">  
+<div class="tab-pane" id="setup">  
+<h5>The Following Files are the System Setup Files that Have been Uploaded</h5>
+  <br/>
+  <br/>
+  <table class="table table-bordered">
+    <thead>
+      <th>Date Uploaded</th>
+      <th>File Name</th>
+      <th>File Description</th>
+      <th>Uploaded By</th>
+      <th>Action</th>      
+    </thead>
+    <tbody>
+      <?php foreach ($system_setup as $data): ?>
+        <tr>
+          <td><?php echo date('d, F Y',strtotime($data['upload_date'])); ?></td>
+          <td><?php echo $data['file_name']; ?></td>
+          <td><?php echo $data['description']; ?></td>
+          <td><?php echo $data['uploader']; ?></td>
+          <td>Download</td>
+        </tr>
+      <?php endforeach ?>
+    </tbody>
+  </table>
 
 <br/><br/>
-
 </center>
   </div>
 
@@ -114,37 +152,3 @@
 
 
 	
-<script>
-      $(document).ready(function () {
-        
-    // $('#sms_usage').dataTable({
-    //   "paging":   true,
-    //       "ordering": false,
-    //       "info":     false
-    //     }); 
-
-        $('.send_email').click(function(e){
-          e.preventDefault();
-          var url = "<?php echo base_url(); ?>sms/log_summary_weekly";
-          window.location.href = url;
-        });
-
-        $('#filter_month_year').click(function (y){
-          y.preventDefault();
-          var year = $('#year').val();
-          var month = $('#month').val();
-          var url = "<?php echo base_url(); ?>sms/new_weekly_usage/";
-          if (year!=0) {url =url+year};
-          if (month!=0) {
-            if(year!=0){
-              url =url+'/'+month;
-            }else{
-              url = url+''+'/'+month;
-            }
-          };          
-          window.location.href = url;
-
-        });
-  });
-</script>
-

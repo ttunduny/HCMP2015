@@ -99,8 +99,8 @@ $mimes = array(	'hqx'	=>	'application/mac-binhex40',
 				'xl'	=>	'application/excel',
 				'eml'	=>	'message/rfc822',
 				'json' => array('application/json', 'text/json',
-				'zip'   =>  array('application/zip', 'application/x-zip', 'application/x-zip-compressed', 'application/octet-stream', 'application/x-compress', 'application/x-compressed', 'multipart/x-zip'),
-                'rar'   => array('application/rar', 'application/x-rar', 'application/x-rar-compressed', 'application/x-compressed', 'application/octet-stream'))
+				'zip'  =>  array('application/x-zip', 'application/zip', 'application/x-zip-compressed','application/force-download','application/octet-stream'),
+				'rar'  =>  array('application/x-rar', 'application/rar','application/x-rar-compressed','application/force-download','application/octet-stream'),)
 			);
 
 
