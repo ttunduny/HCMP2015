@@ -3005,7 +3005,7 @@ public function log_summary_weekly_view(){
 		$scp_email_query = "SELECT * FROM email_listing_new WHERE county = $county_id AND usertype = 3";
 		$scp_emails = $this->db->query($scp_email_query)->result_array();
 
-		// echo "<pre>";print_r($cp_emails);exit;
+		// echo "<pre>";print_r($scp_emails);exit;
 
 		//CP
 		$cp_emails_str = '';
@@ -3023,7 +3023,7 @@ public function log_summary_weekly_view(){
 		}
 		$scp_emails_str = ltrim($scp_emails_str,',');
 
-		// echo $scp_emails_str;exit;
+		// echo $cp_emails_str;exit;
 
 		// echo "<pre>";print_r($scp_emails);exit;
 
@@ -3332,13 +3332,16 @@ public function log_summary_weekly_view(){
 		// $email_address = $listing_email_address;
 		// $email_address = "karsanrichard@gmail.com,ttunduny@gmail.com";
 		
-		$email_address = $cp_emails_str;
-		$cc_email = $scp_emails_str;
-		$bcc_email = "smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com,ronohb@gmail.com,odiwuorybrian@gmail.com,mwakiojoy@gmail.com,kevgithuka@gmail.com,margie.odora@gmail.com,kiganyastephenthua@gmail.com";
+		/*REAL EMAILS TO BE SENT TO*/
+		// $email_address = $cp_emails_str;
+		// $cc_email = $scp_emails_str;
+		// $bcc_email = "smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com,ronohb@gmail.com,odiwuorybrian@gmail.com,mwakiojoy@gmail.com,kevgithuka@gmail.com,margie.odora@gmail.com,kiganyastephenthua@gmail.com";
 		
-		// $email_address = "karsanrichard@gmail.com";
+		/*DEMO EMAILS FOR TESTING*/
+		// echo $cc_email;exit;
+		$email_address = "karsanrichard@gmail.com";
 		// $bcc_email = "";
-		// $cc_email = "";
+		$cc_email = "sethrichard40@gmail.com";
 		// $email_address = "karsanrichard@gmail.com,ttunduny@gmail.com";
         // $email_address = "ttunduny@gmail.com";
         //$bcc = "";
