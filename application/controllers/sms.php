@@ -3005,7 +3005,7 @@ public function log_summary_weekly_view(){
 		$scp_email_query = "SELECT * FROM email_listing_new WHERE county = $county_id AND usertype = 3";
 		$scp_emails = $this->db->query($scp_email_query)->result_array();
 
-		// echo "<pre>";print_r($scp_emails);exit;
+		// echo "<pre>";print_r($cp_emails);exit;
 
 		//CP
 		$cp_emails_str = '';
@@ -3023,7 +3023,7 @@ public function log_summary_weekly_view(){
 		}
 		$scp_emails_str = ltrim($scp_emails_str,',');
 
-		// echo $cp_emails_str;exit;
+		// echo $scp_emails_str;exit;
 
 		// echo "<pre>";print_r($scp_emails);exit;
 
@@ -3331,7 +3331,6 @@ public function log_summary_weekly_view(){
 		// $email_address = "smutheu@clintonhealthaccess.org,sethrichard40@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com";
 		// $email_address = $listing_email_address;
 		// $email_address = "karsanrichard@gmail.com,ttunduny@gmail.com";
-		
 		/*REAL EMAILS TO BE SENT TO*/
 		// $email_address = $cp_emails_str;
 		// $cc_email = $scp_emails_str;
@@ -3366,7 +3365,7 @@ public function log_summary_weekly_view(){
 		// $email_address = $value['email'];
 
 		$send_it = $this-> send_system_usage_specific($county_id,NULL,NULL,$email_address);
-		// echo "done";exit;
+		echo "done";exit;
    	}
 
    	// echo "Whole thing done";exit;
