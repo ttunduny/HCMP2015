@@ -35,9 +35,15 @@ class Admin extends MY_Controller {
 		$data['content_view'] = "Admin/offline_management";
 		$data['banner_text'] = "Offline Management";	
 		$data['system_updates'] = Update_model::get_system_files(1);	
-		$data['system_setup'] = Update_model::get_system_files(2);	
+		$data['system_setup'] = Update_model::get_system_files(2);
+		$data['offline_facilities']	= Facilities::get_offline_facilities(null,null);
 		// echo "<pre>";print_r($data);die;	
 		$this -> load -> view("shared_files/template/dashboard_v", $data);
+	}
+
+	public function reactivate_facility($facility_code) {
+		$reactivate = Doctrine_Manager::getInstance()->getCurrentConnection();
+		$reactivate->execute("UPDATE facilities SET using_hcmp = 1 WHERE facility_code = '$facility_code'");
 	}
 
 	public function upload_update() {
