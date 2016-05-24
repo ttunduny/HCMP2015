@@ -53,7 +53,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-10">
 					 <div class="col-md-3">
 					 	<h4>Patient Details</h4>
 					 	<label>Patient Number:</label> <input type="text" id="p_no" disabled="disabled" style="width:80%;float-left;" class="form-control"><br/>
@@ -69,7 +69,7 @@
 								<th>Drugs</th>
 								<th>Total Available Units</th>
 								<th>Unit Price</th>
-								<th>Dosage</th>
+								<!-- <th>Dosage</th> -->
 								<th>Issued Units</th>
 							</thead>
 							<tbody>
@@ -103,7 +103,7 @@
 										<input type="hidden" class="form-control row_commodity_id">
 									</td>									
 									<td><input type="number" class="form-control price" value="0" id="price" disabled="disabled"></td>
-									<td>
+									<!-- <td>
 										<select class="form-control input-small dosage">
 											<option selected="selected" value="0">Select Dosage</option>
 											<option value="1x1">1 x 1</option>
@@ -112,7 +112,7 @@
 											<option value="2x3">2 x 3</option>
 											<option value="3x3">3 x 3</option>
 										</select>
-									</td>
+									</td> -->
 									<td><input type="number" class="form-control quantity_issued" id="quantity_issued" value="0"></td>
 
  								
@@ -128,7 +128,6 @@
 								<th>Commodity</th>
 								<th>Unit Price</th>
 								<th>Units Prescribed</th>
-								<th>Dosage</th>
 								<th>Action</th>
 							</thead>
 							<tbody>
@@ -230,7 +229,7 @@ $(".search_container").on("click", "table tr", function() {
 // $('#search_results tbody').on( 'click', 'tr', function () {
    // alert('click');
 // });
-$("#find_patient").click(function() {
+$("#find_patient").on("click", function() {
 	  clear_dets();
 	  var patient_number = $('#patient_number').val();
 	  var url = "<?php echo base_url()."dispensing/get_patient_detail";?>";      
@@ -460,7 +459,7 @@ $(".prescribe").click(function(){
 			var form_price_id = 'form_price_'+current_cid;
 			var form_drug_id = 'form_drug_'+current_cid;
 			if (counter == 1) {					
-			    $('#prescribed_cart').html("<tr id="+current_cid+"><td>"+drug_name+"</td><td><input type=\"number\" value="+unit_cost+" class=\"form-control input-small price\" data-available = "+unit_cost+" disabled><input type=\"hidden\" class=\"form-control input-small "+current_cid+" value="+current_cid+" \"></td><td><input type=\"number\" value="+quantity_issued+" class=\"form-control input-small prescribed_units\" data-available = "+total_available+" disabled></td><td><input type=\"text\"  + "</td><td><button class=\"btn btn-danger remove\">Remove</button></td></tr>");
+			    $('#prescribed_cart').html("<tr id="+current_cid+"><td>"+drug_name+"</td><td><input type=\"number\" value="+unit_cost+" class=\"form-control input-small price\" data-available = "+unit_cost+" disabled><input type=\"hidden\" class=\"form-control input-small "+current_cid+" value="+current_cid+" \"></td><td><input type=\"number\" value="+quantity_issued+" class=\"form-control input-small prescribed_units\" data-available = "+total_available+" disabled></td>" + "<td><button class=\"btn btn-danger remove\">Remove</button></td></tr>");
 			    $('#dispense_form').append("<input row_id="+counter+" id="+form_comm_id+" type=\"hidden\" value="+quantity_issued+" name=\"quantity["+counter+"]\"><input type=\"hidden\" id="+form_drug_id+" value="+drug_select+" name=\"id["+counter+"]\"><input id="+form_price_id+" type=\"hidden\" value="+unit_cost+" name=\"price["+counter+"]\">");
 			    // $('#dispense_form').append("<input type=\"hidden\" value="+quantity_issued+" name=\"quantity["+counter+"]\"><input type=\"hidden\" value="+drug_select+" name=\"id["+counter+"]\"><input type=\"hidden\" value="+unit_cost+" name=\"price["+counter+"]\">");
 			}else{
