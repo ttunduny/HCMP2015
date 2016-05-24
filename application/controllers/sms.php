@@ -3036,6 +3036,10 @@ public function send_system_usage_specific($county_id = NULL,$district_id = NULL
 	// echo $county_name.' '.$district_name;
 	// echo $excel_title;exit;
 
+	$time=date('M , d Y');
+	$time_file= $time.'_'.date('h').'_'.date('i').'_'.date('s');
+	// echo "$time_file";die;
+
 	$active_facilities = Facilities::getAll_($county_id,$district_id);
 	// echo "<pre>";print_r($active_facilities);echo "</pre>";exit;
 	$last_seen = Facilities::get_facility_data_specific(NULL,$county_id,$district_id,$facility_code,'all');
@@ -3046,9 +3050,7 @@ public function send_system_usage_specific($county_id = NULL,$district_id = NULL
 	$added_stock = Facilities::get_facility_data_specific('last_added_stock',$county_id,$district_id,$facility_code,'all');
 	// $all_faciliteis = Facilities::getAll_();
 
-	// echo "<pre>";print_r($active_facilities);echo "</pre>";exit;
-	$facility_count = (empty($active_facilities))? NULL : count($active_facilities);
-
+	// echo "<pre>";print_r($all_faciliteis);echo "</pre>";exit;
 	$final_array = array();
 	$last_seen_count = count($last_seen);
 	$last_issued_count = count($last_issued);
@@ -3057,8 +3059,22 @@ public function send_system_usage_specific($county_id = NULL,$district_id = NULL
 	$redistributed_count = count($redistributed);
 	$added_stock_count = count($added_stock);
 
+	$facilities_active = count($active_facilities); 
+	// echo "<pre>"; var_dump($facilities_active); echo "</pre>";  exit;
 
+	$not_logged_on = Facilities::get_facilities_not_logged_in_count();
+	$facilities_never_logged_on = $not_logged_on['not_logged_in'];
+    // echo "<pre>"; print_r($facilities_never_logged_on); echo "</pre>";  exit;
 
+	// $facilities_never_issued = count();
+	$not_logged_in_two_wks = Facilities::facilities_not_logged_in_two_weeks();
+	$facilities_not_logged_in_two_weeks = $not_logged_in_two_wks['last_two_weeks'];
+	// echo "<pre>"; print_r($facilities_not_logged_in_two_weeks); echo "</pre>"; exit;
+
+	$not_logged_in_one_month = Facilities::facilities_not_logged_in_one_month();
+	$facilities_not_logged_in_one_month = $not_logged_in_one_month['last_one_month'];
+	// echo "<pre>"; print_r($facilities_not_logged_in_one_month); echo "</pre>"; exit;
+	// $facilities_not_logged_in_more_than_a_month = count();
 
 	foreach ($active_facilities as $a_c) { 
 		$final_array[] = array(
@@ -3200,46 +3216,44 @@ public function send_system_usage_specific($county_id = NULL,$district_id = NULL
 	$row_data = array();
 	$counterrrr = 0;
 	foreach ($final_array as $facility) :
-		// echo "<pre>". $counterrrr . "</pre>";
-	// $counterrrr = $counterrrr + 1;
+			// echo "<pre>". $counterrrr . "</pre>";
+		// $counterrrr = $counterrrr + 1;
 		//random code to allow for commit
 		$issue_date = (isset($facility['Date Last Issued'])) ? date('Y-m-d', strtotime($facility['Date Last Issued'])) : "No Data Available";
-	$last_seen = (isset($facility['Date Last Seen'])) ? date('Y-m-d', strtotime($facility['Date Last Seen'])) : "No Data Available";
-	$redistribution = (isset($facility['Date Last Redistributed'])) ? date('Y-m-d', strtotime($facility['Date Last Redistributed'])) : "No Data Available";
-	$order_date = (isset($facility['Date Last Ordered'])) ? date('Y-m-d', strtotime($facility['Date Last Ordered'])) : "No Data Available";
-	$decommission_date = (isset($facility['Date Last Decommissioned'])) ? date('Y-m-d', strtotime($facility['Date Last Decommissioned'])) : "No Data Available";
-	$date_order = (isset($facility['Date Last Received Order'])) ? date('Y-m-d', strtotime($facility['Date Last Received Order'])) : "No Data Available";
+		$last_seen = (isset($facility['Date Last Seen'])) ? date('Y-m-d', strtotime($facility['Date Last Seen'])) : "No Data Available";
+		$redistribution = (isset($facility['Date Last Redistributed'])) ? date('Y-m-d', strtotime($facility['Date Last Redistributed'])) : "No Data Available";
+		$order_date = (isset($facility['Date Last Ordered'])) ? date('Y-m-d', strtotime($facility['Date Last Ordered'])) : "No Data Available";
+		$decommission_date = (isset($facility['Date Last Decommissioned'])) ? date('Y-m-d', strtotime($facility['Date Last Decommissioned'])) : "No Data Available";
+		$date_order = (isset($facility['Date Last Received Order'])) ? date('Y-m-d', strtotime($facility['Date Last Received Order'])) : "No Data Available";
 
-	$days_from_last_seen = isset($facility['Days From Last Seen'])?$facility['Days From Last Seen']:'    -    ';
-	$days_from_last_issued = isset($facility['Days From Last Issue'])?$facility['Days From Last Issue']:'  -    ';
-	$days_from_last_redist = isset($facility['Days From Last Redistributed'])?$facility['Days From Last Redistributed']:'    -    ';
-	$days_from_last_ordered = isset($facility['Days From Last Order'])?$facility['Days From Last Order']:'    -  ';
-	$decomissioned_days = isset($facility['Days From Last Decommissioned'])?$facility['Days From Last Decommissioned']:'    -    ';
-	$days_from_last_recieved = isset($facility['Days From Last Received Order'])?$facility['Days From Last Received Order']:'    -    ';
+		$days_from_last_seen = isset($facility['Days From Last Seen'])?$facility['Days From Last Seen']:'    -    ';
+		$days_from_last_issued = isset($facility['Days From Last Issue'])?$facility['Days From Last Issue']:'  -    ';
+		$days_from_last_redist = isset($facility['Days From Last Redistributed'])?$facility['Days From Last Redistributed']:'    -    ';
+		$days_from_last_ordered = isset($facility['Days From Last Order'])?$facility['Days From Last Order']:'    -  ';
+		$decomissioned_days = isset($facility['Days From Last Decommissioned'])?$facility['Days From Last Decommissioned']:'    -    ';
+		$days_from_last_recieved = isset($facility['Days From Last Received Order'])?$facility['Days From Last Received Order']:'    -    ';
 
-	array_push($row_data, array($facility['Facility Name'], 
-		$facility['Facility Code'], 
-		$facility['Sub-County'],
-		$facility['County'], 
-		$last_seen, 
-		$days_from_last_seen, 
-		$issue_date, 
-		$days_from_last_issued, 
-		$redistribution, 
-		$days_from_last_redist, 
-		$order_date, 
-		$days_from_last_ordered, 
-		$decommission_date, 
-		$decomissioned_days, 
-		$date_order, 
-		$days_from_last_recieved));
-
+		array_push($row_data, array($facility['Facility Name'], 
+			$facility['Facility Code'], 
+			$facility['Sub-County'],
+			$facility['County'], 
+			$last_seen, 
+			$days_from_last_seen, 
+			$issue_date, 
+			$days_from_last_issued, 
+			$redistribution, 
+			$days_from_last_redist, 
+			$order_date, 
+			$days_from_last_ordered, 
+			$decommission_date, 
+			$decomissioned_days, 
+			$date_order, 
+			$days_from_last_recieved));
 
 	endforeach;
-
 	$excel_data = array();
 		// $excel_data = array('doc_creator' => 'HCMP ', 'doc_title' => 'System Usage Breakdown ', 'file_name' => 'system usage breakdown');
-	$excel_data = array('doc_creator' => 'HCMP-Kenya', 'doc_title' => $excel_title, 'file_name' => 'HCMP_Facility_Activity_Log_Summary_as_at_'.$time);
+	$excel_data = array('doc_creator' => 'HCMP-Kenya', 'doc_title' => 'HCMP_Facility_Activity_Log_Summary ', 'file_name' => 'HCMP_Facility_Activity_Log_Summary_as_at_'.$time_file);
 	$column_data = array(
 		"Facility Name", 
 		"Facility Code", 
@@ -3267,66 +3281,72 @@ public function send_system_usage_specific($county_id = NULL,$district_id = NULL
 	
 	$message ='';	
 	$message.="<style> table {
-			border-collapse: collapse; 
-		}td,th{
-			padding: 12px;
-			text-align:center;
-		}
+		border-collapse: collapse; 
+	}td,th{
+		padding: 12px;
+		text-align:center;
+	}
 
-		*{margin:0;padding:0}*{font-family:'Helvetica Neue',Helvetica,Helvetica,Arial,sans-serif}img{max-width:100%}.collapse{padding:0}body{-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:none;width:100%!important;height:100%}a{color:#2BA6CB}.btn{text-decoration:none;color:#FFF;background-color:#666;padding:10px 16px;font-weight:700;margin-right:10px;text-align:center;cursor:pointer;display:inline-block}p.callout{padding:15px;background-color:#ECF8FF;margin-bottom:15px}.callout a{font-weight:700;color:#2BA6CB}table.social{background-color:#ebebeb}.social .soc-btn{padding:3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color:#FFF;font-weight:700;display:block;text-align:center}a.fb{background-color:#3B5998!important}a.tw{background-color:#1daced!important}a.gp{background-color:#DB4A39!important}a.ms{background-color:#000!important}.sidebar .soc-btn{display:block;width:100%}table.head-wrap{width:100%}.header.container table td.logo{padding:15px}.header.container table td.label{padding:15px 15px 15px 0}table.body-wrap{width:100%}table.footer-wrap{width:100%;clear:both!important}.footer-wrap .container td.content p{border-top:1px solid #d7d7d7;padding-top:15px;font-size:9px;font-weight:500}h1,h2,h3,h4,h5,h6{font-family:HelveticaNeue-Light,'Helvetica Neue Light','Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif;line-height:1.1;margin-bottom:15px;color:#000}h1 small,h2 small,h3 small,h4 small,h5 small,h6 small{font-size:60%;color:#6f6f6f;line-height:0;text-transform:none}h1{font-weight:200;font-size:44px}h2{font-weight:200;font-size:37px}h3{font-weight:500;font-size:27px}h4{font-weight:500;font-size:23px}h5{font-weight:900;font-size:17px}h6{font-weight:900;font-size:14px;text-transform:uppercase;color:#444}.collapse{margin:0!important}p,ul{margin-bottom:10px;font-weight:400;font-size:14px;line-height:1.6}p.lead{font-size:17px}p.last{margin-bottom:0}ul li{margin-left:5px;list-style-position:inside}ul.sidebar{background:#ebebeb;display:block;list-style-type:none}ul.sidebar li{display:block;margin:0}ul.sidebar li a{text-decoration:none;color:#666;padding:10px 16px;cursor:pointer;border-bottom:1px solid #777;border-top:1px solid #FFF;display:block;margin:0}ul.sidebar li a.last{border-bottom-width:0}ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.sidebar li a h5,ul.sidebar li a h6,ul.sidebar li a p{margin-bottom:0!important}.container{display:block!important;max-width:100%!important;margin:0 auto!important;clear:both!important}.content{padding:15px;max-width:80%px;margin:0 auto;display:block}.content table{width:100%}.column{width:300px;float:left}.column tr td{padding:15px}.column-wrap{padding:0!important;margin:0 auto;max-width:600px!important}.column table{width:100%}.social .column{width:280px;min-width:279px;float:left}.clear{display:block;clear:both}@media only screen and (max-width:600px){a[class=btn]{display:block!important;margin-bottom:10px!important;background-image:none!important;margin-right:0!important}div[class=column]{width:auto!important;float:none!important}table.social div[class=column]{width:auto!important}}</style>";
+	*{margin:0;padding:0}*{font-family:'Helvetica Neue',Helvetica,Helvetica,Arial,sans-serif}img{max-width:100%}.collapse{padding:0}body{-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:none;width:100%!important;height:100%}a{color:#2BA6CB}.btn{text-decoration:none;color:#FFF;background-color:#666;padding:10px 16px;font-weight:700;margin-right:10px;text-align:center;cursor:pointer;display:inline-block}p.callout{padding:15px;background-color:#ECF8FF;margin-bottom:15px}.callout a{font-weight:700;color:#2BA6CB}table.social{background-color:#ebebeb}.social .soc-btn{padding:3px 7px;font-size:12px;margin-bottom:10px;text-decoration:none;color:#FFF;font-weight:700;display:block;text-align:center}a.fb{background-color:#3B5998!important}a.tw{background-color:#1daced!important}a.gp{background-color:#DB4A39!important}a.ms{background-color:#000!important}.sidebar .soc-btn{display:block;width:100%}table.head-wrap{width:100%}.header.container table td.logo{padding:15px}.header.container table td.label{padding:15px 15px 15px 0}table.body-wrap{width:100%}table.footer-wrap{width:100%;clear:both!important}.footer-wrap .container td.content p{border-top:1px solid #d7d7d7;padding-top:15px;font-size:9px;font-weight:500}h1,h2,h3,h4,h5,h6{font-family:HelveticaNeue-Light,'Helvetica Neue Light','Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif;line-height:1.1;margin-bottom:15px;color:#000}h1 small,h2 small,h3 small,h4 small,h5 small,h6 small{font-size:60%;color:#6f6f6f;line-height:0;text-transform:none}h1{font-weight:200;font-size:44px}h2{font-weight:200;font-size:37px}h3{font-weight:500;font-size:27px}h4{font-weight:500;font-size:23px}h5{font-weight:900;font-size:17px}h6{font-weight:900;font-size:14px;text-transform:uppercase;color:#444}.collapse{margin:0!important}p,ul{margin-bottom:10px;font-weight:400;font-size:14px;line-height:1.6}p.lead{font-size:17px}p.last{margin-bottom:0}ul li{margin-left:5px;list-style-position:inside}ul.sidebar{background:#ebebeb;display:block;list-style-type:none}ul.sidebar li{display:block;margin:0}ul.sidebar li a{text-decoration:none;color:#666;padding:10px 16px;cursor:pointer;border-bottom:1px solid #777;border-top:1px solid #FFF;display:block;margin:0}ul.sidebar li a.last{border-bottom-width:0}ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.sidebar li a h5,ul.sidebar li a h6,ul.sidebar li a p{margin-bottom:0!important}.container{display:block!important;max-width:100%!important;margin:0 auto!important;clear:both!important}.content{padding:15px;max-width:80%px;margin:0 auto;display:block}.content table{width:100%}.column{width:300px;float:left}.column tr td{padding:15px}.column-wrap{padding:0!important;margin:0 auto;max-width:600px!important}.column table{width:100%}.social .column{width:280px;min-width:279px;float:left}.clear{display:block;clear:both}@media only screen and (max-width:600px){a[class=btn]{display:block!important;margin-bottom:10px!important;background-image:none!important;margin-right:0!important}div[class=column]{width:auto!important;float:none!important}table.social div[class=column]{width:auto!important}}</style>";
 	$message .='
-		<tr>
-			<td colspan="12">
-			</tr>
-		</tbody>
-		</table>'; 
-	$message.="<!-- BODY -->
-		<table class='body-wrap'>
-			<tr>
-				<td></td>
-				<td class='container' bgcolor='#FFFFFF'>
+	<tr>
+		<td colspan="12">
+		</tr>
+	</tbody>
+</table>'; 
+$message.="<!-- BODY -->
+<table class='body-wrap'>
+	<tr>
+		<td></td>
+		<td class='container' bgcolor='#FFFFFF'>
 
-					<div class='content'>
-						<table>
-							<tr>
-								<td>
+			<div class='content'>
+				<table>
+					<tr>
+						<td>
 
-									<p class='lead'>Find attached a summary of Facility Activity Log, as at $time</p>
+							<p class='lead'>Find attached a summary of Facility Activity Log, as at $time</p>
+							<br/>
+							<h2>Utilization Summary</h2>
+							<br/>
+							<p># of Active Facilities: $facilities_active </p>
+							<p># of Facilities that have never logged On: $facilities_never_logged_on</p>
+							<p># of Facilities that have not logged in for the past 2 weeks: $facilities_not_logged_in_two_weeks</p>
+							<p># of Facilities that have not logged logged in for the past 1 month: $facilities_not_logged_in_one_month</p>
+							<table class='social' width='100%'>
+								<tr>
+									<td>
 
-									<table class='social' width='100%'>
-										<tr>
-											<td>
+										<!-- column 1 -->
+										<table align='left' class='column'>
 
-												<!-- column 1 -->
-												<table align='left' class='column'>
+										</table><!-- /column 1 -->	
 
-												</table><!-- /column 1 -->	
+										<!-- column 2 -->
+										<table align='left' class='column'>
+											<tr>
 
-												<!-- column 2 -->
-												<table align='left' class='column'>
-													<tr>
+											</tr>
+										</table><!-- /column 2 -->
 
-													</tr>
-												</table><!-- /column 2 -->
+										<span class='clear'></span>	
 
-												<span class='clear'></span>	
+									</td>
+								</tr>
+							</table><!-- /social & contact -->
 
-											</td>
-										</tr>
-									</table><!-- /social & contact -->
+						</td>
+					</tr>
+				</table>
+			</div><!-- /content -->
 
-								</td>
-							</tr>
-						</table>
-					</div><!-- /content -->
+		</td>
+		<td></td>
+	</tr>
+</table><!-- /BODY -->";	
 
-				</td>
-				<td></td>
-			</tr>
-		</table><!-- /BODY -->";	
-
-	$handler = "./print_docs/excel/excel_files/" . $excel_data['file_name'] . ".xls";
-	// $subject = $excel_title." as at ".$time;
+$handler = "./print_docs/excel/excel_files/" . $excel_data['file_name'] . ".xls";
+$subject = "System Usage as at ".$time;
 
 	// $email_address = "smutheu@clintonhealthaccess.org,sethrichard40@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com";
 	// $email_address = $listing_email_address;
