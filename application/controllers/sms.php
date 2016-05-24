@@ -3062,6 +3062,8 @@ public function send_system_usage_specific($county_id = NULL,$district_id = NULL
 	$facilities_active = count($active_facilities); 
 	// echo "<pre>"; var_dump($facilities_active); echo "</pre>";  exit;
 
+	$facility_count = (empty($active_facilities))? NULL : count($active_facilities);
+	
 	$not_logged_on = Facilities::get_facilities_not_logged_in_count();
 	$facilities_never_logged_on = $not_logged_on['not_logged_in'];
     // echo "<pre>"; print_r($facilities_never_logged_on); echo "</pre>";  exit;
