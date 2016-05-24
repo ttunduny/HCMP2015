@@ -3361,7 +3361,7 @@ public function send_system_usage_specific($county_id = NULL,$district_id = NULL
 	// redirect('sms/new_weekly_usage');
 }
 
-public function send_sytem_usage()
+public function send_system_usage()
 {
 	$listing = $this->db->query("SELECT county FROM email_listing_new WHERE usertype = 10 GROUP BY county")->result_array();
 
