@@ -71,7 +71,9 @@ class Admin extends MY_Controller {
 		$filename = $zip_name.'.zip';
 
 		$file_data = array('file_name'=>$filename,'description'=>$description,'user_id'=>$user_id,'status'=>0,'type'=>$upload_type);
+		$file_data_old = array('update_name'=>$filename);
 		$this -> db -> insert('system_uploads', $file_data);
+		$this -> db -> insert('update_log', $file_data_old);
 
 
 		redirect('admin/offline');
