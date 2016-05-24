@@ -58,7 +58,7 @@
 			<ul class="nav nav-tabs" id="Tab">
   <li class="active"><a href="#updates" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>System Updates</a></li>
   <li><a href="#setup" data-toggle="tab"><span class="glyphicon glyphicon-list"></span>System Setup Files</a></li>  
-  <li><a href="#reactivate_download" data-toggle="tab" ><span class="glyphicon glyphicon-cog"></span>Reactivate Downloads</a></li>
+  <li><a href="#reactivate_download" data-toggle="tab" ><span class="glyphicon glyphicon-cog"></span>Reactivate Facility Download</a></li>
 </ul>
 
 <div class="tab-content" style="margin-top: 5px;">
