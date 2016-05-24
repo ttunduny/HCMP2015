@@ -58,6 +58,7 @@
 			<ul class="nav nav-tabs" id="Tab">
   <li class="active"><a href="#updates" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>System Updates</a></li>
   <li><a href="#setup" data-toggle="tab"><span class="glyphicon glyphicon-list"></span>System Setup Files</a></li>  
+  <li><a href="#reactivate_download" data-toggle="tab" ><span class="glyphicon glyphicon-cog"></span>Reactivate Downloads</a></li>
 </ul>
 
 <div class="tab-content" style="margin-top: 5px;">
@@ -133,6 +134,40 @@
 <br/><br/>
 </center>
   </div>
+  <div class="tab-pane" id="reactivate_download">
+    <h4>Facilities Offline</h4>
+<table id="fac_off" class="table table-hover table-bordered table-update col-md-10">
+  <thead>
+    <tr>
+      <th ><b>Facility Name</b></th>
+      <th ><b>Facility Code</b></th>
+      <th ><b>Sub-County</b></th>
+      <th ><b>County</b></th>
+      <th><b>Action</b></th>
+    </tr> 
+  </thead>
+  <tbody>
+    <?php 
+      $row_data = $offline_facilities;      
+      $count = count($row_data);
+      foreach ($row_data as $key => $value) {
+        $facility_name = $value['facility_name'];
+        $facility_code = $value['facility_code'];
+        $sub_county = $value['district'];
+        $county = $value['county']; ?>
+        <tr>
+          <td><?php echo $facility_name;?></td>
+          <td><?php echo $facility_code;?></td>
+          <td><?php echo $sub_county;?></td>
+          <td><?php echo $county;?></td>
+          <td><button class="btn btn-success pull-left reactivate" value="<?php echo $facility_code; ?>">Reactivate</button></td>
+        </tr>
+      <?php }
+     
+    ?>
+  </tbody>
+  </table>
+  </div>
 
   <!-- <div class="tab-pane" id="profile">
     <?php 
@@ -147,7 +182,29 @@
 	
 	
 </div>
-
+<script type="text/javascript">
+  $(document).ready(function() {
+      $(".reactivate").on("click", function() {
+        var facility_code = $(this).val();
+        var url = "<?php echo base_url('admin/reactivate_facility/') ?>";
+        url += "/" + facility_code;
+        $.ajax({
+          type:"POST",
+          url: url,
+          success: function(msg) {
+            var ok = alert("Facility Reactivated");
+            location.reload();
+            console.log(msg);
+          },
+          error: function(msg) {
+            var notOk = alert("Facility Not Reactivated");
+            console.log(msg);
+          }
+        });
+        // console.log(url);
+      });
+  });
+</script>
 
 
 
