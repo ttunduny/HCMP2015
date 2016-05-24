@@ -47,11 +47,15 @@ class Admin extends MY_Controller {
 	}
 
 	public function upload_update() {
-		// echo "<pre>";print_r($_FILES);die;
-		$file_path = 'system_updates/';
+		$upload_type = $this->input->post('upload_type');
+
+		$upload_path = ($upload_type=='1') ? 'system_updates/' :'system_setups/' ;
+		$file_path = $upload_path;
+		// $file_path = 'system_updates/';
 		$zip_name =  MY_Controller::generate_filestamp(); //Generate Zip Name from My_Controller for Standardization
 
-		$config['upload_path'] = 'system_updates/';
+		// $config['upload_path'] = 'system_updates/';
+		$config['upload_path'] = $upload_path;
 		$config['allowed_types'] = '*';//  
 		$config['file_name'] = $zip_name;
 
@@ -67,13 +71,15 @@ class Admin extends MY_Controller {
 		   	$this->session->set_flashdata('error', 'File Upload Not Successful');
 		}
 
-		$upload_type = $this->input->post('upload_type');
+		
 		$description = $this->input->post('description');
 		$user_id = $this -> session -> userdata('user_id');				
 		$filename = $zip_name.'.zip';
 
 		$file_data = array('file_name'=>$filename,'description'=>$description,'user_id'=>$user_id,'status'=>0,'type'=>$upload_type);
+		$file_data_old = array('update_name'=>$filename);
 		$this -> db -> insert('system_uploads', $file_data);
+		$this -> db -> insert('update_log', $file_data_old);
 
 
 		redirect('admin/offline');
