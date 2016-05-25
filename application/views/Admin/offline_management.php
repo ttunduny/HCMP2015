@@ -160,7 +160,7 @@
           <td><?php echo $facility_code;?></td>
           <td><?php echo $sub_county;?></td>
           <td><?php echo $county;?></td>
-          <td><button class="btn btn-success pull-left reactivate" value="<?php echo $facility_code; ?>">Reactivate</button></td>
+          <td><button class="btn btn-success pull-left reactivate" style="border-radius:0px; width:40%;" value="<?php echo $facility_code; ?>">Reactivate</button></td>
         </tr>
       <?php }
      
@@ -184,23 +184,37 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function() {
-      $(".reactivate").on("click", function() {
+      // $(".reactivate").on("click", function() {
+     $('.reactivate').button().click(function() {
         var facility_code = $(this).val();
-        var url = "<?php echo base_url('admin/reactivate_facility/') ?>";
-        url += "/" + facility_code;
-        $.ajax({
-          type:"POST",
-          url: url,
-          success: function(msg) {
-            var ok = alert("Facility Reactivated");
-            location.reload();
-            console.log(msg);
-          },
-          error: function(msg) {
-            var notOk = alert("Facility Not Reactivated");
-            console.log(msg);
-          }
-        });
+        swal({   
+          title: "Confirm",
+          text: "Are you sure you want to reactivate Facility " + facility_code + "?",
+          type: "warning",   showCancelButton: true,   confirmButtonColor: "#4cae4c",
+          confirmButtonText: "Yes, complete!", closeOnConfirm: false },
+        function(){
+         swal({   title: "Success!",   text: "Facility Reactivated",   timer: 2000 , type: "success" });
+         setTimeout(function () {
+            var url = "<?php echo base_url('admin/reactivate_facility/') ?>";
+            url += "/" + facility_code;
+            $.ajax({
+              type:"POST",
+              url: url,
+              success: function(msg) {
+                // var ok = alert("Facility Reactivated");
+                location.reload();
+                console.log(msg);
+              },
+              error: function(msg) {
+                // var notOk = alert("Facility Not Reactivated");
+                console.log(msg);
+              }
+            });
+        }, 3000);
+     
+      });
+    
+        
         // console.log(url);
       });
   });
