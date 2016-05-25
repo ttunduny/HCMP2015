@@ -77,8 +77,8 @@
     <tbody>
       <?php foreach ($system_updates as $data): ?>
         <tr>
-          <td><?php echo date('d, F Y',strtotime($data['upload_date'])); ?></td>
-          <td><?php echo $data['file_name']; ?></td>
+          <td><?php echo date('d, F Y',strtotime($data['added_on'])); ?></td>
+          <td><?php echo $data['update_name']; ?></td>
           <td><?php echo $data['description']; ?></td>
           <td><?php echo $data['uploader']; ?></td>
           <td>Download</td>
@@ -121,8 +121,8 @@
     <tbody>
       <?php foreach ($system_setup as $data): ?>
         <tr>
-          <td><?php echo date('d, F Y',strtotime($data['upload_date'])); ?></td>
-          <td><?php echo $data['file_name']; ?></td>
+          <td><?php echo date('d, F Y',strtotime($data['added_on'])); ?></td>
+          <td><?php echo $data['update_name']; ?></td>
           <td><?php echo $data['description']; ?></td>
           <td><?php echo $data['uploader']; ?></td>
           <td>Download</td>
