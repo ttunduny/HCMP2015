@@ -436,6 +436,19 @@ class User extends MY_Controller {
 									echo true;
 
 								}
+								public function new_create_user($reset_user = NULL,$password_reset = NULL){
+									$permissions='super_permissions';									
+									$data['content_view'] = "Admin/users_v";
+									$data['listing']= Users::get_user_list_all();
+									// $data['counts']=Users::get_users_count();
+									$data['counties']=Counties::getAll();
+									$template = 'shared_files/template/dashboard_v';
+									$data['title'] = "User Management";
+									$data['user_types']=Access_level::get_access_levels($permissions);	
+									$data['banner_text'] = "User Management";									
+									$data['current_user_id'] = $this-> session -> userdata('user_id');
+									$this -> load -> view($template, $data);
+								}
 								public function user_create($reset_user = NULL,$password_reset = NULL) {
 									if (isset($password_reset) && $password_reset == 1) {
 										$data['reset_user_id'] = isset($reset_user)?$reset_user:NULL;
@@ -490,13 +503,14 @@ class User extends MY_Controller {
 										$template = 'shared_files/template/template';
 										break;
 										case 'super_admin':
-										$permissions='super_permissions';
-										$data['title'] = "Users";
-										$data['content_view'] = "Admin/users_v";
-										$data['listing']= Users::get_user_list_all();
-										$data['counts']=Users::get_users_count();
-										$data['counties']=Counties::getAll();
-										$template = 'shared_files/template/dashboard_v';
+										redirect('user/new_create_user');
+										// $permissions='super_permissions';
+										// $data['title'] = "Users";
+										// $data['content_view'] = "Admin/users_v";
+										// $data['listing']= Users::get_user_list_all();
+										// $data['counts']=Users::get_users_count();
+										// $data['counties']=Counties::getAll();
+										// $template = 'shared_files/template/dashboard_v';
 										break;
 										case 'allocation_committee':
 										$data['listing']= Users::get_user_list($user_type_id);	

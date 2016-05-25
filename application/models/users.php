@@ -235,8 +235,8 @@ class Users extends Doctrine_Record {
 		return $query;
 	}
 	
-	public static function get_user_list_all() {
-
+	public static function get_user_list_all($limit = null) {
+		$limit = (isset($limit)) ? "LIMIT 0,$limit" : '' ;
 		$query = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("
 				SELECT 
     u.id as user_id,
@@ -268,7 +268,7 @@ FROM
         LEFT JOIN
     facilities f ON u.facility = f.facility_code
         LEFT JOIN
-    access_level a ON a.id = u.usertype_id 
+    access_level a ON a.id = u.usertype_id  $limit
 				");
 		return $query;
 	}
