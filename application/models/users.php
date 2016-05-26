@@ -146,7 +146,11 @@ class Users extends Doctrine_Record {
 		$update = Doctrine_Manager::getInstance() -> getCurrentConnection();
 		$update -> execute("UPDATE user SET password='$value',status=1  WHERE id='$user_id' ; ");
 	}
-
+	public function hash_password($value){
+		$salt = '#*seCrEt!@-*%';
+		$hashed_password = md5($salt . $value);
+		return $hashed_password;
+	}
 	public static function reset_password_multiple($facility_code, $new_password_confirm) {
 
 		//echo $user_id;

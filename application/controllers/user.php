@@ -32,7 +32,39 @@ class User extends MY_Controller {
 		return $this -> form_validation -> run();
 
 	}
-
+	public function default_facility_users() {
+		$q = "SELECT
+			    DISTINCT(f.facility_code) AS 'facility_code',
+			    f.district  AS 'district_id',
+			    c.id AS 'county_id'
+			FROM
+			    facilities f JOIN 
+			    districts d JOIN counties c ON
+			    f.district = d.id AND 
+			    d.county = c.id;";
+		$facility_data = $this -> db -> query($q)->result_array();
+		$user = new Users();		
+		foreach($facility_data as $facility) {
+			$fname = "Facility";
+			$lname = "Default";
+			$email = $facility['facility_code']. "@hcmp.com";
+				$username = $facility['facility_code']. "@hcmp.com";
+				$password = $user->hash_password("12345678");
+				$activation = $user->hash_password("12345678");
+				$usertype_id = 2;
+				$telephone = "N/A";
+				$county = $facility['county_id'];
+				$district_id = $facility['district_id'];
+				$facility_code = $facility['facility_code'];
+				$partner = 0;
+				$status = 1;
+				$email_receive = 0;
+				$sms_receive = 0;
+				$insert_default_user = Doctrine_Manager::getInstance()->getCurrentConnection();
+				$insert_query = "INSERT INTO user (fname, lname, email, username, password, activation, usertype_id, telephone, county_id, district, facility, partner, status, email_recieve, sms_recieve) VALUES ('$fname', '$lname', '$email', '$username', '$password', '$activation', $usertype_id, '$telephone', $county, '$district_id', '$facility_code', '$partner', $status, $email_receive, $sms_receive)";				
+				$insert_default_user->execute($insert_query);
+			}
+	}
 	public function login_submit() {
 
 		$user = new Users();
@@ -491,21 +523,25 @@ class User extends MY_Controller {
 										break;
 										case 'facility_admin':
 										$permissions='facilityadmin_permissions';
+										$data['counties']=Counties::getAll();
 										$data['listing']= Users::get_user_list_facility($facility);		
 										$template = 'shared_files/template/template';
 										break;
 										case 'district':
 										$permissions='district_permissions';
+										$data['counties']=Counties::getAll();
 										$data['listing']= Users::get_user_list_district($district);
 										$data['facilities']=Facilities::getFacilities($district);
 										$data['counts']=Users::get_users_district($district);
 										$template = 'shared_files/template/template';
 										break;
 										case 'moh_user':
+										$data['counties']=Counties::getAll();
 										$data['listing']= Users::get_user_list($user_type_id);	
 										$template = 'shared_files/template/dashboard_template_v';
 										break;
 										case 'district_tech':
+										$data['counties']=Counties::getAll();
 										$data['listing']= Users::get_user_list($user_type_id);	
 										$template = 'shared_files/template/template';
 										break;
