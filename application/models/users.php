@@ -235,8 +235,9 @@ class Users extends Doctrine_Record {
 		return $query;
 	}
 	
-	public static function get_user_list_all() {
-
+	public static function get_user_list_all($limit = null,$type=null) {
+		$limit = (isset($limit)) ? "LIMIT 0,$limit" : '' ;
+		$type = (isset($type)) ? "WHERE u.status = $type" : '' ;
 		$query = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("
 				SELECT 
     u.id as user_id,
@@ -268,7 +269,7 @@ FROM
         LEFT JOIN
     facilities f ON u.facility = f.facility_code
         LEFT JOIN
-    access_level a ON a.id = u.usertype_id 
+    access_level a ON a.id = u.usertype_id $type $limit
 				");
 		return $query;
 	}
@@ -486,6 +487,12 @@ public static function get_county_details($county_id){
 		//echo "UPDATE facilities SET $stmt ,date_of_activation = ".date("Y-m-d")." WHERE facility_code = '$facility_code' ";exit;
 		$update = Doctrine_Manager::getInstance() -> getCurrentConnection();
 		$update -> execute("UPDATE facilities SET $stmt ,date_of_activation = CURDATE() WHERE facility_code = '$facility_code' ");
+		
+		echo $update;
+	}
+	public static function deactivate_user($user_id,$status){		
+		$update = Doctrine_Manager::getInstance() -> getCurrentConnection();
+		$update -> execute("UPDATE user SET status = '$status' ,updated_at = CURDATE() WHERE id = '$user_id' ");
 		
 		echo $update;
 	}

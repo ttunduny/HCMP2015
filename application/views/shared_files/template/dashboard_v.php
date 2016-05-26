@@ -21,6 +21,7 @@
   <link href="<?php echo base_url().'assets/boot-strap3/css/bootstrap.min.css'?>" type="text/css" rel="stylesheet"/>
   <link href="<?php echo base_url().'assets/boot-strap3/css/bootstrap-responsive.css'?>" type="text/css" rel="stylesheet"/>
   <link href="<?php echo base_url().'assets/css/font-awesome.min.css'?>" type="text/css" rel="stylesheet"/>
+  <link rel="stylesheet" href="<?php echo base_url().'assets/bower_components/sweetalert/lib/sweet-alert.css'?>" />
    <link rel="stylesheet" href="<?php echo base_url().'assets/css/pace-theme-flash.css'?>" />
     <link href="<?php echo base_url().'assets/css/bootstrap-switch.css'?>" type="text/css" rel="stylesheet"/>
     <script src="<?php echo base_url().'assets/scripts/jquery.js'?>" type="text/javascript"></script>
@@ -32,6 +33,7 @@
     <!--<script src="<?php echo base_url().'assets/scripts/offline-simulate-ui.min.js'?>" type="text/javascript"></script>-->
      <script src="<?php echo base_url().'assets/scripts/select2.js'?>" type="text/javascript"></script>
      <script src="<?php echo base_url().'assets/bower_components/alertifyjs/dist/js/alertify.js'?>" type="text/javascript"></script>
+      <script src="<?php echo base_url().'assets/bower_components/sweetalert/lib/sweet-alert.js'?>" type="text/javascript"></script>
     <link rel="stylesheet" href="<?php echo base_url().'assets/bower_components/alertifyjs/dist/css/alertify_bootstrap_3.css'?>" />
 	
     <title>HCMP | <?php echo $title;?></title>
