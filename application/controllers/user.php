@@ -435,12 +435,23 @@ class User extends MY_Controller {
 									}
 									echo true;
 
+
+								}
+								public function reset_user_password($user_id) {
+									Users::reset_password($user_id, '123456');										
+									echo true;
+								}
+								public function deactivate_user($user_id,$status) {
+									Users::deactivate_user($user_id,$status);										
+									echo true;
 								}
 								public function new_create_user($reset_user = NULL,$password_reset = NULL){
 									$permissions='super_permissions';									
 									$data['content_view'] = "Admin/users_v";
-									$data['listing']= Users::get_user_list_all();
-									// $data['counts']=Users::get_users_count();
+									$data['active_users']= Users::get_user_list_all(50,1);
+									$data['inactive_users']= Users::get_user_list_all(50,0);									
+									$data['deactivated_users']= Users::get_user_list_all(50,2);									
+									// echo "<pre>";print_r($data['active_users']);die;
 									$data['counties']=Counties::getAll();
 									$template = 'shared_files/template/dashboard_v';
 									$data['title'] = "User Management";
