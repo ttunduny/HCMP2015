@@ -148,11 +148,8 @@
               <div class="dashboard_graph">
 
                 <div class="row x_title">
-                  <div class="col-md-6">
-                    <!-- <h3>Stocking Levels <small>Zinc,ORS,Co-pack</small></h3> -->
-                    <h3>Stocking Levels</h3>
-                  </div>
-                  <div class="col-md-6">
+                  
+                  <div class="col-md-12">
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                       <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                       <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
@@ -160,56 +157,36 @@
                   </div>
                 </div>
 
-                <div class="col-md-9 col-sm-9 col-xs-12">
-                  <div id="placeholder33" style="height: 260px; display: none" class="demo-placeholder"></div>
-                  <div style="width: 100%;">
-                    <div id="canvas_dahs" class="demo-placeholder" style="width: 100%; height:270px;"></div>
-                  </div>
-                </div>
                 <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
-                  <div class="x_title">
-                    <h2>Sample title for main commodities</h2>
-                    <div class="clearfix"></div>
-                  </div>
+                    <h4>Coverage</h4>
 
-                  <div class="col-md-12 col-sm-12 col-xs-6">
-                    <div>
-                      <p>Zinc: 50000packs | 200000000 units</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <p>ORS: 50000packs | 200000000 units</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="60"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12 col-sm-12 col-xs-6">
-                    <div>
-                      <p>Co-pack: 50000packs | 200000000 units</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="40"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <p>Albendazole: 50000packs | 200000000 units</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <div id="map" style="height: 300px;"></div>
+                  <script>
 
+                    var map= new FusionMaps ("../assets/FusionMaps/FCMap_KenyaCounty.swf","KenyaMap","100%","100%","0","0");
+                    map.setJSONData(<?php echo $maps; ?>
+                      );
+
+                    map.render("map");
+
+                  </script>
+                  <div class="row-fluid" style="height: 60px;">
+                  <div class="col-md-1" >
+                    <div id="map-key"></div>
+                  </div>
+                  <div class="col-md-8"><strong>Using HCMP</strong> </div>
                 </div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                  <div id="actual"></div>
+               <!--  
+                    <h4>Shelf life (Expiries)</h4>
+                  <div id="placeholder33" style="height: 300px; display: none" class="demo-placeholder"></div>
+                  <div style="width: 100%;">
+                    <div id="canvas_dahs" class="demo-placeholder" style="width: 100%; height:300px;"></div>
+                  </div>
+                -->
+                </div> 
 
                 <div class="clearfix"></div>
               </div>
@@ -814,3 +791,5 @@
         <!-- /footer content -->
       </div>
     </div>
+
+

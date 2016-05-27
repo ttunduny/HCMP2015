@@ -4798,4 +4798,9 @@ ul.notifications {
 .small_header_font{
   font-size:11px;
 }
+#map-key{
+  background-color: #7CB5EC;
+  height: 15px;
+  width: 15px;
+}
 /*END OF KARSAN CSS OVER TEMPLATE*/
