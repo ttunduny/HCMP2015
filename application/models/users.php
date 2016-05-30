@@ -239,8 +239,10 @@ class Users extends Doctrine_Record {
 		return $query;
 	}
 	
-	public static function get_user_list_all($limit = null,$type=null) {
+	public static function get_user_list_all($county,$district,$facility,$limit = null,$type=null) {
 		$limit = (isset($limit)) ? "LIMIT 0,$limit" : '' ;
+		$county = ($county!=null) ? "AND c.id = $county" : '' ;
+		$district = ($district!=null) ? "AND d.id = $district" : '' ;		
 		$type = (isset($type)) ? "WHERE u.status = $type" : '' ;
 		$query = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("
 				SELECT 
@@ -273,7 +275,7 @@ FROM
         LEFT JOIN
     facilities f ON u.facility = f.facility_code
         LEFT JOIN
-    access_level a ON a.id = u.usertype_id $type $limit
+    access_level a ON a.id = u.usertype_id $type $county $district $limit
 				");
 		return $query;
 	}
