@@ -376,11 +376,62 @@
     //Modal Stuff
     $(".sub_county").hide(); 
     $(".facility_name").hide();
+    $(".county").hide(); 
 
     $('#add_new').click(function () {  
       $('#addModal').appendTo("body").modal('show');
     });
 
+    $("#user_type").change(function(){
+      var type_id = $(this).val();
+      console.log(type_id);
+      if(type_id == 9) {
+        // Case Super Admin - County Required
+        $("#county").attr("required", true);
+        $("#sub_county").attr("required", false);
+        $("#facility_name").attr("required", false);
+        $(".county").show('slow');
+        $(".sub_county").hide(); 
+        $(".facility_name").hide();
+      } 
+      else if(type_id == 10) {  
+        // Case County Pharmacist - County Required
+         $("#county").attr("required", true);
+         $("#sub_county").attr("required", false);
+         $("#facility_name").attr("required", false);
+         $(".county").show('slow'); 
+         $(".sub_county").hide(); 
+         $(".facility_name").hide();
+      } 
+      else if(type_id == 3) {
+          // Case Sub-County Pharmacist - County, Sub-County Required
+          $("#county").attr("required", true);
+          $("#sub_county").attr("required", true);
+          $("#facility_name").attr("required", false);
+          $(".county").show('slow');
+          $(".sub_county").show('slow'); 
+          $(".facility_name").hide();
+      } 
+      else if(type_id == 2) {
+        // Case Facility Admin - County, Sub-County, Facility Required
+          $("#county").attr("required", true);
+          $("#sub_county").attr("required", true);
+          $("#facility_name").attr("required", true);
+          $(".county").show('slow');
+          $(".sub_county").show('slow'); 
+          $(".facility_name").show('slow'); 
+      } 
+      else if(type_id == 5) {
+        // Case Facility User - County, Sub-County, Facility Required
+        $("#county").attr("required", true);
+        $("#sub_county").attr("required", true);
+        $("#facility_name").attr("required", true);
+        $(".county").show('slow');
+        $(".sub_county").show('slow'); 
+        $(".facility_name").show('slow'); 
+      }
+      
+    });
      $("#county").change(function() {      
       var option_value=$(this).val();    
       if(option_value=='NULL'){
@@ -396,7 +447,7 @@
           });
           $("#sub_county").append(drop_down);
         });
-        $(".sub_county").show('slow');
+        // $(".sub_county").show('slow');
       }    
     }); 
 
@@ -414,7 +465,7 @@
               });
               $("#facility_name").append(drop_down);
           });
-          $(".facility_name").show('slow');   
+          // $(".facility_name").show('slow');   
         }
       }); //end of district name change funtion
 

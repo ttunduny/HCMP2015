@@ -482,20 +482,24 @@ class User extends MY_Controller {
 									$county = $district = $facility = null;
 									switch ($identifier):
 										case 'moh':
+											$template = 'shared_files/template/dashboard_v';
 											$permissions='moh_permissions';										
 										break;
 										case 'facility_admin':
 											$permissions='facilityadmin_permissions';	
-
+											$template = 'shared_files/template/template';
 										break;
 										case 'county':
 											$permissions='county_permissions';	
+											$template = 'shared_files/template/template';
 											$county = $this-> session->userdata('county_id');
 										break;
 										case 'district':
+											$template = 'shared_files/template/template';
 											$permissions='district_permissions';										
 										break;																				
 										case 'super_admin':
+											$template = 'shared_files/template/dashboard_v';
 											$permissions='super_permissions';									
 										break;
 									endswitch;	
@@ -505,7 +509,7 @@ class User extends MY_Controller {
 									$data['inactive_users']= Users::get_user_list_all($county,$district,$facility,null,0);									
 									$data['deactivated_users']= Users::get_user_list_all($county,$district,$facility,null,2);															
 									$data['counties']=Counties::getAll();
-									$template = 'shared_files/template/dashboard_v';
+									
 									$data['title'] = "User Management";
 									$data['user_types']=Access_level::get_access_levels($permissions);										
 									$data['banner_text'] = "User Management";									
