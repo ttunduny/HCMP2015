@@ -141,7 +141,7 @@
               <span class="count_top"><i class="fa fa-building"></i> Total Facilities | HCMP Offline</span>
               <div class="count"><?php echo $facility_count[0]['offline_facilities']; ?></div>
               <!-- <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>23% </i> Percentage Online</span> -->
-              <span class="count_bottom"> Facilities using<b class="red">HCMP Offline</b></span>
+              <span class="count_bottom"> Facilities using<b class="red"> HCMP Offline</b></span>
             </div>
             
           </div>
