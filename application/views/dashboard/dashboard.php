@@ -396,8 +396,11 @@
 
         <!-- footer content -->
         <footer>
-          <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+    
+          <div class="col-md-12">
+            <p class="text-muted"> Government of Kenya &copy <?php echo date('Y');?>. All Rights Reserved
+              <a data-toggle="popover" title="Experiencing any challenges?  Send an Email to hcmphelpdesk@googlegroups.com" data-content=" Send an Email to hcmphelpdesk@googlegroups.com">Report problems</a>
+            </p>
           </div>
           <div class="clearfix"></div>
         </footer>
