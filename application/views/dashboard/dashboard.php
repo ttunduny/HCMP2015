@@ -1,4 +1,4 @@
-<?php //echo "<pre>";print_r($county_data);exit; ?>
+<?php //echo "<pre>";print_r($facility_count);exit; ?>
  <div class="container body">
       <div class="main_container">
         <?php $this->load->view('dashboard/dashboard_sidebar'); ?>
@@ -122,35 +122,38 @@
           <!-- top tiles -->
           <div class="row tile_count">
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Counties</span>
-              <div class="count">12</div>
-              <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> Nation-wide Coverage</span>
+              <span class="count_top"><i class="fa fa-medkit"></i> Total Commodities Tracked</span>
+              <div class="count"><?php echo $commodity_count[0]['total_count'] ?></div>
+              <span class="count_bottom">Supplied by: <b>KEMSA </b> and <b>MEDS</b></span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total Facilities</span>
-              <div class="count">500</div>
-              <span class="count_bottom"><i class="green">4% </i> Sample additional info</span>
+              <span class="count_top"><i class="fa fa-hospital-o"></i> Total Facilities | HCMP </span>
+              <div class="count green"><?php echo $facility_count[0]['total_facilities']; ?></div>
+              <span class="count_bottom"><b>All</b> facilities using HCMP</span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total Facilities | HCMP Online</span>
-              <div class="count green">63</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>23% </i> Percentage Online</span>
+              <span class="count_top"><i class="fa fa-building-o"></i> Total Facilities | HCMP Online</span>
+              <div class="count"><?php echo $facility_count[0]['online_facilities']; ?></div>
+              <!-- <span class="count_bottom"><i class="green"><i class="fa fa-sort-desc"></i>12% </i> Nation-wide Coverage</span> -->
+              <span class="count_bottom"> Facilities <b class="green"> Online</b></span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-clock-o"></i> Total Facilities | HCMP Offline</span>
-              <div class="count">437</div>
-              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>67% </i> Percentage Offline</span>
+              <span class="count_top"><i class="fa fa-building"></i> Total Facilities | HCMP Offline</span>
+              <div class="count"><?php echo $facility_count[0]['offline_facilities']; ?></div>
+              <!-- <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>23% </i> Percentage Online</span> -->
+              <span class="count_bottom"> Facilities <b class="red"> Offline</b></span>
             </div>
+            
           </div>
           <!-- /top tiles -->
 
           <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12 x_panel">
               <div class="dashboard_graph">
 
                 <div class="row x_title">
-                <div class="col-md-12"><h2>Sample header</h2></div>
-                  <div class="col-md-6">
+                <div class="col-md-12"><h2>Currently Displaying: Tracer Commodity Data</h2></div>
+                  <div class="col-md-4">
                     <select class="form-control select2">
                     <option value="0">Select County</option>
                     <?php foreach ($county_data as $county => $value):?> 
@@ -159,7 +162,7 @@
                       <option>sample</option>
                     </select>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-8">
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                       <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                       <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
@@ -204,28 +207,14 @@
 
           </div>
           <br />
-            <div class="col-md-12">
-              <div id="mos"></div>
-            </div>
 
           <div class="row">
-
-
-            <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="x_panel tile fixed_height_320">
                 <div class="x_title">
-                  <h2>App Versions</h2>
+                  <h2>System Coverage</h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
-                      </ul>
                     </li>
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
@@ -233,89 +222,102 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                  <h4>App Usage across versions</h4>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.2</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 66%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>123k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
+                  <div class="dashboard-widget-content">
+                    <ul class="quick-list full-width">
+                      <li><i class="fa fa-calendar-o"></i><a href="#">Counties Using HCMP: <b class="green">12</b></a>
+                      </li>
+                      <li><i class="fa fa-bars"></i><a href="#">Sub Counties using HCMP: <b class="green">40</b></a>
+                      </li>
+                      <li><i class="fa fa-area-chart"></i><a href="#">I think I'm tired: <b class="green">z<sup>zzz</sup></b></a>
+                      </li>
+                      <li><i class="fa fa-area-chart"></i><a href="#">Food for thought: <b class="green">...</b></a>
+                      </li>
+                      <li><i class="fa fa-area-chart"></i><a href="#">When a bald person's head aches : <span class="green">...</span></a>
+                      </li>
+                      <li><i class="fa fa-bars"></i><a href="#">Do they apply ROB on the whole head?: <b class="green"><i class="fa fa-hand-stop-o green"></i></b></a>
+                      </li>
+                      <li><i class="fa fa-bars"></i><a href="#">Or just at the tip of the Ice Berg: <b class="green"><i class="fa fa-hand-o-up green"></i></b></a>
+                      </li>
+                      <li><i class="fa fa-bars"></i><a href="#">Yep...I'm pretty sure I'm tired,Goodnight: <b class="green"><i class="fa fa-pause green"></i></b></a>
+                      </li>
+                      
+                      <!-- 
+                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
+                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
+                      </li>
+                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
+                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
+                      </li>
+                      <li><i class="fa fa-area-chart"></i><a href="#">Logout</a>
+                      </li>
+                       -->
+                    </ul>
 
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.3</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
+                    <!-- <div class="sidebar-widget">
+                      <h4>Profile Completion</h4>
+                      <canvas width="150" height="80" id="foo" class="" style="width: 160px; height: 100px;"></canvas>
+                      <div class="goal-wrapper">
+                        <span class="gauge-value pull-left">$</span>
+                        <span id="gauge-text" class="gauge-value pull-left">3,200</span>
+                        <span id="goal-text" class="goal-value pull-right">$5,000</span>
                       </div>
                     </div>
-                    <div class="w_right w_20">
-                      <span>53k</span>
-                    </div>
-                    <div class="clearfix"></div>
+                     -->
                   </div>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.4</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>23k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.5</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 5%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>3k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="widget_summary">
-                    <div class="w_left w_25">
-                      <span>0.1.5.6</span>
-                    </div>
-                    <div class="w_center w_55">
-                      <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 2%;">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="w_right w_20">
-                      <span>1k</span>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
+                </div>
+              </div>
+            </div>
 
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="x_panel tile fixed_height_320">
+                <div class="x_title">
+                  <h2>Facility Stock Data</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="dashboard-widget-content">
+                    <ul class="quick-list full-width">
+                      <li><i class="fa fa-calendar-o"></i><a href="#">Facilities with expired XYZ: <b class="green">250</b></a>
+                      </li>
+                      <li><i class="fa fa-bars"></i><a href="#">Facilities stocked out of XYZ: <b class="green">320</b></a>
+                      </li>
+                      <li><i class="fa fa-bar-chart"></i><a href="#">Facilities with expired XYZ: <b class="green">250</b></a>
+                      </li>
+                      <li><i class="fa fa-line-chart"></i><a href="#">Facilities stocked out of XYZ: <b class="green">320</b></a>
+                      </li>
+                      <li><i class="fa fa-area-chart"></i><a href="#">Facilities with expired XYZ: <b class="green">250</b></a>
+                      </li>
+                      <li><i class="fa fa-bars"></i><a href="#">Facilities stocked out of XYZ: <b class="green">320</b></a>
+                      </li>
+                      <!-- 
+                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
+                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
+                      </li>
+                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
+                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
+                      </li>
+                      <li><i class="fa fa-area-chart"></i><a href="#">Logout</a>
+                      </li>
+                       -->
+                    </ul>
+
+                    <!-- <div class="sidebar-widget">
+                      <h4>Profile Completion</h4>
+                      <canvas width="150" height="80" id="foo" class="" style="width: 160px; height: 100px;"></canvas>
+                      <div class="goal-wrapper">
+                        <span class="gauge-value pull-left">$</span>
+                        <span id="gauge-text" class="gauge-value pull-left">3,200</span>
+                        <span id="goal-text" class="goal-value pull-right">$5,000</span>
+                      </div>
+                    </div>
+                     -->
+                  </div>
                 </div>
               </div>
             </div>
@@ -323,18 +325,9 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="x_panel tile fixed_height_320 overflow_hidden">
                 <div class="x_title">
-                  <h2>Device Usage</h2>
+                  <h2>Commodity Consumption</h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
-                      </ul>
                     </li>
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
@@ -345,14 +338,11 @@
                   <table class="" style="width:100%">
                     <tr>
                       <th style="width:37%;">
-                        <p>Top 5</p>
+                        <p>Zinc,ORS,Co-pack</p>
                       </th>
                       <th>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                          <p class="">Device</p>
-                        </div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                          <p class="">Progress</p>
+                          <p class="">Key</p>
                         </div>
                       </th>
                     </tr>
@@ -364,33 +354,21 @@
                         <table class="tile_info">
                           <tr>
                             <td>
-                              <p><i class="fa fa-square blue"></i>IOS </p>
+                              <p><i class="fa fa-square blue"></i>Zinc </p>
                             </td>
-                            <td>30%</td>
+                            <td>50%</td>
                           </tr>
                           <tr>
                             <td>
-                              <p><i class="fa fa-square green"></i>Android </p>
+                              <p><i class="fa fa-square green"></i>ORS </p>
                             </td>
-                            <td>10%</td>
+                            <td>25%</td>
                           </tr>
                           <tr>
                             <td>
-                              <p><i class="fa fa-square purple"></i>Blackberry </p>
+                              <p><i class="fa fa-square purple"></i>Co-pack </p>
                             </td>
-                            <td>20%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square aero"></i>Symbian </p>
-                            </td>
-                            <td>15%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square red"></i>Others </p>
-                            </td>
-                            <td>30%</td>
+                            <td>25%</td>
                           </tr>
                         </table>
                       </td>
@@ -400,59 +378,17 @@
               </div>
             </div>
 
+          </div>
+          <br />
+          <div class="row">
+              <div class="col-md-12 x_panel" id="mos"></div>
+          </div>
+          <br />
 
-            <div class="col-md-4 col-sm-4 col-xs-12">
-              <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                  <h2>Quick Settings</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="dashboard-widget-content">
-                    <ul class="quick-list">
-                      <li><i class="fa fa-calendar-o"></i><a href="#">Settings</a>
-                      </li>
-                      <li><i class="fa fa-bars"></i><a href="#">Subscription</a>
-                      </li>
-                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                      </li>
-                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                      </li>
-                      <li><i class="fa fa-area-chart"></i><a href="#">Logout</a>
-                      </li>
-                    </ul>
+          <div class="row">
 
-                    <div class="sidebar-widget">
-                      <h4>Profile Completion</h4>
-                      <canvas width="150" height="80" id="foo" class="" style="width: 160px; height: 100px;"></canvas>
-                      <div class="goal-wrapper">
-                        <span class="gauge-value pull-left">$</span>
-                        <span id="gauge-text" class="gauge-value pull-left">3,200</span>
-                        <span id="goal-text" class="goal-value pull-right">$5,000</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
+           
           </div>
 
 
@@ -463,15 +399,6 @@
                   <h2>Recent Activities <small>Sessions</small></h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
-                      </ul>
                     </li>
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                     </li>

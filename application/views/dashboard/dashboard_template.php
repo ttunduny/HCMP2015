@@ -231,27 +231,26 @@
           tooltipFillColor: "rgba(51, 51, 51, 0.55)",
           data: {
             labels: [
-              "Symbian",
-              "Blackberry",
-              "Other",
-              "Android",
-              "IOS"
+              "Zinc",
+              "ORS",
+              "Co-pack"
             ],
             datasets: [{
-              data: [15, 20, 30, 10, 30],
+              data: [50,25,25],
               backgroundColor: [
-                "#BDC3C7",
+                "#3498DB",
                 "#9B59B6",
-                "#E74C3C",
                 "#26B99A",
-                "#3498DB"
+                "#E74C3C",
+                "#BDC3C7",
+
               ],
               hoverBackgroundColor: [
-                "#CFD4D8",
+                "#49A9EA",
                 "#B370CF",
-                "#E95E4F",
                 "#36CAAB",
-                "#49A9EA"
+                "#E95E4F",
+                "#CFD4D8",
               ]
             }]
           },
@@ -518,7 +517,7 @@
      }
      function ajax_request_replace_div_content(function_url,div){
       var function_url =url+function_url;
-      var loading_icon=url+"assets/img/Preloader_3.gif";
+      var loading_icon=url+"assets/img/Preloader_2.gif";
       $.ajax({
         type: "POST",
         url: function_url,

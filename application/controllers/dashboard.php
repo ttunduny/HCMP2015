@@ -14,9 +14,17 @@ class Dashboard extends MY_Controller {
 
 	public function index() {
 		$map = $this->render_map();
+		$commodities = Dashboard_model::get_commodity_count();
+
+		// echo "<pre>";print_r($commodities);exit;
 		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
 		$counties = $this->db->query("SELECT * FROM counties")->result_array();
-		// echo "<pre>";print_r($counties);exit;
+		$facility_count = Dashboard_model::get_online_offline_facility_count();
+		
+		// echo "<pre>";print_r($facility_count);exit;
+
+		$data['facility_count'] = $facility_count;
+		$data['commodity_count'] = $commodities;
 		$data['county_data'] = $counties;
 		$data['commodity_divisions'] = $commodity_divisions;
 		$data['title'] = "National Dashboard";
@@ -344,13 +352,15 @@ class Dashboard extends MY_Controller {
 		$group_by .= ($county_id > 0 && !isset($district_id)) ? " ,c.id" : null;
 		$group_by = isset($group_by) ? $group_by : " ,c.id";
 		if ($graph_type != "excel") :
+			// changed this: (select ROUND(SUM(f_s.current_balance / d.total_commodity_units) * d.unit_cost, 1) AS total,
+			// to this: (select ROUND(SUM(f_s.current_balance / d.total_commodity_units), 1) AS total,
 			$commodity_array = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("select DATE_FORMAT( temp.expiry_date,  '%b' ) AS cal_month,
 				sum(temp.total) as total
 				from
 				districts d1,
 				facilities f
 				left join
-				(select ROUND(SUM(f_s.current_balance / d.total_commodity_units) * d.unit_cost, 1) AS total,
+				(select ROUND(SUM(f_s.current_balance / d.total_commodity_units), 1) AS total,
 				f_s.facility_code,f_s.expiry_date
 				from
 				facility_stocks f_s, commodities d
@@ -376,7 +386,7 @@ class Dashboard extends MY_Controller {
 			facilities f
 			left join
 			(select 
-			ROUND(SUM(f_s.current_balance / d.total_commodity_units) * d.unit_cost, 1) AS total,
+			ROUND(SUM(f_s.current_balance / d.total_commodity_units), 1) AS total,
 			f_s.facility_code,f_s.expiry_date
 			from
 			facility_stocks f_s, commodities d
@@ -422,7 +432,7 @@ class Dashboard extends MY_Controller {
 		$graph_data = array_merge($graph_data, array("graph_title" => "Expiries in $title $year"));
 		$graph_data = array_merge($graph_data, array("color" => "['#7CB5EC', '#434348']"));
 		$graph_data = array_merge($graph_data, array("graph_type" => $graph_type));
-		$graph_data = array_merge($graph_data, array("graph_yaxis_title" => "KSH"));
+		$graph_data = array_merge($graph_data, array("graph_yaxis_title" => "Packs"));
 		$graph_data = array_merge($graph_data, array("graph_categories" => $category_data));
 		$graph_data = array_merge($graph_data, array("series_data" => array()));
 
@@ -2063,11 +2073,11 @@ class Dashboard extends MY_Controller {
 		$graph_data=array();
 		$graph_data=array_merge($graph_data,array("graph_id"=>'dem_graph_mos'));
 		$graph_data=array_merge($graph_data,array("graph_title"=>'National Stock Level'));
-		$graph_data = array_merge($graph_data, array("color" => "['#7CB5EC', '#434348']"));
+		$graph_data = array_merge($graph_data, array("color" => "['#434348', '#7CB5EC']"));
 		$graph_data=array_merge($graph_data,array("graph_type"=>'bar'));
 		$graph_data=array_merge($graph_data,array("graph_yaxis_title"=>'National Stock Level (Units and Packs)'));
 		$graph_data=array_merge($graph_data,array("graph_categories"=>array()));
-		$graph_data=array_merge($graph_data,array("series_data"=>array("Unit Balance"=>array(),"Pack Balance"=>array())));
+		$graph_data=array_merge($graph_data,array("series_data"=>array("Pack Balance"=>array(),"Unit Balance"=>array())));
 		$graph_data['stacking']='normal';
 
 		foreach($stocking_levels as $stock_level):

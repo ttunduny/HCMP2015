@@ -254,7 +254,7 @@ body .container.body .right_col {
   color: #9B59B6;
 }
 .green {
-  color: #1ABB9C;
+  color: #1ABB9C!important;
 }
 .aero {
   color: #9CC2CB;
@@ -659,7 +659,7 @@ a:hover, a:focus {
 }
 .panel_toolbox {
   float: right;
-  min-width: 70px;
+  /*min-width: 70px;*/
 }
 .panel_toolbox>li {
   float: left;
@@ -4799,8 +4799,17 @@ ul.notifications {
   font-size:11px;
 }
 #map-key{
-  background-color: #7CB5EC;
+  background-color: #A8E3D7;
   height: 15px;
   width: 15px;
+}
+.count_bottom{
+  /*font-size: 12px!important;*/
+}
+.tile_count {
+  margin-bottom: 0px!important;
+}
+.full-width{
+  width:100%!important;
 }
 /*END OF KARSAN CSS OVER TEMPLATE*/
