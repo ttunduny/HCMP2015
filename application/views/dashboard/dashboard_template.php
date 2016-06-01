@@ -18,6 +18,9 @@
     <link href=<?php echo base_url()."assets/dashboard/vendors/iCheck/skins/flat/green.css"?> rel="stylesheet">
     <!-- bootstrap-progressbar -->
     <link href=<?php echo base_url()."assets/dashboard/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css"?> rel="stylesheet">
+    
+    <link href=<?php echo base_url()."assets/dashboard/vendors/select2/dist/css/select2.min.css"?> rel="stylesheet">
+    
     <!-- jVectorMap -->
     <link href=<?php echo base_url()."assets/dashboard/css/maps/jquery-jvectormap-2.0.3.css"?> rel="stylesheet"/>
 
@@ -47,12 +50,15 @@
     <script src=<?php echo base_url()."assets/dashboard/vendors/iCheck/icheck.min.js"?> ></script>
     <!-- Skycons -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/skycons/skycons.js"?> ></script>
+    
+    <script src=<?php echo base_url()."assets/dashboard/vendors/select2/dist/js/select2.full.min.js"?> ></script>
+
     <!-- Flot -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.js"?> ></script>
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.pie.js"?> ></script>
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.time.js"?> ></script>
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.stack.js"?> ></script>
-    <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.resize.js"?> ></script>
+    <!-- <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.resize.js"?> ></script> -->
     <!-- Flot plugins -->
     <script src=<?php echo base_url()."assets/dashboard/js/flot/jquery.flot.orderBars.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/flot/date.js"?>></script>
@@ -212,6 +218,9 @@
     <!-- Doughnut Chart -->
     <script>
       $(document).ready(function(){ 
+        $(".select2").select2({
+          placeholder: "0"
+        });
         var options = {
           legend: false,
           responsive: false
@@ -401,11 +410,12 @@
        });
 
        $('.county-name').html("National "+" &nbsp;");
-       ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL',"#actual"); 
+       /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
+       ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/NULL',"#actual"); 
       //ajax_request_replace_div_content('dashboard/potential/NULL/NULL/NULL/NULL/NULL',"#potential"); 
       ajax_request_replace_div_content('dashboard/facility_over_view/',"#facilities_rolled_out");
       ajax_request_replace_div_content('dashboard/hcw/',"#hcw_trained");
-      ajax_request_replace_div_content('dashboard/stock_level_mos/NULL/NULL/NULL/NULL/NULL',"#mos");
+      ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/NULL',"#mos");
       ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL',"#consumption");
       ajax_request_replace_div_content('dashboard/get_facility_infor/NULL/NULL/NULL/NULL',"#facilities");      
       ajax_request_replace_div_content('dashboard/order/NULL/NULL/NULL/NULL/NULL',"#orders");

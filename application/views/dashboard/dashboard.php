@@ -1,3 +1,4 @@
+<?php //echo "<pre>";print_r($county_data);exit; ?>
  <div class="container body">
       <div class="main_container">
         <?php $this->load->view('dashboard/dashboard_sidebar'); ?>
@@ -148,8 +149,17 @@
               <div class="dashboard_graph">
 
                 <div class="row x_title">
-                  
-                  <div class="col-md-12">
+                <div class="col-md-12"><h2>Sample header</h2></div>
+                  <div class="col-md-6">
+                    <select class="form-control select2">
+                    <option value="0">Select County</option>
+                    <?php foreach ($county_data as $county => $value):?> 
+                        <option value="<?php echo $value['id']; ?>"><?php echo $value['county']; ?></option>
+                    <?php endforeach; ?>
+                      <option>sample</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                       <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                       <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
@@ -162,8 +172,8 @@
 
                   <div id="map" style="height: 300px;"></div>
                   <script>
-
-                    var map= new FusionMaps ("../assets/FusionMaps/FCMap_KenyaCounty.swf","KenyaMap","100%","100%","0","0");
+                  <?php $map_url = base_url()."assets/FusionMaps/FCMap_KenyaCounty.swf"; ?>
+                    var map= new FusionMaps ("<?php echo $map_url;?>","KenyaMap","100%","100%","0","0");
                     map.setJSONData(<?php echo $maps; ?>
                       );
 
@@ -194,6 +204,9 @@
 
           </div>
           <br />
+            <div class="col-md-12">
+              <div id="mos"></div>
+            </div>
 
           <div class="row">
 

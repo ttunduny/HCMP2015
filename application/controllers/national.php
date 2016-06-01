@@ -331,6 +331,7 @@ class national extends MY_Controller {
 		 $group_by .= ($facility_code > 0 && isset($district_id)) ? "  ,f.facility_code" : null;
 		 $group_by .= ($county_id > 0 && !isset($district_id)) ? " ,c.id" : null;
 		 $group_by = isset($group_by) ? $group_by : " ,c.id";
+
 		 if ($graph_type != "excel") :
 		 	$commodity_array = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("select DATE_FORMAT( temp.expiry_date,  '%b' ) AS cal_month,
 		 		sum(temp.total) as total
@@ -937,7 +938,7 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 				$this -> hcmp_functions -> create_excel($excel_data);
 				endif;
 
-			}
+	}
 
 	//for getting the stock level in units for the national dashboard
 			public function stock_level_units($county_id = null, $district_id = null, $facility_code = null, $commodity_id = null, $graph_type = null) {
