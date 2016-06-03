@@ -19,6 +19,7 @@ class Dashboard extends MY_Controller {
 		// echo "<pre>";print_r($commodities);exit;
 		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
 		$counties = $this->db->query("SELECT * FROM counties")->result_array();
+		$districts = $this->db->query("SELECT * FROM districts")->result_array();
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
 		
 		// echo "<pre>";print_r($facility_count);exit;
@@ -26,6 +27,7 @@ class Dashboard extends MY_Controller {
 		$data['facility_count'] = $facility_count;
 		$data['commodity_count'] = $commodities;
 		$data['county_data'] = $counties;
+		$data['district_data'] = $districts;
 		$data['commodity_divisions'] = $commodity_divisions;
 		$data['title'] = "National Dashboard";
 		$data['maps'] = $map;
@@ -2074,7 +2076,7 @@ class Dashboard extends MY_Controller {
 		$graph_data=array_merge($graph_data,array("graph_id"=>'dem_graph_mos'));
 		$graph_data=array_merge($graph_data,array("graph_title"=>'National Stock Level'));
 		$graph_data = array_merge($graph_data, array("color" => "['#434348', '#7CB5EC']"));
-		$graph_data=array_merge($graph_data,array("graph_type"=>'bar'));
+		$graph_data=array_merge($graph_data,array("graph_type"=>'column'));
 		$graph_data=array_merge($graph_data,array("graph_yaxis_title"=>'National Stock Level (Units and Packs)'));
 		$graph_data=array_merge($graph_data,array("graph_categories"=>array()));
 		$graph_data=array_merge($graph_data,array("series_data"=>array("Pack Balance"=>array(),"Unit Balance"=>array())));
