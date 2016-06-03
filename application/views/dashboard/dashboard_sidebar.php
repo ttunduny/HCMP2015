@@ -3,7 +3,7 @@
             <div class="navbar nav_title" style="border: 0;">
               <!-- <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentellela Alela!</span></a> -->
               <center>
-              <a class="site_title" href="<?php echo base_url().'dashboard';?>">
+              <a class="site_title" href="<?php echo base_url().'fdashboard';?>">
               <img class="coat_of_arms_sidebar" style="padding:0;" src="<?php echo base_url();?>assets/img/coat_of_arms_2016.png" class="img-responsive " alt="Responsive image" id="" ></br>HCMP</br><span class="small_header_font">Health Commodities Management Platform</span>
               </a>
               </center>
@@ -16,7 +16,7 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>HCMP Analytics</h3>
+                <!-- <h3>HCMP Analytics</h3> -->
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-area-chart"></i> Programmatic <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">

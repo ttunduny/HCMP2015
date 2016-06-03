@@ -127,21 +127,21 @@
               <span class="count_bottom">Supplied by: <b>KEMSA </b> and <b>MEDS</b></span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-hospital-o"></i> Total Facilities | HCMP </span>
+              <span class="count_top"><i class="fa fa-hospital-o"></i> Total Facilities Covered </span>
               <div class="count green"><?php echo $facility_count[0]['total_facilities']; ?></div>
-              <span class="count_bottom"><b>All</b> facilities using HCMP</span>
+              <!-- <span class="count_bottom"><b>All</b> facilities using HCMP</span> -->
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-building-o"></i> Total Facilities | HCMP Online</span>
+              <span class="count_top"><i class="fa fa-building-o"></i> Total Facilities | Online Version</span>
               <div class="count"><?php echo $facility_count[0]['online_facilities']; ?></div>
               <!-- <span class="count_bottom"><i class="green"><i class="fa fa-sort-desc"></i>12% </i> Nation-wide Coverage</span> -->
-              <span class="count_bottom"> Facilities using <b class="green">HCMP Online</b></span>
+              <span class="count_bottom"> Facilities on <b class="green">Online Version</b></span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-building"></i> Total Facilities | HCMP Offline</span>
+              <span class="count_top"><i class="fa fa-building"></i> Total Facilities | Offline Version</span>
               <div class="count"><?php echo $facility_count[0]['offline_facilities']; ?></div>
               <!-- <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>23% </i> Percentage Online</span> -->
-              <span class="count_bottom"> Facilities using<b class="red"> HCMP Offline</b></span>
+              <span class="count_bottom"> Facilities on<b class="red"> Offline Version</b></span>
             </div>
             
           </div>
@@ -153,7 +153,7 @@
 
                 <div class="row x_title">
                 <div class="col-md-12"><h2>Currently Displaying: Tracer Commodity Data</h2></div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <select class="form-control select2">
                     <option value="0">Select County</option>
                     <?php foreach ($county_data as $county => $value):?> 
@@ -162,7 +162,18 @@
                       <option>sample</option>
                     </select>
                   </div>
-                  <div class="col-md-8">
+                  <!-- 
+                  <div class="col-md-3">
+                    <select class="form-control select2">
+                    <option value="0">Select Subcounty</option>
+                    <?php foreach ($district_data as $district => $value):?> 
+                        <option value="<?php echo $value['id']; ?>"><?php echo $value['county']; ?></option>
+                    <?php endforeach; ?>
+                      <option>sample</option>
+                    </select>
+                  </div>
+                   -->
+                  <div class="col-md-6">
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                       <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                       <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
@@ -187,7 +198,7 @@
                   <div class="col-md-1" >
                     <div id="map-key"></div>
                   </div>
-                  <div class="col-md-8"><strong>Using HCMP</strong> </div>
+                  <div class="col-md-8"><strong>HCMP Coverage</strong> </div>
                 </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">

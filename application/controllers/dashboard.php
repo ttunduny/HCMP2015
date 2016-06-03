@@ -2076,7 +2076,7 @@ class Dashboard extends MY_Controller {
 		$graph_data=array_merge($graph_data,array("graph_id"=>'dem_graph_mos'));
 		$graph_data=array_merge($graph_data,array("graph_title"=>'National Stock Level'));
 		$graph_data = array_merge($graph_data, array("color" => "['#434348', '#7CB5EC']"));
-		$graph_data=array_merge($graph_data,array("graph_type"=>'column'));
+		$graph_data=array_merge($graph_data,array("graph_type"=>'bar'));
 		$graph_data=array_merge($graph_data,array("graph_yaxis_title"=>'National Stock Level (Units and Packs)'));
 		$graph_data=array_merge($graph_data,array("graph_categories"=>array()));
 		$graph_data=array_merge($graph_data,array("series_data"=>array("Pack Balance"=>array(),"Unit Balance"=>array())));
