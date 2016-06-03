@@ -222,7 +222,7 @@
 
           </div>
           <br />
-
+          
           <div class="row">
             <!-- 
             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -353,7 +353,7 @@
              -->
           </div>
           <br />
-          
+         <!-- 
           <div class="row">
               <div class="col-md-12 x_panel" id="consumption"></div>
           </div>
@@ -363,7 +363,7 @@
               <div class="col-md-12 x_panel" id="actual"></div>
           </div>
           <br />
-
+           -->
         </div>
         <!-- /page content -->
 
@@ -373,7 +373,7 @@
           <div class="col-md-12">
           <center>
             <p class="text-muted"> Government of Kenya &copy <?php echo date('Y');?>. All Rights Reserved
-              <a data-toggle="popover" title="Experiencing any challenges?  Send an Email to hcmphelpdesk@googlegroups.com" data-content=" Send an Email to hcmphelpdesk@googlegroups.com">Report problems</a>
+              <!-- <a data-toggle="popover" title="Experiencing any challenges?  Send an Email to hcmphelpdesk@googlegroups.com" data-content=" Send an Email to hcmphelpdesk@googlegroups.com">Report problems</a> -->
             </p>
           </center>
           </div>

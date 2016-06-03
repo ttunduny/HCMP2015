@@ -30,7 +30,14 @@
   </head>
 
   <body class="nav-md">
-   <?php $this->load->view('dashboard/dashboard'); ?>
+  <?php 
+    if (isset($content_view)) {
+      $this->load->view($content_view);
+    }
+    else{
+      $this->load->view('dashboard/dashboard');
+    }
+   ?>
 
     <!-- jQuery -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/jquery/dist/jquery.min.js"?>></script>

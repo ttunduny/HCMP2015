@@ -27,6 +27,7 @@ class Dashboard extends MY_Controller {
 
 		$data['facility_count'] = $facility_count;
 		$data['commodity_count'] = $commodities;
+		$data['content_view'] = 'dashboard/dashboard';
 		$data['county_data'] = $counties;
 		$data['county_count'] = count($counties_using_HCMP);
 		$data['district_data'] = $districts;
@@ -2120,6 +2121,12 @@ class Dashboard extends MY_Controller {
 		return $this -> load -> view("shared_files/report_templates/high_charts_template_v_national", $data);
 		/*END OF THIS OLD SH!T*/
 
+	}
+
+	public function report_problems()
+	{
+		$data['content_view'] = 'dashboard/dashboard_report_problems';
+		return $this->load->view('dashboard/dashboard_template',$data); 
 	}
 }
 		?>
