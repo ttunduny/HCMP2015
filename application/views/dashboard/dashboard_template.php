@@ -106,6 +106,7 @@
           [gd(2012, 1, 12), 90],
           [gd(2012, 1, 13), 95]
         ];
+        /*
         $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
           data1, data2
         ], {
@@ -158,7 +159,7 @@
           },
           tooltip: true
         });
-
+        */
         function gd(year, month, day) {
           return new Date(year, month - 1, day).getTime();
         }
@@ -225,7 +226,7 @@
           legend: false,
           responsive: false
         };
-
+        /*
         new Chart(document.getElementById("canvas1"), {
           type: 'doughnut',
           tooltipFillColor: "rgba(51, 51, 51, 0.55)",
@@ -256,6 +257,7 @@
           },
           options: options
         });
+        */
       });
     </script>
     <!-- /Doughnut Chart -->

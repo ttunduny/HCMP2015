@@ -1068,11 +1068,11 @@ class Dashboard extends MY_Controller {
 		$category_data = array_merge($category_data, array($data["drug_name"]));
 		endforeach;
 
-		$graph_type = 'bar';
+		$graph_type = 'spline';
 		$graph_data = array_merge($graph_data, array("graph_id" => 'dem_graph_consuption'));
 		$graph_data = array_merge($graph_data, array("graph_title" => "$title Consumption (Packs) for $year"));
 		$graph_data = array_merge($graph_data, array("graph_type" => $graph_type));
-		$graph_data = array_merge($graph_data, array("color" => "['#AA4643', '#89A54E', '#80699B']"));
+		$graph_data = array_merge($graph_data, array("color" => "['#7CB5EC', '#434348']"));
 		$graph_data = array_merge($graph_data, array("graph_yaxis_title" => "Packs"));
 		$graph_data = array_merge($graph_data, array("graph_categories" => $category_data));
 		$graph_data = array_merge($graph_data, array("series_data" => array('total' => $series_data)));

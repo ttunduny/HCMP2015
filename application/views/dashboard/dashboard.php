@@ -191,7 +191,7 @@
                 </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
-                  <div id="actual"></div>
+                  <div id="mos"></div>
                <!--  
                     <h4>Shelf life (Expiries)</h4>
                   <div id="placeholder33" style="height: 300px; display: none" class="demo-placeholder"></div>
@@ -209,63 +209,42 @@
           <br />
 
           <div class="row">
-          <div class="col-md-4 col-sm-4 col-xs-12">
-              <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                  <h2>System Coverage</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="dashboard-widget-content">
-                    <ul class="quick-list full-width">
-                      <li><i class="fa fa-calendar-o"></i><a href="#">Counties Using HCMP: <b class="green">12</b></a>
+            <!-- 
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel tile fixed_height_320">
+                  <div class="x_title">
+                    <h2>System Coverage</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
-                      <li><i class="fa fa-bars"></i><a href="#">Sub Counties using HCMP: <b class="green">40</b></a>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
                       </li>
-                      <li><i class="fa fa-area-chart"></i><a href="#">I think I'm tired: <b class="green">z<sup>zzz</sup></b></a>
-                      </li>
-                      <li><i class="fa fa-area-chart"></i><a href="#">Food for thought: <b class="green">...</b></a>
-                      </li>
-                      <li><i class="fa fa-area-chart"></i><a href="#">When a bald person's head aches : <span class="green">...</span></a>
-                      </li>
-                      <li><i class="fa fa-bars"></i><a href="#">Do they apply ROB on the whole head?: <b class="green"><i class="fa fa-hand-stop-o green"></i></b></a>
-                      </li>
-                      <li><i class="fa fa-bars"></i><a href="#">Or just at the tip of the Ice Berg: <b class="green"><i class="fa fa-hand-o-up green"></i></b></a>
-                      </li>
-                      <li><i class="fa fa-bars"></i><a href="#">Yep...I'm pretty sure I'm tired,Goodnight: <b class="green"><i class="fa fa-pause green"></i></b></a>
-                      </li>
-                      
-                      <!-- 
-                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                      </li>
-                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                      </li>
-                      <li><i class="fa fa-area-chart"></i><a href="#">Logout</a>
-                      </li>
-                       -->
                     </ul>
-
-                    <!-- <div class="sidebar-widget">
-                      <h4>Profile Completion</h4>
-                      <canvas width="150" height="80" id="foo" class="" style="width: 160px; height: 100px;"></canvas>
-                      <div class="goal-wrapper">
-                        <span class="gauge-value pull-left">$</span>
-                        <span id="gauge-text" class="gauge-value pull-left">3,200</span>
-                        <span id="goal-text" class="goal-value pull-right">$5,000</span>
-                      </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <div class="dashboard-widget-content">
+                      <ul class="quick-list full-width">
+                        <li><i class="fa fa-calendar-o"></i><a href="#">Counties Using HCMP: <b class="green">12</b></a>
+                        </li>
+                        <li><i class="fa fa-bars"></i><a href="#">Sub Counties using HCMP: <b class="green">40</b></a>
+                        </li>
+                        <li><i class="fa fa-area-chart"></i><a href="#">I think I'm tired: <b class="green">z<sup>zzz</sup></b></a>
+                        </li>
+                        <li><i class="fa fa-area-chart"></i><a href="#">Food for thought: <b class="green">...</b></a>
+                        </li>
+                        <li><i class="fa fa-area-chart"></i><a href="#">When a bald person's head aches : <span class="green">...</span></a>
+                        </li>
+                        <li><i class="fa fa-bars"></i><a href="#">Do they apply ROB on the whole head?: <b class="green"><i class="fa fa-hand-stop-o green"></i></b></a>
+                        </li>
+                        <li><i class="fa fa-bars"></i><a href="#">Or just at the tip of the Ice Berg: <b class="green"><i class="fa fa-hand-o-up green"></i></b></a>
+                        </li>
+                        <li><i class="fa fa-bars"></i><a href="#">Yep...I'm pretty sure I'm tired,Goodnight: <b class="green"><i class="fa fa-pause green"></i></b></a>
+                        </li>
+                      </ul>
                     </div>
-                     -->
                   </div>
                 </div>
-              </div>
             </div>
 
             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -295,28 +274,7 @@
                       </li>
                       <li><i class="fa fa-bars"></i><a href="#">Facilities stocked out of XYZ: <b class="green">320</b></a>
                       </li>
-                      <!-- 
-                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                      </li>
-                      <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
-                      <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
-                      </li>
-                      <li><i class="fa fa-area-chart"></i><a href="#">Logout</a>
-                      </li>
-                       -->
                     </ul>
-
-                    <!-- <div class="sidebar-widget">
-                      <h4>Profile Completion</h4>
-                      <canvas width="150" height="80" id="foo" class="" style="width: 160px; height: 100px;"></canvas>
-                      <div class="goal-wrapper">
-                        <span class="gauge-value pull-left">$</span>
-                        <span id="gauge-text" class="gauge-value pull-left">3,200</span>
-                        <span id="goal-text" class="goal-value pull-right">$5,000</span>
-                      </div>
-                    </div>
-                     -->
                   </div>
                 </div>
               </div>
@@ -377,19 +335,19 @@
                 </div>
               </div>
             </div>
-
+             -->
           </div>
           <br />
+          
           <div class="row">
-              <div class="col-md-12 x_panel" id="mos"></div>
+              <div class="col-md-12 x_panel" id="consumption"></div>
           </div>
           <br />
 
           <div class="row">
-
-
-           
+              <div class="col-md-12 x_panel" id="actual"></div>
           </div>
+          <br />
 
         </div>
         <!-- /page content -->
