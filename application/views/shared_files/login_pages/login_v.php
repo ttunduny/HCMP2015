@@ -240,7 +240,7 @@
 
 		</div>
 		<div class="col-md-2 pull-right">
-				<a href="<?php echo base_url('kenya') ?>">
+				<a href="<?php echo base_url(); ?>">
 				<button class="btn btn-success col-md-12">
 					<span class="glyphicon glyphicon-dashboard"></span>National Dashboard
 				</button></a>
