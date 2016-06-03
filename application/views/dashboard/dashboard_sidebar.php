@@ -3,7 +3,7 @@
             <div class="navbar nav_title" style="border: 0;">
               <!-- <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentellela Alela!</span></a> -->
               <center>
-              <a class="site_title" href="<?php echo base_url().'kenya/dashboard';?>">
+              <a class="site_title" href="<?php echo base_url().'dashboard';?>">
               <img class="coat_of_arms_sidebar" style="padding:0;" src="<?php echo base_url();?>assets/img/coat_of_arms_2016.png" class="img-responsive " alt="Responsive image" id="" ></br>HCMP</br><span class="small_header_font">Health Commodities Management Platform</span>
               </a>
               </center>
