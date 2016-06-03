@@ -2140,5 +2140,23 @@ class Dashboard extends MY_Controller {
 		$data['content_view'] = 'dashboard/dashboard_report_problems';
 		return $this->load->view('dashboard/dashboard_template',$data); 
 	}
+
+	public function work_in_progress()
+	{
+		$commodities = Dashboard_model::get_commodity_count();
+
+		$facility_count = Dashboard_model::get_online_offline_facility_count();
+		
+		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
+
+		$data['commodity_divisions'] = $commodity_divisions;
+
+		$data['facility_count'] = $facility_count;
+
+		$data['commodity_count'] = $commodities;
+
+		$data['content_view'] = 'dashboard/dashboard_work_in_progress';
+		return $this->load->view('dashboard/dashboard_template',$data); 
+	}
 }
 		?>
