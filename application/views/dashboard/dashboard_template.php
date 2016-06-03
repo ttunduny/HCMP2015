@@ -472,7 +472,7 @@
 
         function run(data){
           var county_data=data.split('^');
-        // console.log(county_data);
+        console.log(county_data);return;
         $('#placeholder').val(county_data[0]);
         $('.county-name').html(county_data[1]+"&nbsp;County &nbsp;");
         ajax_request_replace_div_content('dashboard/facility_over_view/'+county_data[0],"#facilities_rolled_out");
@@ -489,7 +489,7 @@
         ajax_request_replace_div_content('dashboard/get_facility_infor/'+county_data[0]+'/NULL/NULL/NULL',"#facilities");
         ajax_request_replace_div_content('dashboard/order/NULL/'+county_data[0]+'/NULL/NULL/NULL',"#orders");
         ajax_request_replace_div_content('dashboard/get_lead_infor/NULL/'+county_data[0]+'/NULL/NULL/NULL',"#lead_infor");
-    }
+      }
     function dropdown(baseUrl,post,identifier){
             /*
              * ajax is used here to retrieve values from the server side and set them in dropdown list.

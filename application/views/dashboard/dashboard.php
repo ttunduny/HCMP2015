@@ -198,7 +198,7 @@
                   <div class="col-md-1" >
                     <div id="map-key"></div>
                   </div>
-                  <div class="col-md-8"><strong>HCMP Coverage</strong> </div>
+                  <div class="col-md-8"><strong>Coverage (<?php echo $county_count; ?>) Counties</strong> </div>
                 </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">

@@ -21,12 +21,14 @@ class Dashboard extends MY_Controller {
 		$counties = $this->db->query("SELECT * FROM counties")->result_array();
 		$districts = $this->db->query("SELECT * FROM districts")->result_array();
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
-		
-		// echo "<pre>";print_r($facility_count);exit;
+		$counties_using_HCMP = Counties::get_counties_all_using_HCMP();
+
+		// echo "<pre>";print_r($counties_using);exit;
 
 		$data['facility_count'] = $facility_count;
 		$data['commodity_count'] = $commodities;
 		$data['county_data'] = $counties;
+		$data['county_count'] = count($counties_using_HCMP);
 		$data['district_data'] = $districts;
 		$data['commodity_divisions'] = $commodity_divisions;
 		$data['title'] = "National Dashboard";
