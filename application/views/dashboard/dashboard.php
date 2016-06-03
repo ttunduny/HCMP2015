@@ -152,7 +152,8 @@
               <div class="dashboard_graph">
 
                 <div class="row x_title">
-                <div class="col-md-12"><h2>Currently Displaying: Tracer Commodity Data</h2></div>
+                <div class="col-md-12"><h2>Tracer Commodities</h2></div>
+                  <!-- 
                   <div class="col-md-3">
                     <select class="form-control select2">
                     <option value="0">Select County</option>
@@ -162,6 +163,7 @@
                       <option>sample</option>
                     </select>
                   </div>
+                   -->
                   <!-- 
                   <div class="col-md-3">
                     <select class="form-control select2">
@@ -173,12 +175,14 @@
                     </select>
                   </div>
                    -->
+                   <!-- 
                   <div class="col-md-6">
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                       <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                       <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
                     </div>
                   </div>
+                   -->
                 </div>
 
                 <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
@@ -198,7 +202,7 @@
                   <div class="col-md-1" >
                     <div id="map-key"></div>
                   </div>
-                  <div class="col-md-8"><strong>Coverage (<?php echo $county_count; ?>) Counties</strong> </div>
+                  <div class="col-md-8"><strong>Coverage: <?php echo $county_count; ?> Counties</strong> </div>
                 </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">

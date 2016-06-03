@@ -484,7 +484,7 @@
         dropdown(baseUrl,"county="+county_data[0],".subcounty");
         ajax_request_replace_div_content('dashboard/expiry/NULL/'+county_data[0]+'/NULL/NULL/NULL',"#actual");
         //ajax_request_replace_div_content('dashboard/potential/'+county_data[0]+'/NULL/NULL/NULL/NULL',"#potential"); 
-        ajax_request_replace_div_content('dashboard/stock_level_mos/'+county_data[0]+'/NULL/NULL/NULL/ALL',"#mos");
+        ajax_request_replace_div_content('dashboard/stocking_levels/'+county_data[0]+'/NULL/NULL/NULL/ALL',"#mos");
         ajax_request_replace_div_content('dashboard/consumption/'+county_data[0]+'/NULL/NULL/NULL',"#consumption");
         ajax_request_replace_div_content('dashboard/get_facility_infor/'+county_data[0]+'/NULL/NULL/NULL',"#facilities");
         ajax_request_replace_div_content('dashboard/order/NULL/'+county_data[0]+'/NULL/NULL/NULL',"#orders");

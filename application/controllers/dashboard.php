@@ -734,7 +734,7 @@ class Dashboard extends MY_Controller {
 				inner join facilities on facility_stocks.facility_code=facilities.facility_code
 				inner join districts on facilities.district=districts.id
 				inner join counties on districts.county=counties.id inner join commodities on facility_stocks.commodity_id=commodities.id 
-				where commodities.status=1 $and_data group by commodities.id");
+				where commodities.status=1 $and_data group by commodities.id order by commodities.commodity_name");
 
 		}else {
 			$new_sql_amc = "SELECT commodities.id,commodities.commodity_name,CEIL(AVG(facility_issues.qty_issued)) AS total_units_consumed, 
@@ -744,14 +744,14 @@ class Dashboard extends MY_Controller {
 							WHERE s11_No IN ('internal issue' , '(-ve Adj) Stock Deduction') $and_data 
 							AND facility_issues.expiry_date > '2016-04-21' 
 							AND facility_issues.date_issued  between '2016-02-31' and '2016-04-31'
-							GROUP BY commodities.id order by commodities.id asc";
+							GROUP BY commodities.id order by commodities.commodity_name asc";
 			// echo $new_sql_amc;die;
 			$get_amc = Doctrine_Manager::getInstance()->getCurrentConnection()
 			->fetchAll($new_sql_amc);
 			
 			$new_sql_totals = "SELECT commodities.id,commodities.commodity_name,CEIL(sum(facility_stocks.current_balance))
 			 	as total_bal_units, CEIL(sum(facility_stocks.current_balance)/commodities.total_commodity_units) as cur_bal_packs,commodities.total_commodity_units FROM facility_stocks $from_others inner join commodities on facility_stocks.commodity_id=commodities.id 
-			 	where commodities.status=1 $and_data AND facility_stocks.expiry_date > '2016-04-21' group by commodities.id order by commodities.id asc";
+			 	where commodities.status=1 $and_data AND facility_stocks.expiry_date > '2016-04-21' group by commodities.id order by commodities.commodity_name asc";
 
 			$get_totals = Doctrine_Manager::getInstance()->getCurrentConnection()
 			->fetchAll($new_sql_totals);
@@ -765,7 +765,7 @@ class Dashboard extends MY_Controller {
 					//array_push($combine,$get_totals[$i ],$get_amc[$i ]);
 			$combine[]=array_merge($get_totals[$i ],$get_amc[$i ]);
 		}
-				echo '<pre>'; print_r($combine);echo '<pre>'; exit;
+				// echo '<pre>'; print_r($combine);echo '<pre>'; exit;
 
 		$category_data = array();
 		$series_data = $series_data_ = array();
@@ -778,7 +778,7 @@ class Dashboard extends MY_Controller {
 		$category_data = array_merge($category_data, array($data["commodity_name"]));
 		endforeach;
 
-				echo "<pre>";print_r($series_data);echo "</pre>";exit;
+				// echo "<pre>";print_r($series_data);echo "</pre>";exit;
 		$graph_type = 'bar';
 
 		$graph_data = array_merge($graph_data, array("graph_id" => 'dem_graph_mos'));
@@ -1931,6 +1931,7 @@ class Dashboard extends MY_Controller {
 
 	public function stocking_levels($county_id = "NULL", $district_id = "NULL", $facility_code = "NULL", $tracer = "NULL", $commodity_id = "NULL"){
 		/*function does not take county if you give district,neither does it take district if you give facility. purpose: query optimisation*/
+		// $commodity_id = 456;
 		$county_id = ($county_id == "NULL") ? null : $county_id;
 		$district_id = ($district_id == "NULL") ? null : $district_id;
 		$graph_type = ($graph_type == "NULL") ? null : $graph_type;
@@ -1950,6 +1951,7 @@ class Dashboard extends MY_Controller {
 		$filter .= ($county_id > 0 && is_null($district_id))? "AND counties.id = $county_id":NULL;
 		$filter .= ($district_id > 0 && is_null($county_id))? "AND districts.id = $district_id":NULL;
 		$filter .= ($facility_code > 0 && is_null($county_id) && is_null($district_id))? "AND facilities.facility_code = $facility_code":NULL;
+		$filter .= ($commodity_id > 0)? "AND commodities.id =  = $commodity_id":NULL;
 
 		// echo $filter;exit;
 		$stocking_levels = $this->db->query("
@@ -1972,7 +1974,7 @@ class Dashboard extends MY_Controller {
 			WHERE
 			    commodities.status = 1
 			        AND commodities.tracer_item = 1 $filter
-			GROUP BY commodities.id
+			GROUP BY commodities.id ORDER BY commodities.commodity_name ASC
 		")->result_array();
 
 		// echo "<pre>";print_r($stocking_levels);exit;
@@ -2077,18 +2079,19 @@ class Dashboard extends MY_Controller {
 		$graph_data=array();
 		$graph_data=array_merge($graph_data,array("graph_id"=>'dem_graph_mos'));
 		$graph_data=array_merge($graph_data,array("graph_title"=>'National Stock Level'));
-		$graph_data = array_merge($graph_data, array("color" => "['#434348', '#7CB5EC']"));
+		$graph_data = array_merge($graph_data, array("color" => "['#7CB5EC', '#434348']"));
 		$graph_data=array_merge($graph_data,array("graph_type"=>'bar'));
-		$graph_data=array_merge($graph_data,array("graph_yaxis_title"=>'National Stock Level (Units and Packs)'));
+		// $graph_data=array_merge($graph_data,array("graph_yaxis_title"=>'National Stock Level (Units and Packs)'));
 		$graph_data=array_merge($graph_data,array("graph_categories"=>array()));
-		$graph_data=array_merge($graph_data,array("series_data"=>array("Pack Balance"=>array(),"Unit Balance"=>array())));
+		// $graph_data=array_merge($graph_data,array("series_data"=>array("Pack Balance"=>array(),"Unit Balance"=>array())));
+		$graph_data=array_merge($graph_data,array("series_data"=>array("Pack Balance"=>array())));
 		$graph_data['stacking']='normal';
 
 		foreach($stocking_levels as $stock_level):
 			// $category_name = $stock_level['commodity_name'].' ('.$facility_stock_['source_name'].')';
 			$category_name = $stock_level['commodity_name'];
 			$graph_data['graph_categories']=array_merge($graph_data['graph_categories'],array($category_name));	
-			$graph_data['series_data']['Unit Balance']=array_merge($graph_data['series_data']['Unit Balance'],array((float) $stock_level['unit_balance']));
+			// $graph_data['series_data']['Unit Balance']=array_merge($graph_data['series_data']['Unit Balance'],array((float) $stock_level['unit_balance']));
 			$graph_data['series_data']['Pack Balance']=array_merge($graph_data['series_data']['Pack Balance'],array((float) $stock_level['pack_balance']));	
 
 		endforeach;
