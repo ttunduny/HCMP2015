@@ -95,6 +95,7 @@ class Home extends MY_Controller
 		case 'facility':
 				//check if password is default
 		$username = $this -> session -> userdata('user_email');
+		$facility_id = $this -> session -> userdata('facility_id');
 		$reply = User::getPass($username);
 		$user_data = $reply -> toArray();
 
@@ -115,9 +116,20 @@ class Home extends MY_Controller
 				//$this -> load -> view('shared_files/activation');
 
 		} else {
-			$view = 'shared_files/template/template';
-			$data['content_view'] = "facility/facility_home_v";	
-			$data['facility_dashboard_notifications']=$this->get_facility_dashboard_notifications_graph_data();
+			$last_synced = Facilities::get_days_from_last_sync($facility_id);
+			// $last_synced = 10;
+			if($last_synced > 7) {
+				$view = "shared_files/template/template";
+				$data['last_synced'] = $last_synced;
+ 				$data['content_view'] = "shared_files/synchronize_now";
+			} else if($last_synced > 31) {
+				
+			} else {
+				$view = 'shared_files/template/template';
+				$data['content_view'] = "facility/facility_home_v";
+				$data['facility_dashboard_notifications']=$this->get_facility_dashboard_notifications_graph_data();
+			}
+			// echo "<pre>"; print_r($last_synced); echo "</pre>"; exit;
 		}
 
 		break;
