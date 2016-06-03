@@ -2125,6 +2125,14 @@ class Dashboard extends MY_Controller {
 
 	public function report_problems()
 	{
+		$commodities = Dashboard_model::get_commodity_count();
+
+		$facility_count = Dashboard_model::get_online_offline_facility_count();
+
+		$data['facility_count'] = $facility_count;
+
+		$data['commodity_count'] = $commodities;
+		
 		$data['content_view'] = 'dashboard/dashboard_report_problems';
 		return $this->load->view('dashboard/dashboard_template',$data); 
 	}
