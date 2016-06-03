@@ -18,7 +18,7 @@
               <div class="menu_section">
                 <h3>HCMP Analytics</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-area-chart"></i> Program Reports <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-area-chart"></i> Programmatic <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                     <?php foreach ($commodity_divisions as $divisions => $value): ?>
                       <li><a href="<?php  ?>"><?php echo $value['division_name']; ?></a></li>
