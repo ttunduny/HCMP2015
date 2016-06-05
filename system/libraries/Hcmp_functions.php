@@ -626,11 +626,67 @@ exit;
 }
 
 }
+
+//*** new create excel based on the new HCMP Template **//
+
+public function create_new_excel($excel_data=NULL){
+	ob_end_clean();
+	$alphabet = array('B','C','D','E','F','G','H','I','J','K','L','M','N','O');	
+	$inputFileName = 'print_docs/excel/excel_template/Excel_downloads.xlsx';
+	$file_name =isset($file_name) ? $file_name.'.xlsx' : time().'.xlsx';	
+	$excel2 = PHPExcel_IOFactory::createReader('Excel2007');
+    $excel2=$objPHPExcel= $excel2->load($inputFileName); // Empty Sheet    
+    $sheet = $objPHPExcel->getSheet(0); 
+    $highestRow = $sheet->getHighestRow(); 	
+    $highestColumn = $sheet->getHighestColumn();	
+    $excel2->setActiveSheetIndex(0);	    
+	// echo "<pre>";print_r($excel_data);die;
+	if (count($excel_data) > 0) :		
+		$count_columns = count($excel_data['column_data']);
+		$count_rows = count($excel_data['row_data']);
+		$title = strtoupper($excel_data['file_name']);
+		$new_columns = array();
+		$row_top = 7;
+		$excel2->getActiveSheet()->setCellValue('B5',$title);
+		for ($i=0; $i <$count_columns ; $i++) { 
+			$column = $alphabet[$i];
+			$row_value = $column.$row_top;
+			$row_value = (string)$row_value;				
+			$excel2->getActiveSheet()->setCellValue($row_value,$excel_data['column_data'][$i]);
+		}
+		$row_val_body = 8;
+		for ($i=0; $i <$count_rows ; $i++) { 
+			for ($j=0; $j <count($excel_data['row_data'][$i]); $j++) { 
+				$value = $excel_data['row_data'][$i][$j];				
+				$column = $alphabet[$j];
+				$row_value = $column.$row_val_body;
+				$row_value = (string)$row_value;	
+				$excel2->getActiveSheet()->setCellValue($row_value,$excel_data['row_data'][$i][$j]);			
+			}	
+			$row_val_body++;	
+			
+		}
+	endif;
+	
+	$objWriter = PHPExcel_IOFactory::createWriter($excel2, 'Excel2007');
+	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    header("Cache-Control: no-store, no-cache, must-revalidate");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+	// It will be called file.xls
+	header("Content-Disposition: attachment; filename=$file_name");
+	// Write file to the browser
+    $objWriter -> save('php://output');
+  	$objPHPExcel -> disconnectWorksheets();
+  	unset($objPHPExcel);
+	echo "<pre>";
+	print_r($excel_data);die;
+}
 	/**************************************** creating excel sheet for the system *************************/
 	public function create_excel($excel_data = NUll) {
 
 		//check if the excel data has been set if not exit the excel generation
-
+		ob_end_clean();
 		if (count($excel_data) > 0) :
 
 			$objPHPExcel = new PHPExcel();

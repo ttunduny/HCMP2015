@@ -117,17 +117,26 @@ class Dashboard extends MY_Controller {
 
 	}
 
-	public function facility_over_view($county_id = null, $district_id = null, $facility_code = null, $graph_type = null) {
+	public function facility_over_view($county_id = null, $district_id = null, $facility_code = null, $graph_type = null,$offline=null) {
 		$district_id = ($district_id == "NULL") ? null : $district_id;
 		$graph_type = ($graph_type == "NULL") ? null : $graph_type;
 		$facility_code = ($facility_code == "NULL") ? null : $facility_code;
 		$county_id = ($county_id == "NULL") ? null : $county_id;
+		$offline = ($offline == "NULL") ? null : $offline;
 
 		$and = ($district_id > 0) ? " AND d.id = '$district_id'" : null;
 		$and .= ($facility_code > 0) ? " AND f.facility_code = '$facility_code'" : null;
 		$and .= ($county_id > 0) ? " AND c.id='$county_id'" : null;
-		$and = isset($and) ? $and : null;
+		if($offline>0){
+			$and .= ($offline ==1) ? " AND f.using_hcmp=1" : 'and f.using_hcmp = 2';
+			$title_main = ($offline==1) ? " Offline" : 'Online';
 
+		}else{
+			$and .= "AND f.using_hcmp in (1,2)";
+			$title_main = 'Total';
+
+		}
+		$and = isset($and) ? $and : null;		
 		if (isset($county_id)) :
 			$county_name = counties::get_county_name($county_id);
 		$name = $county_name['county'];
@@ -147,15 +156,14 @@ class Dashboard extends MY_Controller {
 			$q = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll(" SELECT f.`using_hcmp`
 				from facilities f, districts d, 
 				counties c where f.district=d.id 
-				and d.county=c.id and 
-				f.`using_hcmp`=1 
+				and d.county=c.id 
 				$and
 				group by f.facility_name
 				");
 
 		echo count($q);
 		else :
-			$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "facilities rolled out $title", 'file_name' => "facilities rolled out $title");
+			$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "facilities rolled out $title", 'file_name' => "Facilities Rolled Out $title_main");
 		$row_data = array();
 		$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Facility Level","Type", "Date of Activation");
 		$excel_data['column_data'] = $column_data;
@@ -168,9 +176,8 @@ class Dashboard extends MY_Controller {
 			counties c
 			where
 			f.district = d.id and d.county = c.id
-			and f.`using_hcmp` = 1
 			$and
-			group by f.facility_name
+			group by f.facility_name order by c.county, d.district, f.facility_name
 			");
 
 		foreach ($facility_stock_data as $facility_stock_data_item) :
@@ -178,7 +185,8 @@ class Dashboard extends MY_Controller {
 		endforeach;
 		$excel_data['row_data'] = $row_data;
 
-		$this -> hcmp_functions -> create_excel($excel_data);
+		// $this -> hcmp_functions -> create_excel($excel_data);
+		$this -> hcmp_functions -> create_new_excel($excel_data);
 		endif;
 	}
 

@@ -547,8 +547,16 @@
 
        var link='';
 
-       if(type=='hcwtrained'){ 
-        link='dashboard/hcw/'+county_id+'/NULL/NULL/excel';
+       if(type=='offline_count'){ 
+        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/1';
+       }
+
+       if(type=='online_count'){ 
+        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/2';
+       }
+
+       if(type=='total'){ 
+        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/NULL';
        }
 
        if(type=='rolledout'){
@@ -556,7 +564,7 @@
        }
 
        
-       window.open(url+link,'_parent'); 
+       window.open(url+link,'_blank'); 
     });  
 
     </script>
