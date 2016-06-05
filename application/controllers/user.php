@@ -482,11 +482,12 @@ class User extends MY_Controller {
 									$county = $district = $facility = null;
 									switch ($identifier):
 										case 'moh':
+											$template = 'shared_files/template/dashboard_v';
 											$permissions='moh_permissions';										
 										break;
 										case 'facility_admin':
 											$permissions='facilityadmin_permissions';	
-
+											$template = 'shared_files/template/template';
 										break;
 										case 'county':
 											$permissions='county_permissions';	
@@ -494,19 +495,21 @@ class User extends MY_Controller {
 											$county = $this-> session->userdata('county_id');
 										break;
 										case 'district':
+											$template = 'shared_files/template/template';
 											$permissions='district_permissions';										
 										break;																				
 										case 'super_admin':
-											$permissions='super_permissions';
-											$template = 'shared_files/template/dashboard_v';									
+											$template = 'shared_files/template/dashboard_v';
+											$permissions='super_permissions';									
 										break;
 									endswitch;	
 									// echo "$county";die;								
 									$data['content_view'] = "Admin/users_v";
 									$data['active_users']= Users::get_user_list_all($county,$district,$facility,null,1);
 									$data['inactive_users']= Users::get_user_list_all($county,$district,$facility,null,0);									
-									$data['deactivated_users']= Users::get_user_list_all($county,$district,$facility,null,2);								
-									$data['counties']=Counties::getAll();									
+									$data['deactivated_users']= Users::get_user_list_all($county,$district,$facility,null,2);															
+									$data['counties']=Counties::getAll();
+									
 									$data['title'] = "User Management";
 									$data['user_types']=Access_level::get_access_levels($permissions);										
 									$data['banner_text'] = "User Management";									
