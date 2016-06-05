@@ -570,10 +570,11 @@ class Kenya extends MY_Controller
 			$excel_data['row_data'] = $row_data;
 			$this->hcmp_functions->create_excel($excel_data);
 			endif;
-		}
+	}
 		
-		public function expiry($year = null, $county_id = null, $district_id = null, $facility_code = null, $graph_type = null) {
+	public function expiry($year = null, $county_id = null, $district_id = null, $facility_code = null, $graph_type = null) {
 			$year = ($year == "NULL") ? date('Y') : $year;
+			// return $graph_type;exit;
 		/*//Get the current month
 
 		 $datetime1 = new DateTime('Y-10');
@@ -649,31 +650,31 @@ class Kenya extends MY_Controller
 		 		and temp.total > 0
 		 		group by month(temp.expiry_date)");
 		 $commodity_array2 = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("
-		 	select 
-		 	DATE_FORMAT( temp.expiry_date,  '%b' ) AS cal_month,
-		 	sum(temp.total) as total
-		 	from
-		 	districts d1,
-		 	facilities f
-		 	left join
-		 	(select 
-		 	ROUND(SUM(f_s.current_balance / d.total_commodity_units) * d.unit_cost, 1) AS total,
-		 	f_s.facility_code,f_s.expiry_date
-		 	from
-		 	facility_stocks f_s, commodities d
-		 	where
-		 	f_s.expiry_date >= NOW()
-		 	and d.id = f_s.commodity_id
-		 	AND f_s.status = (1 or 2)
-		 	AND year(f_s.expiry_date) = $year
-		 	GROUP BY d.id , f_s.facility_code
-		 	having total > 1) temp ON temp.facility_code = f.facility_code
-		 	where
-		 	f.district = d1.id
-		 	$and_data
-		 	and temp.total > 0
-		 	group by month(temp.expiry_date)
-		 	");
+			 	select 
+			 	DATE_FORMAT( temp.expiry_date,  '%b' ) AS cal_month,
+			 	sum(temp.total) as total
+			 	from
+			 	districts d1,
+			 	facilities f
+			 	left join
+			 	(select 
+			 	ROUND(SUM(f_s.current_balance / d.total_commodity_units) * d.unit_cost, 1) AS total,
+			 	f_s.facility_code,f_s.expiry_date
+			 	from
+			 	facility_stocks f_s, commodities d
+			 	where
+			 	f_s.expiry_date >= NOW()
+			 	and d.id = f_s.commodity_id
+			 	AND f_s.status = (1 or 2)
+			 	AND year(f_s.expiry_date) = $year
+			 	GROUP BY d.id , f_s.facility_code
+			 	having total > 1) temp ON temp.facility_code = f.facility_code
+			 	where
+			 	f.district = d1.id
+			 	$and_data
+			 	and temp.total > 0
+			 	group by month(temp.expiry_date)
+			 	");
 
 		 foreach ($commodity_array as $data) :
 		 	$temp_array = array_merge($temp_array, array($data["cal_month"] => $data['total']));
@@ -688,13 +689,13 @@ class Kenya extends MY_Controller
 		 foreach ($months as $key => $data) :
 				//for expiries
 		 	$val = (array_key_exists($data, $temp_array)) ? (int)$temp_array[$data] : (int)0;
-		 $series_data = array_merge($series_data, array($val));
-		 array_push($series_data_, array($data, $val));
+			 $series_data = array_merge($series_data, array($val));
+			 array_push($series_data_, array($data, $val));
 
-				//for potential expiries
-		 $val2 = (array_key_exists($data, $temp_array2)) ? (int)$temp_array2[$data] : (int)0;
-		 $series_data2 = array_merge($series_data2, array($val2));
-		 array_push($series_data_2, array($data, $val2));
+					//for potential expiries
+			 $val2 = (array_key_exists($data, $temp_array2)) ? (int)$temp_array2[$data] : (int)0;
+			 $series_data2 = array_merge($series_data2, array($val2));
+			 array_push($series_data_2, array($data, $val2));
 		 endforeach;
 		 $graph_type = 'column';
 
@@ -711,6 +712,7 @@ class Kenya extends MY_Controller
 			//echo "<pre>";print_r($graph_data);echo "</pre>";exit;
 		 $data = array();
 		 $data['graph_id'] = 'dem_graph_';
+		 // echo "<pre> Me ";print_r($graph_data);exit;
 		 $data['high_graph'] = $this -> hcmp_functions -> create_high_chart_graph($graph_data);
 
 			// print_r($data['high_graph']);
@@ -763,9 +765,90 @@ class Kenya extends MY_Controller
 
 		public function dashboard()
 		{
-			$this->load->view('dashboard/dashboard_template'); 
+			$counties = $q = Doctrine_Manager::getInstance()
+			->getCurrentConnection()
+			->fetchAll("SELECT distinct c.id,c.kenya_map_id as county_fusion_map_id,c.county,count(c.county) as facility_no FROM facilities f 
+				INNER JOIN districts d ON f.district=d.id
+				INNER JOIN counties c ON d.county=c.id
+							where using_hcmp =1 group by c.county");// change  !!!!!!!!!!!!!
+			// change  !!!!!!!!!!!!!
+			$county_name = array();
+			$map = array();
+			$datas = array();
+			$status = '';
+		
+			foreach ($counties as $county) {
+				$countyMap = (int)$county['county_fusion_map_id'];
+				$countyName = $county['county_name'];
+				$facility_No = $county['facility_no'];
+				array_push($county_name,array($county['id']=>$countyName));
+				$datas[] = array('id' => $countyMap, 
+					'value' => $countyName, 
+					'value' => $facility_No,
+					'color' => 'A8E3D7', 
+					'tooltext' => $countyName,
+					"baseFontColor" => "000000", 
+					"link" => "Javascript:run('" .$county['id']. "^" .$countyName. "')");
+			}
+			
+			$map = array( "showlabels"=>'0' , "baseFontColor" => "000000", "canvasBorderColor" => "ffffff", 
+				"hoverColor" => "79A4AD", "fillcolor" => "F8F8FF", "numbersuffix" => " Facilities", 
+				"includevalueinlabels" => "1", "labelsepchar" => ":", "baseFontSize" => "9",
+				"borderColor" => "333333 ","showBevel" => "0", 'showShadow' => "0",'showTooltip'=>"1");
+			$styles = array("showBorder" => 0 , 'animation'=>"_xScale");
+			$finalMap = array('map' => $map, 'data' => $datas, 'styles' => $styles);
+			$data['title'] = "National Dashboard";
+			$data['maps'] = json_encode($finalMap);
+			$data['counties'] = $county_name;
+			$this->load->view('dashboard/dashboard_template',$data); 
 		}
 
+	public function dashboard_new() {
+
+		//$this -> hcmp_functions -> amc($county= null,$district= null,$facility_code= null);
+		
+		//exit;
+
+		$counties = $q = Doctrine_Manager::getInstance()
+		->getCurrentConnection()
+		->fetchAll("SELECT distinct c.id,c.kenya_map_id as county_fusion_map_id,c.county,count(c.county) as facility_no FROM facilities f 
+			INNER JOIN districts d ON f.district=d.id
+			INNER JOIN counties c ON d.county=c.id
+						where using_hcmp =1 group by c.county");// change  !!!!!!!!!!!!!
+		// change  !!!!!!!!!!!!!
+		$county_name = array();
+		$map = array();
+		$datas = array();
+		$status = '';
+		
+		foreach ($counties as $county) {
+			$countyMap = (int)$county['county_fusion_map_id'];
+			$countyName = $county['county_name'];
+			$facility_No = $county['facility_no'];
+			array_push($county_name,array($county['id']=>$countyName));
+			$datas[] = array('id' => $countyMap, 
+				'value' => $countyName, 
+				'value' => $facility_No,
+				'color' => '#BEDAF6', 
+				'tooltext' => $countyName,
+				"baseFontColor" => "000000", 
+				"link" => "Javascript:run('" .$county['id']. "^" .$countyName. "')");
+		}
+		$map = array( "showlabels"=>'0' , "baseFontColor" => "000000", "canvasBorderColor" => "ffffff", 
+			"hoverColor" => "#818FA0", "fillcolor" => "F8F8FF", "numbersuffix" => " Facilities", 
+			"includevalueinlabels" => "1", "labelsepchar" => ":", "baseFontSize" => "9",
+			"borderColor" => "333333 ","showBevel" => "0", 'showShadow' => "0",'showTooltip'=>"1");
+		$styles = array("showBorder" => 0 , 'animation'=>"_xScale");
+		$finalMap = array('map' => $map, 'data' => $datas, 'styles' => $styles);
+		$data['title'] = "National Dashboard";
+		$data['maps'] = json_encode($finalMap);
+		$data['counties'] = $county_name;
+		// echo "<pre>";print_r($data);exit;
+		$this -> load -> view("national/2016/national_home_v.php", $data);
+
+	}
 	}   
+
+
 
 	?>
