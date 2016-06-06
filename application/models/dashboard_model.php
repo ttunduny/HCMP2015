@@ -47,5 +47,31 @@ class Dashboard_model extends Doctrine_Record {
 		            ")->result_array();
 		return $codeigniter_sucks;
 	}
+
+	public function get_tracer_commodities()
+	{
+		$codeigniter_sucks_balls = $this->db->query(
+			"SELECT 
+			    *
+			FROM
+			    hcmp_rtk.commodities
+			WHERE
+			    tracer_item = 1"
+			    )->result_array();
+		return $codeigniter_sucks_balls;
+	}
+
+	public function get_commodity_details($id)
+	{
+		$codeigniter_been_sucking_balls = $this->db->query(
+			"SELECT 
+			    *
+			FROM
+			    hcmp_rtk.commodities WHERE id = $id"
+			    )->result_array();
+		return $codeigniter_been_sucking_balls;
+	}
+
+
 }
 ?>
