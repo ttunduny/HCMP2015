@@ -122,8 +122,6 @@ class Home extends MY_Controller
 				$view = "shared_files/template/template";
 				$data['last_synced'] = $last_synced;
  				$data['content_view'] = "shared_files/synchronize_now";
-			} else if($last_synced > 31) {
-				
 			} else {
 				$view = 'shared_files/template/template';
 				$data['content_view'] = "facility/facility_home_v";

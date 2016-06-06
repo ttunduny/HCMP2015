@@ -78,12 +78,16 @@ class Facilities extends Doctrine_Record {
 	}	
 
 	public function get_days_from_last_sync($facility_code) {
-		$sql = "SELECT DATEDIFF(MAX(last_sync), current_date()) AS date_from_last_sync FROM db_sync WHERE facility_code = '$facility_code';";
+		$sql = "SELECT DATEDIFF(current_date(), MAX(last_sync)) AS date_from_last_sync FROM db_sync WHERE facility_code = '$facility_code';";
 		$days_last_synced = $this->db->query($sql)->result_array();
 		foreach($days_last_synced as $days_last_synced) {
 			$days = $days_last_synced['date_from_last_sync'];
 		}
         return $days;   
+	}
+
+	public function get_districts_for_facilities_not_synced() {
+		$sql = "";
 	}
 
     public static function check_active_facility($facility)
