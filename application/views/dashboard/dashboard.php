@@ -327,17 +327,36 @@
              -->
           </div>
           <br />
-         <!-- 
-          <div class="row">
-              <div class="col-md-12 x_panel" id="consumption"></div>
+         
+          <div class="row x_panel">
+              <div class="col-md-12">
+                <select class="select2 col-md-10" id="consumption_commodity">
+                  <option value="0">Select Commodity</option>
+                    <?php foreach ($tracer_commodities as $tracer => $value):?> 
+                        <option value="<?php echo $value['id']; ?>"><?php echo $value['commodity_name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button class="btn btn-primary consumption_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button>
+              </div>
+
+              <div class="col-md-12" id="consumption"></div>
           </div>
           <br />
 
-          <div class="row">
-              <div class="col-md-12 x_panel" id="actual"></div>
+          <div class="row x_panel">
+              <div class="col-md-12">
+                <select class="select2 col-md-10" id="expiry_commodity">
+                  <option value="0">Select Commodity</option>
+                    <?php foreach ($tracer_commodities as $tracer => $value):?> 
+                        <option value="<?php echo $value['id']; ?>"><?php echo $value['commodity_name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button class="btn btn-primary expiry_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button>
+              </div>
+              <div class="col-md-12" id="actual"></div>
           </div>
           <br />
-           -->
+          
         </div>
         <!-- /page content -->
 
