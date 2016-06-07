@@ -178,29 +178,7 @@ class Home extends MY_Controller
 	}
 
 	public function test_fx() {
-		$facilities_not_synced = Facilities::get_facilities_not_synced();
-		// echo "<pre>"; print_r($facilities_not_synced); exit;
-		$scp_details_all = array("arnoldkyaye@gmail.com", "karsanrichard@gmail.com","ttunduny@gmail.com","georgegkagwe@gmail.com");
-		// $scp_details_all = array();
-		// for($i = 0; $i < count($facilities_not_synced); $i++) {
-		// 	$scp_details_all = Users::get_scp_details($facilities_not_synced[$i]['district_id']);
-		// 	//echo "<pre>"; print_r($facilities_not_synced[$i]);
-		// 	// $scp_emails = array_push($scp_details, Users::get_scp_details($facilities_not_synced[$i]['district_id']);
-		// }
-		$excel_data = array("file_name" => "Facilites Not Synchronized");
-		$column_data = array("District Name", "Facility Name", "MFL", "Days From Last Synchronization");
-		$excel_data['column_data'] = $column_data;
-		$row_data = array();
-
-		foreach($facilities_not_synced as $facilities_not_synced) {
-			array_push($row_data, array($facilities_not_synced['district_name'], $facilities_not_synced['facility_name'],$facilities_not_synced['facility_code'],$facilities_not_synced['days_from_last_sync']));
-		}
-		// echo "<pre>"; print_r($row_data); exit;
-		$excel_data['row_data'] = $row_data;
-		$this-> hcmp_functions ->create_excel($excel_data);
-		// echo "<pre>"; print_r($scp_details_all); exit;
-        
-		// echo "<pre>"; print_r($scp_details_email); exit;
+		
 	}
 
 	public function get_facility_dashboard_notifications_graph_data()

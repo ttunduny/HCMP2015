@@ -3356,15 +3356,15 @@ $subject = "System Usage as at ".$time;
 
 	
 	/*ACTUAL EMAIL ADDRESSES TO BE SENT TO*/
-	/*
+	
 	$email_address = $cp_emails_str;
 	$cc_email = $scp_emails_str;
 	$bcc_email = "smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com,ronohb@gmail.com,odiwuorybrian@gmail.com,mwakiojoy@gmail.com,kevgithuka@gmail.com,margie.odora@gmail.com,kiganyastephenthua@gmail.com";
-	*/	
+		
 	/*END OF ACTUAL EMAILS*/
 
 	/*TEST EMAILS*/
-	$email_address = "karsanrichard@gmail.com,arnoldkyaye@gmail.com,ttunduny@gmail.com";
+	// $email_address = "karsanrichard@gmail.com,arnoldkyaye@gmail.com,ttunduny@gmail.com";
 	/*END OF TEST EMAILS*/
 
 	// $bcc_email = "";

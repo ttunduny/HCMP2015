@@ -90,13 +90,14 @@ class Users extends Doctrine_Record {
 	public static function get_scp_details($district){
 		$query = Doctrine_Manager::getInstance() -> getCurrentConnection() -> 
 		fetchAll("SELECT 
-				    fname, lname, telephone
+				    fname, lname, telephone, email
 				FROM
 				    user
 				WHERE
 				    district = $district 
 				    AND usertype_id = '3'
 				    AND telephone <>0
+				    AND email IS NOT NULL
 				    AND status = 1");
 		
 		return $query;
