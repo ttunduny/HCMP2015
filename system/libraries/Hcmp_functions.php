@@ -218,6 +218,23 @@ public function send_system_text($action)
 
 		}
 
+	public function send_offline_report() {
+		// Get Districts for Facility Not Synced
+		$facilities_not_synced = Facilities::get_facilities_not_synced();
+
+		// Get SCP Details
+		$scp_details_all = array();
+		for($i = 0; $i < count($facilities_not_synced); $i++) {
+			$scp_details_all = Users::get_scp_details($facilities_not_synced[$i]['district_id']);
+		}
+		$scp_details_email = array();
+		for($i = 0; $i < count($scp_details_all); $i++) {
+			$scp_details_email = $scp_details_all[$i]['email'];
+		}
+		// Send Email + Excel Report to SCP
+		// Find Facilities that have not synchronized
+	}
+
 	public function send_stock_update_sms() {
 		$facility_name = $this -> session -> userdata('full_name');
 		$facility_code = $this -> session -> userdata('facility_id');
