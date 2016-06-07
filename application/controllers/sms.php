@@ -2982,7 +2982,7 @@ $handler = "./print_docs/excel/excel_files/" . $excel_data['file_name'] . ".xls"
 $subject = "System Usage as at ".$time;
 
 	// $email_address = "smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com";
-$email_address = "karsanrichard@gmail.com,arnoldkyaye@gmail.com,ttunduny@gmail.com";
+$email_address = "karsanrichard@gmail.com,arnoldkyaye@gmail.com,ttunduny@gmail.com,georgegkagwe@gmail.com";
 	// $email_address = "karsanrichard@gmail.com";
 						// $email_address = "karsanrichard@gmail.com,ttunduny@gmail.com";
                         // $email_address = "ttunduny@gmail.com";
@@ -3364,7 +3364,7 @@ $subject = "System Usage as at ".$time;
 	/*END OF ACTUAL EMAILS*/
 
 	/*TEST EMAILS*/
-	$email_address = "karsanrichard@gmail.com,arnoldkyaye@gmail.com,ttunduny@gmail.com";
+	$email_address = "georgegkagwe@gmail.com";
 	/*END OF TEST EMAILS*/
 
 	// $bcc_email = "";
