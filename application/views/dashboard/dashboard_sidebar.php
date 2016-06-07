@@ -60,7 +60,7 @@
                     <li><a href="<?php echo base_url().'home'; ?>"> Essential Commodities </a></li>
                     <li><a href="http://41.89.6.223/HCMP/user"> RTK</a></li>
                     <li><a href="http://41.89.6.209/sms_system"> SMS System</a></li>
-                    <li><a href="http://41.89.6.209/MNCH"> MNCH</a></li>
+                    <li><a href="http://41.89.6.209/MNCH/analytics/CHV2"> MNCH</a></li>
                     </ul>
                   </li>
               </div>

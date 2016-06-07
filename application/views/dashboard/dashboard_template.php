@@ -22,7 +22,7 @@
     <link href=<?php echo base_url()."assets/dashboard/vendors/select2/dist/css/select2.min.css"?> rel="stylesheet">
     
     <!-- jVectorMap -->
-    <link href=<?php echo base_url()."assets/dashboard/css/maps/jquery-jvectormap-2.0.3.css"?> rel="stylesheet"/>
+    <!-- <link href=<?php echo base_url()."assets/dashboard/css/maps/jquery-jvectormap-2.0.3.css"?> rel="stylesheet"/> -->
 
     <!-- Custom Theme Style -->
     <link href=<?php echo base_url()."assets/dashboard/css/custom.css"?> rel="stylesheet">
@@ -50,7 +50,7 @@
     <!-- Chart.js -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/Chart.js/dist/Chart.min.js"?> ></script>
     <!-- gauge.js -->
-    <script src=<?php echo base_url()."assets/dashboard/vendors/bernii/gauge.js/dist/gauge.min.js"?> ></script>
+    <!-- <script src=<?php echo base_url()."assets/dashboard/vendors/bernii/gauge.js/dist/gauge.min.js"?> ></script> -->
     <!-- bootstrap-progressbar -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"?> ></script>
     <!-- iCheck -->
@@ -72,7 +72,7 @@
     <script src=<?php echo base_url()."assets/dashboard/js/flot/jquery.flot.spline.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/flot/curvedLines.js"?>></script>
     <!-- jVectorMap -->
-    <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-2.0.3.min.js"?>></script>
+    <!-- <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-2.0.3.min.js"?>></script> -->
     <!-- bootstrap-daterangepicker -->
     <script src=<?php echo base_url()."assets/dashboard/js/moment/moment.min.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/datepicker/daterangepicker.js"?>></script>
@@ -175,13 +175,13 @@
     <!-- /Flot -->
 
     <!-- jVectorMap -->
-    <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-world-mill-en.js"?>></script>
-    <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-us-aea-en.js"?>></script>
+    <!-- <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-world-mill-en.js"?>></script> -->
+    <!-- <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-us-aea-en.js"?>></script> -->
     <script src="<?php echo base_url().'assets/highcharts/highcharts.js'?>"></script>
     <script src="<?php echo base_url().'assets/highcharts/exporting.js'?>"></script>
     <script src=<?php echo base_url()."assets/dashboard/js/maps/gdp-data.js"?>></script>
     <script>
-      $(document).ready(function(){
+     /* $(document).ready(function(){
         $('#world-map-gdp').vectorMap({
           map: 'world_mill_en',
           backgroundColor: 'transparent',
@@ -197,7 +197,7 @@
             el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
           }
         });
-      });
+      });*/
     </script>
     <!-- /jVectorMap -->
 
@@ -227,7 +227,8 @@
     <script>
       $(document).ready(function(){ 
         $(".select2").select2({
-          placeholder: "0"
+          placeholder: "0",
+          // containerCssClass: "float-left" 
         });
         var options = {
           legend: false,
@@ -343,32 +344,6 @@
     </script>
     <!-- /bootstrap-daterangepicker -->
 
-    <!-- gauge.js -->
-    <script>
-      var opts = {
-          lines: 12,
-          angle: 0,
-          lineWidth: 0.4,
-          pointer: {
-              length: 0.75,
-              strokeWidth: 0.042,
-              color: '#1D212A'
-          },
-          limitMax: 'false',
-          colorStart: '#1ABC9C',
-          colorStop: '#1ABC9C',
-          strokeColor: '#F0F3F3',
-          generateGradient: true
-      };
-      var target = document.getElementById('foo'),
-          gauge = new Gauge(target).setOptions(opts);
-
-      gauge.maxValue = 6000;
-      gauge.animationSpeed = 32;
-      gauge.set(3200);
-      gauge.setTextField(document.getElementById("gauge-text"));
-    </script>
-    <!-- /gauge.js -->
   <script src="<?php echo base_url().'assets/scripts/pace.js'?>" type="text/javascript"></script>
 
     <script>
@@ -408,8 +383,8 @@
 
 
 
-    //auto run
-    var url ='<?php echo base_url()?>';
+      //auto run
+      var url ='<?php echo base_url()?>';
         // $('#potential_').on('shown.bs.tab', function (e) {
         // $('#potential').html('');
        // });
@@ -419,15 +394,24 @@
 
        $('.county-name').html("National "+" &nbsp;");
        /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
-       ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/NULL',"#actual"); 
-      //ajax_request_replace_div_content('dashboard/potential/NULL/NULL/NULL/NULL/NULL',"#potential"); 
-      ajax_request_replace_div_content('dashboard/facility_over_view/',"#facilities_rolled_out");
-      ajax_request_replace_div_content('dashboard/hcw/',"#hcw_trained");
-      ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/NULL',"#mos");
-      ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL',"#consumption");
-      ajax_request_replace_div_content('dashboard/get_facility_infor/NULL/NULL/NULL/NULL',"#facilities");      
-      ajax_request_replace_div_content('dashboard/order/NULL/NULL/NULL/NULL/NULL',"#orders");
-      ajax_request_replace_div_content('dashboard/get_lead_infor/NULL/NULL/NULL/NULL/NULL',"#lead_infor");
+        ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/1/NULL',"#mos");
+        ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL/NULL/NULL/NULL/1',"#consumption");
+        ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/NULL/NULL',"#actual"); 
+
+        $(".expiry_filter").button().click(function(e) {
+          e.preventDefault(); 
+          var commodity = $("#expiry_commodity").val();
+
+         ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#actual");
+        });
+
+        $(".consumption_filter").button().click(function(e) {
+          e.preventDefault(); 
+          var commodity = $("#consumption_commodity").val();
+
+         ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
+        });
+
       
       $(".ecounty-filter").button().click(function(e) {
         e.preventDefault(); 
@@ -436,7 +420,7 @@
        // var district=$(this).closest("tr").find("#ecounty_filter").val();
        // var facility=$(this).closest("tr").find("#ecounty_filter").val();
        ajax_request_replace_div_content('dashboard/expiry/'+year+'/'+county+'/NULL/NULL/NULL',"#actual");
-    });
+        });
 
       $(".asubcounty-filter").button().click(function(e) {
         e.preventDefault(); 
@@ -547,6 +531,9 @@
 
        var link='';
 
+       if (type=="commodity_count"){
+        link='dashboard/generate_commodities_excel';
+       }
        if(type=='offline_count'){ 
         link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/1';
        }

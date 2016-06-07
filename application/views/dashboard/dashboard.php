@@ -1,4 +1,20 @@
 <?php //echo "<pre>";print_r($facility_count);exit; ?>
+<style>
+  .select2{
+    float:left!important;
+    width:100%!important;
+  }
+  .filter_button{
+    padding:8px 22px!important;
+    margin:0;
+    float:left;
+    border-radius:0px;
+    width:100%
+  }
+  .full-width{
+    width:100%;
+  }
+</style>
  <div class="container body">
       <div class="main_container">
         <?php $this->load->view('dashboard/dashboard_sidebar'); ?>
@@ -327,17 +343,47 @@
              -->
           </div>
           <br />
-         <!-- 
-          <div class="row">
-              <div class="col-md-12 x_panel" id="consumption"></div>
-          </div>
-          <br />
+         <div class="col-md-12">
+           
+          <div class="x_panel col-md-6">
+              <div class="col-md-12">
+                <div class="col-md-10 no-padding-no-margin">
+                  <select class="select2 full-width" id="consumption_commodity">
+                    <option value="0">Select Commodity</option>
+                      <?php foreach ($tracer_commodities as $tracer => $value):?> 
+                          <option value="<?php echo $value['id']; ?>"><?php echo $value['commodity_name']; ?></option>
+                      <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="col-md-2 no-padding-no-margin">
+                  <button class="btn btn-primary consumption_filter filter_button">Filter</button>
+                </div>
+              </div>
 
-          <div class="row">
-              <div class="col-md-12 x_panel" id="actual"></div>
+              <div class="col-md-12" id="consumption"></div>
           </div>
-          <br />
-           -->
+          <!-- <br /> -->
+
+          <div class="x_panel col-md-6">
+              <div class="col-md-12">
+                <div class="col-md-10 no-padding-no-margin">
+                  <select class="select2 full-width" id="expiry_commodity">
+                    <option value="0">Select Commodity</option>
+                      <?php foreach ($tracer_commodities as $tracer => $value):?> 
+                          <option value="<?php echo $value['id']; ?>"><?php echo $value['commodity_name']; ?></option>
+                      <?php endforeach; ?>
+                  </select>
+                </div>
+                <div class="col-md-2 no-padding-no-margin">
+                  <button class="btn btn-primary expiry_filter filter_button">Filter</button>
+                </div>
+                <!-- <button class="btn btn-primary expiry_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button> -->
+              </div>
+              <div class="col-md-12" id="actual"></div>
+          </div>
+          <!-- <br /> -->
+         </div>
+          
         </div>
         <!-- /page content -->
 
