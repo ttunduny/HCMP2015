@@ -78,7 +78,7 @@ class Facilities extends Doctrine_Record {
 	}	
 
 	public function get_days_from_last_sync($facility_code) {
-		$sql = "SELECT DATEDIFF(current_date(), MAX(last_sync)) AS date_from_last_sync FROM db_sync WHERE facility_code = '$facility_code';";
+		$sql = "SELECT DATEDIFF(current_date(), MAX(last_sync) ) AS date_from_last_sync FROM db_sync WHERE facility_code = '$facility_code';";
 		$days_last_synced = $this->db->query($sql)->result_array();
 		foreach($days_last_synced as $days_last_synced) {
 			$days = $days_last_synced['date_from_last_sync'];
@@ -86,8 +86,21 @@ class Facilities extends Doctrine_Record {
         return $days;   
 	}
 
-	public function get_districts_for_facilities_not_synced() {
-		$sql = "";
+	public function get_facilities_not_synced() {
+		$sql = "SELECT
+					f.district AS 'district_id',
+					d.district AS 'district_name',
+				    f.facility_name,
+					ds.facility_code,
+					DATEDIFF(CURRENT_DATE(), ds.last_sync) AS days_from_last_sync
+				FROM
+					districts d JOIN
+				    facilities f
+				        JOIN
+				    db_sync ds ON d.id = f.district AND f.facility_code = ds.facility_code 
+				    WHERE DATEDIFF(CURRENT_DATE(), ds.last_sync) >= 30;";
+		$facilities_not_synced = $this->db->query($sql)->result_array();
+		return $facilities_not_synced;
 	}
 
     public static function check_active_facility($facility)
