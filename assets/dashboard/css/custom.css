@@ -1543,6 +1543,7 @@ span.right {
   overflow: hidden;
   white-space: nowrap;
   position: relative;
+  height:100px;
 }
 @media (min-width: 992px) {
   .tile_count .tile_stats_count {
@@ -4814,5 +4815,12 @@ ul.notifications {
 }
 .float-left{
   float: left!important;
+}
+.no-padding-no-margin{
+  margin:0!important;
+  padding:0!important;
+}
+.full-height{
+  height:100%!important;
 }
 /*END OF KARSAN CSS OVER TEMPLATE*/
