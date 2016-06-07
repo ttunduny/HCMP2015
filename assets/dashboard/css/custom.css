@@ -823,7 +823,7 @@ h2 {
 }
 .x_panel {
   position: relative;
-  width: 100%;
+  /*width: 100%;*/
   margin-bottom: 10px;
   padding: 10px 17px;
   display: inline-block;
@@ -4811,5 +4811,8 @@ ul.notifications {
 }
 .full-width{
   width:100%!important;
+}
+.float-left{
+  float: left!important;
 }
 /*END OF KARSAN CSS OVER TEMPLATE*/

@@ -1,4 +1,9 @@
 <?php //echo "<pre>";print_r($facility_count);exit; ?>
+<style>
+  .select2{
+    float:left!important;
+  }
+</style>
  <div class="container body">
       <div class="main_container">
         <?php $this->load->view('dashboard/dashboard_sidebar'); ?>
@@ -327,35 +332,38 @@
              -->
           </div>
           <br />
-         
-          <div class="row x_panel">
+         <div class="col-md-12">
+           
+          <div class="x_panel col-md-6">
               <div class="col-md-12">
-                <select class="select2 col-md-10" id="consumption_commodity">
+                <select class="select2 col-md-10" id="consumption_commodity" style="float:left!important;">
                   <option value="0">Select Commodity</option>
                     <?php foreach ($tracer_commodities as $tracer => $value):?> 
                         <option value="<?php echo $value['id']; ?>"><?php echo $value['commodity_name']; ?></option>
                     <?php endforeach; ?>
                 </select>
-                <button class="btn btn-primary consumption_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button>
+                <button class="btn btn-primary consumption_filter" style="padding:8px 22px!important;margin:0;float:left;border-radius:0px">Filter</button>
               </div>
 
               <div class="col-md-12" id="consumption"></div>
           </div>
-          <br />
+          <!-- <br /> -->
 
-          <div class="row x_panel">
+          <div class="x_panel col-md-6">
               <div class="col-md-12">
-                <select class="select2 col-md-10" id="expiry_commodity">
+                <select class="select2 col-md-10" id="expiry_commodity" style="float:left!important;">
                   <option value="0">Select Commodity</option>
                     <?php foreach ($tracer_commodities as $tracer => $value):?> 
                         <option value="<?php echo $value['id']; ?>"><?php echo $value['commodity_name']; ?></option>
                     <?php endforeach; ?>
                 </select>
-                <button class="btn btn-primary expiry_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button>
+                <button class="btn btn-primary expiry_filter" style="padding:8px 22px!important;margin:0;float:left;border-radius:0px">Filter</button>
+                <!-- <button class="btn btn-primary expiry_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button> -->
               </div>
               <div class="col-md-12" id="actual"></div>
           </div>
-          <br />
+          <!-- <br /> -->
+         </div>
           
         </div>
         <!-- /page content -->
