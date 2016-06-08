@@ -227,7 +227,8 @@
     <script>
       $(document).ready(function(){ 
         $(".select2").select2({
-          placeholder: "0"
+          placeholder: "0",
+          // containerCssClass: "float-left" 
         });
         var options = {
           legend: false,

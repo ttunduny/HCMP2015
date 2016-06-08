@@ -66,7 +66,6 @@ class User extends MY_Controller {
 			}
 	}
 	public function login_submit() {
-
 		$user = new Users();
 
 		$password = $this -> input -> post('password');
@@ -127,6 +126,7 @@ class User extends MY_Controller {
 				$access_typeid,'full_name' => $fullname,
 				'banner_name'=>$banner_name,'facility_count'=>$facility_count);
 
+
 			$this -> session -> set_userdata($session_data);
 			
 			//get menu items
@@ -153,6 +153,7 @@ class User extends MY_Controller {
 
 			}
 			
+			echo "I work";exit;
 			//Save this menus array in the session
 			$this -> session -> set_userdata("menus" ,$menus);
 			//Save this sub menus array in the session
@@ -168,7 +169,9 @@ class User extends MY_Controller {
 			$u1->facility_code = ($facility_code==0) ? null : $facility_code;
 			$u1->save();
 			
-			redirect('home');
+			// error_reporting(1);
+			redirect(base_url().'home');
+			// redirect('home');
 		} else {
 			$data['popup'] = "errorpopup";
 			$data['title'] = "Login";
