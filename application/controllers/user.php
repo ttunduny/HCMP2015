@@ -32,9 +32,7 @@ class User extends MY_Controller {
 		return $this -> form_validation -> run();
 
 	}
-<<<<<<< HEAD
 
-=======
 	public function default_facility_users() {
 		$q = "SELECT
 			    DISTINCT(f.facility_code) AS 'facility_code',
@@ -471,7 +469,7 @@ class User extends MY_Controller {
 									}
 									echo true;
 
-<<<<<<< HEAD
+
 								}
 								public function new_create_user($reset_user = NULL,$password_reset = NULL){
 									$permissions='super_permissions';									
@@ -482,7 +480,7 @@ class User extends MY_Controller {
 									$template = 'shared_files/template/dashboard_v';
 									$data['title'] = "User Management";
 									$data['user_types']=Access_level::get_access_levels($permissions);	
-=======
+
 
 								}
 								public function reset_user_password($user_id) {
@@ -528,7 +526,7 @@ class User extends MY_Controller {
 									
 									$data['title'] = "User Management";
 									$data['user_types']=Access_level::get_access_levels($permissions);										
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+
 									$data['banner_text'] = "User Management";									
 									$data['current_user_id'] = $this-> session -> userdata('user_id');
 									$this -> load -> view($template, $data);
@@ -564,37 +562,33 @@ class User extends MY_Controller {
 										break;
 										case 'facility_admin':
 										$permissions='facilityadmin_permissions';
-<<<<<<< HEAD
-=======
+
 										$data['counties']=Counties::getAll();
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+
 										$data['listing']= Users::get_user_list_facility($facility);		
 										$template = 'shared_files/template/template';
 										break;
 										case 'district':
 										$permissions='district_permissions';
-<<<<<<< HEAD
-=======
+
 										$data['counties']=Counties::getAll();
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+
 										$data['listing']= Users::get_user_list_district($district);
 										$data['facilities']=Facilities::getFacilities($district);
 										$data['counts']=Users::get_users_district($district);
 										$template = 'shared_files/template/template';
 										break;
 										case 'moh_user':
-<<<<<<< HEAD
-=======
+
 										$data['counties']=Counties::getAll();
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+
 										$data['listing']= Users::get_user_list($user_type_id);	
 										$template = 'shared_files/template/dashboard_template_v';
 										break;
 										case 'district_tech':
-<<<<<<< HEAD
-=======
+
 										$data['counties']=Counties::getAll();
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+
 										$data['listing']= Users::get_user_list($user_type_id);	
 										$template = 'shared_files/template/template';
 										break;

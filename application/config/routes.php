@@ -39,11 +39,11 @@
 */
 
 
-<<<<<<< HEAD
+
 $route['default_controller'] = "kenya";
-=======
+
 $route['default_controller'] = "dashboard";
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+
 $route['404_override'] = '';
 // $route['(:any)'] = ;
 /* End of file routes.php */
