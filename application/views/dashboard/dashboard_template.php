@@ -7,16 +7,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<<<<<<< HEAD
     <title>HCMP | <?php echo date('Y') ?> </title>
+=======
+    <title>HCMP Dashboard | <?php echo date('Y') ?> </title>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 
     <!-- Bootstrap -->
     <link href=<?php echo base_url()."assets/dashboard/vendors/bootstrap/dist/css/bootstrap.min.css"?> rel="stylesheet">
     <!-- Font Awesome -->
+<<<<<<< HEAD
+=======
+    <link rel="icon" href="<?php echo base_url().'assets/img/coat_of_arms.png'?>" type="image/x-icon" />
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <link href=<?php echo base_url()."assets/dashboard/vendors/font-awesome/css/font-awesome.min.css"?> rel="stylesheet">
     <!-- iCheck -->
     <link href=<?php echo base_url()."assets/dashboard/vendors/iCheck/skins/flat/green.css"?> rel="stylesheet">
     <!-- bootstrap-progressbar -->
     <link href=<?php echo base_url()."assets/dashboard/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css"?> rel="stylesheet">
+<<<<<<< HEAD
     <!-- jVectorMap -->
     <link href=<?php echo base_url()."assets/dashboard/css/maps/jquery-jvectormap-2.0.3.css"?> rel="stylesheet"/>
 
@@ -26,6 +35,28 @@
 
   <body class="nav-md">
    <?php $this->load->view('dashboard/dashboard'); ?>
+=======
+    
+    <link href=<?php echo base_url()."assets/dashboard/vendors/select2/dist/css/select2.min.css"?> rel="stylesheet">
+    
+    <!-- jVectorMap -->
+    <!-- <link href=<?php echo base_url()."assets/dashboard/css/maps/jquery-jvectormap-2.0.3.css"?> rel="stylesheet"/> -->
+
+    <!-- Custom Theme Style -->
+    <link href=<?php echo base_url()."assets/dashboard/css/custom.css"?> rel="stylesheet">
+  <script src="<?php echo base_url().'assets/FusionCharts/FusionCharts.js'?>" type="text/javascript"></script>
+  </head>
+
+  <body class="nav-md">
+  <?php 
+    if (isset($content_view)) {
+      $this->load->view($content_view);
+    }
+    else{
+      $this->load->view('dashboard/dashboard');
+    }
+   ?>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 
     <!-- jQuery -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/jquery/dist/jquery.min.js"?>></script>
@@ -38,26 +69,44 @@
     <!-- Chart.js -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/Chart.js/dist/Chart.min.js"?> ></script>
     <!-- gauge.js -->
+<<<<<<< HEAD
     <script src=<?php echo base_url()."assets/dashboard/vendors/bernii/gauge.js/dist/gauge.min.js"?> ></script>
+=======
+    <!-- <script src=<?php echo base_url()."assets/dashboard/vendors/bernii/gauge.js/dist/gauge.min.js"?> ></script> -->
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <!-- bootstrap-progressbar -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"?> ></script>
     <!-- iCheck -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/iCheck/icheck.min.js"?> ></script>
     <!-- Skycons -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/skycons/skycons.js"?> ></script>
+<<<<<<< HEAD
+=======
+    
+    <script src=<?php echo base_url()."assets/dashboard/vendors/select2/dist/js/select2.full.min.js"?> ></script>
+
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <!-- Flot -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.js"?> ></script>
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.pie.js"?> ></script>
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.time.js"?> ></script>
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.stack.js"?> ></script>
+<<<<<<< HEAD
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.resize.js"?> ></script>
+=======
+    <!-- <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.resize.js"?> ></script> -->
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <!-- Flot plugins -->
     <script src=<?php echo base_url()."assets/dashboard/js/flot/jquery.flot.orderBars.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/flot/date.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/flot/jquery.flot.spline.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/flot/curvedLines.js"?>></script>
     <!-- jVectorMap -->
+<<<<<<< HEAD
     <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-2.0.3.min.js"?>></script>
+=======
+    <!-- <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-2.0.3.min.js"?>></script> -->
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <!-- bootstrap-daterangepicker -->
     <script src=<?php echo base_url()."assets/dashboard/js/moment/moment.min.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/datepicker/daterangepicker.js"?>></script>
@@ -74,8 +123,18 @@
           [gd(2012, 1, 3), 6],
           [gd(2012, 1, 4), 39],
           [gd(2012, 1, 5), 20],
+<<<<<<< HEAD
           [gd(2012, 1, 6), 85],
           [gd(2012, 1, 7), 7]
+=======
+          [gd(2012, 1, 7), 35],
+          [gd(2012, 1, 8), 45],
+          [gd(2012, 1, 9), 55],
+          [gd(2012, 1, 10), 65],
+          [gd(2012, 1, 11), 95],
+          [gd(2012, 1, 12), 100],
+          [gd(2012, 1, 13), 150]
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         ];
 
         var data2 = [
@@ -84,9 +143,22 @@
           [gd(2012, 1, 3), 66],
           [gd(2012, 1, 4), 9],
           [gd(2012, 1, 5), 119],
+<<<<<<< HEAD
           [gd(2012, 1, 6), 6],
           [gd(2012, 1, 7), 9]
         ];
+=======
+          [gd(2012, 1, 6), 96],
+          [gd(2012, 1, 7), 66],
+          [gd(2012, 1, 8), 56],
+          [gd(2012, 1, 9), 60],
+          [gd(2012, 1, 10), 67],
+          [gd(2012, 1, 11), 63],
+          [gd(2012, 1, 12), 90],
+          [gd(2012, 1, 13), 95]
+        ];
+        /*
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
           data1, data2
         ], {
@@ -101,6 +173,15 @@
               lineWidth: 1,
               fill: 0.4
             },
+<<<<<<< HEAD
+=======
+            bars: {
+              show: true,
+              tension: 0.4,
+              lineWidth: 1,
+              fill: 0.4
+            },
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
             points: {
               radius: 0,
               show: true
@@ -131,9 +212,15 @@
             ticks: 8,
             tickColor: "rgba(51, 51, 51, 0.06)",
           },
+<<<<<<< HEAD
           tooltip: false
         });
 
+=======
+          tooltip: true
+        });
+        */
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         function gd(year, month, day) {
           return new Date(year, month - 1, day).getTime();
         }
@@ -142,11 +229,21 @@
     <!-- /Flot -->
 
     <!-- jVectorMap -->
+<<<<<<< HEAD
     <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-world-mill-en.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-us-aea-en.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/maps/gdp-data.js"?>></script>
     <script>
       $(document).ready(function(){
+=======
+    <!-- <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-world-mill-en.js"?>></script> -->
+    <!-- <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-us-aea-en.js"?>></script> -->
+    <script src="<?php echo base_url().'assets/highcharts/highcharts.js'?>"></script>
+    <script src="<?php echo base_url().'assets/highcharts/exporting.js'?>"></script>
+    <script src=<?php echo base_url()."assets/dashboard/js/maps/gdp-data.js"?>></script>
+    <script>
+     /* $(document).ready(function(){
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         $('#world-map-gdp').vectorMap({
           map: 'world_mill_en',
           backgroundColor: 'transparent',
@@ -162,10 +259,18 @@
             el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
           }
         });
+<<<<<<< HEAD
       });
     </script>
     <!-- /jVectorMap -->
 
+=======
+      });*/
+    </script>
+    <!-- /jVectorMap -->
+
+
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <!-- Skycons -->
     <script>
       $(document).ready(function() {
@@ -189,17 +294,29 @@
 
     <!-- Doughnut Chart -->
     <script>
+<<<<<<< HEAD
       $(document).ready(function(){
+=======
+      $(document).ready(function(){ 
+        $(".select2").select2({
+          placeholder: "0"
+        });
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         var options = {
           legend: false,
           responsive: false
         };
+<<<<<<< HEAD
 
+=======
+        /*
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         new Chart(document.getElementById("canvas1"), {
           type: 'doughnut',
           tooltipFillColor: "rgba(51, 51, 51, 0.55)",
           data: {
             labels: [
+<<<<<<< HEAD
               "Symbian",
               "Blackberry",
               "Other",
@@ -221,11 +338,37 @@
                 "#E95E4F",
                 "#36CAAB",
                 "#49A9EA"
+=======
+              "Zinc",
+              "ORS",
+              "Co-pack"
+            ],
+            datasets: [{
+              data: [50,25,25],
+              backgroundColor: [
+                "#3498DB",
+                "#9B59B6",
+                "#26B99A",
+                "#E74C3C",
+                "#BDC3C7",
+
+              ],
+              hoverBackgroundColor: [
+                "#49A9EA",
+                "#B370CF",
+                "#36CAAB",
+                "#E95E4F",
+                "#CFD4D8",
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
               ]
             }]
           },
           options: options
         });
+<<<<<<< HEAD
+=======
+        */
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
       });
     </script>
     <!-- /Doughnut Chart -->
@@ -304,6 +447,7 @@
     </script>
     <!-- /bootstrap-daterangepicker -->
 
+<<<<<<< HEAD
     <!-- gauge.js -->
     <script>
       var opts = {
@@ -330,5 +474,216 @@
       gauge.setTextField(document.getElementById("gauge-text"));
     </script>
     <!-- /gauge.js -->
+=======
+  <script src="<?php echo base_url().'assets/scripts/pace.js'?>" type="text/javascript"></script>
+
+    <script>
+        $( document ).ready(function() {
+    paceOptions = {
+    ajax: false, // disabled
+    document: true, //
+    eventLag: true,
+    restartOnPushState: false,
+    elements:{
+      selectors:['body']
+    } //
+
+    };
+
+      
+
+
+    function load(time){
+      var x = new XMLHttpRequest()
+      x.open('GET', document.URL , true);
+      x.send();
+    };
+    setTimeout(function(){
+      Pace.ignore(function(){
+        load(3100);
+      });
+    },4500);
+
+    Pace.on('hide', function(){
+    //   console.log('done');
+    });
+
+    var url="<?php echo base_url(); ?>";
+
+    });
+
+
+
+      //auto run
+      var url ='<?php echo base_url()?>';
+        // $('#potential_').on('shown.bs.tab', function (e) {
+        // $('#potential').html('');
+       // });
+       $('#actual_').on('shown.bs.tab', function (e) {
+        $('#actual').html('');
+       });
+
+       $('.county-name').html("National "+" &nbsp;");
+       /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
+        ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/1/NULL',"#mos");
+        ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL/NULL/NULL/NULL/1',"#consumption");
+        ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/NULL/NULL',"#actual"); 
+
+        $(".expiry_filter").button().click(function(e) {
+          e.preventDefault(); 
+          var commodity = $("#expiry_commodity").val();
+
+         ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#actual");
+        });
+
+        $(".consumption_filter").button().click(function(e) {
+          e.preventDefault(); 
+          var commodity = $("#consumption_commodity").val();
+
+         ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
+        });
+
+      
+      $(".ecounty-filter").button().click(function(e) {
+        e.preventDefault(); 
+        var year = $("#eyear").val();
+        var county = $("#ecounty_filter").val();
+       // var district=$(this).closest("tr").find("#ecounty_filter").val();
+       // var facility=$(this).closest("tr").find("#ecounty_filter").val();
+       ajax_request_replace_div_content('dashboard/expiry/'+year+'/'+county+'/NULL/NULL/NULL',"#actual");
+        });
+
+      $(".asubcounty-filter").button().click(function(e) {
+        e.preventDefault(); 
+        var year=$("#asubcountyyear").val();
+        var county_id=$('#county_id').val();
+        var district=$("#asubcounty_filter").val();
+        var facility=$("#asubcounty_facility_filter").val();
+        ajax_request_replace_div_content('dashboard/expiry/'+year+'/'+county_id+'/'+district+'/'+facility+'/NULL',"#actual");
+      });
+        /////potential
+        $(".pcounty-filter").button().click(function(e) {
+          e.preventDefault(); 
+          var county=$("#pcounty_filter").val();
+          ajax_request_replace_div_content('dashboard/potential/'+county+'/NULL/NULL/NULL',"#potential");
+        });
+        
+        $(".psubcounty-filter").button().click(function(e) {
+          e.preventDefault(); 
+          var county_id=$('#county_id').val();
+          var district=$("#psubcounty_filter").val();
+          var facility=$("#psubcounty_facility_filter").val();
+          ajax_request_replace_div_content('dashboard/potential/'+county_id+'/'+district+'/'+facility+'/NULL',"#potential");
+        });
+
+        $(".subcounty").click(function(){
+            /*
+             * when clicked, this object should populate facility names to facility dropdown list.
+             * Initially it sets a default value to the facility drop down list then ajax is used 
+             * is to retrieve the district names using the 'dropdown()' method used above.
+             */
+             json_obj = {"url":"<?php echo site_url("orders/getFacilities");?>",}
+             var baseUrl = json_obj.url;
+             var id = $(this).attr("value");
+             $('.subcounty').val(id);
+             dropdown(baseUrl,"district="+id,".facility");
+
+
+         });
+
+
+        function run(data){
+          var county_data=data.split('^');
+        console.log(county_data);return;
+        $('#placeholder').val(county_data[0]);
+        $('.county-name').html(county_data[1]+"&nbsp;County &nbsp;");
+        ajax_request_replace_div_content('dashboard/facility_over_view/'+county_data[0],"#facilities_rolled_out");
+        ajax_request_replace_div_content('dashboard/hcw/'+county_data[0],"#hcw_trained");
+        $('.county').val(county_data[0]);
+        $('#county_id').val(county_data[0]);
+        json_obj={"url":"<?php echo site_url("orders/getDistrict");?>",}
+        var baseUrl=json_obj.url;
+        dropdown(baseUrl,"county="+county_data[0],".subcounty");
+        ajax_request_replace_div_content('dashboard/expiry/NULL/'+county_data[0]+'/NULL/NULL/NULL',"#actual");
+        //ajax_request_replace_div_content('dashboard/potential/'+county_data[0]+'/NULL/NULL/NULL/NULL',"#potential"); 
+        ajax_request_replace_div_content('dashboard/stocking_levels/'+county_data[0]+'/NULL/NULL/NULL/ALL',"#mos");
+        ajax_request_replace_div_content('dashboard/consumption/'+county_data[0]+'/NULL/NULL/NULL',"#consumption");
+        ajax_request_replace_div_content('dashboard/get_facility_infor/'+county_data[0]+'/NULL/NULL/NULL',"#facilities");
+        ajax_request_replace_div_content('dashboard/order/NULL/'+county_data[0]+'/NULL/NULL/NULL',"#orders");
+        ajax_request_replace_div_content('dashboard/get_lead_infor/NULL/'+county_data[0]+'/NULL/NULL/NULL',"#lead_infor");
+      }
+    function dropdown(baseUrl,post,identifier){
+            /*
+             * ajax is used here to retrieve values from the server side and set them in dropdown list.
+             * the 'baseUrl' is the target ajax url, 'post' contains the a POST varible with data and
+             * 'identifier' is the id of the dropdown list to be populated by values from the server side
+             */
+             $.ajax({
+              type: "POST",
+              url: baseUrl,
+              data: post,
+              success: function(msg){
+                var values=msg.split("_")
+                var dropdown="<option value='NULL'>All</option>";
+                for (var i=0; i < values.length-1; i++) {
+                  var id_value=values[i].split("*")
+                  dropdown+="<option value="+id_value[0]+">";
+                  dropdown+=id_value[1];
+                  dropdown+="</option>";
+                };
+                $(identifier).html(dropdown);
+              },
+              error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(textStatus == 'timeout') {}
+              }
+         }).done(function( msg ) {
+         });
+     }
+     function ajax_request_replace_div_content(function_url,div){
+      var function_url =url+function_url;
+      var loading_icon=url+"assets/img/Preloader_2.gif";
+      $.ajax({
+        type: "POST",
+        url: function_url,
+        beforeSend: function() {
+          $(div).html("<img style='margin-top:20%;margin-left:50%;' src="+loading_icon+">");
+        },
+        success: function(msg) {
+          $(div).html(msg);
+        }
+      });
+     } 
+     $(".excel_").click(function(e) {
+      e.preventDefault();
+
+      var county_id=$('#placeholder').val();
+       // alert(county_id);
+       var type=$(this).attr('id'); 
+
+       var link='';
+
+       if(type=='offline_count'){ 
+        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/1';
+       }
+
+       if(type=='online_count'){ 
+        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/2';
+       }
+
+       if(type=='total'){ 
+        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/NULL';
+       }
+
+       if(type=='rolledout'){
+        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel';
+       }
+
+       
+       window.open(url+link,'_blank'); 
+    });  
+
+    </script>
+    </script>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
   </body>
 </html>

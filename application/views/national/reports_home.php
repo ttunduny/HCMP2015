@@ -115,7 +115,11 @@ legend{
         
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav navbar-right">
+<<<<<<< HEAD
             <li class=""><a href="<?php echo base_url().'kenya';?>">Home</a></li>
+=======
+            <li class=""><a href="<?php echo base_url().'dashboard';?>">Home</a></li>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
             <li class="active"><a href="<?php echo base_url().'national/reports';?>">Reports</a></li>
             <!-- <li class=""><a href="<?php echo base_url().'national/search';?>">Search</a></li> -->
             <li class="dropdown" style="background: #144d6e; color: white;">

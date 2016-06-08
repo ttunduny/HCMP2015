@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<?php //echo "<pre>";print_r($facility_count);exit; ?>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
  <div class="container body">
       <div class="main_container">
         <?php $this->load->view('dashboard/dashboard_sidebar'); ?>
@@ -118,6 +122,7 @@
         <!-- page content -->
         <div class="right_col" role="main">
 
+<<<<<<< HEAD
           <!-- top tiles -->
           <div class="row tile_count">
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
@@ -152,12 +157,46 @@
                     <!-- <h3>Stocking Levels <small>Zinc,ORS,Co-pack</small></h3> -->
                     <h3>Stocking Levels</h3>
                   </div>
+=======
+          <?php $this->load->view('dashboard/dashboard_top_tiles'); ?>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 x_panel">
+              <div class="dashboard_graph">
+
+                <div class="row x_title">
+                <div class="col-md-12"><h2>Tracer Commodities</h2></div>
+                  <!-- 
+                  <div class="col-md-3">
+                    <select class="form-control select2">
+                    <option value="0">Select County</option>
+                    <?php foreach ($county_data as $county => $value):?> 
+                        <option value="<?php echo $value['id']; ?>"><?php echo $value['county']; ?></option>
+                    <?php endforeach; ?>
+                      <option>sample</option>
+                    </select>
+                  </div>
+                   -->
+                  <!-- 
+                  <div class="col-md-3">
+                    <select class="form-control select2">
+                    <option value="0">Select Subcounty</option>
+                    <?php foreach ($district_data as $district => $value):?> 
+                        <option value="<?php echo $value['id']; ?>"><?php echo $value['county']; ?></option>
+                    <?php endforeach; ?>
+                      <option>sample</option>
+                    </select>
+                  </div>
+                   -->
+                   <!-- 
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
                   <div class="col-md-6">
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                       <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                       <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
                     </div>
                   </div>
+<<<<<<< HEAD
                 </div>
 
                 <div class="col-md-9 col-sm-9 col-xs-12">
@@ -210,6 +249,41 @@
                   </div>
 
                 </div>
+=======
+                   -->
+                </div>
+
+                <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
+                    <h4>Coverage</h4>
+
+                  <div id="map" style="height: 300px;"></div>
+                  <script>
+                  <?php $map_url = base_url()."assets/FusionMaps/FCMap_KenyaCounty.swf"; ?>
+                    var map= new FusionMaps ("<?php echo $map_url;?>","KenyaMap","100%","100%","0","0");
+                    map.setJSONData(<?php echo $maps; ?>
+                      );
+
+                    map.render("map");
+
+                  </script>
+                  <div class="row-fluid" style="height: 60px;">
+                  <div class="col-md-1" >
+                    <div id="map-key"></div>
+                  </div>
+                  <div class="col-md-8"><strong>Coverage: <?php echo $county_count; ?> Counties</strong> </div>
+                </div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                  <div id="mos"></div>
+               <!--  
+                    <h4>Shelf life (Expiries)</h4>
+                  <div id="placeholder33" style="height: 300px; display: none" class="demo-placeholder"></div>
+                  <div style="width: 100%;">
+                    <div id="canvas_dahs" class="demo-placeholder" style="width: 100%; height:300px;"></div>
+                  </div>
+                -->
+                </div> 
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 
                 <div class="clearfix"></div>
               </div>
@@ -219,11 +293,52 @@
           <br />
 
           <div class="row">
+<<<<<<< HEAD
 
+=======
+            <!-- 
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel tile fixed_height_320">
+                  <div class="x_title">
+                    <h2>System Coverage</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <div class="dashboard-widget-content">
+                      <ul class="quick-list full-width">
+                        <li><i class="fa fa-calendar-o"></i><a href="#">Counties Using HCMP: <b class="green">12</b></a>
+                        </li>
+                        <li><i class="fa fa-bars"></i><a href="#">Sub Counties using HCMP: <b class="green">40</b></a>
+                        </li>
+                        <li><i class="fa fa-area-chart"></i><a href="#">I think I'm tired: <b class="green">z<sup>zzz</sup></b></a>
+                        </li>
+                        <li><i class="fa fa-area-chart"></i><a href="#">Food for thought: <b class="green">...</b></a>
+                        </li>
+                        <li><i class="fa fa-area-chart"></i><a href="#">When a bald person's head aches : <span class="green">...</span></a>
+                        </li>
+                        <li><i class="fa fa-bars"></i><a href="#">Do they apply ROB on the whole head?: <b class="green"><i class="fa fa-hand-stop-o green"></i></b></a>
+                        </li>
+                        <li><i class="fa fa-bars"></i><a href="#">Or just at the tip of the Ice Berg: <b class="green"><i class="fa fa-hand-o-up green"></i></b></a>
+                        </li>
+                        <li><i class="fa fa-bars"></i><a href="#">Yep...I'm pretty sure I'm tired,Goodnight: <b class="green"><i class="fa fa-pause green"></i></b></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            </div>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="x_panel tile fixed_height_320">
                 <div class="x_title">
+<<<<<<< HEAD
                   <h2>App Versions</h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -237,12 +352,19 @@
                         </li>
                       </ul>
                     </li>
+=======
+                  <h2>Facility Stock Data</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
                   </ul>
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+<<<<<<< HEAD
                   <h4>App Usage across versions</h4>
                   <div class="widget_summary">
                     <div class="w_left w_25">
@@ -326,6 +448,24 @@
                     <div class="clearfix"></div>
                   </div>
 
+=======
+                  <div class="dashboard-widget-content">
+                    <ul class="quick-list full-width">
+                      <li><i class="fa fa-calendar-o"></i><a href="#">Facilities with expired XYZ: <b class="green">250</b></a>
+                      </li>
+                      <li><i class="fa fa-bars"></i><a href="#">Facilities stocked out of XYZ: <b class="green">320</b></a>
+                      </li>
+                      <li><i class="fa fa-bar-chart"></i><a href="#">Facilities with expired XYZ: <b class="green">250</b></a>
+                      </li>
+                      <li><i class="fa fa-line-chart"></i><a href="#">Facilities stocked out of XYZ: <b class="green">320</b></a>
+                      </li>
+                      <li><i class="fa fa-area-chart"></i><a href="#">Facilities with expired XYZ: <b class="green">250</b></a>
+                      </li>
+                      <li><i class="fa fa-bars"></i><a href="#">Facilities stocked out of XYZ: <b class="green">320</b></a>
+                      </li>
+                    </ul>
+                  </div>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
                 </div>
               </div>
             </div>
@@ -333,6 +473,7 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="x_panel tile fixed_height_320 overflow_hidden">
                 <div class="x_title">
+<<<<<<< HEAD
                   <h2>Device Usage</h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -346,6 +487,12 @@
                         </li>
                       </ul>
                     </li>
+=======
+                  <h2>Commodity Consumption</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
                   </ul>
@@ -355,6 +502,7 @@
                   <table class="" style="width:100%">
                     <tr>
                       <th style="width:37%;">
+<<<<<<< HEAD
                         <p>Top 5</p>
                       </th>
                       <th>
@@ -363,6 +511,13 @@
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                           <p class="">Progress</p>
+=======
+                        <p>Zinc,ORS,Co-pack</p>
+                      </th>
+                      <th>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                          <p class="">Key</p>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
                         </div>
                       </th>
                     </tr>
@@ -374,6 +529,7 @@
                         <table class="tile_info">
                           <tr>
                             <td>
+<<<<<<< HEAD
                               <p><i class="fa fa-square blue"></i>IOS </p>
                             </td>
                             <td>30%</td>
@@ -401,6 +557,23 @@
                               <p><i class="fa fa-square red"></i>Others </p>
                             </td>
                             <td>30%</td>
+=======
+                              <p><i class="fa fa-square blue"></i>Zinc </p>
+                            </td>
+                            <td>50%</td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <p><i class="fa fa-square green"></i>ORS </p>
+                            </td>
+                            <td>25%</td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <p><i class="fa fa-square purple"></i>Co-pack </p>
+                            </td>
+                            <td>25%</td>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
                           </tr>
                         </table>
                       </td>
@@ -409,6 +582,7 @@
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
 
 
             <div class="col-md-4 col-sm-4 col-xs-12">
@@ -801,16 +975,67 @@
               </div>
             </div>
           </div>
+=======
+             -->
+          </div>
+          <br />
+         
+          <div class="row x_panel">
+              <div class="col-md-12">
+                <select class="select2 col-md-10" id="consumption_commodity">
+                  <option value="0">Select Commodity</option>
+                    <?php foreach ($tracer_commodities as $tracer => $value):?> 
+                        <option value="<?php echo $value['id']; ?>"><?php echo $value['commodity_name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button class="btn btn-primary consumption_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button>
+              </div>
+
+              <div class="col-md-12" id="consumption"></div>
+          </div>
+          <br />
+
+          <div class="row x_panel">
+              <div class="col-md-12">
+                <select class="select2 col-md-10" id="expiry_commodity">
+                  <option value="0">Select Commodity</option>
+                    <?php foreach ($tracer_commodities as $tracer => $value):?> 
+                        <option value="<?php echo $value['id']; ?>"><?php echo $value['commodity_name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button class="btn btn-primary expiry_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button>
+              </div>
+              <div class="col-md-12" id="actual"></div>
+          </div>
+          <br />
+          
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         </div>
         <!-- /page content -->
 
         <!-- footer content -->
         <footer>
+<<<<<<< HEAD
           <div class="pull-right">
             Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+=======
+    
+          <div class="col-md-12">
+          <center>
+            <p class="text-muted"> Government of Kenya &copy <?php echo date('Y');?>. | All Rights Reserved
+              <!-- <a data-toggle="popover" title="Experiencing any challenges?  Send an Email to hcmphelpdesk@googlegroups.com" data-content=" Send an Email to hcmphelpdesk@googlegroups.com">Report problems</a> -->
+            </p>
+          </center>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
           </div>
           <div class="clearfix"></div>
         </footer>
         <!-- /footer content -->
       </div>
+<<<<<<< HEAD
     </div>
+=======
+    </div>
+
+
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6

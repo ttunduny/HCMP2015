@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+=======
+<?php 
+  $count_active = count($active_users);
+  $count_inactive = count($inactive_users);
+  $count_deactivated = count($deactivated_users);
+
+?>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 <style type="text/css">
   .panel-body,span:hover,.status_item:hover
   { 
@@ -21,6 +30,7 @@
   }
 </style>
 
+<<<<<<< HEAD
 <div class="container-fluid">
       
   <div class="row">
@@ -99,6 +109,158 @@
 </div>
 <
 
+=======
+<div class="container-fluid">  
+ <div class="row"> 
+  <!-- <div class="col-md-1" style="padding-left: 0; right:0; float:right; margin-bottom:5px;">
+    <button class="btn btn-primary add" data-toggle="modal" data-target="#addModal" id="add_new">
+    <span class="glyphicon glyphicon-plus"></span>Add User
+    </button>
+    <a href="user_create_multiple" style="margin: 5px 0;">Add Multiple Users</a>
+  </div> -->
+ </div>    
+  <div class="row"> 
+  <div>
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#active" aria-controls="active" role="tab" data-toggle="tab"><h5>Active Users (<?php echo $count_active;?>)</h5></a></li>
+      <li role="presentation"><a href="#deactivated" aria-controls="deactivated" role="tab" data-toggle="tab"><h5>Deactivated Users (<?php echo $count_deactivated;?>)</h5></a></li>
+      <li role="presentation"><a href="#inactive" aria-controls="inactive" role="tab" data-toggle="tab"><h5>Users who have never Activated (<?php echo $count_inactive;?>)</h5></a></li>
+      <li role="presentation"  style="float:right;margin-left:1%">        
+        <button class="btn btn-primary add form-control" data-toggle="modal" data-target="" id="">
+          Add Multiple Users
+        </button>        
+      </li>     
+      <li role="presentation"  style="float:right;">
+        <button class="btn btn-primary add form-control" data-toggle="modal" data-target="#addModal" id="add_new" >
+          <span class="glyphicon glyphicon-plus"></span>Add User
+        </button>
+      </li>
+      &nbsp;
+       
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="active">
+        <div class="col-md-12 dt" style="border: 1px solid #ddd;padding-top: 1%;">
+          <table  class="table table-hover table-bordered table-update" id="activeusers" style="font-size: 12px">
+            <thead style="background-color: white">
+              <tr>
+                <th>Full Name</th>
+                <th>Email </th>
+                <th>Phone No</th>
+                <th>County</th>
+                <th>Sub-County</th>
+                <th>Facility</th>
+                <th>User Type</th>                                
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php 
+                foreach ($active_users as $active) {?>
+                  <tr>                  
+                    <td>
+                      <input type="hidden" class="user_id" value="<?php echo $active['user_id'];?>"/>
+                      <input type="hidden" class="user_name" value="<?php echo $active['fname'].' '.$active['lname'];?>"/>
+                      <?php echo $active['fname'].' '.$active['lname'];?></td>
+                    <td><?php echo $active['email'];?></td>
+                    <td><?php echo $active['telephone'];?></td>
+                    <td><?php $county = ($active['county']=='') ? 'N/A' : $active['county'] ; echo $county;?></td>
+                    <td><?php $district = ($active['district']=='') ? 'N/A' : $active['district'] ; echo $district;?></td>
+                    <td><?php $facility_name = ($active['facility_name']=='') ? 'N/A' : $active['facility_name'] ; echo $facility_name;?></td>                   
+                    <td><?php echo $active['level'];?></td>
+                    <td>
+                      <button class="reset_password form-control btn-primary">Reset Password</button>
+                      <button class="deactivate_user form-control btn-danger">Deactivate</button>                      
+                    </td>                                        
+                  </tr>
+              <?php }?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="deactivated">
+          <div class="col-md-12 dt" style="border: 1px solid #ddd;padding-top: 1%;">
+          <table  class="table table-hover table-bordered table-update" id="deactivatedusers" style="font-size: 12px">
+            <thead style="background-color: white">
+              <tr>
+                <th>Full Name</th>
+                <th>Email </th>
+                <th>Phone No</th>
+                <th>County</th>
+                <th>Sub-County</th>
+                <th>Facility</th>
+                <th>User Type</th>                                
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php 
+                foreach ($deactivated_users as $active) {?>
+                  <tr>                  
+                    <td>
+                      <input type="hidden" class="user_id" value="<?php echo $active['user_id'];?>"/>
+                      <input type="hidden" class="user_name" value="<?php echo $active['fname'].' '.$active['lname'];?>"/>
+                      <?php echo $active['fname'].' '.$active['lname'];?></td>
+                    <td><?php echo $active['email'];?></td>
+                    <td><?php echo $active['telephone'];?></td>
+                    <td><?php $county = ($active['county']=='') ? 'N/A' : $active['county'] ; echo $county;?></td>
+                    <td><?php $district = ($active['district']=='') ? 'N/A' : $active['district'] ; echo $district;?></td>
+                    <td><?php $facility_name = ($active['facility_name']=='') ? 'N/A' : $active['facility_name'] ; echo $facility_name;?></td>                   
+                    <td><?php echo $active['level'];?></td>
+                    <td>
+                      <button class="activate_user form-control btn-success">Activate</button>                      
+                    </td>                                        
+                  </tr>
+              <?php }?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="inactive">
+          <div class="col-md-12 dt" style="border: 1px solid #ddd;padding-top: 1%;">
+          <table  class="table table-hover table-bordered table-update" id="inactiveusers" style="font-size: 12px">
+            <thead style="background-color: white">
+              <tr>
+                <th>Full Name</th>
+                <th>Email </th>
+                <th>Phone No</th>
+                <th>County</th>
+                <th>Sub-County</th>
+                <th>Facility</th>
+                <th>User Type</th>                                
+                <!-- <th>Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <?php 
+                foreach ($inactive_users as $active) {?>
+                  <tr>                  
+                    <td>
+                      <input type="hidden" class="user_id" value="<?php echo $active['user_id'];?>"/>
+                      <input type="hidden" class="user_name" value="<?php echo $active['fname'].' '.$active['lname'];?>"/>
+                      <?php echo $active['fname'].' '.$active['lname'];?></td>
+                    <td><?php echo $active['email'];?></td>
+                    <td><?php echo $active['telephone'];?></td>
+                    <td><?php $county = ($active['county']=='') ? 'N/A' : $active['county'] ; echo $county;?></td>
+                    <td><?php $district = ($active['district']=='') ? 'N/A' : $active['district'] ; echo $district;?></td>
+                    <td><?php $facility_name = ($active['facility_name']=='') ? 'N/A' : $active['facility_name'] ; echo $facility_name;?></td>                  
+                    <td><?php echo $active['level'];?></td>
+                    <!--td><button class="reset_password form-control btn-primary">Reset Password</button></td-->                                        
+                  </tr>
+              <?php }?>
+            </tbody>
+          </table>
+        </div>
+      </div>      
+    </div>
+
+  </div>
+
+  </div>
+</div>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 <!--Add User Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -108,12 +270,16 @@
         <h4 class="modal-title" id="myModalLabel" style="text-align: center;line-height: 1">New User</h4>
       </div>
       <div class="row" style="margin:auto" id="error_msg">
+<<<<<<< HEAD
         <div class=" col-md-12">
           <div class="form-group">
 
 
           </div>
         </div>
+=======
+       
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 
       </div>
       <div class="modal-body">
@@ -216,6 +382,7 @@
 </div>
 
 <script type="text/javascript">
+<<<<<<< HEAD
   $(document).ready(function(){
     // $(".editable").on('click',function() {
     
@@ -230,17 +397,161 @@
     
     $(".sub_county").hide(); 
     $(".facility_name").hide();
+=======
+  $(document).ready(function() {      
+    $('.reset_password').button().click(function() {
+      var user_id = $(this).closest("tr").find(".user_id").val();
+      var user_name = $(this).closest("tr").find(".user_name").val();      
+      swal({   
+        title: "Confirm",
+        text: "Are you sure you want to Reset the Password for " + user_name.bold()+ "?",
+        type: "warning",   showCancelButton: true,   confirmButtonColor: "#4cae4c",
+        confirmButtonText: "Yes, Reset!", closeOnConfirm: false },
+      function(){
+        swal({   title: "Success!",   text: "Password Reset",   timer: 2000 , type: "success" });
+        setTimeout(function () {
+        var url = "<?php echo base_url('user/reset_user_password/') ?>";
+            url += "/" + user_id;
+            $.ajax({
+              type:"POST",
+              url: url,
+              success: function(msg) {                
+              },
+              error: function(msg) {
+                var notOk = alert("Password Reset Failed");                
+              }
+            });
+        }, 3000);
+     
+      });
+    });
+
+    $('.deactivate_user').button().click(function() {
+      var user_id = $(this).closest("tr").find(".user_id").val();
+      var user_name = $(this).closest("tr").find(".user_name").val();      
+      swal({   
+        title: "Confirm",
+        text: "Are you sure you want to Deactivate " + user_name.bold()+ "? The user will be unable to use the System",
+        type: "warning",   showCancelButton: true,   confirmButtonColor: "#4cae4c",
+        confirmButtonText: "Yes, Continue!", closeOnConfirm: false },
+      function(){
+        swal({   title: "Success!",   text: "User Deactivated",   timer: 2000 , type: "success" });
+        setTimeout(function () {
+        var url = "<?php echo base_url('user/deactivate_user/') ?>";
+            url += "/" + user_id+'/2';
+            $.ajax({
+              type:"POST",
+              url: url,
+              success: function(msg) {   
+                location.reload();             
+              },
+              error: function(msg) {
+                var notOk = alert("User Deactivation Failed");                
+              }
+            });
+        }, 3000);
+     
+       });
+      });
+
+    $('.activate_user').button().click(function() {
+      var user_id = $(this).closest("tr").find(".user_id").val();
+      var user_name = $(this).closest("tr").find(".user_name").val();      
+      swal({   
+        title: "Confirm",
+        text: "Are you sure you want to Activate " + user_name.bold()+ "? The user will be now be able to log in and use the System",
+        type: "warning",   showCancelButton: true,   confirmButtonColor: "#4cae4c",
+        confirmButtonText: "Yes, Continue!", closeOnConfirm: false },
+      function(){
+        swal({   title: "Success!",   text: "User Activated",   timer: 1000 , type: "success" });
+        setTimeout(function () {
+        var url = "<?php echo base_url('user/deactivate_user/') ?>";
+            url += "/" + user_id+'/1';
+            $.ajax({
+              type:"POST",
+              url: url,
+              success: function(msg) {   
+                location.reload();             
+              },
+              error: function(msg) {
+                var notOk = alert("User Activation Failed");                
+              }
+            });
+        }, 3000);
+     
+       });
+      });
+
+    //Modal Stuff
+    $(".sub_county").hide(); 
+    $(".facility_name").hide();
+    $(".county").hide(); 
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 
     $('#add_new').click(function () {  
       $('#addModal').appendTo("body").modal('show');
     });
 
+<<<<<<< HEAD
     $('.edit').click(function () {  
       $('#editModal').appendTo("body").modal('show');
       $("#edit_user").attr("disabled", 'disabled');
     });
 
     $("#county").change(function() {      
+=======
+    $("#user_type").change(function(){
+      var type_id = $(this).val();
+      console.log(type_id);
+      if(type_id == 9) {
+        // Case Super Admin - County Required
+        $("#county").attr("required", true);
+        $("#sub_county").attr("required", false);
+        $("#facility_name").attr("required", false);
+        $(".county").show('slow');
+        $(".sub_county").hide(); 
+        $(".facility_name").hide();
+      } 
+      else if(type_id == 10) {  
+        // Case County Pharmacist - County Required
+         $("#county").attr("required", true);
+         $("#sub_county").attr("required", false);
+         $("#facility_name").attr("required", false);
+         $(".county").show('slow'); 
+         $(".sub_county").hide(); 
+         $(".facility_name").hide();
+      } 
+      else if(type_id == 3) {
+          // Case Sub-County Pharmacist - County, Sub-County Required
+          $("#county").attr("required", true);
+          $("#sub_county").attr("required", true);
+          $("#facility_name").attr("required", false);
+          $(".county").show('slow');
+          $(".sub_county").show('slow'); 
+          $(".facility_name").hide();
+      } 
+      else if(type_id == 2) {
+        // Case Facility Admin - County, Sub-County, Facility Required
+          $("#county").attr("required", true);
+          $("#sub_county").attr("required", true);
+          $("#facility_name").attr("required", true);
+          $(".county").show('slow');
+          $(".sub_county").show('slow'); 
+          $(".facility_name").show('slow'); 
+      } 
+      else if(type_id == 5) {
+        // Case Facility User - County, Sub-County, Facility Required
+        $("#county").attr("required", true);
+        $("#sub_county").attr("required", true);
+        $("#facility_name").attr("required", true);
+        $(".county").show('slow');
+        $(".sub_county").show('slow'); 
+        $(".facility_name").show('slow'); 
+      }
+      
+    });
+     $("#county").change(function() {      
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
       var option_value=$(this).val();    
       if(option_value=='NULL'){
         $(".sub_county").hide('slow');
@@ -255,7 +566,11 @@
           });
           $("#sub_county").append(drop_down);
         });
+<<<<<<< HEAD
         $(".sub_county").show('slow');
+=======
+        // $(".sub_county").show('slow');
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
       }    
     }); 
 
@@ -273,7 +588,11 @@
               });
               $("#facility_name").append(drop_down);
           });
+<<<<<<< HEAD
           $(".facility_name").show('slow');   
+=======
+          // $(".facility_name").show('slow');   
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         }
       }); //end of district name change funtion
 
@@ -306,8 +625,12 @@
       });
       return false;
     });
+<<<<<<< HEAD
 
     $("#create_new").click(function() {
+=======
+     $("#create_new").click(function() {
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 
       var first_name = $('#first_name').val()
       var last_name = $('#last_name').val()
@@ -329,6 +652,7 @@
            
     });
 
+<<<<<<< HEAD
    function ajax_post_process (url,div){
     var url =url;
 
@@ -336,6 +660,12 @@
     // return;
      var loading_icon="<?php echo base_url().'assets/img/Preloader_4.gif' ?>";
      $.ajax({
+=======
+    function ajax_post_process (url,div){
+      var url =url;
+      var loading_icon="<?php echo base_url().'assets/img/Preloader_4.gif' ?>";
+      $.ajax({
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
           type: "POST",
           data:{ 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),
           'telephone': $('#telephone').val(),'email': $('#email').val(),
@@ -344,10 +674,17 @@
           url: url,
           beforeSend: function() {
            
+<<<<<<< HEAD
             var message = confirm("Are you sure you want to proceed?");
         if (message){
             $('.modal-body').html("<img style='margin:30% 0 20% 42%;' src="+loading_icon+">");
         } else {
+=======
+          var message = confirm("Are you sure you want to proceed?");
+          if (message){
+            $('.modal-body').html("<img style='margin:30% 0 20% 42%;' src="+loading_icon+">");
+          } else {
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
             return false;
         }
            

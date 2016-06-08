@@ -240,7 +240,11 @@
 												?>
 									</select>
 								</div>
+<<<<<<< HEAD
 								<div class="input-group form-group u_mgt">
+=======
+								<div class="input-group form-group u_mgt" hidden>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 									<span class="input-group-addon sponsor">County</span>
 									<select class="form-control " id="county" name="county" required="required">
 												<option value='NULL'>Select County Name</option>
@@ -255,7 +259,11 @@
 								</div>
 
 
+<<<<<<< HEAD
 								<div class="input-group form-group u_mgt">
+=======
+								<div class="input-group form-group u_mgt" hidden>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 									<span class="input-group-addon sponsor">Sub County</span>
 									<select class="form-control " id="subcounty" name="subcounty" required="required">
 												<option value='NULL'>Select District Name</option>
@@ -268,7 +276,11 @@
 												?>
 									</select>
 								</div>
+<<<<<<< HEAD
 								<div class="input-group form-group u_mgt">
+=======
+								<div class="input-group form-group u_mgt" hidden>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 									<span class="input-group-addon sponsor">Facility</span>
 									<select class="form-control " id="facility" name="facility" required="required">
 												<option value='NULL'>Select Facility Name</option>
@@ -645,6 +657,10 @@
 			initialize_checkboxes();
 		});
 
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 		//populate districts to drop down depending on county selected
 		$("#county").change(function() {
 			var option_value=$(this).val();

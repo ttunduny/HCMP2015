@@ -146,7 +146,15 @@ class Users extends Doctrine_Record {
 		$update = Doctrine_Manager::getInstance() -> getCurrentConnection();
 		$update -> execute("UPDATE user SET password='$value',status=1  WHERE id='$user_id' ; ");
 	}
+<<<<<<< HEAD
 
+=======
+	public function hash_password($value){
+		$salt = '#*seCrEt!@-*%';
+		$hashed_password = md5($salt . $value);
+		return $hashed_password;
+	}
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 	public static function reset_password_multiple($facility_code, $new_password_confirm) {
 
 		//echo $user_id;
@@ -235,8 +243,16 @@ class Users extends Doctrine_Record {
 		return $query;
 	}
 	
+<<<<<<< HEAD
 	public static function get_user_list_all($limit = null) {
 		$limit = (isset($limit)) ? "LIMIT 0,$limit" : '' ;
+=======
+	public static function get_user_list_all($county,$district,$facility,$limit = null,$type=null) {
+		$limit = (isset($limit)) ? "LIMIT 0,$limit" : '' ;
+		$county = ($county!=null) ? "AND c.id = $county" : '' ;
+		$district = ($district!=null) ? "AND d.id = $district" : '' ;		
+		$type = (isset($type)) ? "WHERE u.status = $type" : '' ;
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 		$query = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("
 				SELECT 
     u.id as user_id,
@@ -268,7 +284,11 @@ FROM
         LEFT JOIN
     facilities f ON u.facility = f.facility_code
         LEFT JOIN
+<<<<<<< HEAD
     access_level a ON a.id = u.usertype_id  $limit
+=======
+    access_level a ON a.id = u.usertype_id $type $county $district $limit
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 				");
 		return $query;
 	}
@@ -489,6 +509,15 @@ public static function get_county_details($county_id){
 		
 		echo $update;
 	}
+<<<<<<< HEAD
+=======
+	public static function deactivate_user($user_id,$status){		
+		$update = Doctrine_Manager::getInstance() -> getCurrentConnection();
+		$update -> execute("UPDATE user SET status = '$status' ,updated_at = CURDATE() WHERE id = '$user_id' ");
+		
+		echo $update;
+	}
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 	
 	public static function set_report_access(){
 		$query = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("

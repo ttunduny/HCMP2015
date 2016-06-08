@@ -42,8 +42,12 @@ class issues extends MY_Controller {
 	 	$dist = districts::get_district_name_($district_id);
 	 	$data['district_id'] = $this -> session -> userdata('district_id');
 	 	$data['district_data'] = districts::get_district_name_($district_id);
+<<<<<<< HEAD
 	 	//$data['content_view'] = "subcounty/drug_store/drug_store_recieve_items_v";
 	 	$data['content_view'] = "subcounty/drug_store/drug_store_receive_items_v2";
+=======
+	 	$data['content_view'] = "subcounty/drug_store/drug_store_recieve_items_v";
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 	 	$data['donate_destination'] = "district";
 	 	$data['subcounties']=districts::getAll();
 	 	$data['banner_text'] = "Redistribute Commodities";

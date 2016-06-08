@@ -19,10 +19,13 @@
 		width: 54%;
 		
 	}
+<<<<<<< HEAD
   li{
     font-size: 17px;
 
   }
+=======
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 		
 	
 </style>
@@ -35,10 +38,14 @@
 		<div class="col-md-12">
 			
 			<ul class="nav nav-tabs" id="Tab">
+<<<<<<< HEAD
   <li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-ok"></span>Active Facilities</a></li>
   <li class=""><a href="#inactive_facility" data-toggle="tab"><span class="glyphicon glyphicon-plane"></span>In-Active Facilities</a></li>
   <li class=""><a href="#offline" data-toggle="tab"><span class="glyphicon glyphicon-remove-circle"></span>Offline Facilities</a></li>
   <li class=""><a href="#synchronized" data-toggle="tab"><span class="glyphicon glyphicon-refresh"></span>Offline Facilities that  have Syncronized</a></li>
+=======
+  <li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>Active Facilities</a></li>
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
   <li class=""><a href="#logs" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>Activation/Deactivation Logs</a></li>
   <!-- <li><a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-list"></span> Inactive Facilities</a></li> -->
 </ul>
@@ -47,12 +54,16 @@
   <div class="tab-pane active" id="home">
   	 <?php 
   	 $this -> load -> view('Admin/facilities_listing_active');
+<<<<<<< HEAD
       //$this -> load -> view('Admin/facilities_listing_inactive');
+=======
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
   	 ?>
   	
   </div>
   <div class="tab-pane" id="logs">
     <?php
+<<<<<<< HEAD
      $this->load->view('Admin/facility_activation_logs');
     ?>
   </div>
@@ -61,6 +72,16 @@
      //$this -> load -> view('Admin/facilities_listing_inactive');
      ?>
   </div> 
+=======
+      $this->load->view('Admin/facility_activation_logs');
+    ?>
+  </div>
+  <!-- <div class="tab-pane" id="profile">
+    <?php 
+     //$this -> load -> view('Admin/facilities_listing_inactive');
+     ?>
+  </div> -->
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
   
 </div>
 
