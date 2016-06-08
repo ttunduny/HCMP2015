@@ -137,7 +137,8 @@ class User extends MY_Controller {
 			$u1->save();
 			
 			error_reporting(1);
-			redirect('home');
+			redirect(base_url().'home');
+			// redirect('home');
 			echo "I work";exit;
 		} else {
 			$data['popup'] = "errorpopup";
