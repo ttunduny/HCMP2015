@@ -19,6 +19,10 @@
 		width: 54%;
 		
 	}
+  li{
+    font-size: 17px;
+
+  }
 		
 	
 </style>
@@ -31,7 +35,10 @@
 		<div class="col-md-12">
 			
 			<ul class="nav nav-tabs" id="Tab">
-  <li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>Active Facilities</a></li>
+  <li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-ok"></span>Active Facilities</a></li>
+  <li class=""><a href="#inactive_facility" data-toggle="tab"><span class="glyphicon glyphicon-plane"></span>In-Active Facilities</a></li>
+  <li class=""><a href="#offline" data-toggle="tab"><span class="glyphicon glyphicon-remove-circle"></span>Offline Facilities</a></li>
+  <li class=""><a href="#synchronized" data-toggle="tab"><span class="glyphicon glyphicon-refresh"></span>Offline Facilities that  have Syncronized</a></li>
   <li class=""><a href="#logs" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span>Activation/Deactivation Logs</a></li>
   <!-- <li><a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-list"></span> Inactive Facilities</a></li> -->
 </ul>
@@ -40,19 +47,20 @@
   <div class="tab-pane active" id="home">
   	 <?php 
   	 $this -> load -> view('Admin/facilities_listing_active');
+      //$this -> load -> view('Admin/facilities_listing_inactive');
   	 ?>
   	
   </div>
   <div class="tab-pane" id="logs">
     <?php
-      $this->load->view('Admin/facility_activation_logs');
+     $this->load->view('Admin/facility_activation_logs');
     ?>
   </div>
-  <!-- <div class="tab-pane" id="profile">
+   <div class="tab-pane" id="inactive_facility">
     <?php 
      //$this -> load -> view('Admin/facilities_listing_inactive');
      ?>
-  </div> -->
+  </div> 
   
 </div>
 
