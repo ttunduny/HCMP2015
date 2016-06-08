@@ -87,15 +87,8 @@ class User extends MY_Controller {
 			$facility_count = NULL;
 			endif;
 			
-			$session_data = array('county_id' => $county_id,'partner_id' => $partner_id, 'phone_no' => $phone,
-				'user_email' => $user_email, 'user_id' => $user_id, 'user_indicator' => $user_indicator,
-				'fname' => $fname, 'lname' => $lname, 'facility_id' => $facility_id,
-				'district_id' => $district_id, 'user_type_id' => 
-				$access_typeid,'full_name' => $fullname,
-				'banner_name'=>$banner_name,'facility_count'=>$facility_count);
 
 
-			$this -> session -> set_userdata($session_data);
 			
 			//get menu items
 			$menu_items = Menu::getByUsertype($access_typeid);
@@ -121,12 +114,19 @@ class User extends MY_Controller {
 
 			}
 			
-			echo "I work";exit;
+			$session_data = array('county_id' => $county_id,'partner_id' => $partner_id, 'phone_no' => $phone,
+				'user_email' => $user_email, 'user_id' => $user_id, 'user_indicator' => $user_indicator,
+				'fname' => $fname, 'lname' => $lname, 'facility_id' => $facility_id,
+				'district_id' => $district_id, 'user_type_id' => 
+				$access_typeid,'full_name' => $fullname,
+				'banner_name'=>$banner_name,'facility_count'=>$facility_count,'menus'=>$menus);
+			// echo "I work";exit;
 			//Save this menus array in the session
-			$this -> session -> set_userdata("menus" ,$menus);
+			// $this -> session -> set_userdata("menus" ,$menus);
+			$this -> session -> set_userdata($session_data);
 			//Save this sub menus array in the session
 			$_SESSION["submenus"]= $sub_menus; 
-			
+
 			//creating a new log value
 			Log::update_log_out_action($this -> session -> userdata('user_id'));
 			$facility_code = $this -> session -> userdata('facility_id');
