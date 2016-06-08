@@ -65,26 +65,26 @@ class User extends MY_Controller {
 			if ($user_indicator  == 'district') :
              //get subcounty name
 				$district_name = districts::get_district_name_($district_id);
-			$county_name = Counties::get_county_name($county_id);
-			$banner_name = $county_name['county']." County".", ".$district_name['district']." Sub-county ";
-			$facility_no = Facilities::get_district_facilities_using_hcmp($district_id);
-			$facility_count = "Total Facilities Using HCMP in ".$district_name['district']." Subcounty: ".count($facility_no);
+				$county_name = Counties::get_county_name($county_id);
+				$banner_name = $county_name['county']." County".", ".$district_name['district']." Sub-county ";
+				$facility_no = Facilities::get_district_facilities_using_hcmp($district_id);
+				$facility_count = "Total Facilities Using HCMP in ".$district_name['district']." Subcounty: ".count($facility_no);
 
 			elseif ($user_indicator  == 'county') : 
 				
             //get county name
 				$county_name = Counties::get_county_name($county_id);
-			$banner_name = $county_name['county']." County";
-			$facility_no = Counties::get_facilities_in_county($county_id);
-			$facility_count = "Total Facilities Using HCMP in ".$county_name['county']." County: ".count($facility_no);
+				$banner_name = $county_name['county']." County";
+				$facility_no = Counties::get_facilities_in_county($county_id);
+				$facility_count = "Total Facilities Using HCMP in ".$county_name['county']." County: ".count($facility_no);
 			
 			elseif ($user_indicator  == 'facility' || $user_indicator == 'facility_admin' || $user_indicator == 'recovery') :
              //get facility name
 				$facility_name = Facilities::get_facility_name2($facility_id);
-			$district_name = districts::get_district_name_($district_id);
-			$county_name = Counties::get_county_name($county_id);
-			$banner_name = $county_name['county']." County, ".$district_name['district']." Sub-county, ".$facility_name['facility_name'];
-			$facility_count = NULL;
+				$district_name = districts::get_district_name_($district_id);
+				$county_name = Counties::get_county_name($county_id);
+				$banner_name = $county_name['county']." County, ".$district_name['district']." Sub-county, ".$facility_name['facility_name'];
+				$facility_count = NULL;
 			endif;
 			
 
@@ -138,8 +138,8 @@ class User extends MY_Controller {
 			$u1->save();
 			
 			// error_reporting(1);
-			redirect(base_url().'home');
-			// redirect('home');
+			// redirect(base_url().'home');
+			redirect('home');
 		} else {
 			$data['popup'] = "errorpopup";
 			$data['title'] = "Login";
