@@ -34,7 +34,6 @@ class User extends MY_Controller {
 	}
 
 	public function login_submit() {
-		echo "I work";exit;
 		$user = new Users();
 
 		$password = $this -> input -> post('password');
@@ -94,6 +93,8 @@ class User extends MY_Controller {
 				'district_id' => $district_id, 'user_type_id' => 
 				$access_typeid,'full_name' => $fullname,
 				'banner_name'=>$banner_name,'facility_count'=>$facility_count);
+
+			echo "I work";exit;
 
 			$this -> session -> set_userdata($session_data);
 			
