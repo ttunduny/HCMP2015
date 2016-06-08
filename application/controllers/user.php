@@ -34,7 +34,7 @@ class User extends MY_Controller {
 	}
 
 	public function login_submit() {
-		// echo "I work";exit;
+		echo "I work";exit;
 		$user = new Users();
 
 		$password = $this -> input -> post('password');
