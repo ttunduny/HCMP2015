@@ -136,8 +136,9 @@ class User extends MY_Controller {
 			$u1->facility_code = ($facility_code==0) ? null : $facility_code;
 			$u1->save();
 			
-			echo "I work";exit;
+			error_reporting(1);
 			redirect('home');
+			echo "I work";exit;
 		} else {
 			$data['popup'] = "errorpopup";
 			$data['title'] = "Login";
