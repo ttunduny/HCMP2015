@@ -94,7 +94,6 @@ class User extends MY_Controller {
 				$access_typeid,'full_name' => $fullname,
 				'banner_name'=>$banner_name,'facility_count'=>$facility_count);
 
-			echo "I work";exit;
 
 			$this -> session -> set_userdata($session_data);
 			
@@ -137,6 +136,7 @@ class User extends MY_Controller {
 			$u1->facility_code = ($facility_code==0) ? null : $facility_code;
 			$u1->save();
 			
+			echo "I work";exit;
 			redirect('home');
 		} else {
 			$data['popup'] = "errorpopup";
