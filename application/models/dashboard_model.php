@@ -61,6 +61,34 @@ class Dashboard_model extends Doctrine_Record {
 		return $codeigniter_sucks_balls;
 	}
 
+	public function get_division_commodities($division = NULL)
+	{
+		$filter = isset($division)? "AND commodity_division = $division" :"AND tracer_item = 1";
+		
+		$codeigniter_sucks_balls_hard = $this->db->query(
+			"SELECT 
+			    *
+			FROM
+			    hcmp_rtk.commodities
+			WHERE
+			    status = 1 $filter"
+			    )->result_array();
+		return $codeigniter_sucks_balls_hard;
+	}
+
+	public function get_division_details($division = NULL)
+	{
+		$filter = isset($division)? "AND id = $division" :NULL;
+		$codeigniter_sucks_balls_hard_and_slow = $this->db->query(
+			"SELECT 
+			    *
+			FROM
+			    commodity_division_details
+			WHERE
+			    status = 1 $filter"
+			    )->result_array();
+		return $codeigniter_sucks_balls_hard_and_slow;
+	}
 	public function get_commodity_details($id)
 	{
 		$codeigniter_been_sucking_balls = $this->db->query(
