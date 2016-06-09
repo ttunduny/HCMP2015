@@ -142,7 +142,7 @@
               <div class="dashboard_graph">
 
                 <div class="row x_title">
-                <div class="col-md-12"><h2><?php echo $page_title; ?></h2></div>
+                <div class="col-md-12"><h2><?php echo $page_title.' Commodities'; ?></h2></div>
                   <!-- 
                   <div class="col-md-3">
                     <select class="form-control select2">
