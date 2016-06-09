@@ -31,7 +31,7 @@ class Dashboard extends MY_Controller {
 		$data['page_title'] = $page_title;
 
 		// echo "<pre>";print_r($commodities);exit;
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details WHERE status = 1")->result_array();
+		$commodity_divisions = Dashboard_model::get_division_details();
 		$counties = $this->db->query("SELECT * FROM counties")->result_array();
 		$districts = $this->db->query("SELECT * FROM districts")->result_array();
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
@@ -73,7 +73,7 @@ class Dashboard extends MY_Controller {
 		$data['page_title'] = $page_title;
 
 		// echo "<pre>";print_r($commodities);exit;
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details WHERE status = 1")->result_array();
+		$commodity_divisions = Dashboard_model::get_division_details();
 		$counties = $this->db->query("SELECT * FROM counties")->result_array();
 		$districts = $this->db->query("SELECT * FROM districts")->result_array();
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
@@ -2200,7 +2200,7 @@ class Dashboard extends MY_Controller {
 
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
 		
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
+		$commodity_divisions = Dashboard_model::get_division_details();
 
 		$data['commodity_divisions'] = $commodity_divisions;
 
@@ -2218,7 +2218,7 @@ class Dashboard extends MY_Controller {
 
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
 		
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
+		$commodity_divisions = Dashboard_model::get_commodity_divisions();
 
 		$data['commodity_divisions'] = $commodity_divisions;
 

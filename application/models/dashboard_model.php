@@ -76,6 +76,13 @@ class Dashboard_model extends Doctrine_Record {
 		return $codeigniter_sucks_balls_hard;
 	}
 
+	public function get_commodity_divisions($id = NULL)
+	{
+		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
+
+		return $commodity_divisions;
+	}
+
 	public function get_division_details($division = NULL)
 	{
 		$filter = isset($division)? "AND id = $division" :NULL;
