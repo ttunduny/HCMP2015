@@ -33,9 +33,8 @@ class Data_sync extends MY_Controller {
 		$result = $this->db->query("SELECT * FROM user where email = '$email'");
 		return $result->result_array();
 	}
-		
-
-	public function insert_data($zip_file,$facility_code,$id){	
+	
+	public function insert_data($zip_file,$facility_code,$ftp_file_id){	
 		$extention = end(explode(".", $zip_file));
 		$filename =  basename($zip_file, ".".$extention );	
 		$zip = new ZipArchive;
@@ -43,53 +42,71 @@ class Data_sync extends MY_Controller {
 		if ($res === TRUE) {
 			$zip->extractTo(FCPATH.'sync_files\extracted\\');
 			$zip->close();
-			echo 'Successfully Extracted';			
+			echo "Successfully Extracted<br/>";			
 		}else{
-			echo "Error Extracting";
-		}
-
-		$filename = 'Tue07_160612_14950';
+			//Set the Status to 2 to indicate entry without File
+			$sql = "update ftp_uploads set status = '2' where id='$id'";
+			$this->db->query($sql); 
+			echo "Error Extracting<br/>";
+		}		
 
 		$txt_file = FCPATH.'sync_files\extracted\\'.$filename.'.txt';
 
-		$file_details = json_decode(file_get_contents($txt_file, FILE_USE_INCLUDE_PATH));
-		// echo "<pre>";print_r($file_details);die;
-		// echo "<pre>";print_r(json_decode($file_details->user,TRUE));die;
-		$count = count($file_details);die;
-		foreach ($file_details as $key =>$value) {
-			$value = json_decode($value,TRUE); // Convert the Value Json Output to Associative Array
-			echo "<pre>";print_r($value);die;
-			if($key=='facility_code'){ //Skip the First Element Which is the facility_code
-			}else if($key=='user'){ //Check the user if they exist else insert
-				echo "string";die;
-				// $value = array_unique($value,SORT_REGULAR); //Remove the Duplicates in the Array
-				// echo "<pre>";print_r($value);die;
-			}else{
-				//Check to see if there is any data
-				if(count($value)<=0){					
+		$file_details = array(json_decode(file_get_contents($txt_file, FILE_USE_INCLUDE_PATH),TRUE));	//Decode and create an array from the data
+		
+
+		//Check to see if the array has data
+		if(count($file_details)>0){
+			$user_details = $file_details[0]['user']; //Get the user details for manual addition later on
+			unset($file_details[0]['facility_code']); //Remove the Facility_code from the Main Array
+			unset($file_details[0]['user']); //Remove the User Details from the Main Array
+			
+			$extracted_users= json_decode($user_details,TRUE); // Convert the Users Json Output to Associative Array	
+
+			//*  Start of Inserting User Data *//				
+			foreach ($extracted_users as $keys => $values) { //Loop through the Users Data
+				unset($values['id']); //Remove the Id
+				$email = $values['email'];  //Get the Email Address to be Used to Check if the User exists
+
+				$email_check = $this->check_user_email($email); //Call to email check Function Defined Above
+				if(count($email_check)>0){ //Check if the User already exists in the live db
+					//If Yes, we update the Live Db with the local User and Password
+					$this->db->update_batch('user', $values, 'email'); 
 				}else{
-					//Loop through the Value Array to remove the ids
-					foreach ($value as $key1 => $value1) {
-						unset($value[$key1]['id']);
-					}		
-					$value = array_unique($value,SORT_REGULAR); //Remove the Duplicates in the Array
-					$this->db->insert_batch($key, $value); //Inserting Data to the DB
+					//If the User does not exist, we insert the data into the DB
+					$this->db->insert_batch('user', $values); //Inserting User Data to the DB
 				}				
-					// echo "<pre>";print_r($value);			
 			}
+			
+			//*  End of Inserting User Data *//				
+
+			//*  Start of Inserting Other  Data *//				
+			//Loop through the array using [0] as the first Element since I expanded the array
+			foreach ($file_details[0] as $key =>$value) {
+				$extracted_value = json_decode($value,TRUE); // Convert the Value Json Output to Associative Array				
+				// Check to see if there is any data
+				if(count($extracted_value)<=0){					
+					echo "No data to Insert <br/>";
+				}else{
+					//Loop through the Extracted Value Array to remove the ids
+					foreach ($extracted_value as $new_key => $new_value) {
+						unset($extracted_value[$new_key]['id']);
+					}							
+					$unduplicated_extracted_value = array_unique($extracted_value,SORT_REGULAR); //Remove the Duplicates in the Extracted Array			
+					$this->db->insert_batch($key, $unduplicated_extracted_value); //Inserting Data to the DB
+				}		
+				
+
+			}
+			//*  End of Inserting Other Data *//		
 		}
-		die;
-		echo "<pre>";print_r($file_details);
+		
+		//Update the Record on the Ftp_uploads File to Show the Insertion Has Occurred
+		$sql_ftp_update = "update ftp_uploads set status = '1' where id='$ftp_file_id'";
+		$this->db->query($sql_ftp_update);
 
-
-
-		// die;
-
-
-
-
-
-		// unlink(FCPATH.'sync_files\\'.$zip_file);
+		//Delete the Extracted File
+		unlink($txt_file);
 	}
 
 }
