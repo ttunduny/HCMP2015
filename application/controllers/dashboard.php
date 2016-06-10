@@ -31,7 +31,49 @@ class Dashboard extends MY_Controller {
 		$data['page_title'] = $page_title;
 
 		// echo "<pre>";print_r($commodities);exit;
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details WHERE status = 1")->result_array();
+		$commodity_divisions = Dashboard_model::get_division_details();
+		$counties = $this->db->query("SELECT * FROM counties")->result_array();
+		$districts = $this->db->query("SELECT * FROM districts")->result_array();
+		$facility_count = Dashboard_model::get_online_offline_facility_count();
+		$counties_using_HCMP = Counties::get_counties_all_using_HCMP();
+
+		// echo "<pre>";print_r($counties_using);exit;
+		$data['tracer'] = $tracer;
+		$data['commodity_division'] = isset($division)? $division :"NULL";
+		$data['tracer_commodities'] = $commodities;
+		$data['facility_count'] = $facility_count;
+		$data['commodity_count'] = $commodity_count;
+		$data['content_view'] = 'dashboard/dashboard';
+		$data['county_data'] = $counties;
+		$data['county_count'] = count($counties_using_HCMP);
+		$data['district_data'] = $districts;
+		$data['commodity_divisions'] = $commodity_divisions;
+		$data['title'] = "National Dashboard";
+		$data['maps'] = $map;
+		$data['counties'] = $county_name;
+		$this->load->view('dashboard/dashboard_template',$data); 
+	}
+
+	public function divisions($division = NULL) {//for the sake of beauty
+		$default = "tracer";//FYI
+
+		$map = $this->render_map();
+		$commodity_count = Dashboard_model::get_commodity_count();
+		$commodities = Dashboard_model::get_division_commodities($division);
+		$division_details = Dashboard_model::get_division_details($division);
+
+		// echo "<pre>";print_r($tracer_commodities);exit;
+		if (isset($division) && $division>0) {
+			$page_title = $division_details[0]['division_name'];
+			$tracer = "NULL";
+		}else{
+			$tracer = 1;
+			$page_title = "Tracer Items";
+		}
+		$data['page_title'] = $page_title;
+
+		// echo "<pre>";print_r($commodities);exit;
+		$commodity_divisions = Dashboard_model::get_division_details();
 		$counties = $this->db->query("SELECT * FROM counties")->result_array();
 		$districts = $this->db->query("SELECT * FROM districts")->result_array();
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
@@ -2166,7 +2208,7 @@ class Dashboard extends MY_Controller {
 
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
 		
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
+		$commodity_divisions = Dashboard_model::get_division_details();
 
 		$data['commodity_divisions'] = $commodity_divisions;
 
@@ -2184,7 +2226,7 @@ class Dashboard extends MY_Controller {
 
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
 		
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
+		$commodity_divisions = Dashboard_model::get_commodity_divisions();
 
 		$data['commodity_divisions'] = $commodity_divisions;
 
