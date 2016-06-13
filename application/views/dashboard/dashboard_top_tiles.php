@@ -1,4 +1,7 @@
 <!-- top tiles -->
+            <div class="row col-md-12">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+            </div>
           <div class="row tile_count">
             <div class="col-md-3 col-sm-3 col-xs-3 tile_stats_count">
               <span class="count_top"><i class="fa fa-medkit"></i> Total Commodities Tracked</span>
