@@ -45,7 +45,7 @@ class Data_sync extends MY_Controller {
 		error_reporting(1);	
 		$path = FCPATH.'ftp_files/'.$zip_file;
 
-		$path = str_replace('/', '\\', $path);	
+		$path = str_replace('\\','/', $path);	
 
 		// $path = preg_replace('/', '\\', $path);
 		echo $path."<pre>";
