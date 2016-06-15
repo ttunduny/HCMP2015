@@ -39,6 +39,7 @@ class Data_sync extends MY_Controller {
 		ini_set('memory_limit', '-1');
 		ini_set('max_execution_time', '-1');
 
+		echo FCPATH.'ftp_files\\'.$zip_file;die;
 		$extention = end(explode(".", $zip_file));
 		$filename =  basename($zip_file, ".".$extention );	
 		if (!file_exists(FCPATH.'ftp_files\\'.$zip_file)) { //Check if the Actual File exists as From the DB
