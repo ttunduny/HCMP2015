@@ -44,8 +44,11 @@ class Data_sync extends MY_Controller {
 		$path = FCPATH.'ftp_files/'.$zip_file;
 		$extract_path = FCPATH.'ftp_files/extracted/';
 
-		$path = str_replace('\\','/', $path);			
-		$extract_path = str_replace('\\','/', $extract_path);			
+		// $path = str_replace('\\','/', $path);		
+		$path = $this->replace_back_slashes($path);
+		$extract_path = $this->replace_back_slashes($extract_path);
+		// echo $extract_path;exit;	
+		// $extract_path = str_replace('\\','/', $extract_path);			
 
 		if (!file_exists($path)) { //Check if the Actual File exists as From the DB			
 			//Set the Status to 2 to indicate entry without File
