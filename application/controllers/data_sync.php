@@ -19,7 +19,7 @@ class Data_sync extends MY_Controller {
 
 	function index(){
 		$synced_files = Sync_model::get_uploaded_data();
-		echo "<pre>";print_r($synced_files);
+		// echo "<pre>";print_r($synced_files);
 		foreach ($synced_files as $key => $value) {
 			$id = $value['id'];
 			$facility_code = $value['facility_code'];
@@ -39,12 +39,13 @@ class Data_sync extends MY_Controller {
 		ini_set('memory_limit', '-1');
 		ini_set('max_execution_time', '-1');
 
+		ec
 		$extention = end(explode(".", $zip_file));
 		$filename =  basename($zip_file, ".".$extention );	
 		if (!file_exists(FCPATH.'ftp_files\\'.$zip_file)) { //Check if the Actual File exists as From the DB
-			echo "File Does Not Exist $file_name<br/>";
+			echo "File Does Not Exist $zip_file<br/>";
 			//Set the Status to 2 to indicate entry without File
-		    $sql_ftp_update_else = "update ftp_uploads set status = '2' where id='$ftp_file_id'";  
+		    // $sql_ftp_update_else = "update ftp_uploads set status = '2' where id='$ftp_file_id'";  
 			$this->db->query($sql_ftp_update_else);
 		} else {
 		    
@@ -56,7 +57,7 @@ class Data_sync extends MY_Controller {
 				echo "Successfully Extracted<br/>";			
 			}else{
 				//Set the Status to 2 to indicate entry without File
-				$sql_ftp_update_else = "update ftp_uploads set status = '2' where id='$ftp_file_id'";
+				// $sql_ftp_update_else = "update ftp_uploads set status = '2' where id='$ftp_file_id'";
 				$this->db->query($sql_ftp_update_else);
 				echo "Error Extracting<br/>";
 			}		
