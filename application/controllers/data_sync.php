@@ -19,7 +19,7 @@ class Data_sync extends MY_Controller {
 
 	function index(){
 		$synced_files = Sync_model::get_uploaded_data();
-
+		echo "<pre>";print_r($synced_files);
 		foreach ($synced_files as $key => $value) {
 			$id = $value['id'];
 			$facility_code = $value['facility_code'];
