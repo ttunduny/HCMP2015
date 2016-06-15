@@ -570,18 +570,15 @@ class Kenya extends MY_Controller
 			$excel_data['row_data'] = $row_data;
 			$this->hcmp_functions->create_excel($excel_data);
 			endif;
-<<<<<<< HEAD
-		}
+
 		
-		public function expiry($year = null, $county_id = null, $district_id = null, $facility_code = null, $graph_type = null) {
-			$year = ($year == "NULL") ? date('Y') : $year;
-=======
+
 	}
 		
 	public function expiry($year = null, $county_id = null, $district_id = null, $facility_code = null, $graph_type = null) {
 			$year = ($year == "NULL") ? date('Y') : $year;
 			// return $graph_type;exit;
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+
 		/*//Get the current month
 
 		 $datetime1 = new DateTime('Y-10');
@@ -684,32 +681,7 @@ class Kenya extends MY_Controller
 		 	group by month(temp.expiry_date)
 		 	");
 =======
-			 	select 
-			 	DATE_FORMAT( temp.expiry_date,  '%b' ) AS cal_month,
-			 	sum(temp.total) as total
-			 	from
-			 	districts d1,
-			 	facilities f
-			 	left join
-			 	(select 
-			 	ROUND(SUM(f_s.current_balance / d.total_commodity_units) * d.unit_cost, 1) AS total,
-			 	f_s.facility_code,f_s.expiry_date
-			 	from
-			 	facility_stocks f_s, commodities d
-			 	where
-			 	f_s.expiry_date >= NOW()
-			 	and d.id = f_s.commodity_id
-			 	AND f_s.status = (1 or 2)
-			 	AND year(f_s.expiry_date) = $year
-			 	GROUP BY d.id , f_s.facility_code
-			 	having total > 1) temp ON temp.facility_code = f.facility_code
-			 	where
-			 	f.district = d1.id
-			 	$and_data
-			 	and temp.total > 0
-			 	group by month(temp.expiry_date)
-			 	");
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+			 	
 
 		 foreach ($commodity_array as $data) :
 		 	$temp_array = array_merge($temp_array, array($data["cal_month"] => $data['total']));
@@ -724,15 +696,7 @@ class Kenya extends MY_Controller
 		 foreach ($months as $key => $data) :
 				//for expiries
 		 	$val = (array_key_exists($data, $temp_array)) ? (int)$temp_array[$data] : (int)0;
-<<<<<<< HEAD
-		 $series_data = array_merge($series_data, array($val));
-		 array_push($series_data_, array($data, $val));
 
-				//for potential expiries
-		 $val2 = (array_key_exists($data, $temp_array2)) ? (int)$temp_array2[$data] : (int)0;
-		 $series_data2 = array_merge($series_data2, array($val2));
-		 array_push($series_data_2, array($data, $val2));
-=======
 			 $series_data = array_merge($series_data, array($val));
 			 array_push($series_data_, array($data, $val));
 
@@ -740,7 +704,7 @@ class Kenya extends MY_Controller
 			 $val2 = (array_key_exists($data, $temp_array2)) ? (int)$temp_array2[$data] : (int)0;
 			 $series_data2 = array_merge($series_data2, array($val2));
 			 array_push($series_data_2, array($data, $val2));
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+
 		 endforeach;
 		 $graph_type = 'column';
 
@@ -757,10 +721,8 @@ class Kenya extends MY_Controller
 			//echo "<pre>";print_r($graph_data);echo "</pre>";exit;
 		 $data = array();
 		 $data['graph_id'] = 'dem_graph_';
-<<<<<<< HEAD
-=======
+
 		 // echo "<pre> Me ";print_r($graph_data);exit;
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 		 $data['high_graph'] = $this -> hcmp_functions -> create_high_chart_graph($graph_data);
 
 			// print_r($data['high_graph']);
@@ -813,13 +775,14 @@ class Kenya extends MY_Controller
 
 		public function dashboard()
 		{
-<<<<<<< HEAD
+
 			$this->load->view('dashboard/dashboard_template'); 
 		}
 
 	}   
 
-=======
+
+
 			$counties = $q = Doctrine_Manager::getInstance()
 			->getCurrentConnection()
 			->fetchAll("SELECT distinct c.id,c.kenya_map_id as county_fusion_map_id,c.county,count(c.county) as facility_no FROM facilities f 

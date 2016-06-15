@@ -7,35 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<<<<<<< HEAD
-    <title>HCMP | <?php echo date('Y') ?> </title>
-=======
     <title>HCMP Dashboard | <?php echo date('Y') ?> </title>
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 
     <!-- Bootstrap -->
     <link href=<?php echo base_url()."assets/dashboard/vendors/bootstrap/dist/css/bootstrap.min.css"?> rel="stylesheet">
     <!-- Font Awesome -->
-<<<<<<< HEAD
-=======
     <link rel="icon" href="<?php echo base_url().'assets/img/coat_of_arms.png'?>" type="image/x-icon" />
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <link href=<?php echo base_url()."assets/dashboard/vendors/font-awesome/css/font-awesome.min.css"?> rel="stylesheet">
     <!-- iCheck -->
     <link href=<?php echo base_url()."assets/dashboard/vendors/iCheck/skins/flat/green.css"?> rel="stylesheet">
     <!-- bootstrap-progressbar -->
     <link href=<?php echo base_url()."assets/dashboard/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css"?> rel="stylesheet">
-<<<<<<< HEAD
-    <!-- jVectorMap -->
-    <link href=<?php echo base_url()."assets/dashboard/css/maps/jquery-jvectormap-2.0.3.css"?> rel="stylesheet"/>
-
-    <!-- Custom Theme Style -->
-    <link href=<?php echo base_url()."assets/dashboard/css/custom.css"?> rel="stylesheet">
-  </head>
-
-  <body class="nav-md">
-   <?php $this->load->view('dashboard/dashboard'); ?>
-=======
     
     <link href=<?php echo base_url()."assets/dashboard/vendors/select2/dist/css/select2.min.css"?> rel="stylesheet">
     
@@ -56,7 +38,6 @@
       $this->load->view('dashboard/dashboard');
     }
    ?>
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 
     <!-- jQuery -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/jquery/dist/jquery.min.js"?>></script>
@@ -69,44 +50,29 @@
     <!-- Chart.js -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/Chart.js/dist/Chart.min.js"?> ></script>
     <!-- gauge.js -->
-<<<<<<< HEAD
-    <script src=<?php echo base_url()."assets/dashboard/vendors/bernii/gauge.js/dist/gauge.min.js"?> ></script>
-=======
     <!-- <script src=<?php echo base_url()."assets/dashboard/vendors/bernii/gauge.js/dist/gauge.min.js"?> ></script> -->
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <!-- bootstrap-progressbar -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"?> ></script>
     <!-- iCheck -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/iCheck/icheck.min.js"?> ></script>
     <!-- Skycons -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/skycons/skycons.js"?> ></script>
-<<<<<<< HEAD
-=======
     
     <script src=<?php echo base_url()."assets/dashboard/vendors/select2/dist/js/select2.full.min.js"?> ></script>
 
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <!-- Flot -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.js"?> ></script>
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.pie.js"?> ></script>
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.time.js"?> ></script>
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.stack.js"?> ></script>
-<<<<<<< HEAD
-    <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.resize.js"?> ></script>
-=======
     <!-- <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.resize.js"?> ></script> -->
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <!-- Flot plugins -->
     <script src=<?php echo base_url()."assets/dashboard/js/flot/jquery.flot.orderBars.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/flot/date.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/flot/jquery.flot.spline.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/flot/curvedLines.js"?>></script>
     <!-- jVectorMap -->
-<<<<<<< HEAD
-    <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-2.0.3.min.js"?>></script>
-=======
     <!-- <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-2.0.3.min.js"?>></script> -->
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <!-- bootstrap-daterangepicker -->
     <script src=<?php echo base_url()."assets/dashboard/js/moment/moment.min.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/datepicker/daterangepicker.js"?>></script>
@@ -123,10 +89,6 @@
           [gd(2012, 1, 3), 6],
           [gd(2012, 1, 4), 39],
           [gd(2012, 1, 5), 20],
-<<<<<<< HEAD
-          [gd(2012, 1, 6), 85],
-          [gd(2012, 1, 7), 7]
-=======
           [gd(2012, 1, 7), 35],
           [gd(2012, 1, 8), 45],
           [gd(2012, 1, 9), 55],
@@ -134,20 +96,13 @@
           [gd(2012, 1, 11), 95],
           [gd(2012, 1, 12), 100],
           [gd(2012, 1, 13), 150]
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         ];
-
         var data2 = [
           [gd(2012, 1, 1), 82],
           [gd(2012, 1, 2), 23],
           [gd(2012, 1, 3), 66],
           [gd(2012, 1, 4), 9],
           [gd(2012, 1, 5), 119],
-<<<<<<< HEAD
-          [gd(2012, 1, 6), 6],
-          [gd(2012, 1, 7), 9]
-        ];
-=======
           [gd(2012, 1, 6), 96],
           [gd(2012, 1, 7), 66],
           [gd(2012, 1, 8), 56],
@@ -158,7 +113,6 @@
           [gd(2012, 1, 13), 95]
         ];
         /*
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
           data1, data2
         ], {
@@ -173,15 +127,12 @@
               lineWidth: 1,
               fill: 0.4
             },
-<<<<<<< HEAD
-=======
             bars: {
               show: true,
               tension: 0.4,
               lineWidth: 1,
               fill: 0.4
             },
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
             points: {
               radius: 0,
               show: true
@@ -212,15 +163,9 @@
             ticks: 8,
             tickColor: "rgba(51, 51, 51, 0.06)",
           },
-<<<<<<< HEAD
-          tooltip: false
-        });
-
-=======
           tooltip: true
         });
         */
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         function gd(year, month, day) {
           return new Date(year, month - 1, day).getTime();
         }
@@ -229,13 +174,6 @@
     <!-- /Flot -->
 
     <!-- jVectorMap -->
-<<<<<<< HEAD
-    <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-world-mill-en.js"?>></script>
-    <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-us-aea-en.js"?>></script>
-    <script src=<?php echo base_url()."assets/dashboard/js/maps/gdp-data.js"?>></script>
-    <script>
-      $(document).ready(function(){
-=======
     <!-- <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-world-mill-en.js"?>></script> -->
     <!-- <script src=<?php echo base_url()."assets/dashboard/js/maps/jquery-jvectormap-us-aea-en.js"?>></script> -->
     <script src="<?php echo base_url().'assets/highcharts/highcharts.js'?>"></script>
@@ -243,7 +181,6 @@
     <script src=<?php echo base_url()."assets/dashboard/js/maps/gdp-data.js"?>></script>
     <script>
      /* $(document).ready(function(){
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         $('#world-map-gdp').vectorMap({
           map: 'world_mill_en',
           backgroundColor: 'transparent',
@@ -259,18 +196,11 @@
             el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
           }
         });
-<<<<<<< HEAD
-      });
-    </script>
-    <!-- /jVectorMap -->
-
-=======
       });*/
     </script>
     <!-- /jVectorMap -->
 
 
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
     <!-- Skycons -->
     <script>
       $(document).ready(function() {
@@ -283,10 +213,8 @@
             "fog"
           ],
           i;
-
         for (i = list.length; i--;)
           icons.set(list[i], list[i]);
-
         icons.play();
       });
     </script>
@@ -294,51 +222,21 @@
 
     <!-- Doughnut Chart -->
     <script>
-<<<<<<< HEAD
-      $(document).ready(function(){
-=======
       $(document).ready(function(){ 
         $(".select2").select2({
-          placeholder: "0"
+          placeholder: "0",
+          // containerCssClass: "float-left" 
         });
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         var options = {
           legend: false,
           responsive: false
         };
-<<<<<<< HEAD
-
-=======
         /*
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         new Chart(document.getElementById("canvas1"), {
           type: 'doughnut',
           tooltipFillColor: "rgba(51, 51, 51, 0.55)",
           data: {
             labels: [
-<<<<<<< HEAD
-              "Symbian",
-              "Blackberry",
-              "Other",
-              "Android",
-              "IOS"
-            ],
-            datasets: [{
-              data: [15, 20, 30, 10, 30],
-              backgroundColor: [
-                "#BDC3C7",
-                "#9B59B6",
-                "#E74C3C",
-                "#26B99A",
-                "#3498DB"
-              ],
-              hoverBackgroundColor: [
-                "#CFD4D8",
-                "#B370CF",
-                "#E95E4F",
-                "#36CAAB",
-                "#49A9EA"
-=======
               "Zinc",
               "ORS",
               "Co-pack"
@@ -351,7 +249,6 @@
                 "#26B99A",
                 "#E74C3C",
                 "#BDC3C7",
-
               ],
               hoverBackgroundColor: [
                 "#49A9EA",
@@ -359,16 +256,12 @@
                 "#36CAAB",
                 "#E95E4F",
                 "#CFD4D8",
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
               ]
             }]
           },
           options: options
         });
-<<<<<<< HEAD
-=======
         */
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
       });
     </script>
     <!-- /Doughnut Chart -->
@@ -376,12 +269,10 @@
     <!-- bootstrap-daterangepicker -->
     <script>
       $(document).ready(function() {
-
         var cb = function(start, end, label) {
           console.log(start.toISOString(), end.toISOString(), label);
           $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         };
-
         var optionSet1 = {
           startDate: moment().subtract(29, 'days'),
           endDate: moment(),
@@ -447,34 +338,6 @@
     </script>
     <!-- /bootstrap-daterangepicker -->
 
-<<<<<<< HEAD
-    <!-- gauge.js -->
-    <script>
-      var opts = {
-          lines: 12,
-          angle: 0,
-          lineWidth: 0.4,
-          pointer: {
-              length: 0.75,
-              strokeWidth: 0.042,
-              color: '#1D212A'
-          },
-          limitMax: 'false',
-          colorStart: '#1ABC9C',
-          colorStop: '#1ABC9C',
-          strokeColor: '#F0F3F3',
-          generateGradient: true
-      };
-      var target = document.getElementById('foo'),
-          gauge = new Gauge(target).setOptions(opts);
-
-      gauge.maxValue = 6000;
-      gauge.animationSpeed = 32;
-      gauge.set(3200);
-      gauge.setTextField(document.getElementById("gauge-text"));
-    </script>
-    <!-- /gauge.js -->
-=======
   <script src="<?php echo base_url().'assets/scripts/pace.js'?>" type="text/javascript"></script>
 
     <script>
@@ -487,12 +350,8 @@
     elements:{
       selectors:['body']
     } //
-
     };
-
       
-
-
     function load(time){
       var x = new XMLHttpRequest()
       x.open('GET', document.URL , true);
@@ -503,17 +362,11 @@
         load(3100);
       });
     },4500);
-
     Pace.on('hide', function(){
     //   console.log('done');
     });
-
     var url="<?php echo base_url(); ?>";
-
     });
-
-
-
       //auto run
       var url ='<?php echo base_url()?>';
         // $('#potential_').on('shown.bs.tab', function (e) {
@@ -522,27 +375,21 @@
        $('#actual_').on('shown.bs.tab', function (e) {
         $('#actual').html('');
        });
-
        $('.county-name').html("National "+" &nbsp;");
        /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
         ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/1/NULL',"#mos");
         ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL/NULL/NULL/NULL/1',"#consumption");
         ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/NULL/NULL',"#actual"); 
-
         $(".expiry_filter").button().click(function(e) {
           e.preventDefault(); 
           var commodity = $("#expiry_commodity").val();
-
          ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#actual");
         });
-
         $(".consumption_filter").button().click(function(e) {
           e.preventDefault(); 
           var commodity = $("#consumption_commodity").val();
-
          ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
         });
-
       
       $(".ecounty-filter").button().click(function(e) {
         e.preventDefault(); 
@@ -552,7 +399,6 @@
        // var facility=$(this).closest("tr").find("#ecounty_filter").val();
        ajax_request_replace_div_content('dashboard/expiry/'+year+'/'+county+'/NULL/NULL/NULL',"#actual");
         });
-
       $(".asubcounty-filter").button().click(function(e) {
         e.preventDefault(); 
         var year=$("#asubcountyyear").val();
@@ -575,7 +421,6 @@
           var facility=$("#psubcounty_facility_filter").val();
           ajax_request_replace_div_content('dashboard/potential/'+county_id+'/'+district+'/'+facility+'/NULL',"#potential");
         });
-
         $(".subcounty").click(function(){
             /*
              * when clicked, this object should populate facility names to facility dropdown list.
@@ -587,11 +432,7 @@
              var id = $(this).attr("value");
              $('.subcounty').val(id);
              dropdown(baseUrl,"district="+id,".facility");
-
-
          });
-
-
         function run(data){
           var county_data=data.split('^');
         console.log(county_data);return;
@@ -655,35 +496,20 @@
      } 
      $(".excel_").click(function(e) {
       e.preventDefault();
-
       var county_id=$('#placeholder').val();
        // alert(county_id);
        var type=$(this).attr('id'); 
-
        var link='';
-
-       if(type=='offline_count'){ 
-        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/1';
+       if(type=='hcwtrained'){ 
+        link='dashboard/hcw/'+county_id+'/NULL/NULL/excel';
        }
-
-       if(type=='online_count'){ 
-        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/2';
-       }
-
-       if(type=='total'){ 
-        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/NULL';
-       }
-
        if(type=='rolledout'){
         link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel';
        }
-
        
-       window.open(url+link,'_blank'); 
+       window.open(url+link,'_parent'); 
     });  
-
     </script>
     </script>
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
   </body>
 </html>

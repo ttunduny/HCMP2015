@@ -21,6 +21,51 @@ class Facilities extends Doctrine_Record {
 		$this -> hasOne('facility_code as Codes', array('local' => 'facility_code', 'foreign' => 'facility'));
 		$this -> hasMany('districts as facility_subcounty', array('local' => 'district', 'foreign' => 'id'));
 	}
+    
+
+    public static function get_dormant_facilities(){
+
+    	$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll(
+    		"
+    		SELECT * FROM facilities where using_hcmp =0
+    		");
+
+    	return $query;
+
+    	
+    }
+
+	public static function get_offline_facilities_new(){
+		   $query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+
+
+               select distinct f.facility_code, f.facility_name,c.county,
+            CASE using_hcmp
+            WHEN 1 THEN 'Online'
+            ELSE 'Offline'
+            END AS ONLINE_STATUS,
+            date_format(f.date_of_activation,'%b %d %Y %h:%i %p') as date_of_activation
+
+            
+              ,
+            date_format(fu.date_added,'%b %d %Y %h:%i %p') as date_added
+               
+			from facilities f  
+			left outer JOIN ftp_uploads fu
+			ON f.facility_code = fu.facility_code
+			LEFT outer JOIN districts d
+			ON f.district = d.id
+			LEFT outer JOIN counties c
+			ON d.county =c.id
+			where d.county in(31,23)
+			and f.using_hcmp in (1,2)
+			group by f.facility_name order by c.county asc, f.using_hcmp desc");
+
+			 return $query;
+
+}
+
+
 	public static function getAll() {
 		$query = Doctrine_Query::create() -> select("*") -> from("facilities");
 		$drugs = $query -> execute();
@@ -214,7 +259,7 @@ class Facilities extends Doctrine_Record {
 			f.facility_code AS 'facility_code',
 			f.facility_name AS 'facility_name',
 			fl.action AS 'action',
-			fl.date AS 'date_of_action'
+			date_format(fl.date,'%b %d %Y %h:%i %p') as date_of_action
 			FROM
 			user u JOIN
 			facilities f
@@ -1093,11 +1138,29 @@ public static function get_all_facilities_no(){
 		");
 	return $query;
 }
+
+public static function get_all_offline_facilities(){
+    $query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+		SELECT COUNT( f.id ) AS total_offline_facilities
+		FROM facilities f,districts d
+		where f.`district` = d.id AND f.using_hcmp = 2
+		");
+	return $query;
+
+}
 public static function get_all_facilities_active_no(){
 	$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 		SELECT COUNT( f.id ) AS total_active_facilities
 		FROM facilities f,districts d
 		where f.`district` = d.id AND f.using_hcmp = 1
+		");
+	return $query;
+}
+public static function get_all_facilities_inactive_no(){
+	$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+		SELECT COUNT( f.id ) AS total_inactive_facilities
+		FROM facilities f,districts d
+		where f.`district` = d.id AND f.using_hcmp = 0
 		");
 	return $query;
 }

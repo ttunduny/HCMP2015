@@ -66,7 +66,7 @@ class User extends MY_Controller {
 				$insert_default_user->execute($insert_query);
 			}
 	}
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+
 	public function login_submit() {
 
 		$user = new Users();
@@ -471,18 +471,7 @@ class User extends MY_Controller {
 
 
 								}
-								public function new_create_user($reset_user = NULL,$password_reset = NULL){
-									$permissions='super_permissions';									
-									$data['content_view'] = "Admin/users_v";
-									$data['listing']= Users::get_user_list_all();
-									// $data['counts']=Users::get_users_count();
-									$data['counties']=Counties::getAll();
-									$template = 'shared_files/template/dashboard_v';
-									$data['title'] = "User Management";
-									$data['user_types']=Access_level::get_access_levels($permissions);	
-
-
-								}
+							
 								public function reset_user_password($user_id) {
 									Users::reset_password($user_id, '123456');										
 									echo true;

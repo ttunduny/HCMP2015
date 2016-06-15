@@ -421,10 +421,7 @@ public static function get_county_emails($county_id){
     f.cd4_enabled,
     f.drawing_rights_balance,
     f.using_hcmp,
-    f.date_of_activation,
-    f.zone,
-    f.contactperson,
-    f.cellphone,
+    date_format(f.date_of_activation,'%b %d %Y %h:%i %p') as date_of_activation,
     f.targetted,
     d.id,
     d.district as district_name
@@ -472,8 +469,6 @@ public static function get_county_details($county_id){
 		$level = $query -> execute();
 		return $level;
 }
-
-
 
 	
 	public static function check_db_activation($phone,$code) {

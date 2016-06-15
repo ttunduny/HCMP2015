@@ -40,7 +40,7 @@
 
 
 
-$route['default_controller'] = "kenya";
+//$route['default_controller'] = "kenya";
 
 $route['default_controller'] = "dashboard";
 
