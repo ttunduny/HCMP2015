@@ -42,6 +42,7 @@ class Data_sync extends MY_Controller {
 		// echo FCPATH.'ftp_files\\'.$zip_file;die;
 		$extention = end(explode(".", $zip_file));
 		$filename =  basename($zip_file, ".".$extention );	
+		echo FCPATH.'ftp_files\/'.$zip_file;exit;
 		if (!file_exists(FCPATH.'ftp_files\/'.$zip_file)) { //Check if the Actual File exists as From the DB
 			echo "File Does Not Exist $zip_file<br/>";
 			//Set the Status to 2 to indicate entry without File
@@ -63,6 +64,7 @@ class Data_sync extends MY_Controller {
 			}		
 
 			$txt_file = FCPATH.'ftp_files\extracted\\'.$filename.'.txt';
+			// echo $txt_file;
 
 			$file_details = array(json_decode(file_get_contents($txt_file, FILE_USE_INCLUDE_PATH),TRUE));	//Decode and create an array from the data
 			
