@@ -44,18 +44,21 @@ class Data_sync extends MY_Controller {
 		$filename =  basename($zip_file, ".".$extention );
 		error_reporting(1);	
 		$path = FCPATH.'ftp_files/'.$zip_file;
-		$path = preg_replace('/', '\\', $path);
-		echo $path;exit;
+
+		$path = str_replace('/', '\\', $path);	
+
+		// $path = preg_replace('/', '\\', $path);
+		echo $path."<pre>";
 		
 		// echo FCPATH.'ftp_files\/'.$zip_file;exit;
 
-		if (!file_exists(FCPATH.'ftp_files\/'.$zip_file)) { //Check if the Actual File exists as From the DB
-			echo "File Does Not Exist $zip_file<br/>";
+		if (!file_exists($path)) { //Check if the Actual File exists as From the DB
+			echo "File Does Not Exist $zip_file<br/>";exit;
 			//Set the Status to 2 to indicate entry without File
 		    // $sql_ftp_update_else = "update ftp_uploads set status = '2' where id='$ftp_file_id'";  
 			$this->db->query($sql_ftp_update_else);
 		} else {
-		    
+		    echo "I exist";exit;
 			$zip = new ZipArchive;
 			$res = $zip->open(FCPATH.'ftp_files\/'.$zip_file);		
 			if ($res === TRUE) {
