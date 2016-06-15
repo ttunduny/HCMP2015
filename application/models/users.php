@@ -75,7 +75,14 @@ class Users extends Doctrine_Record {
 		return $level;
 	}
 
-
+	public function get_user_type($id) {
+		$sql = "SELECT level FROM access_level WHERE id = '$id'";
+		$user_level = $this -> db -> query($sql)->result_array();
+		foreach($user_level as $user_level) {
+			$level = $user_level['level'];
+		}
+		return $level;
+	}
 	public static function get_user_names($id) {
 		$query = Doctrine_Query::create() -> select("fname, lname,username") -> from("users") -> where("id='$id'");
 		$names = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);

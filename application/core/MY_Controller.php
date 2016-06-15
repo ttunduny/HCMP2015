@@ -196,4 +196,8 @@ class  MY_Controller  extends  CI_Controller  {
 	/*CREATING ZIP FILES*/
 	
 	/*END OF CREATING ZIP FILES*/
+
+	public function generate_random_string($length) {
+		return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+	}
 } 

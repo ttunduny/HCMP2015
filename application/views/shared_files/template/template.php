@@ -245,7 +245,8 @@ $identifier = $this -> session -> userdata('user_indicator');
       <ul class="dropdown-menu" >
         <?php if($identifier == "recovery"){}else{?><li><a style="background: whitesmoke;color: black !important" href="" data-toggle="modal" data-target="#changepassModal"><span class="glyphicon glyphicon-pencil" style="margin-right: 2%; "></span>Change password</a></li>  <?php }?>            
         <li><a style="background: whitesmoke;color: black !important" href="<?php echo site_url("user/logout");?>" ><span class="glyphicon glyphicon-off" style="margin-right: 2%;"></span>Log out</a></li>
-        <li ><a style="background: whitesmoke;color: black !important" href="mailto:hcmphelpdesk@googlegroups.com" onclick="startIntro();" ><span class="glyphicon glyphicon-question-sign" style="margin-right: 2%;"></span>Help</a></li>
+        <!-- <li ><a style="background: whitesmoke;color: black !important" href="mailto:hcmphelpdesk@googlegroups.com" onclick="startIntro();" ><span class="glyphicon glyphicon-question-sign" style="margin-right: 2%;"></span>Help</a></li> -->
+        <li><a data-toggle="modal" data-target="#reportIssueModal" href="" style="background: whitesmoke;color: black !important"><span class="glyphicon glyphicon-question-sign" style="margin-right: 2%;"></span>Report an Issue</a></li>
       </ul>
     </li>
   </ul>
@@ -363,7 +364,7 @@ $identifier = $this -> session -> userdata('user_indicator');
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Change Password Modal -->
 <div class="modal fade" id="changepassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: 35%;">
     <div class="modal-content">
@@ -426,7 +427,93 @@ $identifier = $this -> session -> userdata('user_indicator');
 </div>
 </div>
 </div>
+<!-- End Change Password Modal -->
+<!-- Report Issue Modal -->
+<div class="modal fade" id="reportIssueModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 50%;">
+    <div class="modal-content">
+    <form method="post" action="<?php echo base_url('home/submit_issue'); ?>" class="form-horizontal" enctype="multipart/form-data" role="form" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Report an Issue</h4>
+      </div>
 
+      <div class="modal-body">
+        <div id="login">
+
+         <!-- <div class= "row">
+           <div class="col-md-11" > 
+            <div class="form-group" style="display:none;">
+              <label class="control-label col-sm-2" for="username">Username:</label>
+              <div class="col-sm-10">
+                <input readonly class="form-control" id="username" name="username" value="<?php //echo $username; ?>" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1" style="padding-left: 0;"></div>
+        </div> -->
+
+        <div class= "row">
+         <div class="col-md-11" > 
+          <div class="form-group">
+              <label class="control-label col-sm-2" for="issueurl">Issue URL:</label>
+              <div class="col-sm-10">
+                <input required class="form-control" type="url" id="issueurl" name="issueurl" placeholder="e.g. 41.81.22.23/HCMP/reports/order_listing/facility" />
+              </div>
+          </div>
+        </div>
+        <div class="col-md-1" style="padding-left: 0;"><span class="error" id="result" style="margin-top: 50% !important;"></span></div>
+      </div>
+      <br />
+      <div class="row">
+       <div class="col-md-11" > 
+        <div class="form-group">
+              <label class="control-label col-sm-2" for="description">Description:</label>
+              <div class="col-sm-10"> 
+                <textarea required class="form-control" id="description" name="description" placeholder="Enter a description" cols="80" rows="10"></textarea>
+              </div>
+        </div>
+      </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-md-11">
+          <div class="form-group"> 
+              <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                  <label><input type="checkbox" class="upload-image">Upload Image</label>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-md-11">
+          <div class="form-group image-upload"> 
+              <label class="control-label col-sm-2" for="description">Image File (JPEG):</label>
+              <div class="col-sm-10"> 
+                <input type="file" class="form-control" id="image" name="issueimage" />
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1" style="padding-left: 0;"><span class="error" id="confirmerror" style="padding-top: 60%;"></span></div>
+
+    </div>
+    
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+  <button type="submit" class="btn btn-success" id="change">Submit</button>
+</div>
+</form>
+</div>
+
+</div>
+</div>
+<!-- End RIM -->
 <div class="modal fade" id="contact_us" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: 50%;">
     <div class="modal-content">
@@ -595,6 +682,18 @@ function checkTime(i)
     $('#online-notification').hide();
     // $(".makesearchable").select2();//dont put form-control when you make it searchable
     changeHashOnLoad();
+    $(".image-upload").hide();
+      $(".upload-image").on("change", function() {
+        if( $(this).is(':checked') ) {
+           $(".image-upload").show("fast");
+           $("#image").attr("required", true);
+        }
+        else {
+           $(".image-upload").hide("fast");
+           $("#image").attr("required", false);
+        } 
+        
+      });
     $('#new_password').keyup(function() {
      $('#result').html(checkStrength($('#new_password').val()))
    })
