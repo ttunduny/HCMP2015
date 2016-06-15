@@ -41,8 +41,14 @@ class Data_sync extends MY_Controller {
 
 		// echo FCPATH.'ftp_files\\'.$zip_file;die;
 		$extention = end(explode(".", $zip_file));
-		$filename =  basename($zip_file, ".".$extention );	
-		echo FCPATH.'ftp_files\/'.$zip_file;exit;
+		$filename =  basename($zip_file, ".".$extention );
+		error_reporting(1);	
+		$path = FCPATH.'ftp_files/'.$zip_file;
+		$path = preg_replace('/', '\\', $path);
+		echo $path;exit;
+		
+		// echo FCPATH.'ftp_files\/'.$zip_file;exit;
+
 		if (!file_exists(FCPATH.'ftp_files\/'.$zip_file)) { //Check if the Actual File exists as From the DB
 			echo "File Does Not Exist $zip_file<br/>";
 			//Set the Status to 2 to indicate entry without File
