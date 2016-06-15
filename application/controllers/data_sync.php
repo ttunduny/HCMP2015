@@ -41,7 +41,7 @@ class Data_sync extends MY_Controller {
 
 		$extention = end(explode(".", $zip_file));
 		$filename =  basename($zip_file, ".".$extention );	
-		if (!file_exists(FCPATH.'sync_files\\'.$zip_file)) { //Check if the Actual File exists as From the DB
+		if (!file_exists(FCPATH.'ftp_files\\'.$zip_file)) { //Check if the Actual File exists as From the DB
 			echo "File Does Not Exist $file_name<br/>";
 			//Set the Status to 2 to indicate entry without File
 		    $sql_ftp_update_else = "update ftp_uploads set status = '2' where id='$ftp_file_id'";  
@@ -49,9 +49,9 @@ class Data_sync extends MY_Controller {
 		} else {
 		    
 			$zip = new ZipArchive;
-			$res = $zip->open(FCPATH.'sync_files\\'.$zip_file);		
+			$res = $zip->open(FCPATH.'ftp_files\\'.$zip_file);		
 			if ($res === TRUE) {
-				$zip->extractTo(FCPATH.'sync_files\extracted\\');
+				$zip->extractTo(FCPATH.'ftp_files\extracted\\');
 				$zip->close();
 				echo "Successfully Extracted<br/>";			
 			}else{
@@ -61,7 +61,7 @@ class Data_sync extends MY_Controller {
 				echo "Error Extracting<br/>";
 			}		
 
-			$txt_file = FCPATH.'sync_files\extracted\\'.$filename.'.txt';
+			$txt_file = FCPATH.'ftp_files\extracted\\'.$filename.'.txt';
 
 			$file_details = array(json_decode(file_get_contents($txt_file, FILE_USE_INCLUDE_PATH),TRUE));	//Decode and create an array from the data
 			
