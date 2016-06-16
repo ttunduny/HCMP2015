@@ -311,7 +311,7 @@ class Home extends MY_Controller
 	}
 
 	public function submit_issue() {
-		echo "<pre>"; print_r($_POST); exit;
+		// echo "<pre>"; print_r($_POST); exit;
 		$issue_level = $this -> session -> userdata('user_type_id');
 		$user_id = $this -> session -> userdata('user_id');
 		$level = Users::get_user_type($issue_level);
