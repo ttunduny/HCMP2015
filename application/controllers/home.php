@@ -59,7 +59,15 @@ class Home extends MY_Controller
 		$lastlogin = user::get_last_login($user_id);
 	    //pass data to view
 		$data['lastlogin'] = date("l, jS F Y g:i a", strtotime($lastlogin));
-
+		
+		//exit;
+		switch ($identifier):
+		case 'moh':
+		$view = 'shared_files/template/dashboard_template_v';	
+		break;
+		case 'facility_admin':
+		case 'facility':
+				//check if password is default
 		//get last order
 		$lastorder = user::get_last_order($user_id);
 		//pass data to view
@@ -86,14 +94,6 @@ class Home extends MY_Controller
 		else{
 			$data['no_issue'] = "N/A";
 		}
-		//exit;
-		switch ($identifier):
-		case 'moh':
-		$view = 'shared_files/template/dashboard_template_v';	
-		break;
-		case 'facility_admin':
-		case 'facility':
-				//check if password is default
 		$username = $this -> session -> userdata('user_email');
 		$facility_id = $this -> session -> userdata('facility_id');
 		$reply = User::getPass($username);
