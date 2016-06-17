@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-=======
 <?php 
   $count_active = count($active_users);
   $count_inactive = count($inactive_users);
   $count_deactivated = count($deactivated_users);
-
 ?>
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 <style type="text/css">
   .panel-body,span:hover,.status_item:hover
   { 
@@ -30,86 +26,6 @@
   }
 </style>
 
-<<<<<<< HEAD
-<div class="container-fluid">
-      
-  <div class="row">
-
-    <div class="col-md-1" style="padding-left: 0; right:0; float:right; margin-bottom:5px;">
-      <button class="btn btn-primary add" data-toggle="modal" data-target="#addModal" id="add_new">
-        <span class="glyphicon glyphicon-plus"></span>Add User
-      </button>
-        <a href="user_create_multiple" style="margin: 5px 0;">Add Multiple Users</a>
-    </div>
-
-    <div class="col-md-12 dt" style="border: 1px solid #ddd;padding-top: 1%; " id="test">
-
-          <table  class="table table-hover table-bordered table-update" id="userstable"  >
-            <thead style="background-color: white">
-              <tr>
-                <th>Names</th>
-                <th>Username </th>
-                <th>Phone No</th>
-                <th>Sub-County</th>
-                <th>Health Facility</th>
-                <th>User Type</th>
-                <th>Status (Checked means Active)</th>
-                <th>Password</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-
-              <?php
-              foreach ($listing as $list ) {
-                // echo "<pre>";print_r($list);die;                
-              ?>
-              <tr class="edit_tr" >
-              <input type="hidden" class="county_id" value="<?php echo $list['county_id']; ?>">
-                <td class="fname" >
-                <?php echo ucfirst($list['fname'])." ".ucfirst($list['lname']);?></td>                
-                <td class="email" data-attr="<?php echo $list['user_id']; ?>"><?php echo $list['email'];?></td>
-                <td class="phone"><?php echo $list['telephone']; ?></td>
-                <td class="district" data-attr="<?php echo $list['district_id']; ?>"><?php echo $list['district']; ?></td>
-                <td class="facility" data-attr="<?php echo $list['facility_name']; ?>"><?php echo $list['facility_name']; ?></td>
-                <td class="level" data-attr="<?php echo $list['level_id']; ?>"><?php echo $list['level']; ?></td>
-                <td style="width:20px;" >
-                <?php if ($list['status']==1) {?>
-                <input type="checkbox" disabled <?php if($current_user_id == $list['user_id']){ echo "disabled"; }?> name="status-checkbox" id="status_switch_change" data-attr="<?php echo $list['user_id']; ?>"  class="small-status-switch" checked = "checked" style="border-radius:0px!important;">
-                <?php }else{ ?>
-                <input type="checkbox" name="status-checkbox" id="status_switch_change" disabled data-attr="<?php echo $list['user_id']; ?>" class="small-status-switch" style="border-radius:0px!important;">
-                <?php } ?> 
-                <td>
-                  <!-- <div class="btn btn-primary btn-xs" id="reset_pwd"  data-attr="<?php echo $list['user_id']; ?>">
-                  <span class="glyphicon glyphicon-edit"></span>Reset Password
-                  </div> -->
-                  <a href="#" class="btn btn-primary btn-xs reset_pwd" name="reset_pwd"  id="reset_pwd" data-attr="<?php echo $list['user_id']; ?>" data-name="<?php echo $list['email']; ?>">
-                  <!-- <a href="<?php //echo base_url().'user/reset_pass_to_default/'.$list['user_id']; ?>" class="btn btn-primary btn-xs" name="reset_pwd" class="reset_pwd" id="reset_pwd" data-attr="<?php echo $list['user_id']; ?>"> -->
-                  <span class="glyphicon glyphicon-edit"></span>Reset Password
-                   </a>  
-                </td>
-
-
-                <td>
-                <button class="btn btn-primary btn-xs edit " data-toggle="modal" data-target="#myModal" id="<?php echo $list['user_id']; ?>" data-target="#">
-                  <span class="glyphicon glyphicon-edit"></span>Edit
-                </button>
-                </td>
-              </tr>
-              <?php } ?>
-            </tbody>
-          </table>
-
-        </div>
-
-
-    </div>
-
-</div>
-<
-
-=======
 <div class="container-fluid">  
  <div class="row"> 
   <!-- <div class="col-md-1" style="padding-left: 0; right:0; float:right; margin-bottom:5px;">
@@ -260,7 +176,6 @@
 
   </div>
 </div>
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 <!--Add User Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -270,16 +185,7 @@
         <h4 class="modal-title" id="myModalLabel" style="text-align: center;line-height: 1">New User</h4>
       </div>
       <div class="row" style="margin:auto" id="error_msg">
-<<<<<<< HEAD
-        <div class=" col-md-12">
-          <div class="form-group">
-
-
-          </div>
-        </div>
-=======
        
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 
       </div>
       <div class="modal-body">
@@ -382,22 +288,6 @@
 </div>
 
 <script type="text/javascript">
-<<<<<<< HEAD
-  $(document).ready(function(){
-    // $(".editable").on('click',function() {
-    
-    //       $("#edit_user").attr("disabled", false);
-    // });
-    
-    // $("#edit_user").attr("disabled", "disabled");
-    //        $('#main-content').on('hidden.bs.modal','#myModal', function () {
-    //     $("#datatable").hide().fadeIn('fast');
-    //     // location.reload();
-    //   });
-    
-    $(".sub_county").hide(); 
-    $(".facility_name").hide();
-=======
   $(document).ready(function() {      
     $('.reset_password').button().click(function() {
       var user_id = $(this).closest("tr").find(".user_id").val();
@@ -425,7 +315,6 @@
      
       });
     });
-
     $('.deactivate_user').button().click(function() {
       var user_id = $(this).closest("tr").find(".user_id").val();
       var user_name = $(this).closest("tr").find(".user_name").val();      
@@ -453,7 +342,6 @@
      
        });
       });
-
     $('.activate_user').button().click(function() {
       var user_id = $(this).closest("tr").find(".user_id").val();
       var user_name = $(this).closest("tr").find(".user_name").val();      
@@ -481,25 +369,13 @@
      
        });
       });
-
     //Modal Stuff
     $(".sub_county").hide(); 
     $(".facility_name").hide();
     $(".county").hide(); 
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
-
     $('#add_new').click(function () {  
       $('#addModal').appendTo("body").modal('show');
     });
-
-<<<<<<< HEAD
-    $('.edit').click(function () {  
-      $('#editModal').appendTo("body").modal('show');
-      $("#edit_user").attr("disabled", 'disabled');
-    });
-
-    $("#county").change(function() {      
-=======
     $("#user_type").change(function(){
       var type_id = $(this).val();
       console.log(type_id);
@@ -551,7 +427,6 @@
       
     });
      $("#county").change(function() {      
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
       var option_value=$(this).val();    
       if(option_value=='NULL'){
         $(".sub_county").hide('slow');
@@ -566,14 +441,9 @@
           });
           $("#sub_county").append(drop_down);
         });
-<<<<<<< HEAD
-        $(".sub_county").show('slow');
-=======
         // $(".sub_county").show('slow');
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
       }    
     }); 
-
     $("#sub_county").change(function() {
       var option_value=$(this).val();
         if(option_value=='NULL'){
@@ -588,14 +458,9 @@
               });
               $("#facility_name").append(drop_down);
           });
-<<<<<<< HEAD
-          $(".facility_name").show('slow');   
-=======
           // $(".facility_name").show('slow');   
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
         }
       }); //end of district name change funtion
-
     $('#email').bind('input change paste keyup mouseup',function() {
     var email = $('#email').val();         
     $("#username").val(email);
@@ -606,7 +471,6 @@
         data:{ 'email': $('#email').val()},
         beforeSend: function(){
             $('#processing').html('Checking Email...');
-
         },
         success: function(data) {
           console.log(data);
@@ -625,13 +489,7 @@
       });
       return false;
     });
-<<<<<<< HEAD
-
-    $("#create_new").click(function() {
-=======
      $("#create_new").click(function() {
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
-
       var first_name = $('#first_name').val()
       var last_name = $('#last_name').val()
       var telephone = $('#telephone').val()
@@ -640,7 +498,6 @@
       var facility_id = $('#facility_id').val()
       var district_name = $('#district_name').val()
       var user_type = $('#user_type').val()
-
        if(first_name==""||last_name==""||telephone==""||email==""||user_type=="NULL"||district_name=="NULL"){
             alert('Please make sure you have selected all relevant fields.');
               return;
@@ -651,21 +508,10 @@
       ajax_post_process (url,div);
            
     });
-
-<<<<<<< HEAD
-   function ajax_post_process (url,div){
-    var url =url;
-
-     //alert(url);
-    // return;
-     var loading_icon="<?php echo base_url().'assets/img/Preloader_4.gif' ?>";
-     $.ajax({
-=======
     function ajax_post_process (url,div){
       var url =url;
       var loading_icon="<?php echo base_url().'assets/img/Preloader_4.gif' ?>";
       $.ajax({
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
           type: "POST",
           data:{ 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),
           'telephone': $('#telephone').val(),'email': $('#email').val(),
@@ -674,17 +520,10 @@
           url: url,
           beforeSend: function() {
            
-<<<<<<< HEAD
-            var message = confirm("Are you sure you want to proceed?");
-        if (message){
-            $('.modal-body').html("<img style='margin:30% 0 20% 42%;' src="+loading_icon+">");
-        } else {
-=======
           var message = confirm("Are you sure you want to proceed?");
           if (message){
             $('.modal-body').html("<img style='margin:30% 0 20% 42%;' src="+loading_icon+">");
           } else {
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
             return false;
         }
            
@@ -707,7 +546,6 @@
         }); 
         
 }
-
-
   });
 </script>
+Status 
