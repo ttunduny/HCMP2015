@@ -100,20 +100,30 @@ class Admin extends MY_Controller {
 		$this -> load -> view("shared_files/template/dashboard_v", $data);
 	}
 	public function manage_facilities() {
+		ini_set('memory_limit','-1');
 		$permissions='super_permissions';
 		$data['title'] = "Users";
 		$data['content_view'] = "Admin/facilities_v";
 		$data['facilities_listing']= Users::get_facilities_list_all();
 		$data['facilities_listing_active']= Users::get_facilities_list_all_active(1);
 		$data['facilities_listing_inactive']= Users::get_facilities_list_all_active(0);
+		//$data['facilities_listing_inactive']= Facilities::get_dormant_facilities();
 		$data['active_count']= Facilities::get_all_facilities_active_no();
 		$data['facility_count']=Facilities::get_all_facilities_no();
+		$data['inactive_facilities']=Facilities::get_all_facilities_inactive_no();
+		$data['offline_count'] =Facilities::get_all_offline_facilities();
 		$data['counties']=Counties::getAll();
 		$data['facilities']=Facilities::getAll();
 		$data['sub_counties']=Districts::getAll();
 		$data['user_types']=Access_level::get_access_levels($permissions);
 		$data['activation_logs'] = Facilities::get_activation_logs();
-		$this -> load -> view("shared_files/template/dashboard_v", $data);
+		//$query2="Select * from facilities where using_hcmp =0;";
+    	//$data['inactive_facilities'] = $this->db->query($query2)->result_array();//inactive
+        
+    	$data['offline_facilities'] =Facilities::get_offline_facilities_new();//Offline facilities
+        $this -> load -> view("shared_files/template/dashboard_v",$data);
+
+        //echo json_encode($data);
 	}
 	public function report_management() {
 		$permissions='super_permissions';
