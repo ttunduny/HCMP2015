@@ -420,12 +420,18 @@ public static function get_county_emails($county_id){
     f.cellphone,
     f.targetted,
     d.id,
+    c.county,
     d.district as district_name
+
 
 	FROM
 	   facilities f
 	        LEFT JOIN
 	    districts d ON d.id = f.district
+
+	    LEFT JOIN
+
+	    counties c ON d.county =c.id
 	WHERE 
 		f.district = d.id
 		AND 

@@ -123,7 +123,8 @@ class Admin extends MY_Controller {
     	$data['offline_facilities'] =Facilities::get_offline_facilities_new();//Offline facilities
         $this -> load -> view("shared_files/template/dashboard_v",$data);
 
-        //echo json_encode($data);
+         //$data['facilities_listing_active']= Users::get_facilities_list_all_active(1);
+        //var_dump($data);
 	}
 	public function report_management() {
 		$permissions='super_permissions';
