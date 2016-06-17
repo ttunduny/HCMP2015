@@ -102,7 +102,7 @@ class Admin extends MY_Controller {
 	public function manage_facilities() {
 		ini_set('memory_limit','-1');
 		$permissions='super_permissions';
-		$data['title'] = "Users";
+		$data['title'] = "Facility Management";
 		$data['content_view'] = "Admin/facilities_v";
 		$data['facilities_listing']= Users::get_facilities_list_all();
 		$data['facilities_listing_active']= Users::get_facilities_list_all_active(1);
