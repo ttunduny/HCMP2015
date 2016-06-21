@@ -180,10 +180,10 @@ class Dashboard extends MY_Controller {
 		// echo "<pre>"; print_r($commodities); exit;
 		$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "All Commodites Tracked", 'file_name' => "All Commodities Tracked");
 		$row_data = array();
-		$column_data = array("Commodity Code", "Commodity Name", "Unit Size", "Unit Cost (KES)", "Date Updated","Total Commodity Units", "Source Name");
+		$column_data = array("Commodity Code", "Commodity Name", "Unit Cost (KES)", "Source Name");
 		$excel_data['column_data'] = $column_data;
 		foreach($commodities as $commodity) {
-			array_push($row_data, array($commodity['commodity_code'], $commodity['commodity_name'], $commodity['unit_size'], $commodity['unit_cost'],$commodity['date_updated'], $commodity['total_commodity_units'], $commodity['source_name']));
+			array_push($row_data, array($commodity['commodity_code'], $commodity['commodity_name'], $commodity['unit_cost'], $commodity['source_name']));
 		}
 		// echo "<pre>"; print_r($row_data); exit;
 		$excel_data['row_data'] = $row_data;

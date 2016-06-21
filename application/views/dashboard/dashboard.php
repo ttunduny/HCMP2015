@@ -14,6 +14,9 @@
   .full-width{
     width:100%;
   }
+  .excel_{
+    cursor: pointer;
+  }
 </style>
  <div class="container body">
       <div class="main_container">
