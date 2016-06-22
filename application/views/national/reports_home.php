@@ -391,29 +391,29 @@ legend{
      	//When County is selected
      	$('#county').on('change', function(){
      		var county_val=$('#county').val()
-    var drop_down='';
-	 var facility_select = "<?php echo base_url(); ?>reports/get_sub_county_json_data/"+county_val;
-  	$.getJSON( facility_select ,function( json ) {
-     $("#sub_county").html('<option value="NULL" selected="selected">All Sub-Counties</option>');
-      $.each(json, function( key, val ) {
-        drop_down +="<option value='"+json[key]["id"]+"'>"+json[key]["district"]+"</option>"; 
-      });
-      $("#sub_county").append(drop_down);
-    });
-    
-})	
+		    var drop_down='';
+			 var facility_select = "<?php echo base_url(); ?>reports/get_sub_county_json_data/"+county_val;
+		  	$.getJSON( facility_select ,function( json ) {
+		     $("#sub_county").html('<option value="NULL" selected="selected">All Sub-Counties</option>');
+		      $.each(json, function( key, val ) {
+		        drop_down +="<option value='"+json[key]["id"]+"'>"+json[key]["district"]+"</option>"; 
+		      });
+		      $("#sub_county").append(drop_down);
+		    });
+		    
+		})	
 //When a particular sub county is selected
-$('#sub_county').on('change', function(){
-     		var subcounty_val=$('#sub_county').val()
-    var drop_down='';
-	 var facility_select = "<?php echo base_url(); ?>reports/get_facility_json/"+subcounty_val;
-  	$.getJSON( facility_select ,function( json ) {
-     $("#facility_id").html('<option value="NULL" selected="selected">All Facilities</option>');
-      $.each(json, function( key, val ) {
-        drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
-      });
-      $("#facility_id").append(drop_down);
-    });
+		$('#sub_county').on('change', function(){
+		     		var subcounty_val=$('#sub_county').val()
+		    var drop_down='';
+			 var facility_select = "<?php echo base_url(); ?>reports/get_facility_json/"+subcounty_val;
+		  	$.getJSON( facility_select ,function( json ) {
+		     $("#facility_id").html('<option value="NULL" selected="selected">All Facilities</option>');
+		      $.each(json, function( key, val ) {
+		        drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
+		      });
+		      $("#facility_id").append(drop_down);
+		    });
     
 })	
     
