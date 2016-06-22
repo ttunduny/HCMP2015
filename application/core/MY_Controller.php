@@ -196,4 +196,16 @@ class  MY_Controller  extends  CI_Controller  {
 	/*CREATING ZIP FILES*/
 	
 	/*END OF CREATING ZIP FILES*/
+
+	public function replace_back_slashes($haystack)
+	{
+		$haystack = str_replace('\\','/', $haystack);
+		return $haystack;
+	}
+
+	public function replace_forward_slashes($haystack)
+	{
+		$haystack = str_replace('/','\\', $haystack);
+		return $haystack;
+	}
 } 

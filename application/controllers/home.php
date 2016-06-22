@@ -122,8 +122,6 @@ class Home extends MY_Controller
 				$view = "shared_files/template/template";
 				$data['last_synced'] = $last_synced;
  				$data['content_view'] = "shared_files/synchronize_now";
-			} else if($last_synced > 31) {
-				
 			} else {
 				$view = 'shared_files/template/template';
 				$data['content_view'] = "facility/facility_home_v";
@@ -177,6 +175,10 @@ class Home extends MY_Controller
 		$data['title'] = "System Home";
 		$data['banner_text'] = "Home";
 		$this -> load -> view($view, $data);
+	}
+
+	public function test_fx() {
+		
 	}
 
 	public function get_facility_dashboard_notifications_graph_data()
@@ -297,5 +299,55 @@ class Home extends MY_Controller
 		$view = 'shared_files/template/template';
 		$data['content_view'] = "shared_files/under_maintenance";
 		$this -> load -> view($view, $data);
+	}
+
+	public function report_issue() {
+		$data['username'] = $this -> session -> userdata('full_name');
+		$data['title'] = "Report an Issue";
+		$data['banner_text'] = "Issue Tracker";
+		$view = 'shared_files/template/template';
+		$data['content_view'] = "shared_files/report_issue";
+		$this -> load -> view($view, $data);
+	}
+
+	public function submit_issue() {
+		// echo "<pre>"; print_r($_POST); exit;
+		$issue_level = $this -> session -> userdata('user_type_id');
+		$user_id = $this -> session -> userdata('user_id');
+		$level = Users::get_user_type($issue_level);
+		$issue_url = $_POST['issueurl'];
+		$description = $_POST['description'];
+
+		$db_file_name = "";
+		if(isset($_FILES['issueimage']['name'])) {
+			// Do File Upload
+			$upload_path = 'issue_uploads/';
+			
+			$image_name = $_FILES['issueimage']['name'];
+			$file_path = $upload_path;
+			$config['upload_path'] = $upload_path;
+			$config['allowed_types'] = '*';
+			$config['file_name'] = $image_name;
+			$this->load->library('upload'); 
+			$this->upload->initialize($config);	
+
+			if($this->upload->do_upload('issueimage'))
+			{
+				$this->session->set_flashdata('system_success_message', 'Issue Recorded');
+			}
+			else
+			{
+				echo "<pre>"; print_r($this->upload->display_errors()); echo "</pre>"; exit;
+			   	$this->session->set_flashdata('error', 'Something went wrong');
+			}
+			$image_file_name = $image_name;
+
+			$db_file_name = $image_file_name;
+		}  else {
+			$db_file_name = null;
+		}
+		$insert_issue = Doctrine_Manager::getInstance() -> getCurrentConnection();
+		$insert_issue->execute("INSERT INTO reported_issues(submitted_by, user_level, issue_url, description, image_path) VALUES ('$user_id', '$level', '$issue_url', '$description', '$db_file_name')");
+		redirect('home');
 	}
 }

@@ -75,7 +75,14 @@ class Users extends Doctrine_Record {
 		return $level;
 	}
 
-
+	public function get_user_type($id) {
+		$sql = "SELECT level FROM access_level WHERE id = '$id'";
+		$user_level = $this -> db -> query($sql)->result_array();
+		foreach($user_level as $user_level) {
+			$level = $user_level['level'];
+		}
+		return $level;
+	}
 	public static function get_user_names($id) {
 		$query = Doctrine_Query::create() -> select("fname, lname,username") -> from("users") -> where("id='$id'");
 		$names = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
@@ -90,13 +97,14 @@ class Users extends Doctrine_Record {
 	public static function get_scp_details($district){
 		$query = Doctrine_Manager::getInstance() -> getCurrentConnection() -> 
 		fetchAll("SELECT 
-				    fname, lname, telephone
+				    fname, lname, telephone, email
 				FROM
 				    user
 				WHERE
 				    district = $district 
 				    AND usertype_id = '3'
 				    AND telephone <>0
+				    AND email IS NOT NULL
 				    AND status = 1");
 		
 		return $query;
@@ -420,12 +428,18 @@ public static function get_county_emails($county_id){
     f.cellphone,
     f.targetted,
     d.id,
+    c.county,
     d.district as district_name
+
 
 	FROM
 	   facilities f
 	        LEFT JOIN
 	    districts d ON d.id = f.district
+
+	    LEFT JOIN
+
+	    counties c ON d.county =c.id
 	WHERE 
 		f.district = d.id
 		AND 

@@ -54,6 +54,15 @@ class Dashboard extends MY_Controller {
 		$this->load->view('dashboard/dashboard_template',$data); 
 	}
 
+	public function download_excels($type=null){			
+		if($type=='consumption'){			
+			$this->consumption(null,null,null,null,'excel',null,null,null);
+		}elseif ($type=='expiries') {
+			$this->expiry(null,null,null,'excel',null,null,null);
+		}elseif($type=='stock'){
+
+		}
+	}
 	public function divisions($division = NULL) {//for the sake of beauty
 		$default = "tracer";//FYI
 
@@ -65,7 +74,10 @@ class Dashboard extends MY_Controller {
 		// echo "<pre>";print_r($tracer_commodities);exit;
 		if (isset($division) && $division>0) {
 			$page_title = $division_details[0]['division_name'];
-			$tracer = "NULL";
+			if (!$division==5) {
+				$tracer = "NULL";
+			}
+			
 		}else{
 			$tracer = 1;
 			$page_title = "Tracer Items";
@@ -173,6 +185,21 @@ class Dashboard extends MY_Controller {
 
 		write_file('assets/scripts/typehead/json/facilities.json', $data);
 
+	}
+
+	public function generate_commodities_excel() {
+		$commodities = Dashboard_model::get_all_commodities();
+		// echo "<pre>"; print_r($commodities); exit;
+		$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "All Commodites Tracked", 'file_name' => "All Commodities Tracked");
+		$row_data = array();
+		$column_data = array("Commodity Code", "Commodity Name", "Unit Size", "Unit Cost (KES)", "Date Updated","Total Commodity Units", "Source Name");
+		$excel_data['column_data'] = $column_data;
+		foreach($commodities as $commodity) {
+			array_push($row_data, array($commodity['commodity_code'], $commodity['commodity_name'], $commodity['unit_size'], $commodity['unit_cost'],$commodity['date_updated'], $commodity['total_commodity_units'], $commodity['source_name']));
+		}
+		// echo "<pre>"; print_r($row_data); exit;
+		$excel_data['row_data'] = $row_data;
+		$this -> hcmp_functions -> create_new_excel($excel_data);
 	}
 
 	public function facility_over_view($county_id = null, $district_id = null, $facility_code = null, $graph_type = null,$offline=null) {

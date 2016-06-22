@@ -563,6 +563,9 @@
 
        var link='';
 
+       if (type=="commodity_count"){
+        link='dashboard/generate_commodities_excel';
+       }
        if(type=='offline_count'){ 
         link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/1';
        }
