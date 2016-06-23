@@ -41,6 +41,30 @@ class Admin extends MY_Controller {
 		$this -> load -> view("shared_files/template/dashboard_v", $data);
 	}
 
+	public function reported_issues() {
+		$data['title'] = "Reported Issues";
+		$reported_issues = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+					SELECT 
+					    CONCAT(u.fname, ' ', u.lname) AS 'submitted_by',
+					    ri.user_level,
+					    ri.issue_url,
+					    ri.description,
+					    ri.image_path,
+					    ri.submission_time
+					FROM
+					    reported_issues ri,
+					    user u
+					WHERE
+					    ri.submitted_by = u.id;");
+		foreach($reported_issues as $reported_issues) {
+			$reported_issues = $reported_issues;
+		}
+		$data['reported_issues'] = $reported_issues; 
+		$data['content_view'] = "Admin/reported_issues";
+		$data['banner_text'] = "Reported Issues";
+		$this -> load -> view("shared_files/template/dashboard_v", $data);
+	}
+
 	public function reactivate_facility($facility_code) {
 		$reactivate = Doctrine_Manager::getInstance()->getCurrentConnection();
 		$reactivate->execute("UPDATE facilities SET using_hcmp = 1 WHERE facility_code = '$facility_code'");
