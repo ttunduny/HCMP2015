@@ -2,7 +2,6 @@
   $count_active = count($active_users);
   $count_inactive = count($inactive_users);
   $count_deactivated = count($deactivated_users);
-
 ?>
 <style type="text/css">
   .panel-body,span:hover,.status_item:hover
@@ -316,7 +315,6 @@
      
       });
     });
-
     $('.deactivate_user').button().click(function() {
       var user_id = $(this).closest("tr").find(".user_id").val();
       var user_name = $(this).closest("tr").find(".user_name").val();      
@@ -344,7 +342,6 @@
      
        });
       });
-
     $('.activate_user').button().click(function() {
       var user_id = $(this).closest("tr").find(".user_id").val();
       var user_name = $(this).closest("tr").find(".user_name").val();      
@@ -372,16 +369,13 @@
      
        });
       });
-
     //Modal Stuff
     $(".sub_county").hide(); 
     $(".facility_name").hide();
     $(".county").hide(); 
-
     $('#add_new').click(function () {  
       $('#addModal').appendTo("body").modal('show');
     });
-
     $("#user_type").change(function(){
       var type_id = $(this).val();
       console.log(type_id);
@@ -450,7 +444,6 @@
         // $(".sub_county").show('slow');
       }    
     }); 
-
     $("#sub_county").change(function() {
       var option_value=$(this).val();
         if(option_value=='NULL'){
@@ -468,7 +461,6 @@
           // $(".facility_name").show('slow');   
         }
       }); //end of district name change funtion
-
     $('#email').bind('input change paste keyup mouseup',function() {
     var email = $('#email').val();         
     $("#username").val(email);
@@ -479,7 +471,6 @@
         data:{ 'email': $('#email').val()},
         beforeSend: function(){
             $('#processing').html('Checking Email...');
-
         },
         success: function(data) {
           console.log(data);
@@ -499,7 +490,6 @@
       return false;
     });
      $("#create_new").click(function() {
-
       var first_name = $('#first_name').val()
       var last_name = $('#last_name').val()
       var telephone = $('#telephone').val()
@@ -508,7 +498,6 @@
       var facility_id = $('#facility_id').val()
       var district_name = $('#district_name').val()
       var user_type = $('#user_type').val()
-
        if(first_name==""||last_name==""||telephone==""||email==""||user_type=="NULL"||district_name=="NULL"){
             alert('Please make sure you have selected all relevant fields.');
               return;
@@ -519,7 +508,6 @@
       ajax_post_process (url,div);
            
     });
-
     function ajax_post_process (url,div){
       var url =url;
       var loading_icon="<?php echo base_url().'assets/img/Preloader_4.gif' ?>";
@@ -558,7 +546,6 @@
         }); 
         
 }
-
-
   });
 </script>
+Status 
