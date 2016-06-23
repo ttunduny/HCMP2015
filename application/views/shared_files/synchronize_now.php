@@ -9,9 +9,9 @@
   <div class="row">
     <div class="span12">
       <div class="center">
-          <img width="250" height="250" src="<?php echo base_url().'assets/img/sync.png'?>" />
+          <img width="200" height="200" src="<?php echo base_url().'assets/img/sync.png'?>" />
           <br /> <br />
-          <p>You have not synchronized your data for <?php echo $last_synced; ?> days. To continue using the tool connect to the internet and synchronize</p>
+          <h5>You have <b style="color:red;">NOT</b> synchronized your data for <b style="color:red;"><?php echo $last_synced; ?> days</b>. To continue using the tool connect to the internet and synchronize</h5>
           <a class="btn btn-success" href="<?php echo base_url('synchronization');?>">Proceed to Synchronize</a>
         </div>
         <br />

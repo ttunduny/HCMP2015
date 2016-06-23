@@ -61,6 +61,29 @@ class Dashboard_model extends Doctrine_Record {
 		return $codeigniter_sucks_balls;
 	}
 
+	public function get_all_commodities() {
+		$sql = "SELECT 
+			    c.commodity_code,
+			    c.commodity_name,
+			    c.unit_size,
+			    c.unit_cost,
+			    c.date_updated,
+			    c.total_commodity_units,
+			    cs.source_name
+			FROM
+			    commodities c JOIN commodity_source cs ON c.commodity_source_id = cs.id;";
+		$commodities = $this->db->query($sql)->result_array();
+
+		return $commodities;
+	}
+
+	public function get_commodity_divisions($id = NULL)
+	{
+		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
+
+		return $commodity_divisions;
+	}
+
 	public function get_division_commodities($division = NULL)
 	{
 		$filter = isset($division)? "AND commodity_division = $division" :"AND tracer_item = 1";
@@ -76,13 +99,6 @@ class Dashboard_model extends Doctrine_Record {
 		return $codeigniter_sucks_balls_hard;
 	}
 
-	public function get_commodity_divisions($id = NULL)
-	{
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
-
-		return $commodity_divisions;
-	}
-
 	public function get_division_details($division = NULL)
 	{
 		$filter = isset($division)? "AND id = $division" :NULL;
@@ -92,10 +108,11 @@ class Dashboard_model extends Doctrine_Record {
 			FROM
 			    commodity_division_details
 			WHERE
-			    status = 1 $filter"
+			    status = 1 $filter order by division_name asc" 
 			    )->result_array();
 		return $codeigniter_sucks_balls_hard_and_slow;
 	}
+	
 	public function get_commodity_details($id)
 	{
 		$codeigniter_been_sucking_balls = $this->db->query(

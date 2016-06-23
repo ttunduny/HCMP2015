@@ -48,7 +48,12 @@
 							<tr style="font-size: 15px;">
 								<th>Facility Name</th>
 								<th>Facility Code</th>
+
 								<th>District </th>
+
+								<th>County </th>
+								<th>Sub_County </th>
+
 								<th>Owner</th>
 								<th>Facility Type</th>
 								<th>Level</th>								
@@ -66,6 +71,8 @@
 							<tr class="edit_tr" style="font-size: 14px;">
 								<td class="fname" ><?php echo $list['facility_name']; ?></td>
 								<td class="lname"><?php echo $list['facility_code']; ?>	</td>
+								<td class="lname"><?php echo $list['county']; ?>	</td>
+
 								<td class="email" data-attr="<?php echo $list['district_id']; ?>"><?php echo $list['district_name'];?></td>
 								<td class="county"><?php echo $list['owner']; ?></td>
 								<td class="district"><?php echo $list['type']; ?></td>
