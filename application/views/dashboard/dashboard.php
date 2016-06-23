@@ -44,7 +44,7 @@
                   <div class="col-md-12"><h2><?php echo $page_title.' Commodities'; ?></h2></div>
                 </div>
                 <div class="col-md-12">
-                  <div class="col-md-5 padding-hor-sm">
+                  <!-- <div class="col-md-5 padding-hor-sm">
                   <select class="form-control select2 padding-hor-sm" id="county_filter">
                   <option value="0">All Counties</option>
                   <?php foreach ($county_data as $county => $value):?> 
@@ -57,7 +57,7 @@
                     <select class="form-control select2 padding-hor-sm" id="sub_county_filter">
                     <option value="0">All Subcounties</option>
                     </select>
-                  </div>
+                  </div> -->
 
                     <!-- 
                     <div class="col-md-3">
@@ -78,10 +78,12 @@
                       </div>
                     </div>
                      -->
+                    <!--  
                      <div class="col-md-2 padding-hor-sm">
                         <button class="btn btn-primary top_filter_button">Filter</button>
-                     </div>
-                    </div>
+                     </div> 
+                     -->
+                  </div>
 
               </div>
                 <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
