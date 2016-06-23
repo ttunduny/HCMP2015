@@ -68,7 +68,6 @@ class User extends MY_Controller {
 	}
 
 	public function login_submit() {
-
 		$user = new Users();
 
 		$password = $this -> input -> post('password');
@@ -100,36 +99,30 @@ class User extends MY_Controller {
 			if ($user_indicator  == 'district') :
              //get subcounty name
 				$district_name = districts::get_district_name_($district_id);
-			$county_name = Counties::get_county_name($county_id);
-			$banner_name = $county_name['county']." County".", ".$district_name['district']." Sub-county ";
-			$facility_no = Facilities::get_district_facilities_using_hcmp($district_id);
-			$facility_count = "Total Facilities Using HCMP in ".$district_name['district']." Subcounty: ".count($facility_no);
+				$county_name = Counties::get_county_name($county_id);
+				$banner_name = $county_name['county']." County".", ".$district_name['district']." Sub-county ";
+				$facility_no = Facilities::get_district_facilities_using_hcmp($district_id);
+				$facility_count = "Total Facilities Using HCMP in ".$district_name['district']." Subcounty: ".count($facility_no);
 
 			elseif ($user_indicator  == 'county') : 
 				
             //get county name
 				$county_name = Counties::get_county_name($county_id);
-			$banner_name = $county_name['county']." County";
-			$facility_no = Counties::get_facilities_in_county($county_id);
-			$facility_count = "Total Facilities Using HCMP in ".$county_name['county']." County: ".count($facility_no);
+				$banner_name = $county_name['county']." County";
+				$facility_no = Counties::get_facilities_in_county($county_id);
+				$facility_count = "Total Facilities Using HCMP in ".$county_name['county']." County: ".count($facility_no);
 			
 			elseif ($user_indicator  == 'facility' || $user_indicator == 'facility_admin' || $user_indicator == 'recovery') :
              //get facility name
 				$facility_name = Facilities::get_facility_name2($facility_id);
-			$district_name = districts::get_district_name_($district_id);
-			$county_name = Counties::get_county_name($county_id);
-			$banner_name = $county_name['county']." County, ".$district_name['district']." Sub-county, ".$facility_name['facility_name'];
-			$facility_count = NULL;
+				$district_name = districts::get_district_name_($district_id);
+				$county_name = Counties::get_county_name($county_id);
+				$banner_name = $county_name['county']." County, ".$district_name['district']." Sub-county, ".$facility_name['facility_name'];
+				$facility_count = NULL;
 			endif;
 			
-			$session_data = array('county_id' => $county_id,'partner_id' => $partner_id, 'phone_no' => $phone,
-				'user_email' => $user_email, 'user_id' => $user_id, 'user_indicator' => $user_indicator,
-				'fname' => $fname, 'lname' => $lname, 'facility_id' => $facility_id,
-				'district_id' => $district_id, 'user_type_id' => 
-				$access_typeid,'full_name' => $fullname,
-				'banner_name'=>$banner_name,'facility_count'=>$facility_count);
 
-			$this -> session -> set_userdata($session_data);
+
 			
 			//get menu items
 			$menu_items = Menu::getByUsertype($access_typeid);
@@ -155,11 +148,19 @@ class User extends MY_Controller {
 
 			}
 			
+			$session_data = array('county_id' => $county_id,'partner_id' => $partner_id, 'phone_no' => $phone,
+				'user_email' => $user_email, 'user_id' => $user_id, 'user_indicator' => $user_indicator,
+				'fname' => $fname, 'lname' => $lname, 'facility_id' => $facility_id,
+				'district_id' => $district_id, 'user_type_id' => 
+				$access_typeid,'full_name' => $fullname,
+				'banner_name'=>$banner_name,'facility_count'=>$facility_count,'menus'=>$menus);
+			// echo "I work";exit;
 			//Save this menus array in the session
-			$this -> session -> set_userdata("menus" ,$menus);
+			// $this -> session -> set_userdata("menus" ,$menus);
+			$this -> session -> set_userdata($session_data);
 			//Save this sub menus array in the session
 			$_SESSION["submenus"]= $sub_menus; 
-			
+
 			//creating a new log value
 			Log::update_log_out_action($this -> session -> userdata('user_id'));
 			$facility_code = $this -> session -> userdata('facility_id');
@@ -170,6 +171,8 @@ class User extends MY_Controller {
 			$u1->facility_code = ($facility_code==0) ? null : $facility_code;
 			$u1->save();
 			
+			// error_reporting(1);
+			// redirect(base_url().'home');
 			redirect('home');
 		} else {
 			$data['popup'] = "errorpopup";

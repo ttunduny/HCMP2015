@@ -16,20 +16,75 @@ class Dashboard extends MY_Controller {
 		$default = "tracer";//FYI
 
 		$map = $this->render_map();
-		$commodities = Dashboard_model::get_commodity_count();
-		$tracer_commodities = Dashboard_model::get_tracer_commodities();
+		$commodity_count = Dashboard_model::get_commodity_count();
+		$commodities = Dashboard_model::get_division_commodities($division);
+		$division_details = Dashboard_model::get_division_details($division);
+
+		// echo "<pre>";print_r($tracer_commodities);exit;
+		if (isset($division) && $division>0) {
+			$page_title = $division_details[0]['division_name'];
+			$tracer = "NULL";
+		}else{
+			$tracer = 1;
+			$page_title = "Tracer Items";
+		}
+		$data['page_title'] = $page_title;
 
 		// echo "<pre>";print_r($commodities);exit;
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
+		$commodity_divisions = Dashboard_model::get_division_details();
 		$counties = $this->db->query("SELECT * FROM counties")->result_array();
 		$districts = $this->db->query("SELECT * FROM districts")->result_array();
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
 		$counties_using_HCMP = Counties::get_counties_all_using_HCMP();
 
 		// echo "<pre>";print_r($counties_using);exit;
-		$data['tracer_commodities'] = $tracer_commodities;
+		$data['tracer'] = $tracer;
+		$data['commodity_division'] = isset($division)? $division :"NULL";
+		$data['tracer_commodities'] = $commodities;
 		$data['facility_count'] = $facility_count;
-		$data['commodity_count'] = $commodities;
+		$data['commodity_count'] = $commodity_count;
+		$data['content_view'] = 'dashboard/dashboard';
+		$data['county_data'] = $counties;
+		$data['county_count'] = count($counties_using_HCMP);
+		$data['district_data'] = $districts;
+		$data['commodity_divisions'] = $commodity_divisions;
+		$data['title'] = "National Dashboard";
+		$data['maps'] = $map;
+		$data['counties'] = $county_name;
+		$this->load->view('dashboard/dashboard_template',$data); 
+	}
+
+	public function divisions($division = NULL) {//for the sake of beauty
+		$default = "tracer";//FYI
+
+		$map = $this->render_map();
+		$commodity_count = Dashboard_model::get_commodity_count();
+		$commodities = Dashboard_model::get_division_commodities($division);
+		$division_details = Dashboard_model::get_division_details($division);
+
+		// echo "<pre>";print_r($tracer_commodities);exit;
+		if (isset($division) && $division>0) {
+			$page_title = $division_details[0]['division_name'];
+			$tracer = "NULL";
+		}else{
+			$tracer = 1;
+			$page_title = "Tracer Items";
+		}
+		$data['page_title'] = $page_title;
+
+		// echo "<pre>";print_r($commodities);exit;
+		$commodity_divisions = Dashboard_model::get_division_details();
+		$counties = $this->db->query("SELECT * FROM counties")->result_array();
+		$districts = $this->db->query("SELECT * FROM districts")->result_array();
+		$facility_count = Dashboard_model::get_online_offline_facility_count();
+		$counties_using_HCMP = Counties::get_counties_all_using_HCMP();
+
+		// echo "<pre>";print_r($counties_using);exit;
+		$data['tracer'] = $tracer;
+		$data['commodity_division'] = isset($division)? $division :"NULL";
+		$data['tracer_commodities'] = $commodities;
+		$data['facility_count'] = $facility_count;
+		$data['commodity_count'] = $commodity_count;
 		$data['content_view'] = 'dashboard/dashboard';
 		$data['county_data'] = $counties;
 		$data['county_count'] = count($counties_using_HCMP);
@@ -314,7 +369,8 @@ class Dashboard extends MY_Controller {
 	public function expiry($year = NULL, $county_id = NULL, $district_id = NULL, $facility_code = NULL, $graph_type = NULL,$commodity_id=NULL,$commodity_division = NULL,$tracer = NULL) {//8 parameters
 		// return $tracer;die;
 		$year = ($year>0) ? $year : date('Y');
-		$commodity_id = ($commodity_id > 0) ? $commodity_id : 456;//by default set to ORS Co Pack
+		$commodity_id = (isset($commodity_id) && $commodity_id > 0)? $commodity_id:$this->division_preferred_commodity_check($commodity_division);
+		// echo $commodity_id;exit;
 		// echo $year;exit;
 		/*//Get the current month
 
@@ -365,7 +421,7 @@ class Dashboard extends MY_Controller {
 		else :
 			$title .= "";
 		endif;
-
+		$title = trim($title);
 		$graph_title = $title." Expiries in ".$year;
 
 
@@ -377,9 +433,9 @@ class Dashboard extends MY_Controller {
 		$and_data = isset($and_data) ? $and_data : null;
 		$and_data1 =($commodity_id>0) ?" AND d.id='$commodity_id'" : null;
 
-		$nested_and_data = ($commodity_division>0)? "AND d.commodity_division = $commodity_division":null;
-		$nested_and_data .= ($commodity_id>0)? "AND d.id = $commodity_id":null;
-		$nested_and_data .= ($tracer>0)? "AND d.tracer_item = 1":null;
+		$nested_and_data = ($commodity_division>0)? " AND d.commodity_division = $commodity_division":null;
+		$nested_and_data .= ($commodity_id>0)? " AND d.id = $commodity_id":null;
+		$nested_and_data .= ($tracer>0)? " AND d.tracer_item = 1":null;
 
 		$group_by = ($district_id > 0 && isset($county_id) && !isset($facility_code)) ? " ,d1.id" : null;
 		$group_by .= ($facility_code > 0 && isset($district_id)) ? "  ,f.facility_code" : null;
@@ -1037,7 +1093,9 @@ class Dashboard extends MY_Controller {
 		$graph_type = ($graph_type == "NULL") ? null : $graph_type;
 		$facility_code = ($facility_code == "NULL") ? null : $facility_code;
 		$county_id = ($county_id == "NULL") ? null : $county_id;
-		$commodity_id = ($commodity_id > 0) ? $commodity_id : 456;//by default set to ORS Co Pack
+		$commodity_id = ($commodity_id > 0) ? $commodity_id : NULL;//by default set to ORS Co Pack
+
+		$commodity_id = (isset($commodity_id) && $commodity_id > 0)? $commodity_id:$this->division_preferred_commodity_check($division);
 		// echo $commodity_id;exit;
 		$division = ($division == "NULL") ? null : $division;
 		$year = date('Y');
@@ -1079,7 +1137,7 @@ class Dashboard extends MY_Controller {
 		}else{
 			// $title .= ($tracer > 0)? "Tracer Commodity " :NULL;
 		}
-
+		// echo htmlspecialchars($title,ENT_QUOTES);exit;
 
 		if (isset($county_id)) :
 
@@ -1095,7 +1153,7 @@ class Dashboard extends MY_Controller {
 				$facility_code_ = isset($facility_code) ? facilities::get_facility_name_($facility_code) : null;
 			$title .= $facility_code_['facility_name'];
 			else :
-			// $title .= "National";
+			$title .= "";
 		endif;
 		if ($graph_type != "excel") ://if you need change it,refer to national controller,function naming are similar
 			$filter = ($commodity_id > 0)? "AND d.id = $commodity_id" : NULL;//default to ORS Co pack
@@ -1145,10 +1203,11 @@ class Dashboard extends MY_Controller {
 			$series_data = array_merge($series_data, array($data["drug_name"] => (int)$data['total']));
 		$category_data = array_merge($category_data, array($data["drug_name"]));
 		endforeach;*/
-
+		// $title = str_replace("\n", ' ', $title);
+		$title = trim($title);
 		$graph_type = 'spline';
 		$graph_data = array_merge($graph_data, array("graph_id" => 'dem_graph_consuption'));
-		$graph_data = array_merge($graph_data, array("graph_title" => "$title Consumption (Packs) for $year"));
+		$graph_data = array_merge($graph_data, array("graph_title" => $title." Consumption (Packs) for $year"));
 		$graph_data = array_merge($graph_data, array("graph_type" => $graph_type));
 		$graph_data = array_merge($graph_data, array("color" => "['#7CB5EC', '#434348']"));
 		$graph_data = array_merge($graph_data, array("graph_yaxis_title" => "Packs"));
@@ -1156,14 +1215,14 @@ class Dashboard extends MY_Controller {
 		$graph_data = array_merge($graph_data, array("series_data" => array('total' => $series_data)));
 		$data = array();
 
-		// echo "<pre>";print_r($series_data);exit;
+		// echo "<pre>";print_r($graph_data['graph_title']);exit;
 		$data['high_graph'] = $this -> hcmp_functions -> create_high_chart_graph($graph_data);
 		$data['graph_id'] = 'dem_graph_consuption';
 		return $this -> load -> view("shared_files/report_templates/high_charts_template_v_national", $data);
 		else :
 			$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "$title Consumption (Packs) $time", 'file_name' => $title . ' Consumption');
-		$row_data = array();			
-		$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Item Name", "Consumption (Packs)");
+			$row_data = array();			
+			$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Item Name", "Consumption (Packs)");
 		for ($i=1; $i < $count_commodities; $i++) { 
 			$item_name = "Item Name";
 			$consumption = "Consumption (Packs)";
@@ -1256,6 +1315,28 @@ class Dashboard extends MY_Controller {
 		$this -> hcmp_functions -> create_excel($excel_data);
 		endif;
 
+	}
+
+	public function division_preferred_commodity_check($division = NULL)
+	{
+		if (isset($division) && $division > 0) {
+			$commodity = $this->db->query("
+				SELECT 
+				    *
+				FROM
+				    commodity_division_details WHERE id = $division")->result_array();
+			// echo "<pre>";print_r($commodity);exit;
+			return $commodity[0]['preferred_commodity'];
+		}else{
+			$division = 5;//tracer commodities by default
+			$commodity = $this->db->query("
+				SELECT 
+				    *
+				FROM
+				    commodity_division_details WHERE id = $division")->result_array();
+			// echo "<pre>";print_r($commodity);exit;
+			return $commodity[0]['preferred_commodity'];
+		}
 	}
 
 	public function old_order($year = null, $county_id = null, $district_id = null, $facility_code = null, $graph_type = null) {
@@ -2007,6 +2088,7 @@ class Dashboard extends MY_Controller {
 	public function stocking_levels($county_id = NULL, $district_id = NULL, $facility_code = NULL, $commodity_id = NULL,$tracer_item = NULL,$division = NULL){
 		/*function does not take county if you give district,neither does it take district if you give facility. purpose: query optimisation*/
 		// $commodity_id = 456;
+		// echo $tracer_item;exit;
 		$county_id = ($county_id == "NULL") ? null : $county_id;
 		$district_id = ($district_id == "NULL") ? null : $district_id;
 		$graph_type = ($graph_type == "NULL") ? null : $graph_type;
@@ -2014,13 +2096,19 @@ class Dashboard extends MY_Controller {
 		$tracer_item = ($tracer_item == "NULL") ? null : $tracer_item;
 		$commodity_id = ($commodity_id == "ALL" || $commodity_id == "NULL") ? null : $commodity_id;
 
-		/*
-		$county_id = (is_null($county_id)) ? null : $county_id;
-		$district_id = (is_null($district_id)) ? null : $district_id;
-		$graph_type = (is_null($graph_type)) ? null : $graph_type;
-		$facility_code = (is_null($facility_code)) ? null : $facility_code;
-		$commodity_id = (is_null($commodity_id)) ? null : $commodity_id;
-		*/
+		$division_details = Dashboard_model::get_division_details($division);
+
+		// echo "<pre>";print_r($tracer_commodities);exit;
+		if (isset($division) && $division>0) {
+			$page_title = $division_details[0]['division_name'];
+			$tracer = "NULL";
+		}else{
+			$tracer = 1;
+			$page_title = "Tracer Item";
+		}
+
+		$page_title = trim($page_title);
+		$graph_title = $page_title.' National Stock Level';
 		// echo $tracer_item;exit;
 		// echo is_null($district_id);
 		$filter = '';
@@ -2055,92 +2143,6 @@ class Dashboard extends MY_Controller {
 			GROUP BY commodities.id ORDER BY commodities.commodity_name ASC
 		")->result_array();
 
-		// echo "<pre>";print_r($stocking_levels);exit;
-
-		/*OLD CODE BEING REMADE*/
-		/*
-			$getdates = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("SELECT MIN(created_at) as EarliestDate,MAX(created_at) as LatestDate
-				FROM facility_issues");
-
-				//echo '<pre>'; print_r($getdates);echo '<pre>'; exit;
-			$early=$getdates[0]['EarliestDate'];
-			$late=$getdates[0]['LatestDate'];
-
-			$now = time(); 
-			$my_date = strtotime($early);
-				$datediff = ($now - $my_date)/(60*60*24);//in days
-				$datediff= round($datediff,1);
-
-				if (isset($county_id)) {
-
-					$getdates = Doctrine_Manager::getInstance()->getCurrentConnection()
-					->fetchAll("SELECT MIN(created_at) as EarliestDate,MAX(created_at) as LatestDate
-						FROM facility_issues 
-						inner join facilities on facility_issues.facility_code=facilities.facility_code
-						inner join districts on facilities.district=districts.id
-						inner join counties on districts.county=counties.id
-						inner join commodities on facility_issues.commodity_id=commodities.id where counties.id=$county_id");
-
-				//echo '<pre>'; print_r($getdates);echo '<pre>'; exit;
-					$early=$getdates[0]['EarliestDate'];
-					$late=$getdates[0]['LatestDate'];
-
-					$now = time(); 
-					$my_date = strtotime($early);
-				$datediff = ($now - $my_date)/(60*60*24);//in days
-				$datediff= round($datediff,1);
-
-				$get_amc = Doctrine_Manager::getInstance()->getCurrentConnection()
-				->fetchAll("SELECT commodities.id,commodities.commodity_name,avg(facility_issues.qty_issued) as total_units_consumed,
-					(sum(facility_issues.qty_issued)*30/$datediff)/commodities.total_commodity_units as amc_packs,commodities.total_commodity_units FROM hcmp_rtk.facility_issues 
-					inner join facilities on facility_issues.facility_code=facilities.facility_code
-					inner join districts on facilities.district=districts.id
-					inner join counties on districts.county=counties.id inner join commodities on facility_issues.commodity_id=commodities.id where s11_No IN('internal issue','(-ve Adj) Stock Deduction')
-					$and_data group by commodities.id");
-				
-				$get_amc = Doctrine_Manager::getInstance()->getCurrentConnection()
-				->fetchAll($new_sql_amc);
-
-
-					//return $get_amc ;	
-
-
-				$get_totals = Doctrine_Manager::getInstance()->getCurrentConnection()
-				->fetchAll("SELECT commodities.id,commodities.commodity_name,sum(facility_stocks.current_balance) 
-					as total_bal_units, sum(facility_stocks.current_balance)/commodities.total_commodity_units as cur_bal_packs,commodities.total_commodity_units FROM hcmp_rtk.facility_stocks 
-					inner join facilities on facility_stocks.facility_code=facilities.facility_code
-					inner join districts on facilities.district=districts.id
-					inner join counties on districts.county=counties.id inner join commodities on facility_stocks.commodity_id=commodities.id 
-					where commodities.status=1 $and_data group by commodities.id");
-
-			}else {
-				$new_sql_amc = "SELECT commodities.id,commodities.commodity_name,CEIL(AVG(facility_issues.qty_issued)) AS total_units_consumed, 
-								CEIL((SUM(facility_issues.qty_issued) / 3)) AS amc_units,
-								CEIL((SUM(facility_issues.qty_issued) / 3) / commodities.total_commodity_units) AS amc_packs,commodities.total_commodity_units
-								FROM   facility_issues $from_others INNER JOIN  commodities  ON facility_issues.commodity_id = commodities.id 
-								WHERE s11_No IN ('internal issue' , '(-ve Adj) Stock Deduction') $and_data 
-								AND facility_issues.expiry_date > '2016-04-21' 
-								AND facility_issues.date_issued  between '2016-02-31' and '2016-04-31'
-								GROUP BY commodities.id order by commodities.id asc";
-				// echo $new_sql_amc;die;
-				$get_amc = Doctrine_Manager::getInstance()->getCurrentConnection()
-				->fetchAll($new_sql_amc);
-				
-				$new_sql_totals = "SELECT commodities.id,commodities.commodity_name,CEIL(sum(facility_stocks.current_balance))
-				 	as total_bal_units, CEIL(sum(facility_stocks.current_balance)/commodities.total_commodity_units) as cur_bal_packs,commodities.total_commodity_units FROM facility_stocks $from_others inner join commodities on facility_stocks.commodity_id=commodities.id 
-				 	where commodities.status=1 $and_data AND facility_stocks.expiry_date > '2016-04-21' group by commodities.id order by commodities.id asc";
-
-				$get_totals = Doctrine_Manager::getInstance()->getCurrentConnection()
-				->fetchAll($new_sql_totals);
-			}
-			$combine=array ();
-
-			for ($i=0; $i < sizeof($get_totals) ; $i++) { 
-						//array_push($combine,$get_totals[$i ],$get_amc[$i ]);
-				$combine[]=array_merge($get_totals[$i ],$get_amc[$i ]);
-			}
-			echo '<pre>'; print_r($combine);echo '<pre>'; exit;
-		*/
 		/*			
 		$category_data = array();
 		$series_data = $series_data_ = array();
@@ -2156,7 +2158,7 @@ class Dashboard extends MY_Controller {
 		/*CODE FOR MULTI BAR COLUMN*/
 		$graph_data=array();
 		$graph_data=array_merge($graph_data,array("graph_id"=>'dem_graph_mos'));
-		$graph_data=array_merge($graph_data,array("graph_title"=>'National Stock Level'));
+		$graph_data=array_merge($graph_data,array("graph_title"=>$graph_title));
 		$graph_data = array_merge($graph_data, array("color" => "['#7CB5EC', '#434348']"));
 		$graph_data=array_merge($graph_data,array("graph_type"=>'bar'));
 		// $graph_data=array_merge($graph_data,array("graph_yaxis_title"=>'National Stock Level (Units and Packs)'));
@@ -2206,7 +2208,7 @@ class Dashboard extends MY_Controller {
 
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
 		
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
+		$commodity_divisions = Dashboard_model::get_division_details();
 
 		$data['commodity_divisions'] = $commodity_divisions;
 
@@ -2224,7 +2226,7 @@ class Dashboard extends MY_Controller {
 
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
 		
-		$commodity_divisions = $this->db->query("SELECT * FROM commodity_division_details")->result_array();
+		$commodity_divisions = Dashboard_model::get_commodity_divisions();
 
 		$data['commodity_divisions'] = $commodity_divisions;
 

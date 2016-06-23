@@ -41,5 +41,13 @@ class Sync_model extends Doctrine_Record {
 		else return false;
 	}
 
+	public static function get_uploaded_data(){
+		$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("select distinct * from ftp_uploads where status = 0 order by date_added desc");
+		// $query = $this->db->query("select distinct * from ftp_uploads where status = 0 order by date_added asc");
+		// $result = $query->result_array();
+		return $query;
+	}
+
+	
 }
 ?>

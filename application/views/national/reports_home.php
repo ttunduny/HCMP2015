@@ -115,11 +115,11 @@ legend{
         
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav navbar-right">
-<<<<<<< HEAD
+
             <li class=""><a href="<?php echo base_url().'kenya';?>">Home</a></li>
-=======
+
             <li class=""><a href="<?php echo base_url().'dashboard';?>">Home</a></li>
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
+
             <li class="active"><a href="<?php echo base_url().'national/reports';?>">Reports</a></li>
             <!-- <li class=""><a href="<?php echo base_url().'national/search';?>">Search</a></li> -->
             <li class="dropdown" style="background: #144d6e; color: white;">
@@ -218,7 +218,10 @@ legend{
 				<div class="col-md-3">
 					<input type="radio" name="criteria" value="stock_units"/> Stock Level(units)
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-3">
+					<input type="radio" name="criteria" value="stock_packs"/> Stock Level(packs)
+				</div>
+				<div class="col-md-3">
 					<input type="radio" name="criteria" value ="Actual"/> Actual Expiries
 				</div>
 				<!--<div class="col-md-6">
@@ -465,6 +468,18 @@ $('#sub_county').on('change', function(){
 			//document.getElementById("specify_commodities").disabled = true;
 			
 		}
+		else if(value=="stock_packs"){
+			//$("#expfrom,#expto").attr("disabled", false);
+			$("#interval").attr("disabled", 'disabled');
+			$("#from,#to").attr("disabled", false);
+			load_multiple(value);
+			// $("#from,#to").attr("disabled", 'disabled');
+			$("#interval").val(0);
+			document.getElementById("commodity_s").checked = true;
+			// document.getElementById("web_graph").disabled = true;
+			//document.getElementById("specify_commodities").disabled = true;
+			
+		}
 		else if(value=="Orders"){
 			$("#interval").attr("disabled", 'disabled');
 			$("#commodity_s").attr("checked", 'checked');
@@ -651,8 +666,58 @@ $("input:radio[name=commodity_s]").click(function() {
 	        	}
 	        
         	}
-        }//for stock as units
-        else if(criteria=='stock_units'){
+        }
+        //for stock as units
+        else if(criteria=='stock_packs'){
+       		if(type=='excel'){ 
+      			if(commodity_type=='Tracer'){ 
+	        		link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/NULL/excel';
+	        	}
+	        	if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity1').val();
+	        		// alert(commodity_id);
+	                link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel';
+	        	}
+	        	if(commodity_type=='All'){ 
+	        		link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/NULL/excel';
+	        		
+	        		//var commodity_id=$('#commodity').val();
+	                //link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel';
+	        
+	        	}
+	        window.open(url+link,'_parent');
+	        
+	        }/*
+	        else if(type=='pdf'){ 
+	        	if(commodity_type=='Tracer'){ 
+	        	link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/NULL/pdf';
+	        	}
+	        
+	        	if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	        		link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/pdf';
+	        
+	        	}
+	       	 	window.open(url+link,'_parent');
+	        
+	        }
+	        */else if(type=='graph'){
+        		$('#graph_Modal').modal('show');
+       			if(commodity_type=='Tracer'){
+        			ajax_return('national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content");
+        		}
+        		if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/ALL'+'/graph',"#graph_content"); 
+	        	}
+	    		if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content"); 
+	        	}
+	        
+        	}
+        }
+         else if(criteria=='stock_units'){
        		if(type=='excel'){ 
       			if(commodity_type=='Tracer'){ 
 	        		link='national/stock_level_units/'+county_id+'/'+district+'/'+facility+'/NULL/excel';

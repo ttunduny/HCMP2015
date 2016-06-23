@@ -369,8 +369,6 @@
     });
       //auto run
       var url ='<?php echo base_url()?>';
-      var division = '<?php echo $commodity_division; ?>';
-      var tracer = '<?php echo $tracer; ?>';
         // $('#potential_').on('shown.bs.tab', function (e) {
         // $('#potential').html('');
        // });
@@ -379,12 +377,9 @@
        });
        $('.county-name').html("National "+" &nbsp;");
        /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
-
-        ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/'+tracer+'/'+division,"#mos");
-        ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL/NULL/NULL/NULL/'+division,"#consumption");
-        ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/'+division+'/'+tracer,"#actual"); 
-
-
+        ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/1/NULL',"#mos");
+        ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL/NULL/NULL/NULL/1',"#consumption");
+        ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/NULL/NULL',"#actual"); 
         $(".expiry_filter").button().click(function(e) {
           e.preventDefault(); 
           var commodity = $("#expiry_commodity").val();
