@@ -11,6 +11,14 @@
     border-radius:0px;
     width:100%
   }
+  .download{
+    padding: 8px 22px !important;
+    margin: 0;
+    border-radius: 0px;
+    width: 100%;
+    float: left;
+    margin-left: 2px !important;
+  }
   .full-width{
     width:100%;
   }
@@ -350,7 +358,7 @@
            
           <div class="x_panel col-md-6">
               <div class="col-md-12">
-                <div class="col-md-10 no-padding-no-margin">
+                <div class="col-md-7 no-padding-no-margin">
                   <select class="select2 full-width" id="consumption_commodity">
                     <option value="0">Select Commodity</option>
                       <?php foreach ($tracer_commodities as $tracer => $value):?> 
@@ -361,6 +369,9 @@
                 <div class="col-md-2 no-padding-no-margin">
                   <button class="btn btn-primary consumption_filter filter_button">Filter</button>
                 </div>
+                <div class="col-md-3 no-padding-no-margin">
+                  <button id="consumption_download" class="btn btn-primary download">Download</button>
+                </div>
               </div>
 
               <div class="col-md-12" id="consumption"></div>
@@ -369,7 +380,7 @@
 
           <div class="x_panel col-md-6">
               <div class="col-md-12">
-                <div class="col-md-10 no-padding-no-margin">
+                <div class="col-md-7 no-padding-no-margin">
                   <select class="select2 full-width" id="expiry_commodity">
                     <option value="0">Select Commodity</option>
                       <?php foreach ($tracer_commodities as $tracer => $value):?> 
@@ -379,6 +390,9 @@
                 </div>
                 <div class="col-md-2 no-padding-no-margin">
                   <button class="btn btn-primary expiry_filter filter_button">Filter</button>
+                </div>
+                <div class="col-md-3 no-padding-no-margin">
+                  <button id="expiry_download" class="btn btn-primary download">Download</button>
                 </div>
                 <!-- <button class="btn btn-primary expiry_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button> -->
               </div>

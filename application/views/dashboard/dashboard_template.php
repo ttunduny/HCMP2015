@@ -414,6 +414,21 @@
          ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
         });
 
+        $("#consumption_download").button().click(function(e){
+          e.preventDefault();
+          var commodity = $("#consumption_commodity").val();
+          var link = "dashboard/consumption/NULL/NULL/NULL/" + commodity + "/excel/NULL";
+          window.open(url + link);
+          // console.log(commodity);
+        });
+        $("#expiry_download").button().click(function(e){
+          e.preventDefault();
+          var commodity = $("#expiry_commodity").val();
+          var link = "dashboard/expiry/NULL/NULL/NULL/NULL/excel/" + commodity + "/NULL/NULL"
+          window.open(url + link);
+          // console.log(commodity);
+        });
+
       
       $(".ecounty-filter").button().click(function(e) {
         e.preventDefault(); 
