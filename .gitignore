@@ -18,6 +18,10 @@ system/libraries/Hcmp_functions.php
 application/config/config.php
 README.md
 sync_files/sample.txt
+<<<<<<< HEAD
+sync_files
+=======
 sync_files/
 system_updates/
 tmp/
+>>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6

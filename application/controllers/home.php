@@ -95,7 +95,9 @@ class Home extends MY_Controller
 			$data['no_issue'] = "N/A";
 		}
 		$username = $this -> session -> userdata('user_email');
+
 		$facility_id = $this -> session -> userdata('facility_id');
+
 		$reply = User::getPass($username);
 		$user_data = $reply -> toArray();
 
@@ -116,6 +118,7 @@ class Home extends MY_Controller
 				//$this -> load -> view('shared_files/activation');
 
 		} else {
+
 			$last_synced = Facilities::get_days_from_last_sync($facility_id);
 			// $last_synced = 10;
 			if($last_synced > 7) {

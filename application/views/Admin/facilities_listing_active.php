@@ -48,8 +48,12 @@
 							<tr style="font-size: 15px;">
 								<th>Facility Name</th>
 								<th>Facility Code</th>
+
+								<th>District </th>
+
 								<th>County </th>
 								<th>Sub_County </th>
+
 								<th>Owner</th>
 								<th>Facility Type</th>
 								<th>Level</th>								

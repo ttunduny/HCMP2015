@@ -37,10 +37,22 @@ class Admin extends MY_Controller {
 		$data['system_updates'] = Update_model::get_system_files(1);	
 		$data['system_setup'] = Update_model::get_system_files(2);
 		$data['offline_facilities']	= Facilities::get_offline_facilities(null,null);
-		// echo "<pre>";print_r($data);die;	
+		 //echo "<pre>";print_r($data);die;	
 		$this -> load -> view("shared_files/template/dashboard_v", $data);
 	}
+    public function offline_facilities(){
 
+    	//$data['title']="Oflline facilities";
+    	//$data['content_view']="Admin/facilities_listing_offline";
+    	//$data['banner_text'] ="Offline facilities";
+        $query2="Select * from facilities where using_hcmp =0;";
+    	$data['inactive'] = $this->db->query($query2)->result_array();//Offline facilities
+    	
+     
+
+    	var_dump($data);
+
+    }
 	public function reactivate_facility($facility_code) {
 		$reactivate = Doctrine_Manager::getInstance()->getCurrentConnection();
 		$reactivate->execute("UPDATE facilities SET using_hcmp = 1 WHERE facility_code = '$facility_code'");
@@ -123,9 +135,14 @@ class Admin extends MY_Controller {
     	$data['offline_facilities'] =Facilities::get_offline_facilities_new();//Offline facilities
         $this -> load -> view("shared_files/template/dashboard_v",$data);
 
-         //$data['facilities_listing_active']= Users::get_facilities_list_all_active(1);
-        //var_dump($data);
+
+        //echo json_encode($data);
+
+		
+
 	}
+	
+	
 	public function report_management() {
 		$permissions='super_permissions';
 		$data['title'] = "Users";
