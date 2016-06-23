@@ -1114,27 +1114,27 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 				if ($graph_type != "excel") :
 					$commodity_array = Doctrine_Manager::getInstance() -> getCurrentConnection() -> 
 				fetchAll("SELECT 
-    d.commodity_name AS drug_name, 
-    f_s.current_balance AS total_units,
-    d.total_commodity_units,
-    ROUND((f_s.current_balance/d.total_commodity_units),1) AS total_packs
-FROM
-    facilities f,
-    districts d1,
-    counties c,
-    facility_stocks f_s,
-    commodities d
-        LEFT JOIN
-    facility_monthly_stock f_m_s ON f_m_s.`commodity_id` = d.id
-WHERE
-    f_s.facility_code = f.facility_code
-    
-        AND f.district = d1.id
-        AND d1.county = c.id
-        AND f_s.commodity_id = d.id
-        AND f_m_s.facility_code = f.facility_code
-        AND d.tracer_item = 1
-GROUP BY d.id 
+							    d.commodity_name AS drug_name, 
+							    f_s.current_balance AS total_units,
+							    d.total_commodity_units,
+							    ROUND((f_s.current_balance/d.total_commodity_units),1) AS total_packs
+							FROM
+							    facilities f,
+							    districts d1,
+							    counties c,
+							    facility_stocks f_s,
+							    commodities d
+							        LEFT JOIN
+							    facility_monthly_stock f_m_s ON f_m_s.`commodity_id` = d.id
+							WHERE
+							    f_s.facility_code = f.facility_code
+							    
+							        AND f.district = d1.id
+							        AND d1.county = c.id
+							        AND f_s.commodity_id = d.id
+							        AND f_m_s.facility_code = f.facility_code
+							        AND d.tracer_item = 1
+							GROUP BY d.id 
 					");
 
 				$category_data = array();
@@ -1167,16 +1167,18 @@ GROUP BY d.id
 				else :
 					$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "Stock Level in units $title", 'file_name' => $title);
 				$row_data = array();
-				$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Item Name", "Units");
+				$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Item Name", "Total Packs");
 				$excel_data['column_data'] = $column_data;
 
+				
 				$facility_stock_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> 
 				fetchAll("select 
 					c.county,d1.district as subcounty, 
 					f.facility_name,
 					f.facility_code, 
 					d.commodity_name as drug_name,
-					f_s.current_balance
+					f_s.current_balance,
+					ROUND((f_s.current_balance/d.total_commodity_units),1) AS total_packs
 					from
 					facilities f,
 					districts d1,
@@ -1193,10 +1195,10 @@ GROUP BY d.id
 					group by d.id,f.facility_code
 					order by c.county asc,d1.district asc
 					");
-			//echo "<pre>";print_r($facility_stock_data);exit;
+			// echo "<pre>";print_r($facility_stock_data);exit;
 				// var_dump($commodity_array);die();
 				foreach ($facility_stock_data as $facility_stock_data_item) :
-					array_push($row_data, array($facility_stock_data_item["county"], $facility_stock_data_item["subcounty"], $facility_stock_data_item["facility_name"], $facility_stock_data_item["facility_code"], $facility_stock_data_item["drug_name"], $facility_stock_data_item["current_balance"]));
+					array_push($row_data, array($facility_stock_data_item["county"], $facility_stock_data_item["subcounty"], $facility_stock_data_item["facility_name"], $facility_stock_data_item["facility_code"], $facility_stock_data_item["drug_name"], $facility_stock_data_item["total_packs"]));
 				endforeach;
 				$excel_data['row_data'] = $row_data;
 

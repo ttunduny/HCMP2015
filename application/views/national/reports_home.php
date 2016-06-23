@@ -147,7 +147,7 @@ legend{
     			
     			<div class="col-xs-4">
 			  	<label for="county">Select County</label>
-			    <select class="form-control input-md" id="county"> 
+			    <select class="col-md-12 input-md select2" id="county"> 
 			    	<option value="NULL">All Counties</option>
 			    	<?php
 			    	
@@ -161,7 +161,7 @@ legend{
 			  </div>
 			  <div class="col-xs-4">
 			  	<label for="county">Select Sub-County</label>
-			    <select class="form-control input-md" id="sub_county"> 
+			    <select class="col-md-12 input-md select2" id="sub_county"> 
 			    	<option value="NULL">All Sub-Counties</option>
 			    	
 			    	</select>
@@ -169,7 +169,7 @@ legend{
 			  
 			  <div class="col-xs-4">
 			  	<label for="county">Select Facility</label>
-			    <select class="form-control input-md" id="facility_id"> 
+			    <select class="col-md-12 input-md select2" id="facility_id"> 
 			    	<option value="NULL">All Facilities</option>
 			    	
 			    	</select>
@@ -266,7 +266,7 @@ legend{
 				    	</select>
 			  		</div>
 			  		<div id="single_options">
-			  			<select class="myoptions" id="commodity1" disabled="true" > 			    	
+			  			<select class="col-md-12 input-md select2 myoptions" id="commodity1" disabled="true" > 			    	
 				    	<?php
 								foreach ($commodities as $value => $commodity) :
 										$c_id = $commodity['id'];
@@ -380,6 +380,7 @@ legend{
 <script>
     var url='<?php echo base_url(); ?>';
      $(document).ready(function () {
+     	$('.select2').select2();
      	$('#single_options').hide();
      	// $('#multiple_options').hide();
      	load_multiple(null);
