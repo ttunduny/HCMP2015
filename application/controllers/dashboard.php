@@ -2147,6 +2147,26 @@ class Dashboard extends MY_Controller {
 		$filter .= ($division > 0)? "AND commodities.commodity_division = $division" : NULL;
 
 		// echo $filter;exit;
+		/*echo "SELECT 
+			    commodities.id,
+			    commodities.commodity_name,
+			    SUM(facility_stocks.current_balance) AS unit_balance,
+			    SUM(facility_stocks.current_balance) / commodities.total_commodity_units AS pack_balance,
+			    commodities.total_commodity_units
+			FROM
+			    hcmp_rtk.facility_stocks
+			        INNER JOIN
+			    facilities ON facility_stocks.facility_code = facilities.facility_code
+			        INNER JOIN
+			    districts ON facilities.district = districts.id
+			        INNER JOIN
+			    counties ON districts.county = counties.id
+			        INNER JOIN
+			    commodities ON facility_stocks.commodity_id = commodities.id
+			WHERE
+			    commodities.status = 1
+			         $filter
+			GROUP BY commodities.id ORDER BY commodities.commodity_name ASC";exit;*/
 		$stocking_levels = $this->db->query("
 			SELECT 
 			    commodities.id,

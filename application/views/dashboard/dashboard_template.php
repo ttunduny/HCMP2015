@@ -419,7 +419,7 @@
           // console.log("County change");return;
         var county_val=$('#county_filter').val()
         var drop_down='';
-       var facility_select = "<?php echo base_url(); ?>reports/get_sub_county_json_data/"+county_val;
+        var facility_select = "<?php echo base_url(); ?>reports/get_sub_county_json_data/"+county_val;
         $.getJSON( facility_select ,function( json ) {
          $("#sub_county_filter").html('<option value="NULL" selected="selected">All Sub-Counties</option>');
           $.each(json, function( key, val ) {
