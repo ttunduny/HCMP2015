@@ -1311,9 +1311,19 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 
 			// echo "<pre>";print_r($column_data);die;
 		 if($count_commodities>1){
-		 	$sql = "SELECT c.county,d1.district AS subcounty,f.facility_name,f.facility_code FROM
-		 	facilities f,districts d1,counties c WHERE f.district = d1.id AND d1.county = c.id $and_data					    
-		 	ORDER BY c.county ASC , d1.district ASC";
+		 	$sql = "SELECT 
+					    c.county,
+					    d1.district AS subcounty,
+					    f.facility_name,
+					    f.facility_code
+					FROM
+					    facilities f,
+					    districts d1,
+					    counties c
+					WHERE
+					    f.district = d1.id AND d1.county = c.id
+					        AND f.using_hcmp IN (1 , 2) $and_data					    
+		 			ORDER BY c.county ASC , d1.district ASC";
 				// echo "$sql";die;
 		 	$facility_data = $this->db->query($sql)->result_array();
 			// array_push($final_array[0], "The below commodities were consumed $time");
@@ -1330,6 +1340,14 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 		 			$commodity_details = Commodities::get_commodity_name($commodity_id);
 		 			$drug_name = $commodity_details[0]['commodity_name'];
 		 			array_push($final_array[$facility_code],$drug_name);
+		 			
+		 			/*echo "SELECT ROUND(AVG(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),1) AS total
+		 			FROM commodities d LEFT JOIN  facility_issues f_i ON f_i.`commodity_id` = d.id
+		 			WHERE f_i.facility_code = '$facility_code'
+		 			AND f_i.`qty_issued` > 0
+		 			and f_i.created_at between '$from' and '$to'
+		 			AND d.id = '$commodity_id'
+		 			GROUP BY d.id , f_i.facility_code";exit;*/
 
 		 			$sql_commodity_details = "SELECT ROUND(AVG(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),1) AS total
 		 			FROM commodities d LEFT JOIN  facility_issues f_i ON f_i.`commodity_id` = d.id
@@ -1359,6 +1377,7 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 
 
 		 	}
+		 	// echo "<pre>";print_r($row_data);exit;
 		 	// echo "I reach here";exit;
 		 	$row_data = $final_array;
 		 }else{
