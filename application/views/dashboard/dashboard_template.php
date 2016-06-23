@@ -575,7 +575,7 @@
 
        if(type=='hcwtrained'){ 
         link='dashboard/hcw/'+county_id+'/NULL/NULL/excel';
-
+      }
 
        if (type=="commodity_count"){
         link='dashboard/generate_commodities_excel';
