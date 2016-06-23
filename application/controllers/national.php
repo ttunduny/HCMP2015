@@ -7,6 +7,7 @@ if (!defined('BASEPATH'))
 class national extends MY_Controller {
 	function __construct() {
 		parent::__construct();
+		ini_set('memory_limit','-1');
 		$this -> load -> helper(array('form', 'url', 'file'));
 		// $this -> load -> library(array('form_validation','PHPExcel/PHPExcel'));
 		$this -> load -> library(array('hcmp_functions', 'form_validation'));
