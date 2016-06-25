@@ -38,31 +38,27 @@ class Data_sync extends MY_Controller {
 		ob_end_clean();
 		ini_set('memory_limit', '-1');
 		ini_set('max_execution_time', '-1');
-
-		// echo FCPATH.'ftp_files\\'.$zip_file;die;
-		$extention = end(explode(".", $zip_file));
-		$filename =  basename($zip_file, ".".$extention );
-		error_reporting(1);	
-		$path = FCPATH.'ftp_files/'.$zip_file;
-
-		$path = str_replace('/', '\\', $path);	
-
-		// $path = preg_replace('/', '\\', $path);
-		echo $path."<pre>";
 		
-		// echo FCPATH.'ftp_files\/'.$zip_file;exit;
+		$extention = end(explode(".", $zip_file));
+		$filename =  basename($zip_file, ".".$extention );		
+		$path = FCPATH.'ftp_files/'.$zip_file;
+		$extract_path = FCPATH.'ftp_files/extracted/';
 
-		if (!file_exists($path)) { //Check if the Actual File exists as From the DB
-			echo "File Does Not Exist $zip_file<br/>";exit;
+		// $path = str_replace('\\','/', $path);		
+		$path = $this->replace_back_slashes($path);
+		$extract_path = $this->replace_back_slashes($extract_path);
+		// echo $extract_path;exit;	
+		// $extract_path = str_replace('\\','/', $extract_path);			
+
+		if (!file_exists($path)) { //Check if the Actual File exists as From the DB			
 			//Set the Status to 2 to indicate entry without File
-		    // $sql_ftp_update_else = "update ftp_uploads set status = '2' where id='$ftp_file_id'";  
+		    $sql_ftp_update_else = "update ftp_uploads set status = '2' where id='$ftp_file_id'";  
 			$this->db->query($sql_ftp_update_else);
-		} else {
-		    echo "I exist";exit;
+		} else {		    
 			$zip = new ZipArchive;
-			$res = $zip->open(FCPATH.'ftp_files\/'.$zip_file);		
+			$res = $zip->open($path);		
 			if ($res === TRUE) {
-				$zip->extractTo(FCPATH.'ftp_files\extracted\\');
+				$zip->extractTo($extract_path);
 				$zip->close();
 				echo "Successfully Extracted<br/>";			
 			}else{
@@ -72,7 +68,7 @@ class Data_sync extends MY_Controller {
 				echo "Error Extracting<br/>";
 			}		
 
-			$txt_file = FCPATH.'ftp_files\extracted\\'.$filename.'.txt';
+			$txt_file = $extract_path.$filename.'.txt';
 			// echo $txt_file;
 
 			$file_details = array(json_decode(file_get_contents($txt_file, FILE_USE_INCLUDE_PATH),TRUE));	//Decode and create an array from the data

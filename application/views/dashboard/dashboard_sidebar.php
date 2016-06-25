@@ -38,7 +38,6 @@
                       </li>
                     </ul>
                   </li>
-
                   <li><a><i class="fa fa-line-chart"></i> Facilities</span></a>
                     <ul class="nav child_menu">
                       <li><a href="index.html">Facility #1</a>

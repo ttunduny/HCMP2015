@@ -54,6 +54,15 @@ class Dashboard extends MY_Controller {
 		$this->load->view('dashboard/dashboard_template',$data); 
 	}
 
+	public function download_excels($type=null){			
+		if($type=='consumption'){			
+			$this->consumption(null,null,null,null,'excel',null,null,null);
+		}elseif ($type=='expiries') {
+			$this->expiry(null,null,null,'excel',null,null,null);
+		}elseif($type=='stock'){
+
+		}
+	}
 	public function divisions($division = NULL) {//for the sake of beauty
 		$default = "tracer";//FYI
 
@@ -65,7 +74,10 @@ class Dashboard extends MY_Controller {
 		// echo "<pre>";print_r($tracer_commodities);exit;
 		if (isset($division) && $division>0) {
 			$page_title = $division_details[0]['division_name'];
-			$tracer = "NULL";
+			if (!$division==5) {
+				$tracer = "NULL";
+			}
+			
 		}else{
 			$tracer = 1;
 			$page_title = "Tracer Items";
@@ -408,12 +420,12 @@ class Dashboard extends MY_Controller {
 		}
 
 		if (isset($county_id)) :
-			$county_name = counties::get_county_name($county_id);
+			$county_name = Counties::get_county_name($county_id);
 		$name = $county_name['county'];
-		$title .= "$name County";
+		$title .= " $name County";
 		elseif (isset($district_id)) :
 			$district_data = (isset($district_id) && ($district_id > 0)) ? districts::get_district_name($district_id) -> toArray() : null;
-		$district_name_ = (isset($district_data)) ? " :" . $district_data[0]['district'] . " Subcounty" : null;
+		$district_name_ = (isset($district_data)) ? " :" . $district_data[0]['district'] . " Sub-County" : null;
 		$title .= isset($facility_code) && isset($district_id) ? "$district_name_ : $facility_name" : (isset($district_id) && !isset($facility_code) ? "$district_name_" : "$name County");
 		elseif (isset($facility_code)) :
 			$facility_code_ = isset($facility_code) ? facilities::get_facility_name_($facility_code) : null;
@@ -1143,11 +1155,11 @@ class Dashboard extends MY_Controller {
 
 			$county_name = counties::get_county_name($county_id);
 			$name = $county_name['county'];
-			$title .= "$name County";
+			$title .= " $name County";
 			//print_r($name);exit;
 			elseif (isset($district_id)) :
 				$district_data = (isset($district_id) && ($district_id > 0)) ? districts::get_district_name($district_id) -> toArray() : null;
-			$district_name_ = (isset($district_data)) ? " :" . $district_data[0]['district'] . " Subcounty" : null;
+			$district_name_ = (isset($district_data)) ? " :" . $district_data[0]['district'] . " Sub-County" : null;
 			$title .= isset($facility_code) && isset($district_id) ? "$district_name_ : $facility_name" : (isset($district_id) && !isset($facility_code) ? "$district_name_" : "$name County");
 			elseif (isset($facility_code)) :
 				$facility_code_ = isset($facility_code) ? facilities::get_facility_name_($facility_code) : null;
@@ -2107,19 +2119,50 @@ class Dashboard extends MY_Controller {
 			$page_title = "Tracer Item";
 		}
 
-		$page_title = trim($page_title);
+		$page_title = trim($page_title);		
 		$graph_title = $page_title.' National Stock Level';
+
+		if($county_id>0){
+			$county_name = Counties::get_county_name($county_id);			
+			$graph_title = $page_title.' '.$county_name['county'].' County Stock Level';
+		}
+
+		if($district_id>0){
+			$district_name = Districts::get_district_name_($district_id);
+			$graph_title = $page_title.' '.$district_name['district'].' Sub-County Stock Level';
+		}
+		
 		// echo $tracer_item;exit;
 		// echo is_null($district_id);
 		$filter = '';
-		$filter .= ($county_id > 0 && is_null($district_id))? "AND counties.id = $county_id":NULL;
-		$filter .= ($district_id > 0 && is_null($county_id))? "AND districts.id = $district_id":NULL;
-		$filter .= ($facility_code > 0 && is_null($county_id) && is_null($district_id))? "AND facilities.facility_code = $facility_code":NULL;
-		$filter .= ($commodity_id > 0)? "AND commodities.id = $commodity_id ":NULL;
-		$filter .= ($tracer_item > 0)? "AND commodities.tracer_item = 1 " : NULL;
-		$filter .= ($division > 0)? "AND commodities.commodity_division = $division" : NULL;
+		$filter .= ($county_id > 0 && is_null($district_id))? " AND counties.id = $county_id":NULL;
+		$filter .= ($district_id > 0 && is_null($county_id))? " AND districts.id = $district_id":NULL;
+		$filter .= ($facility_code > 0 && is_null($county_id) && is_null($district_id))? " AND facilities.facility_code = $facility_code":NULL;
+		$filter .= ($commodity_id > 0)? " AND commodities.id = $commodity_id ":NULL;
+		$filter .= ($tracer_item > 0)? " AND commodities.tracer_item = 1 " : NULL;
+		$filter .= ($division > 0)? " AND commodities.commodity_division = $division" : NULL;
 
 		// echo $filter;exit;
+		/*echo "SELECT 
+			    commodities.id,
+			    commodities.commodity_name,
+			    SUM(facility_stocks.current_balance) AS unit_balance,
+			    SUM(facility_stocks.current_balance) / commodities.total_commodity_units AS pack_balance,
+			    commodities.total_commodity_units
+			FROM
+			    hcmp_rtk.facility_stocks
+			        INNER JOIN
+			    facilities ON facility_stocks.facility_code = facilities.facility_code
+			        INNER JOIN
+			    districts ON facilities.district = districts.id
+			        INNER JOIN
+			    counties ON districts.county = counties.id
+			        INNER JOIN
+			    commodities ON facility_stocks.commodity_id = commodities.id
+			WHERE
+			    commodities.status = 1
+			         $filter
+			GROUP BY commodities.id ORDER BY commodities.commodity_name ASC";exit;*/
 		$stocking_levels = $this->db->query("
 			SELECT 
 			    commodities.id,

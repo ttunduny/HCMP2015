@@ -14,7 +14,6 @@ class Facilities extends Doctrine_Record {
 		$this -> hasColumn('contactperson','varchar',50);
 		$this -> hasColumn('cellphone','int',15);
 	}
-
 	public function setUp() {
 		$this -> setTableName('facilities');
 		$this -> hasOne('facility_code as Code', array('local' => 'facility_code', 'foreign' => 'facilityCode'));
@@ -22,17 +21,63 @@ class Facilities extends Doctrine_Record {
 		$this -> hasOne('facility_code as Codes', array('local' => 'facility_code', 'foreign' => 'facility'));
 		$this -> hasMany('districts as facility_subcounty', array('local' => 'district', 'foreign' => 'id'));
 	}
+    
+
+    public static function get_dormant_facilities(){
+
+    	$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll(
+    		"
+    		SELECT * FROM facilities where using_hcmp =0
+    		");
+
+    	return $query;
+
+    	
+    }
+
+	public static function get_offline_facilities_new(){
+		   $query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+
+
+
+               select distinct f.facility_code, f.facility_name,c.county,
+
+               select distinct f.facility_code, f.facility_name,d.district,c.county,
+
+            CASE using_hcmp
+            WHEN 1 THEN 'Online'
+            ELSE 'Offline'
+            END AS ONLINE_STATUS,
+            date_format(f.date_of_activation,'%b %d %Y %h:%i %p') as date_of_activation
+
+            
+              ,
+            date_format(fu.date_added,'%b %d %Y %h:%i %p') as date_added
+               
+			from facilities f  
+			left outer JOIN ftp_uploads fu
+			ON f.facility_code = fu.facility_code
+			LEFT outer JOIN districts d
+			ON f.district = d.id
+			LEFT outer JOIN counties c
+			ON d.county =c.id
+			where d.county in(31,23)
+			and f.using_hcmp in (1,2)
+			group by f.facility_name order by c.county asc, f.using_hcmp desc");
+
+			 return $query;
+
+}
+
 
 	public static function getAll() {
 		$query = Doctrine_Query::create() -> select("*") -> from("facilities");
 		$drugs = $query -> execute();
 		return $drugs;
 	}
-
 	public static function getAll_($county = NULL,$district = NULL) {
 		$and = isset($district)? "AND d.id = $district" : NULL;
 		$and .= (isset($county) && !isset($district))? " AND c.id = $county" : NULL;
-
 		$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT 
 			c.county, d.district as subcounty, f.facility_name,f.facility_code, f.`level`, f.type,f.date_of_activation
@@ -49,7 +94,6 @@ class Facilities extends Doctrine_Record {
 		$facilities = $query;
 		return $facilities;
 	}
-
 	public static function get_detailed_listing($county_id) {
 		$facilities = Doctrine_Manager::getInstance()->getCurrentConnection()
 		->fetchAll("SELECT 
@@ -64,7 +108,6 @@ class Facilities extends Doctrine_Record {
 			f.cellphone,
 			d.district,
 			c.county
-
 			FROM
 			facilities f,
 			districts d,
@@ -73,10 +116,8 @@ class Facilities extends Doctrine_Record {
 			f.district = d.id 
 			AND d.county = c.id
 			AND c.id = $county_id");
-
 		return $facilities;
 	}	
-
 	public function get_days_from_last_sync($facility_code) {
 		$sql = "SELECT DATEDIFF(MAX(last_sync), current_date()) AS date_from_last_sync FROM db_sync WHERE facility_code = '$facility_code';";
 		$days_last_synced = $this->db->query($sql)->result_array();
@@ -85,7 +126,6 @@ class Facilities extends Doctrine_Record {
 		}
         return $days;   
 	}
-
 	public static function check_active_facility($facility)
 	{
 		$active = Doctrine_Manager::getInstance()->getCurrentConnection()
@@ -98,7 +138,6 @@ class Facilities extends Doctrine_Record {
 			facilities
 			WHERE
 			facility_code = $facility");
-
 		return $active;
 	}
 //get the number of facilities using HCMP in the country
@@ -114,7 +153,6 @@ class Facilities extends Doctrine_Record {
 			WHERE
 			f.district = d.id AND d.county = c.id
 			AND f.`using_hcmp` = 1");
-
 		return count($q);
 	}
 	public static function get_all_facilities_on_HCMP()
@@ -136,7 +174,6 @@ class Facilities extends Doctrine_Record {
 			WHERE
 			f.using_hcmp = 1 AND f.district = d.id
 			AND d.county = c.id");
-
 		return $q;
 	}
 	public static function getAll_json() {
@@ -145,26 +182,21 @@ class Facilities extends Doctrine_Record {
 		return $drugs;
 	}
 	public static function getFacilities($district){
-
 		$query = Doctrine_Query::create() -> select("*") -> from("facilities")->where("district='$district'")->OrderBy("facility_name asc");
 		$drugs = $query -> execute();
 		return $drugs;
 	}
 	public static function getFacilities_json($district){
-
 		$query = Doctrine_Query::create() -> select("*") -> from("facilities")->where("district='$district'")->OrderBy("facility_name asc");
 		$drugs = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
 		return $drugs;
 	}
 	public static function getFacilities_for_email($district){
-
 		$query = Doctrine_Query::create() -> select("*") -> from("facilities")->where("district='$district' AND using_hcmp=1")->OrderBy("facility_name asc");
 		$drugs = $query -> execute();
 		return $drugs;
 	}
-
 	public static function getFacilities_from_facility_code($facility_code){
-
 		$query = Doctrine_Query::create() -> select("*") -> from("facilities")->where("facility_code='$facility_code' AND using_hcmp=1")->OrderBy("facility_name asc");
 		$drugs = $query -> execute();
 		return $drugs;
@@ -173,28 +205,22 @@ class Facilities extends Doctrine_Record {
 	{
 		$and_data =(isset($county_id)&& ($county_id>0)) ?" AND d.county = $county_id" : null;
 		$and_data .=(isset($district_id)&& ($district_id>0)) ?" AND f.district = $district_id" : null;
-
 		$and_data .= " AND using_hcmp = 1 ";
-
 		$query = Doctrine_Query::create() ->select("*") ->from("facilities f, districts d")->where("f.district = d.id $and_data")->OrderBy("facility_name asc");
 	// $drugs = $query -> execute();
 		$drugs = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
 		return $drugs;
 	}
-
 	public static function get_facilities_per_county($county_id = null, $district_id = null)
 	{
 		$and_data =(isset($county_id)&& ($county_id>0)) ?" AND d.county = $county_id" : null;
 		$and_data .=(isset($district_id)&& ($district_id>0)) ?" AND f.district = $district_id" : null;
-
     // $and_data .= " AND using_hcmp = 1 ";
-
 		$query = Doctrine_Query::create() ->select("*") ->from("facilities f, districts d")->where("f.district = d.id $and_data")->OrderBy("facility_name asc");
 	// $drugs = $query -> execute();
 		$drugs = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
 		return $drugs;
 	}
-
 //gets all the facilitites using HCMP in the system
 //For weekly email updates
 	public static function get_all_using_HCMP($county_id)
@@ -229,7 +255,6 @@ class Facilities extends Doctrine_Record {
 		
 		return $q;
 	}
-
 	public static function get_activation_logs() {
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT
@@ -238,7 +263,7 @@ class Facilities extends Doctrine_Record {
 			f.facility_code AS 'facility_code',
 			f.facility_name AS 'facility_name',
 			fl.action AS 'action',
-			fl.date AS 'date_of_action'
+			date_format(fl.date,'%b %d %Y %h:%i %p') as date_of_action
 			FROM
 			user u JOIN
 			facilities f
@@ -249,7 +274,6 @@ class Facilities extends Doctrine_Record {
 			");
 		return $q;
 	}
-
 // This is the function
 	public static function get_offline_facilities($county_id, $district_id) {
 		$and_data = "";
@@ -273,7 +297,6 @@ class Facilities extends Doctrine_Record {
 			WHERE f.using_hcmp = 2 $and_data");
 		return $q;
 	}
-
 //In case the stock outs or expiries for Taita Taveta are not sent out
 	public static function get_Taita()
 	{
@@ -295,7 +318,6 @@ class Facilities extends Doctrine_Record {
 			WHERE district =$district");
 		return $q;	
 	}
-
 	public static function get_district_facilities_using_hcmp($district)
 	{
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("SELECT DISTINCT (facility_code)
@@ -331,7 +353,6 @@ class Facilities extends Doctrine_Record {
 			(isset($district_id) && !isset($county_id)? "d.id=$district_id ": "d.county=$county_id ") ;
 			break;	
 		}
-
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT SUM( targetted ) AS targetted, SUM( using_hcmp ) AS using_hcmp, COUNT( facility_code ) AS total
 			FROM districts d, facilities f
@@ -352,18 +373,15 @@ class Facilities extends Doctrine_Record {
 		}	
 		
 	}
-
 	public static function get_facilities_user_activation_data($facility_code){
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("SELECT distinct user.fname,user.lname,user.created_at ,log.end_time_of_event 
 			FROM user,log where user.facility = '$facility_code' and user.status = 1 and user.id = log.user_id and log.action = 'Logged Out' GROUP BY user_id order by log.end_time_of_event desc"); 
 		return $q;  
 	}
-
 	public static function get_facilities_users_data($facility_code){
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("SELECT distinct user.id,user.fname,user.lname,user.email,user.created_at from user where user.facility = '$facility_code' and user.status = 1 group by user.id order by user.fname ASC"); 
 		return $q;  
 	}
-
 	public static function get_facilities_monitoring_data($facility_code=null,$district_id=null,$county_id=null,$identifier=null)
 	{
 		switch ($identifier)
@@ -396,9 +414,7 @@ class Facilities extends Doctrine_Record {
 			GROUP BY f.facility_code
 			"); 
 		return $q;  
-
 	}
-
 	public static function get_facilities_not_logged_in_count() {
 		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT DISTINCT
@@ -411,9 +427,7 @@ class Facilities extends Doctrine_Record {
 			f.facility_code NOT IN (l.facility_code) 
 			AND f.using_hcmp = 1;");
 		return $data[0];
-
 	}
-
 	public static function facilities_not_logged_in_two_weeks() {
 		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT 
@@ -424,7 +438,6 @@ class Facilities extends Doctrine_Record {
 			l.end_time_of_event < (CURDATE() < 14);");
 		return $data[0];
 	}
-
 	public static function facilities_not_logged_in_one_month() {
 		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT 
@@ -435,7 +448,6 @@ class Facilities extends Doctrine_Record {
 			l.end_time_of_event < (CURDATE() < 30);");
 		return $data[0];
 	}
-
 	public static function get_facility_data_specific($report_type,$county,$district_id = NULL,$facility_code = NULL,$scope = NULL){
 	/*
 	@author karsan AS AT 2015-08-04
@@ -499,7 +511,6 @@ class Facilities extends Doctrine_Record {
 			$addition = NULL;
 		}
 	}
-
 	$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll(
 		"
 		SELECT 
@@ -537,13 +548,11 @@ class Facilities extends Doctrine_Record {
 		        $facility_filter
 		        $addition
 		");
-
 	return $query;
 	*/
 	
 	//PRIOR TO PROCEDURISATION OF THE ABOVE QUERY
 }//get facility data specific
-
 //gets the monitoring data for all the facilities using HCMP
 public static function facility_monitoring($county_id, $district_id, $facility_code=null)
 {
@@ -573,7 +582,6 @@ public static function facility_monitoring($county_id, $district_id, $facility_c
 }
 //gets the date of last issue for the ORS Zinc report only
 //it is a mini hack for that purpose
-
 public static function get_last_issue($facility_code)
 {
 	
@@ -612,7 +620,6 @@ public static function get_last_issue($facility_code)
 	
 	
 }
-
 public function get_facilities_logged_in_month($start_date,$last_date,$issued=null,$county_id=null,$district_id=null){		
 	$and_data = '';
 	if ($county_id!=null) {
@@ -621,7 +628,6 @@ public function get_facilities_logged_in_month($start_date,$last_date,$issued=nu
 	if ($district_id!=null) {
 		$and_data.= " and d.id = $district_id ";
 	}		
-
 	$sql = "SELECT DISTINCT f.facility_code, c.county, d.district, f.facility_name 
 	FROM facilities f, districts d, counties c, log l
 	WHERE  f.facility_code = l.facility_code AND f.using_hcmp = '1'
@@ -632,7 +638,6 @@ public function get_facilities_logged_in_month($start_date,$last_date,$issued=nu
 	$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll($sql);
 	return $data;
 }
-
 // public function new_get_facility_logged_in_count($start_date,$last_date,$number,$county_id=null,$district_id = null){
 // 	$final_array = array();
 // 	$sql = "SELECT DISTINCT   f.facility_code, c.county, d.district,f.facility_name
@@ -645,7 +650,6 @@ public function get_facilities_logged_in_month($start_date,$last_date,$issued=nu
 //        	$facility_code =$value['facility_code'];
 //        	$district =$value['district'];
 //        	$county =$value['county'];      	
-
 //        	$sql_count = "SELECT DISTINCT DATE(fl.end_time_of_event) mydate, COUNT(DISTINCT fl.facility_code) AS times
 // 					FROM facility_user_log_new fl WHERE fl.end_time_of_event BETWEEN '$start_date' AND '$last_date'
 //    					AND fl.action = 'Logged Out' AND fl.facility_code = '$facility_code' GROUP BY mydate 
@@ -656,10 +660,8 @@ public function get_facilities_logged_in_month($start_date,$last_date,$issued=nu
 //    			$final_array[] = array('facility_code' => $facility_code,'facility_name'=>$facility_name,'district'=>$district,
 //    									'county'=>$county,'days'=>$count);
 //    		}
-
 //        }
 //        return $final_array;
-
 // }
 public function get_facilities_count($start_date,$last_date,$number,$county_id=null,$district_id = null,$type=null){		
 	$and_data = '';
@@ -669,7 +671,6 @@ public function get_facilities_count($start_date,$last_date,$number,$county_id=n
 	if ($district_id!=null) {
 		$and_data.= " and d.id = $district_id ";
 	}
-
 	if(isset($type)){
 		$and_data.= ($type='issued') ? 'and issued = 1' : null;
 	}
@@ -680,14 +681,12 @@ public function get_facilities_count($start_date,$last_date,$number,$county_id=n
 	WHERE f.facility_code = fl.facility_code AND f.using_hcmp = '1'
 	AND d.id = f.district AND c.id = d.county AND f.date_of_activation < '$last_date'
 	AND fl.end_time_of_event $and_data BETWEEN '$start_date' AND '$last_date' AND fl.action = 'Logged Out'";
-
 	$result = $this->db->query($sql)->result_array();
 	foreach ($result as $key => $value) {
 		$facility_code =$value['facility_code'];
 		$facility_name =$value['facility_name'];
 		$district =$value['district'];
 		$county =$value['county'];      	
-
 		$sql_count = "SELECT DISTINCT DATE(fl.end_time_of_event) mydate, COUNT(DISTINCT fl.facility_code) AS times
 		FROM log fl WHERE fl.end_time_of_event BETWEEN '$start_date' AND '$last_date'
 		AND fl.action = 'Logged Out' AND fl.facility_code = '$facility_code' $and_data GROUP BY mydate 
@@ -729,13 +728,10 @@ public function get_facilities_issued_in_month($start_date,$last_date,$issued=nu
 	AND l.end_time_of_event BETWEEN '$start_date' AND '$last_date'
 	AND l.action = 'Logged Out'
 	AND l.issued = '1'";
-
 	// echo "$sql";die;
 	$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll($sql);
 	return $data;
 }
-
-
 public function get_facilities_issued_in_count($start_date,$last_date,$number,$county_id=null,$district_id=null){
 	$and_data = '';
 	if ($county_id!=null) {
@@ -783,7 +779,6 @@ public function get_facilities_not_logged_in_month($start_date,$last_date,$count
 	WHERE f.using_hcmp = '1'
 	AND d.id = f.district AND c.id = d.county 
 	$and_data";
-
 	$result = $this->db->query($sql)->result_array();
 	$sql_exists = "SELECT DISTINCT l.facility_code FROM log l,facilities f, districts d, counties c
 	WHERE l.end_time_of_event BETWEEN '$start_date' AND '$last_date'  
@@ -804,7 +799,6 @@ public function get_facilities_not_logged_in_month($start_date,$last_date,$count
 			$final_array[] = array('facility_code' => $facility_code,'facility_name'=>$facility_name,'district'=>$district,
 				'county'=>$county);
 		}
-
 		
 	}	        
 	return $final_array;
@@ -825,7 +819,6 @@ public function get_facilities_not_issued_in_month($start_date,$last_date,$count
 	and f.facility_code !=l.facility_code and l.end_time_of_event BETWEEN '$start_date' AND '$last_date'
 	AND l.action = 'Logged Out' and l.issued='1'";
 	$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll($sql);
-
 	// $data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("SELECT DISTINCT
 	// 		    f.facility_code,c.county, d.district, f.facility_name
 	// 		FROM
@@ -844,7 +837,6 @@ public function get_facilities_not_issued_in_month($start_date,$last_date,$count
 }
 public static function get_last_redistribution($facility_code)
 {
-
 	$data = Doctrine_Manager::getInstance()->getCurrentConnection()
 	->fetchAll("SELECT
 		(CASE
@@ -874,20 +866,14 @@ public static function get_last_redistribution($facility_code)
 		AND d.county = c.id
 		");
     //return the monitoring data
-
 	return $data;
-
-
-
 }
-
 public static function facility_ordered($type, $county_id = NULL, $district_id = NULL, $facility_code=null)
 {
 	switch ($type) {
 		case 'facility':
 		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			CALL facility_orders('facility','".$facility_code."');
-
 			");
 		foreach ($data as $key => $part) {
 			//echo '<pre>';print_r($data);echo "</pre>";die();
@@ -896,12 +882,10 @@ public static function facility_ordered($type, $county_id = NULL, $district_id =
 		array_multisort($sort, SORT_DESC, $data);
 		//return the monitoring data
 		break;
-
 		case 'district':
 		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			CALL facility_orders('district','".$district_id."');
 			");
-
 		foreach ($data as $key => $part) {
 			//echo '<pre>';print_r($data);echo "</pre>";die();
 			$sort[$key] = $part['Days From Last Order'];
@@ -909,13 +893,10 @@ public static function facility_ordered($type, $county_id = NULL, $district_id =
 		array_multisort($sort, SORT_DESC, $data);
 		//return the monitoring data
 		return $data;
-
 		case 'county':
 		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			CALL facility_orders('county','".$county_id."');
-
 			");
-
 		foreach ($data as $key => $part) {
 			//echo '<pre>';print_r($data);echo "</pre>";die();
 			$sort[$key] = $part['Days From Last Order'];
@@ -929,15 +910,12 @@ public static function facility_ordered($type, $county_id = NULL, $district_id =
 	
 	
 }
-
 public static function facility_issued($type, $county_id = NULL, $district_id = NULL, $facility_code=null)
 {
 	switch ($type) {
 		case 'facility':
 		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			CALL facility_issues('facility','".$facility_code."');
-
-
 			");
 		//return the monitoring data
 		//echo '<pre>';print_r($data);echo "</pre>";die();
@@ -947,11 +925,9 @@ public static function facility_issued($type, $county_id = NULL, $district_id = 
 		}
 		array_multisort($sort, SORT_DESC, $data);
 		break;
-
 		case 'county':
 		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			CALL facility_issues('county','".$county_id."');
-
 			");
 		foreach ($data as $key => $part) {
 			//echo '<pre>';print_r($data);echo "</pre>";die();
@@ -976,24 +952,16 @@ public static function facility_issued($type, $county_id = NULL, $district_id = 
 			# code...
 		break;
 	}
-
 	//echo "<pre>";print_r($data);die;
 	return $data;
 	
 }
-
-
-
-
-
 public static function facility_loggins($type, $county_id = NULL, $district_id = NULL, $facility_code=null)
 {
 	switch ($type) {
 		case 'facility':
 		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			CALL facility_loggins('facility','".$facility_code."');
-
-
 			");
 		foreach ($data as $key => $part) {
 			//echo '<pre>';print_r($data);echo "</pre>";die();
@@ -1004,11 +972,9 @@ public static function facility_loggins($type, $county_id = NULL, $district_id =
 		//echo '<pre>';print_r($data);echo "</pre>";die();
 		$data = sort($data,'descend');
 		break;
-
 		case 'county':
 		$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			CALL facility_loggins('county','".$county_id."');
-
 			");
 		foreach ($data as $key => $part) {
 			//echo '<pre>';print_r($data);echo "</pre>";die();
@@ -1032,12 +998,10 @@ public static function facility_loggins($type, $county_id = NULL, $district_id =
 			# code...
 		break;
 	}
-
 	//echo "<pre>";print_r($data);die;
 	return $data;
 	
 }
-
 //Used by facility_mapping function in reports controller
 //Used to get the dates that facilities went online
 public static function get_facilities_online_per_district($county_id)
@@ -1063,9 +1027,7 @@ public static function get_facilities_online_per_district($county_id)
 		");
 	
 	return $q;	
-
 }
-
 public static function get_facilities_online_per_district_other($district_id,$mfl)
 {
 	$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
@@ -1086,7 +1048,6 @@ public static function get_facilities_online_per_district_other($district_id,$mf
 		ORDER BY f.facility_name ASC");
 	
 	return $q;	
-
 }
 public static function get_facilities_all_per_district($county_id,$option=null){
 	$new=isset($option)  ? "and f.facility_code not in (select f.facility_code from facilities f, districts d 
@@ -1098,9 +1059,7 @@ public static function get_facilities_all_per_district($county_id,$option=null){
 		order by f.facility_name asc
 		");
 	return $q;	
-
 }
-
 public static function get_d_facility($district){
 	'SELECT unique facilities.facility_name, user.fname, user.lname, user.telephone
 	FROM facilities, user
@@ -1124,11 +1083,9 @@ public static function get_d_facility($district){
 		OR user.usertype_id =2
 		)
 		GROUP BY user.facility");
-
 	return $result;
 	
 }
-
 /*************************getting the facility name *******************/
 public static function get_facility_name($facility_code)
 {
@@ -1149,7 +1106,6 @@ public static function get_owner_count() {
 	$drugs = $query -> execute();
 	return $drugs;
 }
-
 public static function get_no_of_facilities($category){
 	$district = $category;
 	$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
@@ -1159,12 +1115,8 @@ public static function get_no_of_facilities($category){
 		AND d.county = c.id
 		AND c.id =  $district ");
 	return $q;
-
 }
-
-
 public static function get_total_facilities_in_district($county_id){
-
 	$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 		SELECT COUNT( f.facility_code ) as total_facilities
 		FROM facilities f, districts d
@@ -1174,7 +1126,6 @@ public static function get_total_facilities_in_district($county_id){
 	return $q;
 }
 public static function get_all_facilities_in_county($county_id){
-
 	$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 		SELECT DISTINCT( f.facility_code ) as facilities
 		FROM facilities f, districts d
@@ -1183,29 +1134,41 @@ public static function get_all_facilities_in_county($county_id){
 		");
 	return $q;
 }
-
 public static function get_all_facilities_no(){
 	$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 		SELECT COUNT( f.id ) AS total_no_of_facilities
 		FROM facilities f,districts d
 		where f.`district` = d.id
 		");
-
 	return $query;
 }
 
+public static function get_all_offline_facilities(){
+    $query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+		SELECT COUNT( f.id ) AS total_offline_facilities
+		FROM facilities f,districts d
+		where f.`district` = d.id AND f.using_hcmp = 2
+		");
+	return $query;
+
+}
 public static function get_all_facilities_active_no(){
 	$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 		SELECT COUNT( f.id ) AS total_active_facilities
 		FROM facilities f,districts d
 		where f.`district` = d.id AND f.using_hcmp = 1
 		");
-
 	return $query;
 }
-
+public static function get_all_facilities_inactive_no(){
+	$query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
+		SELECT COUNT( f.id ) AS total_inactive_facilities
+		FROM facilities f,districts d
+		where f.`district` = d.id AND f.using_hcmp = 0
+		");
+	return $query;
+}
 public static function get_total_facilities_district_ownership($county_id,$owner_type){
-
 	$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 		SELECT COUNT( f.facility_code ) AS ownership_count
 		FROM facilities f, counties c, districts d
@@ -1217,7 +1180,6 @@ public static function get_total_facilities_district_ownership($county_id,$owner
 		");
 	return $q;
 }
-
 public static function get_facility_details($district = NULL,$county = NULL,$offline=null){
 	$district = isset($district)? "AND d.id= $district": NULL;
 	$county = isset($county)? "AND d.county = $county": NULL;
@@ -1240,10 +1202,8 @@ public static function get_one_facility_details($facility_code){
 		AND f.district=d.id
 		AND d.county=c.id");
 	return $q;
-
 }
 public static function get_drawingR_county_by_district(){
-
 	$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 		SELECT * 
 		FROM (SELECT  `facility_code` ,  `facility_name` , facilities.`district` , SUM(  `drawing_rights` ) AS drawingR, districts.district AS districtName
@@ -1256,9 +1216,7 @@ public static function get_drawingR_county_by_district(){
 		");
 	return $q;
 }
-
 public static function get_county_drawing_rights($county_id){
-
 	$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 		SELECT SUM( f.`drawing_rights` ) AS initial_drawing_rights, SUM( f.`drawing_rights_balance` ) AS drawing_rights_balance, d.`district` 
 		FROM facilities f, districts d, counties c
@@ -1269,25 +1227,19 @@ public static function get_county_drawing_rights($county_id){
 		order by d.district asc
 		");
 	return $q;	
-
 }
-
 public static function get_orders_made_in_district($district_id){
 	$q_1 = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("SELECT count( f.`id` ) AS total_no_of_facilities
 		FROM facilities f, districts d
 		WHERE f.district = d.id
 		AND d.id =$district_id
 		");
-
-
 	$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("SELECT COUNT( f.`id` ) AS orders_made_data
 		FROM facilities f, districts d,ordertbl o
 		WHERE f.district = d.id
 		AND d.id =$district_id
 		AND o.facilityCode=f.facility_code
 		");
-
-
 	return array('total_no_of_facilities'=>$q_1[0]['total_no_of_facilities'],'orders_made_data'=>$q[0]['orders_made_data']);	
 }
 public static function get_no_of_facilities_hcmp($county_id=NULL,$district_id=NULL)
@@ -1299,7 +1251,6 @@ public static function get_no_of_facilities_hcmp($county_id=NULL,$district_id=NU
 			WHERE f.district = d.id
 			AND d.id ='$district_id'
 			");
-
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT COUNT( DISTINCT u.`facility` ) AS total_no_of_facilities
 			FROM facilities f, districts d, user u
@@ -1308,7 +1259,6 @@ public static function get_no_of_facilities_hcmp($county_id=NULL,$district_id=NU
 			AND u.status =  '1'
 			AND d.id= '$district_id'
 			");
-
 	}else{
 		$q_1 = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT count(f.`id`) AS total_no_of_facilities
@@ -1317,7 +1267,6 @@ public static function get_no_of_facilities_hcmp($county_id=NULL,$district_id=NU
 			AND d.county =c.id
 			AND c.id= '$county_id'
 			");
-
 		$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 			SELECT COUNT( DISTINCT u.`facility` ) AS total_no_of_facilities
 			FROM facilities f, districts d, counties c, user u
@@ -1328,10 +1277,8 @@ public static function get_no_of_facilities_hcmp($county_id=NULL,$district_id=NU
 			AND c.id= '$county_id'
 			");
 	}
-
 	return array('total_no_of_facilities'=>$q_1[0]['total_no_of_facilities'],'total_no_of_facilities_using_hcmp'=>$q[0]['total_no_of_facilities']);
 }
-
 public static function get_facility_status_no_users_status($facility_code){
 	$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll('
 		SELECT COUNT( DISTINCT u.id ) AS number_of_users, COUNT(DISTINCT l.user_id ) AS number_of_users_online, 
@@ -1348,7 +1295,6 @@ public static function get_facility_status_no_users_status($facility_code){
 		LEFT JOIN log l ON u.id = l.user_id AND l.action = "Logged In"
 		WHERE u.facility ="'.$facility_code.'"
 		');	
-
 	return $q;
 }
 //Used by facility_mapping function reports controller
@@ -1372,10 +1318,7 @@ public static function get_dates_facility_went_online($county_id, $district_id =
 		ORDER BY `date_of_activation` desc
 		");
 	return $q;
-
 }
-
-
 public static function get_dates_facility_went_online_cleaned($county_id)
 {
 	$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
@@ -1402,7 +1345,6 @@ public static function get_dates_facility_went_online_cleaned($county_id)
 	}
 	
 	return $cleaned_data;
-
 }
 //used by facility mapping function
 //used to get the distinct years facilities went online
@@ -1422,7 +1364,6 @@ public static function get_facilities_which_went_online_($district_id = null, $d
 		f.district = d.id 
 		and d.id = $district_id 
 		and DATE_FORMAT(  `date_of_activation` ,  '%M %Y' ) = '$date_of_activation' AND using_hcmp=1");
-
 	return $q;
 }
 public static function get_targetted_facilities($district_id = null)
@@ -1435,11 +1376,9 @@ public static function get_targetted_facilities($district_id = null)
 		where
 		f.district = '$district_id' and f.targetted = 1
 		");
-
 	return $q;		
 }
 public static function get_facilities_reg_on_($district_id,$date_of_activation){
-
 	$query = Doctrine_Query::create() -> select("*") -> from("facilities f, districts d")->where("f.district=d.id and d.id ='$district_id'")
 	
 	->andwhere("date_format(`date_of_activation`, '%M %Y')='$date_of_activation' and unix_timestamp(`date_of_activation`) >0");
@@ -1448,11 +1387,8 @@ public static function get_facilities_reg_on_($district_id,$date_of_activation){
 	
 	return $facilities;
 }
-
 // getting facilities which are using the system
-
 public static function get_total_facilities_rtk_in_district($district_id){
-
 	$q = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 		SELECT  f.facility_code , f.owner as facility_owner,f.facility_name
 		FROM facilities f, districts d
@@ -1461,7 +1397,6 @@ public static function get_total_facilities_rtk_in_district($district_id){
 		AND f.`district` = '$district_id'");
 	return $q;
 }
-
 //getting facility name without Doctrine
 public static function get_facility_details_simple($facility_code){
 	$mbegu = Doctrine_Manager::getInstance()->getCurrentConnection->fetchAll("
@@ -1469,7 +1404,6 @@ public static function get_facility_details_simple($facility_code){
 		");
 	return $mbegu;
 }
-
 //get facility county and district4
 public static function get_facility_district_county_level($facility_code)
 {
@@ -1480,10 +1414,8 @@ public static function get_facility_district_county_level($facility_code)
 		WHERE f.facility_code = '$facility_code'
 		AND f.district = d.id
 		AND c.id = d.county");
-
 	return $q[0];
 }
-
 public static function get_all_online_and_offline($county = NULL,$district = NULL)
 {
 	$stroganoff = ($county>0)? "AND d.county = $county":NULL;
@@ -1497,17 +1429,12 @@ public static function get_all_online_and_offline($county = NULL,$district = NUL
 		WHERE
     		f.using_hcmp IN(1,2) $stroganoff
 		");
-
 	
 }
-
 public static function model_tester(){
 	$data = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
 		CALL facility_monitoring_new1('county','23','last_seen');
 		");
 	return $data;
 }
-
 }
-
-

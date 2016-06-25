@@ -32,6 +32,7 @@ class User extends MY_Controller {
 		return $this -> form_validation -> run();
 
 	}
+
 	public function default_facility_users() {
 		$q = "SELECT
 			    DISTINCT(f.facility_code) AS 'facility_code',
@@ -65,6 +66,7 @@ class User extends MY_Controller {
 				$insert_default_user->execute($insert_query);
 			}
 	}
+
 	public function login_submit() {
 		$user = new Users();
 
@@ -472,6 +474,7 @@ class User extends MY_Controller {
 
 
 								}
+							
 								public function reset_user_password($user_id) {
 									Users::reset_password($user_id, '123456');										
 									echo true;
@@ -515,6 +518,7 @@ class User extends MY_Controller {
 									
 									$data['title'] = "User Management";
 									$data['user_types']=Access_level::get_access_levels($permissions);										
+
 									$data['banner_text'] = "User Management";									
 									$data['current_user_id'] = $this-> session -> userdata('user_id');
 									$this -> load -> view($template, $data);
@@ -550,25 +554,33 @@ class User extends MY_Controller {
 										break;
 										case 'facility_admin':
 										$permissions='facilityadmin_permissions';
+
 										$data['counties']=Counties::getAll();
+
 										$data['listing']= Users::get_user_list_facility($facility);		
 										$template = 'shared_files/template/template';
 										break;
 										case 'district':
 										$permissions='district_permissions';
+
 										$data['counties']=Counties::getAll();
+
 										$data['listing']= Users::get_user_list_district($district);
 										$data['facilities']=Facilities::getFacilities($district);
 										$data['counts']=Users::get_users_district($district);
 										$template = 'shared_files/template/template';
 										break;
 										case 'moh_user':
+
 										$data['counties']=Counties::getAll();
+
 										$data['listing']= Users::get_user_list($user_type_id);	
 										$template = 'shared_files/template/dashboard_template_v';
 										break;
 										case 'district_tech':
+
 										$data['counties']=Counties::getAll();
+
 										$data['listing']= Users::get_user_list($user_type_id);	
 										$template = 'shared_files/template/template';
 										break;

@@ -18,12 +18,10 @@ system/libraries/Hcmp_functions.php
 application/config/config.php
 README.md
 sync_files/sample.txt
-<<<<<<< HEAD
 sync_files/
 system_updates/
 tmp/
 ftp_files/
-=======
 sync_files
-/system/libraries/Hcmp_functions.php
->>>>>>> ddaa296528c1f08e615afd94d3c0e0da993bdf90
+system_updates/
+tmp/

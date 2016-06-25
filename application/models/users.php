@@ -75,7 +75,14 @@ class Users extends Doctrine_Record {
 		return $level;
 	}
 
-
+	public function get_user_type($id) {
+		$sql = "SELECT level FROM access_level WHERE id = '$id'";
+		$user_level = $this -> db -> query($sql)->result_array();
+		foreach($user_level as $user_level) {
+			$level = $user_level['level'];
+		}
+		return $level;
+	}
 	public static function get_user_names($id) {
 		$query = Doctrine_Query::create() -> select("fname, lname,username") -> from("users") -> where("id='$id'");
 		$names = $query -> execute(array(), Doctrine::HYDRATE_ARRAY);
@@ -90,13 +97,14 @@ class Users extends Doctrine_Record {
 	public static function get_scp_details($district){
 		$query = Doctrine_Manager::getInstance() -> getCurrentConnection() -> 
 		fetchAll("SELECT 
-				    fname, lname, telephone
+				    fname, lname, telephone, email
 				FROM
 				    user
 				WHERE
 				    district = $district 
 				    AND usertype_id = '3'
 				    AND telephone <>0
+				    AND email IS NOT NULL
 				    AND status = 1");
 		
 		return $query;
@@ -146,6 +154,7 @@ class Users extends Doctrine_Record {
 		$update = Doctrine_Manager::getInstance() -> getCurrentConnection();
 		$update -> execute("UPDATE user SET password='$value',status=1  WHERE id='$user_id' ; ");
 	}
+
 	public function hash_password($value){
 		$salt = '#*seCrEt!@-*%';
 		$hashed_password = md5($salt . $value);
@@ -239,6 +248,8 @@ class Users extends Doctrine_Record {
 		return $query;
 	}
 	
+
+
 	public static function get_user_list_all($county,$district,$facility,$limit = null,$type=null) {
 		$limit = (isset($limit)) ? "LIMIT 0,$limit" : '' ;
 		$county = ($county!=null) ? "AND c.id = $county" : '' ;
@@ -275,7 +286,11 @@ FROM
         LEFT JOIN
     facilities f ON u.facility = f.facility_code
         LEFT JOIN
+
+    access_level a ON a.id = u.usertype_id  $limit
+
     access_level a ON a.id = u.usertype_id $type $county $district $limit
+
 				");
 		return $query;
 	}
@@ -414,18 +429,21 @@ public static function get_county_emails($county_id){
     f.cd4_enabled,
     f.drawing_rights_balance,
     f.using_hcmp,
-    f.date_of_activation,
-    f.zone,
-    f.contactperson,
-    f.cellphone,
+    date_format(f.date_of_activation,'%b %d %Y %h:%i %p') as date_of_activation,
     f.targetted,
     d.id,
+    c.county,
     d.district as district_name
+
 
 	FROM
 	   facilities f
 	        LEFT JOIN
 	    districts d ON d.id = f.district
+
+	    LEFT JOIN
+
+	    counties c ON d.county =c.id
 	WHERE 
 		f.district = d.id
 		AND 
@@ -466,8 +484,6 @@ public static function get_county_details($county_id){
 		return $level;
 }
 
-
-
 	
 	public static function check_db_activation($phone,$code) {
 		$query = Doctrine_Query::create() -> select("*") -> from("Users") -> where("telephone='$phone' AND activation='$code' AND status=0");
@@ -496,6 +512,7 @@ public static function get_county_details($county_id){
 		
 		echo $update;
 	}
+
 	public static function deactivate_user($user_id,$status){		
 		$update = Doctrine_Manager::getInstance() -> getCurrentConnection();
 		$update -> execute("UPDATE user SET status = '$status' ,updated_at = CURDATE() WHERE id = '$user_id' ");

@@ -27,7 +27,6 @@
     <script src="<?php echo base_url();?>assets/FusionCharts/FusionCharts.js" type="text/javascript"></script>
      <script src="<?php echo base_url().'assets/scripts/pace.js'?>" type="text/javascript"></script>
      <script src="<?php echo base_url().'assets/scripts/offline.js'?>" type="text/javascript"></script>
-    <script src="<?php echo base_url().'assets/scripts/offline-simulate-ui.min.js'?>" type="text/javascript"></script>
      <script src="<?php echo base_url().'assets/scripts/select2.js'?>" type="text/javascript"></script>
     <title>HCMP | National</title>
 <script>
@@ -115,7 +114,11 @@ legend{
         
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav navbar-right">
+
+            <li class=""><a href="<?php echo base_url().'kenya';?>">Home</a></li>
+
             <li class=""><a href="<?php echo base_url().'dashboard';?>">Home</a></li>
+
             <li class="active"><a href="<?php echo base_url().'national/reports';?>">Reports</a></li>
             <!-- <li class=""><a href="<?php echo base_url().'national/search';?>">Search</a></li> -->
             <li class="dropdown" style="background: #144d6e; color: white;">
@@ -143,7 +146,7 @@ legend{
     			
     			<div class="col-xs-4">
 			  	<label for="county">Select County</label>
-			    <select class="form-control input-md" id="county"> 
+			    <select class="col-md-12 input-md select2" id="county"> 
 			    	<option value="NULL">All Counties</option>
 			    	<?php
 			    	
@@ -157,7 +160,7 @@ legend{
 			  </div>
 			  <div class="col-xs-4">
 			  	<label for="county">Select Sub-County</label>
-			    <select class="form-control input-md" id="sub_county"> 
+			    <select class="col-md-12 input-md select2" id="sub_county"> 
 			    	<option value="NULL">All Sub-Counties</option>
 			    	
 			    	</select>
@@ -165,7 +168,7 @@ legend{
 			  
 			  <div class="col-xs-4">
 			  	<label for="county">Select Facility</label>
-			    <select class="form-control input-md" id="facility_id"> 
+			    <select class="col-md-12 input-md select2" id="facility_id"> 
 			    	<option value="NULL">All Facilities</option>
 			    	
 			    	</select>
@@ -214,7 +217,10 @@ legend{
 				<div class="col-md-3">
 					<input type="radio" name="criteria" value="stock_units"/> Stock Level(units)
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-3">
+					<input type="radio" name="criteria" value="stock_packs"/> Stock Level(packs)
+				</div>
+				<div class="col-md-3">
 					<input type="radio" name="criteria" value ="Actual"/> Actual Expiries
 				</div>
 				<!--<div class="col-md-6">
@@ -259,7 +265,7 @@ legend{
 				    	</select>
 			  		</div>
 			  		<div id="single_options">
-			  			<select class="myoptions" id="commodity1" disabled="true" > 			    	
+			  			<select class="col-md-12 input-md select2 myoptions" id="commodity1" disabled="true" > 			    	
 				    	<?php
 								foreach ($commodities as $value => $commodity) :
 										$c_id = $commodity['id'];
@@ -373,6 +379,7 @@ legend{
 <script>
     var url='<?php echo base_url(); ?>';
      $(document).ready(function () {
+     	$('.select2').select2();
      	$('#single_options').hide();
      	// $('#multiple_options').hide();
      	load_multiple(null);
@@ -391,29 +398,29 @@ legend{
      	//When County is selected
      	$('#county').on('change', function(){
      		var county_val=$('#county').val()
-    var drop_down='';
-	 var facility_select = "<?php echo base_url(); ?>reports/get_sub_county_json_data/"+county_val;
-  	$.getJSON( facility_select ,function( json ) {
-     $("#sub_county").html('<option value="NULL" selected="selected">All Sub-Counties</option>');
-      $.each(json, function( key, val ) {
-        drop_down +="<option value='"+json[key]["id"]+"'>"+json[key]["district"]+"</option>"; 
-      });
-      $("#sub_county").append(drop_down);
-    });
-    
-})	
+		    var drop_down='';
+			 var facility_select = "<?php echo base_url(); ?>reports/get_sub_county_json_data/"+county_val;
+		  	$.getJSON( facility_select ,function( json ) {
+		     $("#sub_county").html('<option value="NULL" selected="selected">All Sub-Counties</option>');
+		      $.each(json, function( key, val ) {
+		        drop_down +="<option value='"+json[key]["id"]+"'>"+json[key]["district"]+"</option>"; 
+		      });
+		      $("#sub_county").append(drop_down);
+		    });
+		    
+		})	
 //When a particular sub county is selected
-$('#sub_county').on('change', function(){
-     		var subcounty_val=$('#sub_county').val()
-    var drop_down='';
-	 var facility_select = "<?php echo base_url(); ?>reports/get_facility_json/"+subcounty_val;
-  	$.getJSON( facility_select ,function( json ) {
-     $("#facility_id").html('<option value="NULL" selected="selected">All Facilities</option>');
-      $.each(json, function( key, val ) {
-        drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
-      });
-      $("#facility_id").append(drop_down);
-    });
+		$('#sub_county').on('change', function(){
+		     		var subcounty_val=$('#sub_county').val()
+		    var drop_down='';
+			 var facility_select = "<?php echo base_url(); ?>reports/get_facility_json/"+subcounty_val;
+		  	$.getJSON( facility_select ,function( json ) {
+		     $("#facility_id").html('<option value="NULL" selected="selected">All Facilities</option>');
+		      $.each(json, function( key, val ) {
+		        drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
+		      });
+		      $("#facility_id").append(drop_down);
+		    });
     
 })	
     
@@ -450,6 +457,18 @@ $('#sub_county').on('change', function(){
 			// document.getElementById("specify_commodities").disabled = true;			
 			// document.getElementById("specify_commodities").disabled = true;			
 		}else if(value=="stock_units"){
+			//$("#expfrom,#expto").attr("disabled", false);
+			$("#interval").attr("disabled", 'disabled');
+			$("#from,#to").attr("disabled", false);
+			load_multiple(value);
+			// $("#from,#to").attr("disabled", 'disabled');
+			$("#interval").val(0);
+			document.getElementById("commodity_s").checked = true;
+			// document.getElementById("web_graph").disabled = true;
+			//document.getElementById("specify_commodities").disabled = true;
+			
+		}
+		else if(value=="stock_packs"){
 			//$("#expfrom,#expto").attr("disabled", false);
 			$("#interval").attr("disabled", 'disabled');
 			$("#from,#to").attr("disabled", false);
@@ -647,8 +666,58 @@ $("input:radio[name=commodity_s]").click(function() {
 	        	}
 	        
         	}
-        }//for stock as units
-        else if(criteria=='stock_units'){
+        }
+        //for stock as units
+        else if(criteria=='stock_packs'){
+       		if(type=='excel'){ 
+      			if(commodity_type=='Tracer'){ 
+	        		link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/NULL/excel';
+	        	}
+	        	if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity1').val();
+	        		// alert(commodity_id);
+	                link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel';
+	        	}
+	        	if(commodity_type=='All'){ 
+	        		link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/NULL/excel';
+	        		
+	        		//var commodity_id=$('#commodity').val();
+	                //link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel';
+	        
+	        	}
+	        window.open(url+link,'_parent');
+	        
+	        }/*
+	        else if(type=='pdf'){ 
+	        	if(commodity_type=='Tracer'){ 
+	        	link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/NULL/pdf';
+	        	}
+	        
+	        	if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	        		link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/pdf';
+	        
+	        	}
+	       	 	window.open(url+link,'_parent');
+	        
+	        }
+	        */else if(type=='graph'){
+        		$('#graph_Modal').modal('show');
+       			if(commodity_type=='Tracer'){
+        			ajax_return('national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content");
+        		}
+        		if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/ALL'+'/graph',"#graph_content"); 
+	        	}
+	    		if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content"); 
+	        	}
+	        
+        	}
+        }
+         else if(criteria=='stock_units'){
        		if(type=='excel'){ 
       			if(commodity_type=='Tracer'){ 
 	        		link='national/stock_level_units/'+county_id+'/'+district+'/'+facility+'/NULL/excel';
