@@ -197,16 +197,15 @@ class Dashboard extends MY_Controller {
 		$and = ($district_id > 0) ? " AND d.id = '$district_id'" : null;
 		$and .= ($facility_code > 0) ? " AND f.facility_code = '$facility_code'" : null;
 		$and .= ($county_id > 0) ? " AND c.id='$county_id'" : null;
-		if($offline>0){
-			$and .= ($offline ==1) ? " AND f.using_hcmp=1" : 'and f.using_hcmp = 2';
-			$title_main = ($offline==1) ? " Offline" : 'Online';
 
-		}else{
-			$and .= "AND f.using_hcmp in (1,2)";
-			$title_main = 'Total';
-
-		}
-		$and = isset($and) ? $and : null;		
+		$and .= ((isset($offline)&& $offline == 2))?" AND f.using_hcmp=2":NULL;
+		$and .= ((isset($offline)&& $offline == 1))?" AND f.using_hcmp=1":NULL;
+		$last_sync_column = ((isset($offline)&& $offline == 2))?",ftp.date_added AS last_sync":NULL;
+		$join_data = ((isset($offline)&& $offline == 2))?",facilities f LEFT JOIN ftp_uploads ftp ON ftp.facility_code = f.facility_code":",facilities f";
+		$title_main = ((isset($offline)&& $offline == 1)) ? " Online" : 'Offline';
+		
+		$and = isset($and) ? $and : null;	
+		// echo $and;exit;	
 		if (isset($county_id)) :
 			$county_name = counties::get_county_name($county_id);
 		$name = $county_name['county'];
@@ -223,36 +222,74 @@ class Dashboard extends MY_Controller {
 		endif;
 
 		if ($graph_type != "excel") :
-			$q = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll(" SELECT f.`using_hcmp`
+			$q = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("SELECT f.`using_hcmp`
 				from facilities f, districts d, 
 				counties c where f.district=d.id 
 				and d.county=c.id 
 				$and
 				group by f.facility_name
 				");
-
 		echo count($q);
+
 		else :
-			$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "facilities rolled out $title", 'file_name' => "Facilities Rolled Out $title_main");
-		$row_data = array();
-		$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Facility Level","Type", "Date of Activation");
-		$excel_data['column_data'] = $column_data;
 
-		$facility_stock_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("SELECT 
-			c.county, d.district as subcounty, f.facility_name,f.facility_code, f.`level`, f.type,f.date_of_activation
-			from
-			facilities f,
-			districts d,
-			counties c
-			where
-			f.district = d.id and d.county = c.id
-			$and
-			group by f.facility_name order by c.county, d.district, f.facility_name
+
+		$facility_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("
+			SELECT 
+			    c.county,
+			    d.district AS subcounty,
+			    f.facility_name,
+			    f.facility_code,
+			    f.`level`,
+			    f.type,
+			    f.date_of_activation $last_sync_column
+			FROM
+			    districts d,
+			    counties c
+			    $join_data
+			WHERE
+			    f.district = d.id 
+			    AND d.county = c.id
+				$and
+			GROUP BY f.facility_name
+			ORDER BY c.county , d.district , f.facility_name
 			");
+	// echo "<pre>";print_r($facility_data);exit;
+		$row_data = array();
 
-		foreach ($facility_stock_data as $facility_stock_data_item) :
-			array_push($row_data, array($facility_stock_data_item["county"], $facility_stock_data_item["subcounty"], $facility_stock_data_item["facility_name"], $facility_stock_data_item["facility_code"], $facility_stock_data_item["level"], $facility_stock_data_item["type"],$facility_stock_data_item["date_of_activation"]));
-		endforeach;
+		if((isset($offline)&& $offline == 1)){
+			$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Facility Level","Type", "Date of Activation");
+			foreach ($facility_data as $facility_data_item) :
+			array_push($row_data, array(
+				$facility_data_item["county"], 
+				$facility_data_item["subcounty"], 
+				$facility_data_item["facility_name"], 
+				$facility_data_item["facility_code"], 
+				$facility_data_item["level"], 
+				$facility_data_item["type"],
+				$facility_data_item["date_of_activation"])
+			);
+			endforeach;
+
+		}else if((isset($offline)&& $offline == 2)){
+			$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Facility Level","Type", "Date of Activation","Date of Last Synchronization");
+			foreach ($facility_data as $facility_data_item) :
+				$last_sync = ((isset($facility_data_item["last_sync"]) && $facility_data_item["last_sync"] > 0))? $facility_data_item["last_sync"]:"No Data Available";
+			array_push($row_data, array(
+				$facility_data_item["county"], 
+				$facility_data_item["subcounty"], 
+				$facility_data_item["facility_name"], 
+				$facility_data_item["facility_code"], 
+				$facility_data_item["level"], 
+				$facility_data_item["type"],
+				$facility_data_item["date_of_activation"],
+				$last_sync
+				));
+			endforeach;
+		}
+		// echo "<pre>";print_r($row_data);exit;
+		$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "facilities rolled out $title", 'file_name' => "Facilities Rolled Out $title_main");
+		$excel_data['column_data'] = $column_data;
 		$excel_data['row_data'] = $row_data;
 
 		// $this -> hcmp_functions -> create_excel($excel_data);

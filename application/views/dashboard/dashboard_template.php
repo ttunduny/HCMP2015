@@ -581,8 +581,10 @@
         link='dashboard/generate_commodities_excel';
        }
        if(type=='offline_count'){ 
+        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/2';
+       }
+       if(type=='online_count'){ 
         link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/1';
-
        }
        if(type=='rolledout'){
         link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel';
