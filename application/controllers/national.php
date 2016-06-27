@@ -1187,7 +1187,7 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 					$and_data
 					group by d.id,f.facility_code
 					order by c.county asc,d1.district asc";exit;*/
-					$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "Stock Level in units $title", 'file_name' => $title);
+					$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "Stock Level in packs $title", 'file_name' => $title);
 				$row_data = array();
 				$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Item Name", "Total Packs");
 				$excel_data['column_data'] = $column_data;
