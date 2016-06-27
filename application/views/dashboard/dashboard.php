@@ -19,6 +19,12 @@
     float: left;
     margin-left: 2px !important;
   }
+  .stock-download{
+    float:right;
+    border-radius: 0px;
+    padding: 8px 22px !important;
+    margin-left: 100px;
+  }
   .full-width{
     width:100%;
   }
@@ -202,6 +208,9 @@
                 </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
+                  <div class="col-md-12 no-padding-no-margin">
+                    <button id="stock_download" class="btn btn-primary stock-download">Download</button>
+                  </div>
                   <div id="mos"></div>
                <!--  
                     <h4>Shelf life (Expiries)</h4>

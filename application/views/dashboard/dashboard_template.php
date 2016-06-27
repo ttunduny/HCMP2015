@@ -412,7 +412,8 @@
        /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
         ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/'+tracer+'/'+division,"#mos");
         ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL/NULL/NULL/NULL/'+division,"#consumption");
-        ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/'+division+'/'+tracer,"#actual"); 
+        ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/'+division+'/'+tracer,"#actual");
+         
         $(".expiry_filter").button().click(function(e) {
           e.preventDefault(); 
           var commodity = $("#expiry_commodity").val();
@@ -454,7 +455,7 @@
     $("#consumption_download").button().click(function(e){
           e.preventDefault();
           var commodity = $("#consumption_commodity").val();
-          var link = "dashboard/consumption/NULL/NULL/NULL/" + commodity + "/excel/NULL";
+          var link = "dashboard/consumption/NULL/NULL/NULL/" + commodity + "/excel/NULL/NULL/NULL";
           window.open(url + link);
           // console.log(commodity);
         });
@@ -465,7 +466,12 @@
           window.open(url + link);
           // console.log(commodity);
         });
-
+        $("#stock_download").button().click(function(e){
+          e.preventDefault()
+          // alert("Stock Download!");
+          var link = "dashboard/stocking_levels/NULL/NULL/NULL/NULL/1/" + division + "/excel";
+          window.open(url + link);
+        });
     $(".ecounty-filter").button().click(function(e) {
           e.preventDefault(); 
          var year = $("#eyear").val();
