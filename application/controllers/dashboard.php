@@ -628,7 +628,7 @@ class Dashboard extends MY_Controller {
 			and d.id=f_s.commodity_id
 			$and_data1
 			and year(f_s.expiry_date) !=1970
-			and year(f_s.expiry_date) =2015
+			and year(f_s.expiry_date) = $year
 			AND (f_s.status =1 or f_s.status =2)
 			GROUP BY d.id,f_s.facility_code having total >1
 
