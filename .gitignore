@@ -5,7 +5,6 @@ database.php
 *.pyc
 *.pyo
 /nbproject/private/
-system/libraries/Hcmp_functions.php
 /pdf/
 /drug_commodity_map.sql
 /drugs not in commodities table.txt
@@ -20,3 +19,8 @@ sync_files/sample.txt
 sync_files/
 system_updates/
 tmp/
+ftp_files/
+sync_files
+system_updates/
+tmp/
+system/libraries/Hcmp_functions.php
