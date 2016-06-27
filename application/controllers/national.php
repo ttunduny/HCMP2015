@@ -939,6 +939,7 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 				$this -> hcmp_functions -> create_excel($excel_data);
 				endif;
 
+
 	}
 
 	//for getting the stock level in units for the national dashboard
@@ -1070,6 +1071,247 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 
 			}
 
+
+			//for getting the stock level in packs for the national dashboard
+			public function stock_level_packs($county_id = null, $district_id = null, $facility_code = null, $commodity_id = null, $graph_type = null) {
+
+				$district_id = ($district_id == "NULL") ? null : $district_id;
+				$graph_type = ($graph_type == "NULL") ? null : $graph_type;
+				$facility_code = ($facility_code == "NULL") ? null : $facility_code;
+				$county_id = ($county_id == "NULL") ? null : $county_id;
+				$commodity_id = ($commodity_id == "ALL" || $commodity_id == "NULL") ? null : $commodity_id;
+
+				$and_data = ($district_id > 0) ? " AND d1.id = '$district_id'" : null;
+				$and_data .= ($facility_code > 0) ? " AND f.facility_code = '$facility_code'" : null;
+				$and_data .= ($county_id > 0) ? " AND c.id='$county_id'" : null;
+				$and_data .= isset($commodity_id) ? "AND d.id =$commodity_id" : "AND d.tracer_item =1";
+				$and_data = isset($and_data) ? $and_data : null;
+
+				$group_by = ($district_id > 0 && isset($county_id) && !isset($facility_code)) ? " ,d.id" : null;
+				$group_by .= ($facility_code > 0 && isset($district_id)) ? "  ,f.facility_code" : null;
+				$group_by .= ($county_id > 0 && !isset($district_id)) ? " ,c.id" : null;
+				$group_by = isset($group_by) ? $group_by : " ,c.id";
+
+				$title = '';
+
+
+				if (isset($county_id)) :
+					$county_name = counties::get_county_name($county_id);
+				$name = $county_name['county'];
+				$title = "$name County";
+				elseif (isset($district_id) && ($district_id > 0)) :
+					$district_data = districts::get_district_name($district_id);
+				//echo $district_data;exit;
+				$district_name_ = (isset($district_data)) ? " :" . $district_data[0]['district'] . " Subcounty" : null;
+				$title = isset($facility_code) && isset($district_id) ? "$district_name_ : $facility_name" : (isset($district_id) && !isset($facility_code) ? "$district_name_" : "$name County");
+				elseif (isset($facility_code)) :
+					$facility_code_ = isset($facility_code) ? facilities::get_facility_name_($facility_code) : null;
+				$title = $facility_code_['facility_name'];
+				else :
+					$title = "National";
+				endif;
+
+				if ($graph_type != "excel") :
+					$commodity_array = Doctrine_Manager::getInstance() -> getCurrentConnection() -> 
+				fetchAll("SELECT 
+							    d.commodity_name AS drug_name, 
+							    f_s.current_balance AS total_units,
+							    d.total_commodity_units,
+							    ROUND((f_s.current_balance/d.total_commodity_units),1) AS total_packs
+							FROM
+							    facilities f,
+							    districts d1,
+							    counties c,
+							    facility_stocks f_s,
+							    commodities d
+							        LEFT JOIN
+							    facility_monthly_stock f_m_s ON f_m_s.`commodity_id` = d.id
+							WHERE
+							    f_s.facility_code = f.facility_code
+							    
+							        AND f.district = d1.id
+							        AND d1.county = c.id
+							        AND f_s.commodity_id = d.id
+							        AND f_m_s.facility_code = f.facility_code
+							        AND d.tracer_item = 1
+							GROUP BY d.id 
+					");
+
+				$category_data = array();
+				$series_data = $series_data_ = array();
+				$temp_array = $temp_array_ = array();
+				$graph_data = array();
+				$graph_type = '';
+
+				foreach ($commodity_array as $data) :
+					$series_data = array_merge($series_data, array($data["drug_name"] => (int)$data['total']));
+				$category_data = array_merge($category_data, array($data["drug_name"]));
+				endforeach;
+
+				$graph_type = 'bar';
+
+				$graph_data = array_merge($graph_data, array("graph_id" => 'dem_graph_mos'));
+				$graph_data = array_merge($graph_data, array("graph_title" => "$title Stock Level"));
+				$graph_data = array_merge($graph_data, array("graph_type" => $graph_type));
+				$graph_data = array_merge($graph_data, array("color" => "['#4b0082','#FFF263', '#6AF9C4']"));
+				$graph_data = array_merge($graph_data, array("graph_yaxis_title" => "units"));
+				$graph_data = array_merge($graph_data, array("graph_categories" => $category_data));
+				$graph_data = array_merge($graph_data, array("series_data" => array('total' => $series_data)));
+				$data = array();
+
+				$data['high_graph'] = $this -> hcmp_functions -> create_high_chart_graph($graph_data);
+			//
+				$data['graph_id'] = 'dem_graph_mos';
+				return $this -> load -> view("shared_files/report_templates/high_charts_template_v_national", $data);
+		//
+				else :
+					/*echo "select 
+					c.county,d1.district as subcounty, 
+					f.facility_name,
+					f.facility_code, 
+					d.commodity_name as drug_name,
+					f_s.current_balance,
+					ROUND((f_s.current_balance/d.total_commodity_units),1) AS total_packs
+					from
+					facilities f,
+					districts d1,
+					counties c,
+					facility_stocks f_s,
+					commodities d
+
+					where
+					f_s.facility_code = f.facility_code
+					and f.district = d1.id
+					and d1.county = c.id
+					and f_s.commodity_id = d.id
+					$and_data
+					group by d.id,f.facility_code
+					order by c.county asc,d1.district asc";exit;*/
+					$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "Stock Level in units $title", 'file_name' => $title);
+				$row_data = array();
+				$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Item Name", "Total Packs");
+				$excel_data['column_data'] = $column_data;
+
+				$using_hcmp = $this->db->query("
+					SELECT 
+					f.facility_name,
+					f.facility_code,
+					f.date_of_activation,
+					f.using_hcmp,
+					f.contactperson,
+					f.cellphone,
+					d.district,
+					c.county
+					FROM
+					facilities f,
+					districts d,
+					counties c
+					WHERE
+					f.district = d.id 
+					AND d.county = c.id 
+					AND using_hcmp IN (1,2)")->result_array();
+				// echo "<pre>";print_r($using_hcmp);exit;
+
+				$facility_stock_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> 
+				fetchAll("select 
+					c.county,d1.district as subcounty, 
+					f.facility_name,
+					f.facility_code, 
+					d.commodity_name as drug_name,
+					f_s.current_balance,
+					ROUND((f_s.current_balance/d.total_commodity_units),1) AS total_packs
+					from
+					facilities f,
+					districts d1,
+					counties c,
+					facility_stocks f_s,
+					commodities d
+
+					where
+					f_s.facility_code = f.facility_code
+					and f.district = d1.id
+					and d1.county = c.id
+					and f_s.commodity_id = d.id
+					$and_data
+					group by d.id,f.facility_code
+					order by c.county asc,d1.district asc
+					");
+
+				// echo "<pre>";print_r($facility_stock_data);exit;
+
+				$stock_data_remade = array();
+				$stock_data_remade_internal = array();
+
+				$using_hcmp_count = count($using_hcmp);
+				$stock_data_count = count($facility_stock_data);
+				/*USING FOR LOOP*/
+				/*for ($key=0; $key < $using_hcmp_count ; $key++) { 
+					$pack_balance = $drug_name = NULL;
+					$stock_data_remade_internal['county'] = $using_hcmp[$key]['county'];
+					$stock_data_remade_internal['subcounty'] = $using_hcmp[$key]['district'];
+					$stock_data_remade_internal['facility_name'] = $using_hcmp[$key]['facility_name'];
+					$stock_data_remade_internal['facility_code'] = $using_hcmp[$key]['facility_code'];
+
+					for ($keyy=0; $keyy < $stock_data_count; $keyy++) { 
+						$pack_balance = "0.0";
+						$stock_facility = $facility_stock_data[$keyy]['facility_code'];
+						$using_facility = $using_hcmp[$key]['facility_code'];
+						if ($stock_facility == $using_facility) {
+							$drug_name = $facility_stock_data[$keyy]['drug_name'];
+							$pack_balance = $facility_stock_data[$keyy]['total_packs'];
+							$stock_data_remade_internal['drug_name'] = $drug_name;
+							$stock_data_remade_internal['total_packs'] = $pack_balance;	
+							echo "<pre>".$using_hcmp[$key]['facility_name'];
+						}
+					}
+						// echo "<pre>";print_r($stock_data_remade_internal);
+
+					array_push($stock_data_remade, $stock_data_remade_internal);
+
+				}*/
+				/*END OF FOR LOOP*/
+
+				/*USING FOREACH LOOP*/
+				foreach ($using_hcmp as $using_key => $using_value) {
+					$pack_balance = '';
+					$drug_name = '';
+					$stock_data_remade_internal['county'] = $using_value['county'];
+					$stock_data_remade_internal['subcounty'] = $using_value['district'];
+					$stock_data_remade_internal['facility_name'] = $using_value['facility_name'];
+					$stock_data_remade_internal['facility_code'] = $using_value['facility_code'];
+					// $stock_data_remade_internal['drug_name'] = "";
+					$stock_data_remade_internal['total_packs'] = "No Data Available";
+					$using_hcmp_facility = $using_value['facility_code'];
+
+					foreach ($facility_stock_data as $stock_key => $stock_value) {
+						$stock_data_facility = $stock_value['facility_code'];
+						if ($stock_data_facility == $using_hcmp_facility) {
+							$drug_name = $stock_value['drug_name'];
+							$pack_balance = (isset($stock_value['total_packs']))? $stock_value['total_packs'] :'No Data Available';
+							$stock_data_remade_internal['drug_name'] = $drug_name;
+							$pack_balance = ($pack_balance > 0)? $pack_balance : "0.0";
+							$stock_data_remade_internal['total_packs'] = $pack_balance;
+						}
+					}
+
+					array_push($stock_data_remade, $stock_data_remade_internal);
+				}
+				/*END OF FOREACH LOOP*/
+
+				// echo "<pre>";print_r($stock_data_remade);exit;
+				$facility_stock_data = $stock_data_remade;//override for variable values,shortcut so i dont have to redo this whole excel row assigment thing
+
+				// var_dump($commodity_array);die();
+				foreach ($facility_stock_data as $facility_stock_data_item) :
+					array_push($row_data, array($facility_stock_data_item["county"], $facility_stock_data_item["subcounty"], $facility_stock_data_item["facility_name"], $facility_stock_data_item["facility_code"], $facility_stock_data_item["drug_name"], $facility_stock_data_item["total_packs"]));
+				endforeach;
+				$excel_data['row_data'] = $row_data;
+
+				$this -> hcmp_functions -> create_excel($excel_data);
+				endif;
+
+			}
+
 			public function consumption($county_id = null, $district_id = null, $facility_code = null, $commodity_id = null, $graph_type = null, $from = null, $to = null) {
 
 				$title = '';
@@ -1117,6 +1359,7 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 		 	$facility_code_ = isset($facility_code) ? facilities::get_facility_name_($facility_code) : null;
 		 $title = $facility_code_['facility_name'];
 		 else :
+		 	// echo "This";exit;
 		 	$title = "National";
 		 endif;
 		 if ($graph_type != "excel") :
@@ -1160,6 +1403,17 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 		 return $this -> load -> view("shared_files/report_templates/high_charts_template_v_national", $data);
 
 		 else :
+		 	/*echo "select d.commodity_name as drug_name,  
+		 		round(avg(IFNULL(ABS(f_i.`qty_issued`),0) / IFNULL(d.total_commodity_units,0)),1) as total
+		 		from facilities f,  districts d1, counties c, commodities d left join facility_issues f_i on f_i.`commodity_id`=d.id 
+		 		where f_i.facility_code = f.facility_code 
+		 		and f.district=d1.id 
+		 		and d1.county=c.id 
+		 		and f_i.`qty_issued`>0
+		 		and YEAR(f_i.created_at)=$year 
+		 		$and_data
+		 		group by d.id
+		 		";exit;*/
 		 	$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "$title Consumption (Packs) $time", 'file_name' => $title . ' Consumption');
 		 $row_data = array();			
 		 $column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Item Name", "Consumption (Packs)");
@@ -1174,9 +1428,19 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 
 			// echo "<pre>";print_r($column_data);die;
 		 if($count_commodities>1){
-		 	$sql = "SELECT c.county,d1.district AS subcounty,f.facility_name,f.facility_code FROM
-		 	facilities f,districts d1,counties c WHERE f.district = d1.id AND d1.county = c.id $and_data					    
-		 	ORDER BY c.county ASC , d1.district ASC";
+		 	$sql = "SELECT 
+					    c.county,
+					    d1.district AS subcounty,
+					    f.facility_name,
+					    f.facility_code
+					FROM
+					    facilities f,
+					    districts d1,
+					    counties c
+					WHERE
+					    f.district = d1.id AND d1.county = c.id
+					        AND f.using_hcmp IN (1 , 2) $and_data					    
+		 			ORDER BY c.county ASC , d1.district ASC";
 				// echo "$sql";die;
 		 	$facility_data = $this->db->query($sql)->result_array();
 			// array_push($final_array[0], "The below commodities were consumed $time");
@@ -1193,6 +1457,14 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 		 			$commodity_details = Commodities::get_commodity_name($commodity_id);
 		 			$drug_name = $commodity_details[0]['commodity_name'];
 		 			array_push($final_array[$facility_code],$drug_name);
+		 			
+		 			/*echo "SELECT ROUND(AVG(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),1) AS total
+		 			FROM commodities d LEFT JOIN  facility_issues f_i ON f_i.`commodity_id` = d.id
+		 			WHERE f_i.facility_code = '$facility_code'
+		 			AND f_i.`qty_issued` > 0
+		 			and f_i.created_at between '$from' and '$to'
+		 			AND d.id = '$commodity_id'
+		 			GROUP BY d.id , f_i.facility_code";exit;*/
 
 		 			$sql_commodity_details = "SELECT ROUND(AVG(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),1) AS total
 		 			FROM commodities d LEFT JOIN  facility_issues f_i ON f_i.`commodity_id` = d.id
@@ -1222,9 +1494,29 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 
 
 		 	}
+		 	// echo "<pre>";print_r($row_data);exit;
 		 	// echo "I reach here";exit;
 		 	$row_data = $final_array;
 		 }else{
+		 	/*echo "select 
+		 		c.county,d1.district as subcounty, f.facility_name,f.facility_code, d.commodity_name as drug_name,
+		 		round(avg(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),
+		 			1) as total
+		 	from
+		 	facilities f,
+		 	districts d1,
+		 	counties c,
+		 	commodities d
+		 	left join facility_issues f_i on f_i.`commodity_id`=d.id 
+		 	where f_i.facility_code = f.facility_code 
+		 	and f.district=d1.id 
+		 	and d1.county=c.id 
+		 	and f_i.`qty_issued`>0
+		 	and f_i.created_at between '$from' and '$to'
+		 	$and_data
+		 	group by d.id , f.facility_code
+		 	order by c.county asc , d1.district asc
+		 	";exit;*/
 			array_push($row_data, array("The below commodities were consumed $time"));
 		 	$commodity_id = $commodity_array[0];
 		 	$facility_stock_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("select 

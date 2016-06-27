@@ -11,7 +11,7 @@ class  MY_Controller  extends  CI_Controller  {
 		// ini_set('upload_max_filesize', '100M');
 		// ini_set('post_max_size', '100M'); 
 		// $this->load->model('git_updater_model');
-		
+		error_reporting(0);
     }
 /*GENERIC CLASSES FOR HCMP'S GITHUB UPDATE SIMULATION*/
  public function system_update_status()
@@ -208,4 +208,10 @@ class  MY_Controller  extends  CI_Controller  {
 		$haystack = str_replace('/','\\', $haystack);
 		return $haystack;
 	}
+	/*ARRAY MERGER FUNCTIONS*/
+	public function merge_facilities_to_array($value='')
+	{
+		# code...
+	}
+	/*END OF ARRAY MERGERS*/
 } 
