@@ -371,7 +371,6 @@
       var url ='<?php echo base_url()?>';
       var division = '<?php echo $commodity_division; ?>';
       var tracer = '<?php echo $tracer; ?>';
-      var county_filtered = subcounty_filtered = '';
         // $('#potential_').on('shown.bs.tab', function (e) {
         // $('#potential').html('');
        // });
@@ -431,6 +430,12 @@
          ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
         });
 
+        $("#consumption_download").button().click(function(e){
+          e.preventDefault();
+          var commodity = $("#consumption_commodity").val();
+          var link = "dashboard/consumption/NULL/NULL/NULL/" + commodity + "/excel/NULL";
+          window.open(url + link);
+          // console.log(commodity);
         // County filter
         $('#county_filter').on('change', function(){
           // console.log("County change");return;
@@ -444,24 +449,13 @@
           });
           $("#sub_county_filter").append(drop_down);
         });
-        
-    })  
-    // Subcounty filter
-    $('#sub_county_filter').on('change', function(){
-            var subcounty_val=$('#sub_county_filter').val()
-        var drop_down='';
-       var facility_select = "<?php echo base_url(); ?>reports/get_facility_json/"+subcounty_val;
-        $.getJSON( facility_select ,function( json ) {
-         $("#facility_id").html('<option value="NULL" selected="selected">All Facilities</option>');
-          $.each(json, function( key, val ) {
-            drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
-          });
-          $("#facility_id").append(drop_down);
+        $("#expiry_download").button().click(function(e){
+          e.preventDefault();
+          var commodity = $("#expiry_commodity").val();
+          var link = "dashboard/expiry/NULL/NULL/NULL/NULL/excel/" + commodity + "/NULL/NULL"
+          window.open(url + link);
+          // console.log(commodity);
         });
-      });
-
-    $('#region_filter')
-
       
       $(".ecounty-filter").button().click(function(e) {
         e.preventDefault(); 
@@ -507,7 +501,7 @@
          });
         function run(data){
           var county_data=data.split('^');
-        // console.log(county_data);return;
+        console.log(county_data);return;
         $('#placeholder').val(county_data[0]);
         $('.county-name').html(county_data[1]+"&nbsp;County &nbsp;");
         ajax_request_replace_div_content('dashboard/facility_over_view/'+county_data[0],"#facilities_rolled_out");
