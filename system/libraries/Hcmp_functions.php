@@ -718,9 +718,13 @@ exit;
 public function create_new_excel($excel_data=NULL){
 	ob_end_clean();
 	$alphabet = array('B','C','D','E','F','G','H','I','J','K','L','M','N','O');	
-	$inputFileName = 'print_docs/excel/excel_template/Excel_downloads.xlsx';
-	$file_name =isset($excel_data['file_name']) ? $excel_data['file_name'].'.xlsx' : time().'.xlsx';	
-	$excel2 = PHPExcel_IOFactory::createReader('Excel2007');
+	$inputFileName = 'print_docs/excel/excel_template/Excel_downloads.xls';
+	// echo "$inputFileName";die;
+	// $inputFileName = 'print_docs/excel/excel_template/Excel_downloads.xlsx';
+	$file_name =isset($excel_data['file_name']) ? $excel_data['file_name'].'.xls' : time().'.xls';	
+	// $file_name =isset($excel_data['file_name']) ? $excel_data['file_name'].'.xlsx' : time().'.xlsx';	
+	$excel2 = PHPExcel_IOFactory::createReader('Excel5');
+	// $excel2 = PHPExcel_IOFactory::createReader('Excel2007');
     $excel2=$objPHPExcel= $excel2->load($inputFileName); // Empty Sheet    
     $sheet = $objPHPExcel->getSheet(0); 
     $highestRow = $sheet->getHighestRow(); 	
@@ -754,7 +758,9 @@ public function create_new_excel($excel_data=NULL){
 		}
 	endif;
 	
-	$objWriter = PHPExcel_IOFactory::createWriter($excel2, 'Excel2007');
+	ob_clean();
+	$objWriter = PHPExcel_IOFactory::createWriter($excel2, 'Excel5');
+	// $objWriter = PHPExcel_IOFactory::createWriter($excel2, 'Excel2007');
 	if (isset($excel_data['report_type'])) {
 		$objWriter -> save("./print_docs/excel/excel_files/" . $excel_data['file_name'] . '.xls');
 	} else {
@@ -762,6 +768,7 @@ public function create_new_excel($excel_data=NULL){
 	    header("Cache-Control: no-store, no-cache, must-revalidate");
 	    header("Cache-Control: post-check=0, pre-check=0", false);
 	    header("Pragma: no-cache");
+	    header('Content-Type: application/vnd.ms-excel');
 		// It will be called file.xls
 		header("Content-Disposition: attachment; filename=$file_name");
 		// Write file to the browser
