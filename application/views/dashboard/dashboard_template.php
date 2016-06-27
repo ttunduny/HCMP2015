@@ -587,7 +587,7 @@
         link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/1';
        }
        if(type=='rolledout'){
-        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel';
+        link='dashboard/facility_over_view/'+county_id+'/NULL/NULL/excel/0';
        }
        
        window.open(url+link,'_parent'); 
