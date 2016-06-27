@@ -7,6 +7,7 @@ if (!defined('BASEPATH'))
 class national extends MY_Controller {
 	function __construct() {
 		parent::__construct();
+		ini_set('memory_limit','-1');
 		$this -> load -> helper(array('form', 'url', 'file'));
 		// $this -> load -> library(array('form_validation','PHPExcel/PHPExcel'));
 		$this -> load -> library(array('hcmp_functions', 'form_validation'));
@@ -1100,7 +1101,7 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 		 $group_by =isset( $group_by) ?  $group_by: " ,c_.id";*/
 
 		 $time = "Between " . date('j M y', strtotime(urldecode($from))) . " and " . date('j M y', strtotime(urldecode($to)));
-
+		 // echo "This".$and_data;exit;
 
 		 if (isset($county_id)) :
 
@@ -1157,6 +1158,7 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 		 $data['high_graph'] = $this -> hcmp_functions -> create_high_chart_graph($graph_data);
 		 $data['graph_id'] = 'dem_graph_consuption';
 		 return $this -> load -> view("shared_files/report_templates/high_charts_template_v_national", $data);
+
 		 else :
 		 	$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "$title Consumption (Packs) $time", 'file_name' => $title . ' Consumption');
 		 $row_data = array();			
@@ -1167,11 +1169,10 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 		 	array_push($column_data, $item_name);
 		 	array_push($column_data, $consumption);
 		 }
-			// echo "<pre>";
-			// print_r($column_data);die;
 		 $excel_data['column_data'] = $column_data;
 			// echo ; exit;
 
+			// echo "<pre>";print_r($column_data);die;
 		 if($count_commodities>1){
 		 	$sql = "SELECT c.county,d1.district AS subcounty,f.facility_name,f.facility_code FROM
 		 	facilities f,districts d1,counties c WHERE f.district = d1.id AND d1.county = c.id $and_data					    
@@ -1200,7 +1201,9 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 		 			and f_i.created_at between '$from' and '$to'
 		 			AND d.id = '$commodity_id'
 		 			GROUP BY d.id , f_i.facility_code";
+
 		 			// echo $sql_commodity_details;die;
+		 			
 		 			$consuption_details = $this->db->query($sql_commodity_details)->result_array();
 		 			if(count($consuption_details)==0){
 		 				$total = 'No Data Available';		 				
@@ -1219,6 +1222,7 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 
 
 		 	}
+		 	// echo "I reach here";exit;
 		 	$row_data = $final_array;
 		 }else{
 			array_push($row_data, array("The below commodities were consumed $time"));
@@ -1250,6 +1254,7 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 
 		 $excel_data['row_data'] = $row_data;
 
+		 // echo "<pre>";print_r($excel_data);exit;
 		 $this -> hcmp_functions -> create_excel($excel_data);
 		 endif;
 

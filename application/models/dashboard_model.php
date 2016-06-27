@@ -108,7 +108,7 @@ class Dashboard_model extends Doctrine_Record {
 			FROM
 			    commodity_division_details
 			WHERE
-			    status = 1 $filter"
+			    status = 1 $filter order by division_name asc" 
 			    )->result_array();
 		return $codeigniter_sucks_balls_hard_and_slow;
 	}
