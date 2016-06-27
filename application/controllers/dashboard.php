@@ -1152,7 +1152,7 @@ class Dashboard extends MY_Controller {
 	}
 
 	public function consumption($county_id = NULL, $district_id = NULL, $facility_code = NULL, $commodity_id = NULL, $graph_type = NULL, $from = NULL, $to = NULL,$division = NULL) {
-
+		// http://localhost/HCMP/dashboard/consumption/NULL/NULL/NULL/12/excel/NULL
 		$title = '';
 		$district_id = ($district_id == "NULL") ? null : $district_id;
 		$graph_type = ($graph_type == "NULL") ? null : $graph_type;
@@ -1169,13 +1169,14 @@ class Dashboard extends MY_Controller {
 		$count_commodities = count($commodity_array);
 		$year = ($year == "NULL" || !isset($year)) ? date('Y') : $year;
 		$to = ($to == "NULL" || !isset($to)) ? date('Y-m-d') : date('Y-m-d', strtotime(urldecode($to)));
-		$from = ($from == "NULL" || !isset($from)) ? date('Y-m-d') : date('Y-m-d', strtotime(urldecode($from)));
+
+		$from = ($from == "NULL" || !isset($from)) ? date('Y-01-01') : date('Y-m-d', strtotime(urldecode($from)));
 
 		$category_data = array();
 		$series_data = $series_data_ = array();
 		$temp_array = $temp_array_ = array();
 		$graph_data = array();
-		$graph_type = '';
+		// $graph_type = '';
 
 		$and_data = ($district_id > 0) ? " AND d1.id = '$district_id'" : null;
 		$and_data .= ($facility_code > 0) ? " AND f.facility_code = '$facility_code'" : null;
@@ -1186,6 +1187,8 @@ class Dashboard extends MY_Controller {
 		}else{
 			$and_data .= ($commodity_id > 0) ? "AND d.id =$commodity_id" : "AND d.tracer_item =1";
 		}
+
+		// echo $graph_type;exit;
 
 		/*$group_by =($district_id>0 && isset($county_id) && !isset($facility_code)) ?" ,d.id" : null;
 		$group_by .=($facility_code>0 && isset($district_id)) ?"  ,f.facility_code" : null;
@@ -1205,7 +1208,6 @@ class Dashboard extends MY_Controller {
 		// echo htmlspecialchars($title,ENT_QUOTES);exit;
 
 		if (isset($county_id)) :
-
 			$county_name = counties::get_county_name($county_id);
 			$name = $county_name['county'];
 			$title .= " $name County";
@@ -1217,10 +1219,14 @@ class Dashboard extends MY_Controller {
 			elseif (isset($facility_code)) :
 				$facility_code_ = isset($facility_code) ? facilities::get_facility_name_($facility_code) : null;
 			$title .= $facility_code_['facility_name'];
+
 			else :
+				// echo "I work here";exit;
 			$title .= "";
-		endif;
+		endif;//county id isset
+
 		if ($graph_type != "excel") ://if you need change it,refer to national controller,function naming are similar
+			// echo "This ".$graph_type;exit;
 			$filter = ($commodity_id > 0)? "AND d.id = $commodity_id" : NULL;//default to ORS Co pack
 			$commodity_array = $this->db->query("
 				SELECT 
@@ -1262,13 +1268,6 @@ class Dashboard extends MY_Controller {
 				// array_push($series_data_, array($data, $val));
 			endforeach;
 
-
-
-		/*foreach ($commodity_array as $data) :
-			$series_data = array_merge($series_data, array($data["drug_name"] => (int)$data['total']));
-		$category_data = array_merge($category_data, array($data["drug_name"]));
-		endforeach;*/
-		// $title = str_replace("\n", ' ', $title);
 		$title = trim($title);
 		$graph_type = 'spline';
 		$graph_data = array_merge($graph_data, array("graph_id" => 'dem_graph_consuption'));
@@ -1284,7 +1283,9 @@ class Dashboard extends MY_Controller {
 		$data['high_graph'] = $this -> hcmp_functions -> create_high_chart_graph($graph_data);
 		$data['graph_id'] = 'dem_graph_consuption';
 		return $this -> load -> view("shared_files/report_templates/high_charts_template_v_national", $data);
+			// echo "Graph data";exit;
 		else :
+			// echo "Excel data";exit;
 			$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "$title Consumption (Packs) $time", 'file_name' => $title . ' Consumption');
 			$row_data = array();			
 			$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Item Name", "Consumption (Packs)");
@@ -1327,30 +1328,46 @@ class Dashboard extends MY_Controller {
 					and f_i.created_at between '$from' and '$to'
 					AND d.id = '$commodity_id'
 					GROUP BY d.id , f_i.facility_code";
-				// echo $sql_commodity_details;die;
-				$consuption_details = $this->db->query($sql_commodity_details)->result_array();
-				if(count($consuption_details)==0){
-					$total = 'No Data Available';		 				
-					array_push($final_array[$facility_code],$total);
-
-				}else{
-					foreach ($consuption_details as $keys => $values) {												
-						$total = $values['total'];	
-						$total = ($total=='') ? 'No Data Available' : $total ;																	
+					// echo $sql_commodity_details;die;
+					$consuption_details = $this->db->query($sql_commodity_details)->result_array();
+					if(count($consuption_details)==0){
+						$total = 'No Data Available';		 				
 						array_push($final_array[$facility_code],$total);
+
+					}else{
+						foreach ($consuption_details as $keys => $values) {												
+							$total = $values['total'];	
+							$total = ($total=='') ? 'No Data Available' : $total ;																	
+							array_push($final_array[$facility_code],$total);
+						}
 					}
-
 				}
-
-				}
-
 
 			}
 			$row_data = $final_array;
 		}else{
+			/*echo "select 
+				c.county,d1.district as subcounty, f.facility_name,f.facility_code, d.commodity_name as drug_name,
+				round(avg(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),
+				1) as total
+				from
+				facilities f,
+				districts d1,
+				counties c,
+				commodities d
+				left join facility_issues f_i on f_i.`commodity_id`=d.id 
+				where f_i.facility_code = f.facility_code 
+				and f.district=d1.id 
+				and d1.county=c.id 
+				and f_i.`qty_issued`>0
+				and f_i.created_at between '$from' and '$to'
+				$and_data
+				group by d.id , f.facility_code
+				order by c.county asc , d1.district asc";exit;*/
 			array_push($row_data, array("The below commodities were consumed $time"));
 			$commodity_id = $commodity_array[0];
-			$facility_stock_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("select 
+			$facility_stock_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("
+				select 
 				c.county,d1.district as subcounty, f.facility_name,f.facility_code, d.commodity_name as drug_name,
 				round(avg(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),
 				1) as total
@@ -1374,6 +1391,7 @@ class Dashboard extends MY_Controller {
 				array_push($row_data, array($facility_stock_data_item["county"], $facility_stock_data_item["subcounty"], $facility_stock_data_item["facility_name"], $facility_stock_data_item["facility_code"], $facility_stock_data_item["drug_name"], $facility_stock_data_item["total"]));
 			endforeach;
 		}
+		// echo "<pre>";print_r($row_data);exit;
 
 		$excel_data['row_data'] = $row_data;
 
