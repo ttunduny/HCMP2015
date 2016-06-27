@@ -1,6 +1,5 @@
 application/config/database.php
 .htaccess
-Hcmp_functions.php
 database.php
 *.class
 *.pyc
@@ -12,16 +11,11 @@ database.php
 /nbproject
 /stash
 database_backups
-system/libraries/Hcmp_functions.php
 *.xls
 /system/libraries/Doctrine_
 application/config/config.php
 README.md
 sync_files/sample.txt
-<<<<<<< HEAD
-sync_files
-=======
 sync_files/
 system_updates/
 tmp/
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
