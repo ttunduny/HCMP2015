@@ -378,8 +378,6 @@
        $('#actual_').on('shown.bs.tab', function (e) {
         $('#actual').html('');
        });
-
-
        $('.top_filter_button').button().click(function(x){
           x.preventDefault(); 
           var county_text = $('#county_filter option:selected').text();
@@ -409,17 +407,12 @@
           }
           // alert(county_id);
           // alert(subcounty_id);
-
        });
-
        $('.county-name').html("National "+" &nbsp;");
        /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
-
         ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/'+tracer+'/'+division,"#mos");
         ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL/NULL/NULL/NULL/'+division,"#consumption");
         ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/'+division+'/'+tracer,"#actual"); 
-
-
         $(".expiry_filter").button().click(function(e) {
           e.preventDefault(); 
           var commodity = $("#expiry_commodity").val();
@@ -430,7 +423,6 @@
           var commodity = $("#consumption_commodity").val();
          ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
         });
-
         // County filter
         $('#county_filter').on('change', function(){
           // console.log("County change");return;
@@ -459,10 +451,31 @@
           $("#facility_id").append(drop_down);
         });
       });
+    $("#consumption_download").button().click(function(e){
+          e.preventDefault();
+          var commodity = $("#consumption_commodity").val();
+          var link = "dashboard/consumption/NULL/NULL/NULL/" + commodity + "/excel/NULL";
+          window.open(url + link);
+          // console.log(commodity);
+        });
+        $("#expiry_download").button().click(function(e){
+          e.preventDefault();
+          var commodity = $("#expiry_commodity").val();
+          var link = "dashboard/expiry/NULL/NULL/NULL/NULL/excel/" + commodity + "/NULL/NULL"
+          window.open(url + link);
+          // console.log(commodity);
+        });
 
-    $('#region_filter')
-
-      
+    $(".ecounty-filter").button().click(function(e) {
+          e.preventDefault(); 
+         var year = $("#eyear").val();
+         var county = $("#ecounty_filter").val();
+        // var district=$(this).closest("tr").find("#ecounty_filter").val();
+         // var facility=$(this).closest("tr").find("#ecounty_filter").val();
+         ajax_request_replace_div_content('dashboard/expiry/'+year+'/'+county+'/NULL/NULL/NULL',"#actual");
+          });
+    
+  
       $(".ecounty-filter").button().click(function(e) {
         e.preventDefault(); 
         var year = $("#eyear").val();
@@ -572,11 +585,9 @@
        // alert(county_id);
        var type=$(this).attr('id'); 
        var link='';
-
        if(type=='hcwtrained'){ 
-        link='dashboard/hcw/'+county_id+'/NULL/NULL/excel';
-      }
-
+          link='dashboard/hcw/'+county_id+'/NULL/NULL/excel';
+        }
        if (type=="commodity_count"){
         link='dashboard/generate_commodities_excel';
        }
