@@ -1033,6 +1033,7 @@ class Dashboard extends MY_Controller {
 	}
 	public function consumption($county_id = NULL, $district_id = NULL, $facility_code = NULL, $commodity_id = NULL, $graph_type = NULL, $from = NULL, $to = NULL,$division = NULL) {
 		// http://localhost/HCMP/dashboard/consumption/NULL/NULL/NULL/12/excel/NULL
+		
 		$title = '';
 		$district_id = ($district_id == "NULL") ? null : $district_id;
 		$graph_type = ($graph_type == "NULL") ? null : $graph_type;
