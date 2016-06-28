@@ -456,6 +456,7 @@
     $("#consumption_download").button().click(function(e){
           e.preventDefault();
           var commodity = $("#consumption_commodity").val();
+          if (commodity==0) {commodity=null}
           var link = "dashboard/consumption/NULL/NULL/NULL/" + commodity + "/excel/NULL/NULL/NULL";
           window.open(url + link);
           // console.log(commodity);

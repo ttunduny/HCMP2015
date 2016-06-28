@@ -1149,7 +1149,7 @@ class Dashboard extends MY_Controller {
 					and f_i.created_at between '$from' and '$to'
 					AND d.id = '$commodity_id'
 					GROUP BY d.id , f_i.facility_code";
-					// echo $sql_commodity_details;die;
+					echo $sql_commodity_details;die;
 					$consuption_details = $this->db->query($sql_commodity_details)->result_array();
 					if(count($consuption_details)==0){
 						$total = 'No Data Available';		 				
@@ -1188,7 +1188,7 @@ class Dashboard extends MY_Controller {
 			$facility_stock_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("
 				select 
 				c.county,d1.district as subcounty, f.facility_name,f.facility_code, d.commodity_name as drug_name,
-				round(avg(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),
+				round((IFNULL(SUM(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),
 				1) as total
 				from
 				facilities f,
