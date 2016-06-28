@@ -605,6 +605,24 @@ class Dashboard extends MY_Controller {
 		$this -> hcmp_functions -> create_excel($excel_data);
 		endif;
 	}
+	public function generate_commodities_excel(){
+		$commodities = Commodities::get_all_with_suppliers();
+		$column_data = array("Commodity Code", "Commodity Name","Commodity Source","Unit Size");
+		$row_data = array();
+		foreach ($commodities as $key =>$facility_data_item) :			
+			array_push($row_data, array(
+				$facility_data_item["commodity_code"], 
+				$facility_data_item["commodity_name"], 
+				$facility_data_item["commodity_source"], 				
+				$facility_data_item["unit_size"]));
+		endforeach;		
+		// echo "<pre>";print_r($row_data);exit;
+		$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "HCMP Commodities", 'file_name' => "HCMP Commodities");
+		$excel_data['column_data'] = $column_data;
+		$excel_data['row_data'] = $row_data;
+		$this -> hcmp_functions -> create_new_excel($excel_data);		
+	}
+	
 	public function potential($county_id=null, $district_id=null,$facility_code=null,$graph_type=null,$interval=null,$commodity_id=null)
 	{
 		$interval = ((isset($interval))&& ($interval > 0))? $interval:12;//default to select annual
@@ -1033,7 +1051,7 @@ class Dashboard extends MY_Controller {
 	}
 	public function consumption($county_id = NULL, $district_id = NULL, $facility_code = NULL, $commodity_id = NULL, $graph_type = NULL, $from = NULL, $to = NULL,$division = NULL) {
 		// http://localhost/HCMP/dashboard/consumption/NULL/NULL/NULL/12/excel/NULL
-		
+
 		$title = '';
 		$district_id = ($district_id == "NULL") ? null : $district_id;
 		$graph_type = ($graph_type == "NULL") ? null : $graph_type;
