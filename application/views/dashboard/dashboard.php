@@ -151,6 +151,42 @@
 
                 <div class="row x_title">
                 <div class="col-md-12"><h2><?php echo $page_title.' Commodities'; ?></h2></div>
+                   <div class="col-md-12">
+                  <div class="col-md-4 padding-hor-sm">
+                  <select class="form-control select2 padding-hor-sm" id="county_filter">
+                  <option value="0">All Counties</option>
+                  <?php foreach ($county_data as $county => $value):?> 
+                      <option value="<?php echo $value['id']; ?>"><?php echo $value['county']; ?></option>
+                  <?php endforeach; ?>
+                  </select>
+                  </div>
+
+                  <div class="col-md-4 padding-hor-sm">
+                    <select class="form-control select2 padding-hor-sm" id="sub_county_filter">
+                    <option value="0">All Subcounties</option>
+                    </select>
+                  </div>
+                   <div class="col-md-2 no-padding-no-margin">
+                  <button class="btn btn-primary top_filter_button filter_button">Filter</button>
+                </div>
+                <div class="col-md-2 no-padding-no-margin">
+                  <button id="stock_download" class="btn btn-primary download">Download</button>
+                </div>
+
+                    <!--  
+                    <div class="col-md-6">
+                      <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                        <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                      </div>
+                    </div>
+                     -->
+                     
+                    <!--  <div class="col-md-2 padding-hor-sm">
+                        <button class="btn btn-primary top_filter_button">Filter</button>
+                     </div>  -->
+                    
+                  </div>
                   <!-- 
                   <div class="col-md-3">
                     <select class="form-control select2">
@@ -362,9 +398,9 @@
                 <div class="col-md-2 no-padding-no-margin">
                   <button class="btn btn-primary consumption_filter filter_button">Filter</button>
                 </div>
-               <!--  <div class="col-md-3 no-padding-no-margin">
+                <div class="col-md-3 no-padding-no-margin">
                   <button id="consumption_download" class="btn btn-primary download">Download</button>
-                </div> -->
+                </div>
               </div>
 
               <div class="col-md-12" id="consumption"></div>
@@ -384,9 +420,9 @@
                 <div class="col-md-2 no-padding-no-margin">
                   <button class="btn btn-primary expiry_filter filter_button">Filter</button>
                 </div>
-                <!-- <div class="col-md-3 no-padding-no-margin">
+                <div class="col-md-3 no-padding-no-margin">
                   <button id="expiry_download" class="btn btn-primary download">Download</button>
-                </div> -->
+                </div>
                 <!-- <button class="btn btn-primary expiry_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button> -->
               </div>
               <div class="col-md-12" id="actual"></div>
