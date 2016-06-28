@@ -37,12 +37,8 @@ class Facilities extends Doctrine_Record {
 
 	public static function get_offline_facilities_new(){
 		   $query = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
-
-
-
-               select distinct f.facility_code, f.facility_name,c.county,
-
-               select distinct f.facility_code, f.facility_name,d.district,c.county,
+                             
+               SELECT distinct f.facility_code, f.facility_name,d.district,c.county,
 
             CASE using_hcmp
             WHEN 1 THEN 'Online'
