@@ -523,22 +523,59 @@ class Dashboard extends MY_Controller {
 		else :
 			$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "Expiry  $title", 'file_name' => "Stock Expired in $title  $year");
 		$row_data = array();
-		$column_data = array("Commodity", "Unit Size", "Quantity (Packs)", "Quantity (Units)", "Unit Cost (Ksh)", "Total Cost Expired (Ksh)", "Date of Expiry", "Supplier", "Manufacturer", "Facility Name", "Facility Code", "Sub-County", "County");
+		// $column_data = array("Commodity", "Unit Size", "Quantity (Packs)", "Quantity (Units)", "Unit Cost (Ksh)", "Total Cost Expired (Ksh)", "Date of Expiry", "Supplier", "Manufacturer", "Facility Name", "Facility Code", "Sub-County", "County");
+		$column_data = array("Commodity", "Unit Size", "Quantity (Packs)", "Quantity (Units)","Date of Expiry", "Supplier", "Manufacturer", "Facility Name", "Facility Code", "Sub-County", "County");
 		$excel_data['column_data'] = $column_data;
 		//echo  ; exit;		
-		$facility_stock_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("select  c.county, d1.district as subcounty ,temp.drug_name,
-			f.facility_code, f.facility_name,temp.manufacture, sum(temp.total) as total_ksh,temp.units,
-			temp.unit_cost,temp.expiry_date,temp.unit_size,
-			temp.packs
-			from districts d1, counties c, facilities f left join
-			(
-			select  ROUND( SUM(
-			f_s.current_balance  / d.total_commodity_units ) * d.unit_cost, 1) AS total,
-			ROUND( SUM( f_s.current_balance  / d.total_commodity_units  ), 1) as packs,
-			SUM( f_s.current_balance) as units,
-			f_s.facility_code,d.id,d.commodity_name as drug_name, f_s.manufacture,
-			f_s.expiry_date,d.unit_size,d.unit_cost
-			from facility_stocks f_s, commodities d
+		// $facility_stock_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("select  c.county, d1.district as subcounty ,temp.drug_name,
+		// 	f.facility_code, f.facility_name,temp.manufacture, sum(temp.total) as total_ksh,temp.units,
+		// 	temp.unit_cost,temp.expiry_date,temp.unit_size,
+		// 	temp.packs
+		// 	from districts d1, counties c, facilities f left join
+		// 	(SELECT 
+		// 		ROUND(SUM(f_s.current_balance / d.total_commodity_units) * d.unit_cost, 1) AS total,
+		//         ROUND(SUM(f_s.current_balance / d.total_commodity_units), 1) AS packs,
+		//         ROUND(SUM(f_s.current_balance), 1) AS units,
+		//         f_s.facility_code,
+		// 		d.id,
+		// 		d.commodity_name AS drug_name,
+		// 		f_s.manufacture,
+		// 		f_s.expiry_date,
+		// 		d.unit_size,
+		// 		d.unit_cost
+		//     FROM
+		//         facility_stocks f_s, commodities d
+		// 	where f_s.expiry_date < NOW( ) 
+		// 	and d.id=f_s.commodity_id
+		// 	$and_data1
+		// 	and year(f_s.expiry_date) !=1970
+		// 	and year(f_s.expiry_date) = $year
+		// 	AND (f_s.status =1 or f_s.status =2)
+		// 	GROUP BY d.id,f_s.facility_code having total >1
+		// 	) temp
+		// 	on temp.facility_code = f.facility_code
+		// 	where  f.district = d1.id
+		// 	and c.id=d1.county
+		// 	and temp.total>0
+		// 	$and_data
+		// 	group by temp.id,f.facility_code
+		// 	order by temp.drug_name asc,temp.total asc, temp.expiry_date desc
+		// 	");
+		$facility_stock_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("SELECT c.county,d1.district AS subcounty,temp.drug_name,f.facility_code,
+    		f.facility_name,temp.manufacture,SUM(temp.total) AS total_ksh,temp.units,temp.unit_cost,temp.expiry_date,temp.unit_size,temp.packs 
+    		FROM  districts d1,counties c,facilities f LEFT JOIN
+    			(SELECT 
+    			ROUND(SUM(f_s.current_balance / d.total_commodity_units), 1) AS total,
+		        ROUND(SUM(f_s.current_balance / d.total_commodity_units), 1) AS packs,
+		        ROUND(SUM(f_s.current_balance), 1) AS units, f_s.facility_code,
+				d.id,
+				d.commodity_name AS drug_name,
+				f_s.manufacture,
+				f_s.expiry_date,
+				d.unit_size,
+				d.unit_cost
+		    FROM
+		        facility_stocks f_s, commodities d
 			where f_s.expiry_date < NOW( ) 
 			and d.id=f_s.commodity_id
 			$and_data1
@@ -560,7 +597,8 @@ class Dashboard extends MY_Controller {
 			array_push($row_data, array("There are not expired commmodities for the selected commodity"));	
 		}else{
 			foreach ($facility_stock_data as $facility_stock_data_item) :
-				array_push($row_data, array($facility_stock_data_item["drug_name"], $facility_stock_data_item["unit_size"], $facility_stock_data_item["packs"], $facility_stock_data_item["units"], $facility_stock_data_item["unit_cost"], $facility_stock_data_item["total_ksh"], $facility_stock_data_item["expiry_date"], "KEMSA", $facility_stock_data_item["manufacture"], $facility_stock_data_item["facility_name"], $facility_stock_data_item["facility_code"], $facility_stock_data_item["subcounty"], $facility_stock_data_item["county"]));
+				// array_push($row_data, array($facility_stock_data_item["drug_name"], $facility_stock_data_item["unit_size"], $facility_stock_data_item["packs"], $facility_stock_data_item["units"], $facility_stock_data_item["unit_cost"], $facility_stock_data_item["total_ksh"], $facility_stock_data_item["expiry_date"], "KEMSA", $facility_stock_data_item["manufacture"], $facility_stock_data_item["facility_name"], $facility_stock_data_item["facility_code"], $facility_stock_data_item["subcounty"], $facility_stock_data_item["county"]));
+				array_push($row_data, array($facility_stock_data_item["drug_name"], $facility_stock_data_item["unit_size"], $facility_stock_data_item["packs"], $facility_stock_data_item["units"],$facility_stock_data_item["expiry_date"], "KEMSA", $facility_stock_data_item["manufacture"], $facility_stock_data_item["facility_name"], $facility_stock_data_item["facility_code"], $facility_stock_data_item["subcounty"], $facility_stock_data_item["county"]));
 			endforeach;
 		}
 		$excel_data['row_data'] = $row_data;

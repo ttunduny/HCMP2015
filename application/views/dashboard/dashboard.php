@@ -19,12 +19,6 @@
     float: left;
     margin-left: 2px !important;
   }
-  .stock-download{
-    float:right;
-    border-radius: 0px;
-    padding: 8px 22px !important;
-    margin-left: 100px;
-  }
   .full-width{
     width:100%;
   }
@@ -208,9 +202,6 @@
                 </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
-                  <div class="col-md-12 no-padding-no-margin">
-                    <button id="stock_download" class="btn btn-primary stock-download">Download</button>
-                  </div>
                   <div id="mos"></div>
                <!--  
                     <h4>Shelf life (Expiries)</h4>
@@ -371,9 +362,9 @@
                 <div class="col-md-2 no-padding-no-margin">
                   <button class="btn btn-primary consumption_filter filter_button">Filter</button>
                 </div>
-               <!--  <div class="col-md-3 no-padding-no-margin">
+                <div class="col-md-3 no-padding-no-margin">
                   <button id="consumption_download" class="btn btn-primary download">Download</button>
-                </div> -->
+                </div>
               </div>
 
               <div class="col-md-12" id="consumption"></div>
@@ -393,9 +384,9 @@
                 <div class="col-md-2 no-padding-no-margin">
                   <button class="btn btn-primary expiry_filter filter_button">Filter</button>
                 </div>
-                <!-- <div class="col-md-3 no-padding-no-margin">
+                <div class="col-md-3 no-padding-no-margin">
                   <button id="expiry_download" class="btn btn-primary download">Download</button>
-                </div> -->
+                </div>
                 <!-- <button class="btn btn-primary expiry_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button> -->
               </div>
               <div class="col-md-12" id="actual"></div>

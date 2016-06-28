@@ -464,6 +464,7 @@
         $("#expiry_download").button().click(function(e){
           e.preventDefault();
           var commodity = $("#expiry_commodity").val();
+          if (commodity==0) {commodity=null}
           var link = "dashboard/expiry/NULL/NULL/NULL/NULL/excel/" + commodity + "/NULL/NULL"
           window.open(url + link);
           // console.log(commodity);
