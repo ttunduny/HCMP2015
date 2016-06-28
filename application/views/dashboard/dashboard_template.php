@@ -371,6 +371,7 @@
       var url ='<?php echo base_url()?>';
       var division = '<?php echo $commodity_division; ?>';
       var tracer = '<?php echo $tracer; ?>';
+      if (tracer=='') {tracer=null}
       var county_filtered = subcounty_filtered = '';
         // $('#potential_').on('shown.bs.tab', function (e) {
         // $('#potential').html('');
@@ -468,8 +469,9 @@
         });
         $("#stock_download").button().click(function(e){
           e.preventDefault()
-          // alert("Stock Download!");
-          var link = "dashboard/stocking_levels/NULL/NULL/NULL/NULL/1/" + division + "/excel";
+          var tracer = '<?php echo $tracer; ?>';
+          if (tracer=='') {tracer=null}
+          var link = "dashboard/stocking_levels/NULL/NULL/NULL/NULL/"+tracer+"/" + division + "/excel";
           window.open(url + link);
         });
     $(".ecounty-filter").button().click(function(e) {

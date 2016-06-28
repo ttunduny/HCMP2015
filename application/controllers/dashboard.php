@@ -20,7 +20,9 @@ class Dashboard extends MY_Controller {
 		// echo "<pre>";print_r($tracer_commodities);exit;
 		if (isset($division) && $division>0) {
 			$page_title = $division_details[0]['division_name'];
-			$tracer = "NULL";
+			if($division!=5){
+				$tracer = "NULL";
+			}
 		}else{
 			$tracer = 1;
 			$page_title = "Tracer Items";
@@ -66,8 +68,8 @@ class Dashboard extends MY_Controller {
 		// echo "<pre>";print_r($tracer_commodities);exit;
 		if (isset($division) && $division>0) {
 			$page_title = $division_details[0]['division_name'];
-			if (!$division==5) {
-				$tracer = "NULL";
+			if ($division==5) {
+				$tracer = 1;
 			}
 			
 		}else{
@@ -1908,7 +1910,9 @@ class Dashboard extends MY_Controller {
 		$filter .= ($facility_code > 0 && is_null($county_id) && is_null($district_id))? " AND facilities.facility_code = $facility_code":NULL;
 		$filter .= ($commodity_id > 0)? " AND commodities.id = $commodity_id ":NULL;
 		$filter .= ($tracer_item > 0)? " AND commodities.tracer_item = 1 " : NULL;
-		$filter .= ($division > 0)? " AND commodities.commodity_division = $division" : NULL;
+		if($division!=5){
+			$filter .= ($division > 0)? " AND commodities.commodity_division = $division" : NULL;			
+		}
 		// echo $filter;exit;
 		/*echo "SELECT 
 			    commodities.id,
@@ -2005,7 +2009,7 @@ class Dashboard extends MY_Controller {
 		if ($graph_type == "excel") {
 			// print_r($_GET); exit;
 			// echo "<pre>"; print_r($stocking_levels); exit;
-			$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "Tracer Item National Stock Level", 'file_name' => "Tracer Item National Stock Level");
+			$excel_data = array('doc_creator' => "HCMP", 'doc_title' => $page_title, 'file_name' => $page_title);
 			$row_data = array();
 			$column_data = array("Commoidity Name", "Unit Balance", "Pack Balance", "Total Commodity Units");
 			foreach($stocking_levels as $stocking_levels){
