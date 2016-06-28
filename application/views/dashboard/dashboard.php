@@ -371,9 +371,9 @@
                 <div class="col-md-2 no-padding-no-margin">
                   <button class="btn btn-primary consumption_filter filter_button">Filter</button>
                 </div>
-                <div class="col-md-3 no-padding-no-margin">
+               <!--  <div class="col-md-3 no-padding-no-margin">
                   <button id="consumption_download" class="btn btn-primary download">Download</button>
-                </div>
+                </div> -->
               </div>
 
               <div class="col-md-12" id="consumption"></div>
@@ -393,9 +393,9 @@
                 <div class="col-md-2 no-padding-no-margin">
                   <button class="btn btn-primary expiry_filter filter_button">Filter</button>
                 </div>
-                <div class="col-md-3 no-padding-no-margin">
+                <!-- <div class="col-md-3 no-padding-no-margin">
                   <button id="expiry_download" class="btn btn-primary download">Download</button>
-                </div>
+                </div> -->
                 <!-- <button class="btn btn-primary expiry_filter" style="padding:9px 22px!important;margin:0;">Filter Commodity</button> -->
               </div>
               <div class="col-md-12" id="actual"></div>
