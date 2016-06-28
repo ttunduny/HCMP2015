@@ -1311,7 +1311,45 @@ public function stock_level_mos($county_id = null, $district_id = null, $facilit
 				endif;
 
 			}
+public function new_consumption(){
+	$sql_fac = "select distinct c.county, d.district, f.facility_code,f.facility_name from counties c, districts d, facilities f where f.district = d.id and d.county = c.id and f.using_hcmp = 1";
+	$facility_details = $this->db->query($sql_fac)->result_array();
+	$months_array = array('January','February','March','April','May','June','July','August','September','October','November','December');
+	$current_month = date('m');
 
+	$params = '';
+	for ($i=1;$i<=$current_month ; $i++) { 
+		$j = $i -1;
+		$cur_month = $months_array[$j];
+		$params .= "(case when date_format(f_i.created_at,'%M') = '$cur_month' then ROUND(SUM(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0))) else 0 end) '$cur_month',"; 
+	}
+
+	$params = rtrim($params,',');
+
+	$final_array = array();
+
+	foreach ($facility_details as $key => $value) {
+		$facility_code = $value['facility_code'];
+		$facility_name = $value['facility_name'];
+		$county = $value['county'];
+		$district = $value['district'];
+
+		$sql = "SELECT f_i.facility_code,d.commodity_name,".$params." 
+			FROM  commodities d 
+			LEFT JOIN  facility_issues f_i 
+			ON f_i.`commodity_id` = d.id			
+			WHERE f_i.`qty_issued` > 0 
+			AND f_i.created_at BETWEEN '2016-01-01' AND '2016-06-23' AND d.id = '12' 
+			and f_i.facility_code = '$facility_code'
+			GROUP BY  f_i.facility_code,MONTH(f_i.created_at),d.id";
+		
+		$facility_data = $this->db->query($sql)->result_array();	
+		$final_array[] = array('facility_code'=>$facility_code,'facility_name'=>$facility_name,'county'=>$county,'district'=>$district,'commodity_data'=>$facility_data);
+
+	}
+
+		echo "<pre>";print_r($final_array);die;
+}
 			public function consumption($county_id = null, $district_id = null, $facility_code = null, $commodity_id = null, $graph_type = null, $from = null, $to = null) {
 
 				$title = '';
