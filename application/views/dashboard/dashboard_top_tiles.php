@@ -5,7 +5,7 @@
           <div class="row tile_count">
             <div class="col-md-3 col-sm-3 col-xs-3 tile_stats_count">
               <span class="count_top"><i class="fa fa-medkit"></i> Total Commodities Tracked</span>
-              <div class="count excel_" id="commodity_count"><?php echo $commodity_count[0]['total_count'] ?></div>
+              <div class="count excel_1" id="commodity_count"><?php echo $commodity_count[0]['total_count'] ?></div>
               <span class="count_bottom">Supplied by: <b>KEMSA </b> and <b>MEDS</b></span>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-3 tile_stats_count">
