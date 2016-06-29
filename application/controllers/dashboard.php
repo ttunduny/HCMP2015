@@ -172,10 +172,16 @@ class Dashboard extends MY_Controller {
 		$and .= ($county_id > 0) ? " AND c.id='$county_id'" : null;
 		$and .= ((isset($offline)&& $offline == 2))?" AND f.using_hcmp=2":NULL;
 		$and .= ((isset($offline)&& $offline == 1))?" AND f.using_hcmp=1":NULL;
+		$and .= ((isset($offline)&& $offline == 1))?" AND f.using_hcmp=1":NULL;
+		$and .= ((isset($offline)&& $offline == 0))?" AND f.using_hcmp in (1,2)":NULL;
 		$last_sync_column = ((isset($offline)&& $offline == 2))?",ftp.date_added AS last_sync":NULL;
 		$join_data = ((isset($offline)&& $offline == 2))?",facilities f LEFT JOIN ftp_uploads ftp ON ftp.facility_code = f.facility_code":",facilities f";
 		$title_main = ((isset($offline)&& $offline == 1)) ? " Online" : 'Offline';
+		if($offline==0){
+			$title_main = "OFFLINE AND ONLINE";	
+		}
 		
+
 		$and = isset($and) ? $and : null;	
 		// echo $and;exit;	
 		if (isset($county_id)) :
@@ -221,8 +227,7 @@ class Dashboard extends MY_Controller {
 				$and
 			GROUP BY f.facility_name
 			ORDER BY c.county , d.district , f.facility_name
-			");
-	// echo "<pre>";print_r($facility_data);exit;
+			");	
 		$row_data = array();
 		if((isset($offline)&& $offline == 1)){
 			$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Facility Level","Type", "Date of Activation");
@@ -251,6 +256,19 @@ class Dashboard extends MY_Controller {
 				$facility_data_item["date_of_activation"],
 				$last_sync
 				));
+			endforeach;
+		}else if((isset($offline)&& $offline == 0)){
+			$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Facility Level","Type", "Date of Activation");
+			foreach ($facility_data as $facility_data_item) :
+			array_push($row_data, array(
+				$facility_data_item["county"], 
+				$facility_data_item["subcounty"], 
+				$facility_data_item["facility_name"], 
+				$facility_data_item["facility_code"], 
+				$facility_data_item["level"], 
+				$facility_data_item["type"],
+				$facility_data_item["date_of_activation"])
+			);
 			endforeach;
 		}
 		// echo "<pre>";print_r($row_data);exit;
