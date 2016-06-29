@@ -309,9 +309,14 @@ legend{
 			  <div class="col-xs-2">
 			  	<input type="text" class="form-control input-small col-md-1 clone_datepicker_normal_limit_today" id="to" placeholder="To">
 			  </div>
+			  <div class="col-xs-2">
+			  	OR
+			  </div>
 			  
 			  <div class="col-xs-6">
-			  	
+			  	   <button type="button" class="btn btn-success generate-annual">
+				<span class="glyphicon glyphicon-file"></span>	Generate Annual Report
+				</button>
 			  </div>
 				
 			</fieldset>
@@ -843,6 +848,276 @@ $("input:radio[name=commodity_s]").click(function() {
         }
    });    
 
+//Generate the reports after user has selected the options
+    $(".generate-annual").click(function() {
+      	var county_id=$('#county').val();
+        var district=$("#sub_county").val();
+        var facility=$("#facility_id").val();
+        var interval=$("#interval").val();
+        var criteria = $('input[name=criteria]:checked').val()
+        var type = $('input[name=doctype]:checked').val()
+        var d = new Date();
+        var n = d.getFullYear();
+        var from =("1 Jan ")+ n;
+        var to =("31 Dec ")+ n;
+        var commodity_id=$('#commodity').val();
+        var commodity_type = $('input[name=commodity_s]:checked').val()
+        var link='';
+        
+        if(from==''){from="NULL";}
+        if(to==''){to="NULL";}
+	       
+	       //check criteria 
+        if(criteria=='Consumption'){
+        	if(type=='excel'){
+        		if(commodity_type=='Tracer'){
+        			link='national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/NULL/excel/'+encodeURI(from)+ '/'+encodeURI(to);
+	        	}
+	        	if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	        		link='national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);
+	       		}
+	        	if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity').val();	        		
+	        	
+	        		link='national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/'+encodeURI(commodity_id)+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);
+	        	}
+	        	
+	        	window.open(url+link,'_parent');
+	        
+	        }else if(type=='pdf'){
+	        	if(commodity_type=='Tracer'){ 
+		        	link='national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/NULL/pdf/'+encodeURI(from)+'/'+encodeURI(to);
+		        }
+		        if(commodity_type=='All'){ 
+		        	var commodity_id=$('#commodity').val();
+		        	link='national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/pdf/'+encodeURI(from)+'/'+encodeURI(to);
+		        }
+		        if(commodity_type=='Specify'){ 
+		        	var commodity_id=$('#commodity').val();
+		        	link='national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/pdf/'+encodeURI(from)+ '/'+encodeURI(to);
+		        }
+		        window.open(url+link,'_parent');
+	        }else if(type=='table'){
+	        	$('#graph_Modal').modal('show');
+	        	
+	       		if(commodity_type=='Tracer'){
+					ajax_return('national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/NULL/table/'+encodeURI(from)+ '/'+encodeURI(to)+'',"#graph_content");
+	        	}
+	        	if(commodity_type=='All'){ 
+		        	var commodity_id=$('#commodity').val();
+	        		ajax_return('national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/table/'+encodeURI(from)+ '/'+encodeURI(to)+'',"#graph_content");
+		        }
+		        
+	        }else if(type=='graph'){
+	        	$('#graph_Modal').modal('show');
+	       		if(commodity_type=='Tracer'){
+	       			ajax_return('national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/NULL/graph/'+encodeURI(from)+ '/'+encodeURI(to)+'',"#graph_content");
+	        	}
+	        	if(commodity_type=='All'){ 
+		        	var commodity_id=$('#commodity').val();
+	        		ajax_return('national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph/'+encodeURI(from)+ '/'+encodeURI(to)+'',"#graph_content");
+		        
+		        }
+		        if(commodity_type=='Specify'){ 
+		        	var commodity_id=$('#commodity').val();
+		       		ajax_return('national/consumption_annual/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph'+encodeURI(from)+ '/'+encodeURI(to)+'',"#graph_content"); 
+		        }
+		        
+	        }
+       }
+       //if stock level MOS option is selected
+       else if(criteria=='Stock'){
+       		if(type=='excel'){ 
+      			if(commodity_type=='Tracer'){ 
+	        		link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/NULL/excel';
+	        	}
+	        	if(commodity_type=='Specify'){ 
+	        		link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel';
+	        	}
+	        	if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	                link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel';
+	        
+	        	}
+	        	
+	        	window.open(url+link,'_parent');
+	        
+	        }else if(type=='pdf'){ 
+	        	if(commodity_type=='Tracer'){ 
+	        	link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/NULL/pdf';
+	        	}
+	        
+	        	if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	        		link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/pdf';
+	        
+	        	}
+	       	 	window.open(url+link,'_parent');
+	        
+	        }else if(type=='graph'){
+        		$('#graph_Modal').modal('show');
+       			if(commodity_type=='Tracer'){
+        			ajax_return('national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content");
+        		}
+        		if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/ALL'+'/graph',"#graph_content"); 
+	        	}
+	    		if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content"); 
+	        	}
+	        
+        	}
+        }
+        //for stock as units
+        else if(criteria=='stock_packs'){
+       		if(type=='excel'){ 
+      			if(commodity_type=='Tracer'){ 
+	        		link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/NULL/excel';
+	        	}
+	        	if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity1').val();
+	        		// alert(commodity_id);
+	                link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel';
+	        	}
+	        	if(commodity_type=='All'){ 
+	        		link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/NULL/excel';
+	        		
+	        		//var commodity_id=$('#commodity').val();
+	                //link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel';
+	        
+	        	}
+	        window.open(url+link,'_parent');
+	        
+	        }else if(type=='graph'){
+        		$('#graph_Modal').modal('show');
+       			if(commodity_type=='Tracer'){
+        			ajax_return('national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content");
+        		}
+        		if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/ALL'+'/graph',"#graph_content"); 
+	        	}
+	    		if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/stock_level_packs/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content"); 
+	        	}
+	        
+        	}
+        }
+         else if(criteria=='stock_units'){
+       		if(type=='excel'){ 
+      			if(commodity_type=='Tracer'){ 
+	        		link='national/stock_level_units/'+county_id+'/'+district+'/'+facility+'/NULL/excel';
+	        	}
+	        	if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity1').val();
+	        		// alert(commodity_id);
+	                link='national/stock_level_units/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel';
+	        	}
+	        	if(commodity_type=='All'){ 
+	        		link='national/stock_level_units/'+county_id+'/'+district+'/'+facility+'/NULL/excel';
+	        		
+	        		//var commodity_id=$('#commodity').val();
+	                //link='national/stock_level_mos/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel';
+	        
+	        	}
+	        window.open(url+link,'_parent');
+	        
+	        }else if(type=='graph'){
+        		$('#graph_Modal').modal('show');
+       			if(commodity_type=='Tracer'){
+        			ajax_return('national/stock_level_units/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content");
+        		}
+        		if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/stock_level_units/'+county_id+'/'+district+'/'+facility+'/ALL'+'/graph',"#graph_content"); 
+	        	}
+	    		if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/stock_level_units/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content"); 
+	        	}
+	        
+        	}
+        }
+        else if(criteria=='Potential'){
+       		if(type=='excel'){ 
+       			if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity1').val();	        		
+	                link='national/potential/'+county_id+'/'+district+'/'+facility+'/excel/'+interval+'/'+commodity_id;
+	        	}
+	        	if(commodity_type=='All'){ 
+      	    		link='national/potential/'+county_id+'/'+district+'/'+facility+'/excel/'+interval;		        	
+	        	}
+	        	window.open(url+link,'_parent');
+	        }else if(type=='pdf'){ 
+		        link='national/potential/'+county_id+'/'+district+'/'+facility+'/pdf/'+interval;
+		        window.open(url+link,'_parent');
+
+	        }else if(type=='graph'){
+	        	$('#graph_Modal').modal('show');
+        		ajax_return('national/potential/'+county_id+'/'+district+'/'+facility+'/graph/'+interval,"#graph_content");
+      
+        	}
+        }else if(criteria=='Orders'){
+	       	if(type=='excel')
+	       	{ 
+      	  		link='national/order/NULL/'+county_id+'/'+district+'/'+facility+'/excel';
+	        	window.open(url+link,'_parent');
+	        
+	    	}else if(type=='pdf'){
+	    		link='national/order/NULL/'+county_id+'/'+district+'/'+facility+'/pdf';
+       			window.open(url+link,'_parent');
+	    	}else if(type=='graph'){
+	    		$('#graph_Modal').modal('show');
+       			ajax_return('national/order/NULL/'+county_id+'/'+district+'/'+facility+'/graph',"#graph_content");
+	     	        
+        	}
+        }else if(criteria=='Actual'){
+       		if(type=='excel'){ 
+	        	if(commodity_type=='Tracer'){ 
+	        		link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility+'/excel';
+	        	}
+	        	if(commodity_type=='All'){ 
+	        		//alert(county_id);return;
+	        		var commodity_id=$('#commodity').val();
+	        		link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility+'/excel';
+	        	}
+	        	if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity1').val();
+	        		link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility+'/excel/'+commodity_id;	        			                
+	        	}
+	        	
+	        window.open(url+link,'_parent');
+	        
+	        }else if(type=='pdf'){ 
+	        	if(commodity_type=='Tracer'){ 
+	        		link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility+'/pdf';
+	        	}
+	        	if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	        		link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility+'/pdf';
+	        	}
+	        	window.open(url+link,'_parent');
+	        }else if(type=='graph'){
+        		$('#graph_Modal').modal('show');
+       			if(commodity_type=='Tracer'){
+        			ajax_return('national/expiry/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content");
+        		}
+        		if(commodity_type=='All'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/expiry/'+county_id+'/'+district+'/'+facility+'/ALL'+'/graph',"#graph_content"); 
+	        	}
+	    		if(commodity_type=='Specify'){ 
+	        		var commodity_id=$('#commodity').val();
+	       			ajax_return('national/expiry/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/graph',"#graph_content"); 
+	        	}
+	        
+        	}
+        }
+   }); 
 	function ajax_return(function_url,div){
 	    var function_url =url+function_url;
 	    var loading_icon=url+"assets/img/Preloader_4.gif";

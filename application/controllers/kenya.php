@@ -654,7 +654,6 @@ class Kenya extends MY_Controller
 		 		and temp.total > 0
 		 		group by month(temp.expiry_date)");
 		 $commodity_array2 = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll("
-<<<<<<< HEAD
 		 	select 
 		 	DATE_FORMAT( temp.expiry_date,  '%b' ) AS cal_month,
 		 	sum(temp.total) as total
@@ -680,7 +679,7 @@ class Kenya extends MY_Controller
 		 	and temp.total > 0
 		 	group by month(temp.expiry_date)
 		 	");
-=======
+
 			 	
 
 		 foreach ($commodity_array as $data) :
@@ -771,19 +770,7 @@ class Kenya extends MY_Controller
 
 		 $this -> hcmp_functions -> create_excel($excel_data);
 		 endif;
-		}
-
-		public function dashboard()
-		{
-
-			$this->load->view('dashboard/dashboard_template'); 
-		}
-
-	}   
-
-
-
-			$counties = $q = Doctrine_Manager::getInstance()
+					$counties = $q = Doctrine_Manager::getInstance()
 			->getCurrentConnection()
 			->fetchAll("SELECT distinct c.id,c.kenya_map_id as county_fusion_map_id,c.county,count(c.county) as facility_no FROM facilities f 
 				INNER JOIN districts d ON f.district=d.id
@@ -818,8 +805,9 @@ class Kenya extends MY_Controller
 			$data['title'] = "National Dashboard";
 			$data['maps'] = json_encode($finalMap);
 			$data['counties'] = $county_name;
-			$this->load->view('dashboard/dashboard_template',$data); 
-		}
+			$this->load->view('dashboard/dashboard_template',$data);
+			} 
+		
 
 	public function dashboard_new() {
 
@@ -868,6 +856,3 @@ class Kenya extends MY_Controller
 	}   
 
 
-
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
-	?>
