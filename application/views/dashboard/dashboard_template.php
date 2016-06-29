@@ -371,6 +371,7 @@
       var url ='<?php echo base_url()?>';
       var division = '<?php echo $commodity_division; ?>';
       var tracer = '<?php echo $tracer; ?>';
+      if (tracer=='') {tracer=null}
       var county_filtered = subcounty_filtered = '';
         // $('#potential_').on('shown.bs.tab', function (e) {
         // $('#potential').html('');
@@ -412,7 +413,8 @@
        /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
         ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/'+tracer+'/'+division,"#mos");
         ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL/NULL/NULL/NULL/'+division,"#consumption");
-        ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/'+division+'/'+tracer,"#actual"); 
+        ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/NULL/'+division+'/'+tracer,"#actual");
+         
         $(".expiry_filter").button().click(function(e) {
           e.preventDefault(); 
           var commodity = $("#expiry_commodity").val();
@@ -454,18 +456,26 @@
     $("#consumption_download").button().click(function(e){
           e.preventDefault();
           var commodity = $("#consumption_commodity").val();
-          var link = "dashboard/consumption/NULL/NULL/NULL/" + commodity + "/excel/NULL";
+          if (commodity==0) {commodity=null}
+          var link = "dashboard/consumption/NULL/NULL/NULL/" + commodity + "/excel/NULL/NULL/NULL";
           window.open(url + link);
           // console.log(commodity);
         });
         $("#expiry_download").button().click(function(e){
           e.preventDefault();
           var commodity = $("#expiry_commodity").val();
+          if (commodity==0) {commodity=null}
           var link = "dashboard/expiry/NULL/NULL/NULL/NULL/excel/" + commodity + "/NULL/NULL"
           window.open(url + link);
           // console.log(commodity);
         });
-
+        $("#stock_download").button().click(function(e){
+          e.preventDefault()
+          var tracer = '<?php echo $tracer; ?>';
+          if (tracer=='') {tracer=null}
+          var link = "dashboard/stocking_levels/NULL/NULL/NULL/NULL/"+tracer+"/" + division + "/excel";
+          window.open(url + link);
+        });
     $(".ecounty-filter").button().click(function(e) {
           e.preventDefault(); 
          var year = $("#eyear").val();
@@ -586,7 +596,12 @@
        var type=$(this).attr('id'); 
        var link='';
        if(type=='hcwtrained'){ 
+<<<<<<< HEAD
+        link='dashboard/hcw/'+county_id+'/NULL/NULL/excel';
+
+=======
           link='dashboard/hcw/'+county_id+'/NULL/NULL/excel';
+>>>>>>> 08d2c6569d1c036bbf5db794d3bb9a77fa9beeac
         }
        if (type=="commodity_count"){
         link='dashboard/generate_commodities_excel';
@@ -602,7 +617,8 @@
        }
        
        window.open(url+link,'_parent'); 
-    });  
+           });
+    
     </script>
     </script>
   </body>
