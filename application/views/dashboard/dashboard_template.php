@@ -596,12 +596,7 @@
        var type=$(this).attr('id'); 
        var link='';
        if(type=='hcwtrained'){ 
-<<<<<<< HEAD
         link='dashboard/hcw/'+county_id+'/NULL/NULL/excel';
-
-=======
-          link='dashboard/hcw/'+county_id+'/NULL/NULL/excel';
->>>>>>> 08d2c6569d1c036bbf5db794d3bb9a77fa9beeac
         }
        if (type=="commodity_count"){
         link='dashboard/generate_commodities_excel';
