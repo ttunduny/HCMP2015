@@ -10,8 +10,8 @@
             </div>
             <div class="col-md-3 col-sm-3 col-xs-3 tile_stats_count">
               <span class="count_top"><i class="fa fa-hospital-o"></i> Total Facilities Covered </span>
-              <div class="count green excel_" id="total"><?php echo $facility_count[0]['total_facilities']; ?></div>
-              <!-- <span class="count_bottom"><b>All</b> facilities using HCMP</span> -->
+              <div class="count green excel_" id="rolledout"><?php echo $facility_count[0]['total_facilities']; ?></div>
+              <span class="count_bottom">Facilities on <b>Both Online and Offline Versions</b></span>
               <span class="count_bottom">   </span>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-3 tile_stats_count">
