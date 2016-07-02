@@ -152,7 +152,7 @@
                 <div class="row x_title">
                 <div class="col-md-12"><h2><?php echo $page_title.' Commodities'; ?></h2></div>
                    <div class="col-md-12">
-                  <div class="col-md-4 padding-hor-sm">
+                  <div class="col-md-5 padding-hor-sm">
                   <select class="form-control select2 padding-hor-sm" id="county_filter">
                   <option value="0">All Counties</option>
                   <?php foreach ($county_data as $county => $value):?> 
@@ -161,7 +161,7 @@
                   </select>
                   </div>
 
-                  <div class="col-md-4 padding-hor-sm">
+                  <div class="col-md-5 padding-hor-sm">
                     <select class="form-control select2 padding-hor-sm" id="sub_county_filter">
                     <option value="0">All Subcounties</option>
                     </select>
@@ -169,9 +169,9 @@
                    <div class="col-md-2 no-padding-no-margin">
                   <button class="btn btn-primary top_filter_button filter_button">Filter</button>
                 </div>
-                <div class="col-md-2 no-padding-no-margin">
+                <!-- <div class="col-md-2 no-padding-no-margin">
                   <button id="stock_download" class="btn btn-primary download">Download</button>
-                </div>
+                </div> -->
 
                     <!--  
                     <div class="col-md-6">
@@ -238,6 +238,22 @@
                 </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
+                   <div class="col-md-12">
+                    <div class="col-md-7 no-padding-no-margin">
+                      <select class="select2 full-width" id="mos_commodity">
+                        <option value="0">Select Commodity</option>
+                          <?php foreach ($tracer_commodities as $tracer => $value):?> 
+                              <option value="<?php echo $value['id']; ?>"><?php echo $value['commodity_name']; ?></option>
+                          <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="col-md-2 no-padding-no-margin">
+                      <button class="btn btn-primary mos_filter filter_button">Filter</button>
+                    </div>
+                    <div class="col-md-3 no-padding-no-margin">
+                      <button class="btn btn-primary download mos_download">Download</button>
+                    </div>
+                  </div>
                   <div id="mos"></div>
                <!--  
                     <h4>Shelf life (Expiries)</h4>
