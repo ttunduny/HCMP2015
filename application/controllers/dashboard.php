@@ -2013,8 +2013,8 @@ class Dashboard extends MY_Controller {
 			SELECT 
 			    commodities.id,
 			    commodities.commodity_name,
-			    SUM(facility_stocks.current_balance) AS unit_balance,
-			    SUM(facility_stocks.current_balance) / commodities.total_commodity_units AS pack_balance,
+			    CEIL(SUM(facility_stocks.current_balance)) AS unit_balance,
+			    CEIL(SUM(facility_stocks.current_balance)) / commodities.total_commodity_units AS pack_balance,
 			    commodities.total_commodity_units
 			FROM
 			    hcmp_rtk.facility_stocks
@@ -2028,6 +2028,7 @@ class Dashboard extends MY_Controller {
 			    commodities ON facility_stocks.commodity_id = commodities.id
 			WHERE
 			    commodities.status = 1
+			    and facility_stocks.expiry_date > NOW()
 			         $filter
 			GROUP BY commodities.id ORDER BY commodities.commodity_name ASC
 		")->result_array();
