@@ -126,7 +126,7 @@ class Data_sync extends MY_Controller {
 			
 			//Update the Record on the Ftp_uploads File to Show the Insertion Has Occurred
 			$sql_ftp_update = "update ftp_uploads set status = '1' where id='$ftp_file_id'";
-			$this->db->query($sql_ftp_update);
+			// $this->db->query($sql_ftp_update);
 
 			//Delete the Extracted File
 			// unlink($txt_file);
