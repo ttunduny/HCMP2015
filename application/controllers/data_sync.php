@@ -67,9 +67,9 @@ class Data_sync extends MY_Controller {
 				$this->db->query($sql_ftp_update_else);
 				echo "Error Extracting<br/>";
 			}		
-
+			echo "Working after Extraction";
 			$txt_file = $extract_path.$filename.'.txt';
-			// echo $txt_file;
+			echo $txt_file;
 
 			$file_details = array(json_decode(file_get_contents($txt_file, FILE_USE_INCLUDE_PATH),TRUE));	//Decode and create an array from the data
 			
@@ -129,7 +129,7 @@ class Data_sync extends MY_Controller {
 			$this->db->query($sql_ftp_update);
 
 			//Delete the Extracted File
-			unlink($txt_file);
+			// unlink($txt_file);
 		}
 	}
 
