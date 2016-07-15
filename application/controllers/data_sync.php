@@ -67,9 +67,9 @@ class Data_sync extends MY_Controller {
 				$this->db->query($sql_ftp_update_else);
 				echo "Error Extracting<br/>";
 			}		
-			echo "Working after Extraction";
+
 			$txt_file = $extract_path.$filename.'.txt';
-			echo $txt_file;
+			// echo $txt_file;
 
 			$file_details = array(json_decode(file_get_contents($txt_file, FILE_USE_INCLUDE_PATH),TRUE));	//Decode and create an array from the data
 			
@@ -91,11 +91,9 @@ class Data_sync extends MY_Controller {
 					if(count($email_check)>0){ //Check if the User already exists in the live db
 						//If Yes, we update the Live Db with the local User and Password
 						// $this->db->update_batch('user', $values, 'email'); 
-						echo "User Currently Existing";
 					}else{
 						//If the User does not exist, we insert the data into the DB
 						$this->db->insert_batch('user', $values); //Inserting User Data to the DB
-						echo "User Not Existing";
 					}				
 				}
 				
@@ -114,9 +112,7 @@ class Data_sync extends MY_Controller {
 							unset($extracted_value[$new_key]['id']);
 						}							
 						$unduplicated_extracted_value = array_unique($extracted_value,SORT_REGULAR); //Remove the Duplicates in the Extracted Array			
-						echo "Working before Insertion";
 						$this->db->insert_batch($key, $unduplicated_extracted_value); //Inserting Data to the DB
-						echo "Working after Insertion";
 					}		
 					
 
@@ -126,10 +122,10 @@ class Data_sync extends MY_Controller {
 			
 			//Update the Record on the Ftp_uploads File to Show the Insertion Has Occurred
 			$sql_ftp_update = "update ftp_uploads set status = '1' where id='$ftp_file_id'";
-			// $this->db->query($sql_ftp_update);
+			$this->db->query($sql_ftp_update);
 
 			//Delete the Extracted File
-			// unlink($txt_file);
+			unlink($txt_file);
 		}
 	}
 
