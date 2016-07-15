@@ -91,9 +91,11 @@ class Data_sync extends MY_Controller {
 					if(count($email_check)>0){ //Check if the User already exists in the live db
 						//If Yes, we update the Live Db with the local User and Password
 						// $this->db->update_batch('user', $values, 'email'); 
+						echo "User Currently Existing";
 					}else{
 						//If the User does not exist, we insert the data into the DB
 						$this->db->insert_batch('user', $values); //Inserting User Data to the DB
+						echo "User Not Existing";
 					}				
 				}
 				
@@ -112,7 +114,9 @@ class Data_sync extends MY_Controller {
 							unset($extracted_value[$new_key]['id']);
 						}							
 						$unduplicated_extracted_value = array_unique($extracted_value,SORT_REGULAR); //Remove the Duplicates in the Extracted Array			
+						echo "Working before Insertion";
 						$this->db->insert_batch($key, $unduplicated_extracted_value); //Inserting Data to the DB
+						echo "Working after Insertion";
 					}		
 					
 
