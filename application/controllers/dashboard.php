@@ -423,10 +423,10 @@ class Dashboard extends MY_Controller {
 		elseif (isset($district_id)) :
 			$district_data = (isset($district_id) && ($district_id > 0)) ? districts::get_district_name($district_id) -> toArray() : null;
 		$district_name_ = (isset($district_data)) ? " :" . $district_data[0]['district'] . " Sub-County" : null;
-		$title .= isset($facility_code) && isset($district_id) ? "$district_name_ : $facility_name" : (isset($district_id) && !isset($facility_code) ? "$district_name_" : "$name County");
+		$title .= isset($facility_code) && isset($district_id) ? "$district_name_ : $facility_name" : (isset($district_id) && !isset($facility_code) ? "$district_name_" : " $name County");
 		elseif (isset($facility_code)) :
-			$facility_code_ = isset($facility_code) ? facilities::get_facility_name_($facility_code) : null;
-		$title .= $facility_code_['facility_name'];
+			$facility_code_ = isset($facility_code) ? facilities::get_facility_name2($facility_code) : null;
+			$title .= " ".$facility_code_['facility_name'];
 		else :
 			$title .= "";
 		endif;
@@ -1121,10 +1121,10 @@ class Dashboard extends MY_Controller {
 			elseif (isset($district_id)) :
 				$district_data = (isset($district_id) && ($district_id > 0)) ? districts::get_district_name($district_id) -> toArray() : null;
 			$district_name_ = (isset($district_data)) ? " :" . $district_data[0]['district'] . " Sub-County" : null;
-			$title .= isset($facility_code) && isset($district_id) ? "$district_name_ : $facility_name" : (isset($district_id) && !isset($facility_code) ? "$district_name_" : "$name County");
+			$title .= isset($facility_code) && isset($district_id) ? "$district_name_ : $facility_name" : (isset($district_id) && !isset($facility_code) ? "$district_name_" : " $name County");
 			elseif (isset($facility_code)) :
-				$facility_code_ = isset($facility_code) ? facilities::get_facility_name_($facility_code) : null;
-			$title .= $facility_code_['facility_name'];
+				$facility_code_ = isset($facility_code) ? facilities::get_facility_name2($facility_code) : null;
+				$title .=" ".$facility_code_['facility_name'];
 			else :
 				// echo "I work here";exit;
 			$title .= "";
@@ -1171,7 +1171,7 @@ class Dashboard extends MY_Controller {
 		$title = trim($title);
 		$graph_type = 'spline';
 		$graph_data = array_merge($graph_data, array("graph_id" => 'dem_graph_consuption'));
-		$graph_data = array_merge($graph_data, array("graph_title" => $title." Consumption (Packs) for $year"));
+		$graph_data = array_merge($graph_data, array("graph_title" =>" ".$title." Consumption (Packs) for $year"));
 		$graph_data = array_merge($graph_data, array("graph_type" => $graph_type));
 		$graph_data = array_merge($graph_data, array("color" => "['#7CB5EC', '#434348']"));
 		$graph_data = array_merge($graph_data, array("graph_yaxis_title" => "Packs"));
@@ -1185,7 +1185,7 @@ class Dashboard extends MY_Controller {
 			// echo "Graph data";exit;
 		else :
 			// echo "Excel data";exit;
-			$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "$title Consumption (Packs) $time", 'file_name' => $title . ' Consumption');
+			$excel_data = array('doc_creator' => "HCMP", 'doc_title' => " $title Consumption (Packs) $time", 'file_name' => $title . ' Consumption');
 			$row_data = array();			
 			$column_data = array("County", "Sub-County", "Facility Name", "Facility Code", "Item Name", "Consumption (Packs)");
 		for ($i=1; $i < $count_commodities; $i++) { 
@@ -1975,6 +1975,10 @@ class Dashboard extends MY_Controller {
 		if($district_id>0){
 			$district_name = Districts::get_district_name_($district_id);
 			$graph_title = $page_title.' '.$district_name['district'].' Sub-County Stock Level';
+		}
+		if($facility_code>0){
+			$facility_name = Facilities::get_facility_name2($facility_code);			
+			$graph_title = $page_title.' '.$facility_name['facility_name'].' Stock Level';
 		}
 		
 		// echo $tracer_item;exit;

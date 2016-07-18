@@ -385,6 +385,7 @@
           var subcounty_text = $('#sub_county_filter option:selected').text();
           var county_id = $('#county_filter option:selected').val();
           var subcounty_id = $('#sub_county_filter option:selected').val();
+          var facility_id = $('#facility_id option:selected').val();
           if(county_id==0){
             ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/NULL/NULL/'+tracer+'/'+division,"#mos");
             ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/NULL/NULL/NULL/NULL/'+division,"#consumption");
@@ -398,11 +399,21 @@
               ajax_request_replace_div_content('dashboard/consumption/'+county_id+'/NULL/NULL/NULL/NULL/NULL/NULL/'+division,"#consumption");
               ajax_request_replace_div_content('dashboard/expiry/NULL/'+county_id+'/NULL/NULL/NULL/NULL/'+division+'/'+tracer,"#actual");
             }else{
-              $('.county-name').html(subcounty_text+" &nbsp;");
-               /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
-              ajax_request_replace_div_content('dashboard/stocking_levels/NULL/'+subcounty_id+'/NULL/NULL/'+tracer+'/'+division,"#mos");
-              ajax_request_replace_div_content('dashboard/consumption/NULL/'+subcounty_id+'/NULL/NULL/NULL/NULL/NULL/'+division,"#consumption");
-              ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/'+subcounty_id+'/NULL/NULL/NULL/'+division+'/'+tracer,"#actual");
+              if(facility_id=='NULL'){
+                  $('.county-name').html(subcounty_text+" &nbsp;");
+                   /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
+                  ajax_request_replace_div_content('dashboard/stocking_levels/NULL/'+subcounty_id+'/NULL/NULL/'+tracer+'/'+division,"#mos");
+                  ajax_request_replace_div_content('dashboard/consumption/NULL/'+subcounty_id+'/NULL/NULL/NULL/NULL/NULL/'+division,"#consumption");
+                  ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/'+subcounty_id+'/NULL/NULL/NULL/'+division+'/'+tracer,"#actual");
+              }else{
+                  $('.county-name').html(subcounty_text+" &nbsp;");
+                   /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
+                  ajax_request_replace_div_content('dashboard/stocking_levels/NULL/NULL/'+facility_id+'/NULL/'+tracer+'/'+division,"#mos");
+                  ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/'+facility_id+'/NULL/NULL/NULL/NULL/'+division,"#consumption");
+                  ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/'+facility_id+'/NULL/NULL/'+division+'/'+tracer,"#actual");
+
+              }
+              
               
             }
           }
