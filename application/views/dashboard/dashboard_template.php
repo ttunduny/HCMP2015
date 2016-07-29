@@ -453,16 +453,21 @@
     })  
     // Subcounty filter
     $('#sub_county_filter').on('change', function(){
-            var subcounty_val=$('#sub_county_filter').val()
+        var subcounty_val=$('#sub_county_filter').val();
         var drop_down='';
-       var facility_select = "<?php echo base_url(); ?>reports/get_facility_json/"+subcounty_val;
-        $.getJSON( facility_select ,function( json ) {
-         $("#facility_id").html('<option value="NULL" selected="selected">All Facilities</option>');
-          $.each(json, function( key, val ) {
-            drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
-          });
-          $("#facility_id").append(drop_down);
-        });
+        if(subcounty_val=="NULL"){
+          $("#facility_id").html('<option value="NULL" selected="selected">All Facilities</option>');
+        }else{
+          var facility_select = "<?php echo base_url(); ?>reports/get_facility_json/"+subcounty_val;
+          $.getJSON( facility_select ,function( json ) {
+           $("#facility_id").html('<option value="NULL" selected="selected">All Facilities</option>');
+            $.each(json, function( key, val ) {
+              drop_down +="<option value='"+json[key]["facility_code"]+"'>"+json[key]["facility_name"]+"</option>"; 
+            });
+            $("#facility_id").append(drop_down);
+          });  
+        }                
+        
       });
     $("#consumption_download").button().click(function(e){
           e.preventDefault();
