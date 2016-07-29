@@ -433,8 +433,40 @@
         });
         $(".consumption_filter").button().click(function(e) {
           e.preventDefault(); 
+          var county_text = $('#county_filter option:selected').text();
+          var subcounty_text = $('#sub_county_filter option:selected').text();
+          var county_id = $('#county_filter option:selected').val();
+          var subcounty_id = $('#sub_county_filter option:selected').val();
+          var facility_id = $('#facility_id option:selected').val();
           var commodity = $("#consumption_commodity").val();
-         ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
+          if(county_id==0){
+            // ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
+            ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
+            $('.county-name').html("National "+" &nbsp;");
+          }else{
+            if(subcounty_id=='NULL'){
+              $('.county-name').html(county_text+" &nbsp;");
+               /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/              
+              // ajax_request_replace_div_content('dashboard/consumption/'+county_id+'/NULL/NULL/NULL/NULL/NULL/NULL/'+division,"#consumption");
+              ajax_request_replace_div_content('dashboard/consumption/'+county_id+'/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
+            }else{
+              if(facility_id=='NULL'){
+                  $('.county-name').html(subcounty_text+" &nbsp;");
+                   /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/                  
+                  // ajax_request_replace_div_content('dashboard/consumption/NULL/'+subcounty_id+'/NULL/NULL/NULL/NULL/NULL/'+division,"#consumption");
+                  ajax_request_replace_div_content('dashboard/consumption/NULL/'+subcounty_id+'/NULL/'+commodity+'/NULL/NULL',"#consumption");
+              }else{
+                  $('.county-name').html(subcounty_text+" &nbsp;");
+                   /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/                  
+                  // ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/'+facility_id+'/NULL/NULL/NULL/NULL/'+division,"#consumption");
+                  ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/'+facility_id+'/'+commodity+'/NULL/NULL',"#consumption");
+
+              }
+              
+              
+            }
+          }
+          // ajax_request_replace_div_content('dashboard/consumption/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#consumption");
         });
         // County filter
         $('#county_filter').on('change', function(){
