@@ -1118,14 +1118,14 @@ class Dashboard extends MY_Controller {
 			$name = $county_name['county'];
 			$title .= " $name County";
 			//print_r($name);exit;
-			elseif (isset($district_id)) :
-				$district_data = (isset($district_id) && ($district_id > 0)) ? districts::get_district_name($district_id) -> toArray() : null;
+		elseif (isset($district_id)) :
+			$district_data = (isset($district_id) && ($district_id > 0)) ? districts::get_district_name($district_id) -> toArray() : null;
 			$district_name_ = (isset($district_data)) ? " :" . $district_data[0]['district'] . " Sub-County" : null;
 			$title .= isset($facility_code) && isset($district_id) ? "$district_name_ : $facility_name" : (isset($district_id) && !isset($facility_code) ? "$district_name_" : " $name County");
-			elseif (isset($facility_code)) :
+		elseif (isset($facility_code)) :
 				$facility_code_ = isset($facility_code) ? facilities::get_facility_name2($facility_code) : null;
 				$title .=" ".$facility_code_['facility_name'];
-			else :
+		else :
 				// echo "I work here";exit;
 			$title .= "";
 		endif;//county id isset
@@ -1151,7 +1151,7 @@ class Dashboard extends MY_Controller {
 				        AND d1.county = c.id
 				        AND f_i.`qty_issued` > 0
 				        AND YEAR(f_i.created_at) = $year
-				        $filter
+				        $and_data
 				        GROUP BY MONTH(f_i.created_at)
 				        ")->result_array();
 			// echo "<pre>";print_r($commodity_array);exit;
