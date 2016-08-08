@@ -431,6 +431,18 @@
           var commodity = $("#expiry_commodity").val();
          ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#actual");
         });
+        $(".mos_filter").button().click(function(e){
+          e.preventDefault();
+          var commodity = $("#mos_commodity").val();
+          var filter_url = "dashboard/stocking_levels/NULL/NULL/NULL/"+commodity+"/"+tracer+"/"+division+"/NULL"; 
+          ajax_request_replace_div_content(filter_url,"#mos");
+        });
+        $(".mos_download").button().click(function(e){
+          e.preventDefault();
+          var commodity = $("#mos_commodity").val();
+          var download_link = "dashboard/stocking_levels/NULL/NULL/NULL/"+commodity+"/"+tracer+"/"+division+"/excel"; 
+          window.open(url + download_link);
+        }); 
         $(".consumption_filter").button().click(function(e) {
           e.preventDefault(); 
           var county_text = $('#county_filter option:selected').text();
@@ -504,24 +516,31 @@
     $("#consumption_download").button().click(function(e){
           e.preventDefault();
           var commodity = $("#consumption_commodity").val();
+          var county = $("#county_filter").val();
+          var subcounty = $("#subcounty_filter").val();
           if (commodity==0) {commodity=null}
-          var link = "dashboard/consumption/NULL/NULL/NULL/" + commodity + "/excel/NULL/NULL/NULL";
+          var link = "dashboard/consumption/"+county+"/"+subcounty+"/NULL/" + commodity + "/excel/NULL/NULL/NULL";
           window.open(url + link);
           // console.log(commodity);
         });
         $("#expiry_download").button().click(function(e){
           e.preventDefault();
           var commodity = $("#expiry_commodity").val();
+          var county = $("#county_filter").val();
+          var subcounty = $("#subcounty_filter").val();
           if (commodity==0) {commodity=null}
-          var link = "dashboard/expiry/NULL/NULL/NULL/NULL/excel/" + commodity + "/NULL/NULL"
+          var link = "dashboard/expiry/NULL/"+county+"/"+subcounty+"/NULL/excel/" + commodity + "/NULL/NULL"
           window.open(url + link);
           // console.log(commodity);
         });
         $("#stock_download").button().click(function(e){
           e.preventDefault()
           var tracer = '<?php echo $tracer; ?>';
+          var county = $("#county_filter").val();
+          var subcounty = $("#subcounty_filter").val();
+          // alert(county); alert(subcounty); 
           if (tracer=='') {tracer=null}
-          var link = "dashboard/stocking_levels/NULL/NULL/NULL/NULL/"+tracer+"/" + division + "/excel";
+          var link = "dashboard/stocking_levels/"+county+"/"+subcounty+"/NULL/NULL/"+tracer+"/" + division + "/excel";
           window.open(url + link);
         });
     $(".ecounty-filter").button().click(function(e) {
