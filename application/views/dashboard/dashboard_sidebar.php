@@ -18,15 +18,21 @@
               <div class="menu_section">
                 <!-- <h3>HCMP Analytics</h3> -->
                 <ul class="nav side-menu">
-                  <li class="active"><a><i class="fa fa-area-chart"></i> Programmatic <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu" style="display: block;">
-                    <?php foreach ($commodity_divisions as $divisions => $value): ?>
-                      <li><a href="<?php echo base_url().'dashboard/divisions/'.$value['id']; ?>"><?php echo $value['division_name']; ?></a>
-                      </li>
-                    <?php endforeach; ?>
-                    </ul>
-                  </li>
-                  <li><a href="<?php echo base_url().'national/reports';?>"><i class="fa fa-bar-chart"></i> Reports</a></li>
+                <?php 
+                  if($report==0){?>
+                    <li class="active"><a><i class="fa fa-area-chart"></i> Programmatic <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu" style="display: block;">
+                      <?php foreach ($commodity_divisions as $divisions => $value): ?>
+                        <li><a href="<?php echo base_url().'dashboard/divisions/'.$value['id']; ?>"><?php echo $value['division_name']; ?></a>
+                        </li>
+                      <?php endforeach; ?>
+                      </ul>
+                    </li>
+                <?php }else{
+                ?>
+                  <li><a href="<?php echo base_url().'dashboard/'?>"><i class="fa fa-area-chart"></i>Dashboard</a></li>                  
+                  <?php }?>
+                  <li class="active"><a href="<?php echo base_url().'dashboard/dashboard_reports';?>"><i class="fa fa-bar-chart"></i> Reports</a></li>
                   <li><a href="<?php echo base_url().'dashboard/report_problems';?>"><i class="fa fa-ambulance"></i> Report Problem</a></li>
                   <!-- 
                   <li><a><i class="fa fa-bar-chart"></i> Subcounty <span class="fa fa-chevron-down"></span></a>

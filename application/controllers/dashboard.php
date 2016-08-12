@@ -96,6 +96,7 @@ class Dashboard extends MY_Controller {
 		$data['commodity_divisions'] = $commodity_divisions;
 		$data['title'] = "National Dashboard";
 		$data['maps'] = $map;
+		$data['report']= 0;
 		$data['counties'] = $county_name;
 		$this->load->view('dashboard/dashboard_template',$data); 
 	}
@@ -1734,6 +1735,20 @@ class Dashboard extends MY_Controller {
 		$data['commodities'] = Commodities::get_all();		
 		$data['sub_county'] = Districts::getAll();
 		$this -> load -> view('national/reports_home', $data);
+	}
+
+	public function dashboard_reports()
+	{
+		$commodities = Dashboard_model::get_commodity_count();
+		$facility_count = Dashboard_model::get_online_offline_facility_count();
+		
+		$commodity_divisions = Dashboard_model::get_division_details();
+		$data['commodity_divisions'] = $commodity_divisions;
+		$data['facility_count'] = $facility_count;
+		$data['commodity_count'] = $commodities;
+		$data['report']= 1;
+		$data['content_view'] = 'dashboard/dashboard_report_problems';
+		return $this->load->view('dashboard/dashboard_template',$data); 
 	}
 	public function facilities_json() {
 		echo json_encode(facilities::getAll_json());
