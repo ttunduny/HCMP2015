@@ -428,8 +428,37 @@
          
         $(".expiry_filter").button().click(function(e) {
           e.preventDefault(); 
+          var county_text = $('#county_filter option:selected').text();
+          var subcounty_text = $('#sub_county_filter option:selected').text();
+          var county_id = $('#county_filter option:selected').val();
+          var subcounty_id = $('#sub_county_filter option:selected').val();
+          var facility_id = $('#facility_id option:selected').val();
           var commodity = $("#expiry_commodity").val();
-         ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#actual");
+          if(county_id==0){            
+            ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#actual");
+            $('.county-name').html("National "+" &nbsp;");
+          }else{
+            if(subcounty_id=='NULL'){
+              $('.county-name').html(county_text+" &nbsp;");
+              /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
+              /* year,county_id, district_id,facility_code,graph_type,commodity_id,commodity_division,tracer*/              
+              ajax_request_replace_div_content('dashboard/expiry/NULL/'+county_id+'/NULL/NULL/NULL/'+commodity+'/NULL/',"#actual");
+            }else{
+              if(facility_id=='NULL'){
+                  $('.county-name').html(subcounty_text+" &nbsp;");
+                   /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
+                   /* year,county_id, district_id,facility_code,graph_type,commodity_id,commodity_division,tracer*/
+                  ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/'+subcounty_id+'/NULL/NULL/'+commodity+'/NULL/',"#actual");                  
+              }else{
+                  $('.county-name').html(subcounty_text+" &nbsp;");
+                   /*DASHBOARD/EXPIRY HAS 7 PARAMETERS*/
+                  ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/'+facility_id+'/NULL/'+commodity+'/NULL/',"#actual");                  
+
+              }              
+              
+            }
+          }                    
+         // ajax_request_replace_div_content('dashboard/expiry/NULL/NULL/NULL/NULL/NULL/'+commodity+'/NULL/NULL',"#actual");
         });
         $(".mos_filter").button().click(function(e){
           e.preventDefault();
