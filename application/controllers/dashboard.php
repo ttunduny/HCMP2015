@@ -1741,13 +1741,20 @@ class Dashboard extends MY_Controller {
 	{
 		$commodities = Dashboard_model::get_commodity_count();
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
-		
+		$data['title'] = "National Reports";
+		$data['page_title'] = "National Reports";
 		$commodity_divisions = Dashboard_model::get_division_details();
 		$data['commodity_divisions'] = $commodity_divisions;
 		$data['facility_count'] = $facility_count;
 		$data['commodity_count'] = $commodities;
 		$data['report']= 1;
-		$data['content_view'] = 'dashboard/dashboard_report_problems';
+		$counties = $this->db->query("SELECT * FROM counties")->result_array();
+		$districts = $this->db->query("SELECT * FROM districts")->result_array();	
+		$data['county_data'] = $counties;		
+		$data['district_data'] = $districts;				
+		$data['counties'] = $county_name;
+		$data['commodities'] = Commodities::get_all();		
+		$data['content_view'] = 'dashboard/dashboard_reports';
 		return $this->load->view('dashboard/dashboard_template',$data); 
 	}
 	public function facilities_json() {

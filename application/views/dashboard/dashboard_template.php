@@ -277,7 +277,7 @@
           startDate: moment().subtract(29, 'days'),
           endDate: moment(),
           minDate: '01/01/2012',
-          maxDate: '12/31/2015',
+          maxDate: '12/31/2016',
           dateLimit: {
             days: 60
           },
@@ -313,6 +313,7 @@
         };
         $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
         $('#reportrange').daterangepicker(optionSet1, cb);
+        $('#from_date').daterangepicker(optionSet1, cb);
         $('#reportrange').on('show.daterangepicker', function() {
           console.log("show event fired");
         });
@@ -624,6 +625,26 @@
              $('.subcounty').val(id);
              dropdown(baseUrl,"district="+id,".facility");
          });
+        $("#commodity_dropdown_div").hide();
+        $("#duration_potential").hide();
+        $("input[name='report_type']").change(function(){
+          if($('#potential_expiries').is(':checked')){            
+            $("#duration_normal").hide("slow");          
+            $("#duration_potential").show("slow");
+          }else{
+            $("#duration_potential").hide("slow");
+            $("#duration_normal").show("slow");          
+          }     
+        });
+
+        $("input[name='commodity_category']").change(function(){
+          if($('#specific_commodity').is(':checked')){                        
+            $("#commodity_dropdown_div").show("slow");
+          }else{
+            $("#commodity_dropdown_div").hide("slow");            
+          }     
+        });
+
         function run(data){
           var county_data=data.split('^');
         // console.log(county_data);return;

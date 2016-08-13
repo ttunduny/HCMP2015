@@ -698,11 +698,11 @@ footer {
 }
 @media (min-width: 768px) {
   footer {
-    margin-left: 230px;
+    margin-left: 0px;
   }
 }
 .nav-sm footer {
-  margin-left: 70px ;  
+  margin-left: 0px ;  
 }
 .tile-stats.sparkline {
   padding: 10px;
