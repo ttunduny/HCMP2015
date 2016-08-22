@@ -29,7 +29,7 @@
  <div class="container body">
       <div class="main_container">
         <?php $this->load->view('dashboard/dashboard_sidebar'); ?>
-
+        <script src=<?php echo base_url()."assets/dashboard/vendors/jquery/dist/jquery.min.js"?>></script>
         <!-- top navigation -->
         <div class="top_nav">
 
@@ -79,22 +79,22 @@
                   <div class="col-md-12" style="margin-top:1%;"><h5>Select the Type of Report</h5></div>
                   <br/>
                   <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                    <label><input type="radio" name="report_type" checked="checked" id="consumption">Consumption</label>
+                    <label><input type="radio" name="report_type" checked="checked" id="consumption" value="consumption">Consumption</label>
                   </div>
                   <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                    <label><input type="radio" name="report_type" id="stock_level">Stock Level</label>
-                  </div>
-
-                  <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                    <label><input type="radio" name="report_type" id="orders">Orders</label>
+                    <label><input type="radio" name="report_type" id="stock_level" value="stock_level">Stock Level</label>
                   </div>
 
                   <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                    <label><input type="radio" name="report_type" id="potential_expiries">Potential Expiries</label>
+                    <label><input type="radio" name="report_type" id="orders" value="orders">Orders</label>
                   </div>
 
                   <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                    <label><input type="radio" name="report_type" id="actual_expiries">Actual Expiries</label>
+                    <label><input type="radio" name="report_type" id="potential_expiries" value="potential_expiries">Potential Expiries</label>
+                  </div>
+
+                  <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
+                    <label><input type="radio" name="report_type" id="actual_expiries" value="actual_expiries">Actual Expiries</label>
                   </div>
                                       
                 </div>               
@@ -103,14 +103,14 @@
                     <div class="col-md-12" style="margin-top:1%;"><h5>Select Commodity Category</h5></div>
                     <br/>
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <label><input type="radio" name="commodity_category" id="all_commodities" checked="checked">All Commodities</label>
+                      <label><input type="radio" name="commodity_category" id="all_commodities" checked="checked" value="all">All Commodities</label>
                     </div>
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <label><input type="radio" name="commodity_category" id="tracer_commodities">Tracer Commodities</label>
+                      <label><input type="radio" name="commodity_category" id="tracer_commodities" value="tracer">Tracer Commodities</label>
                     </div>
 
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <label><input type="radio" name="commodity_category" id="specific_commodity">Specify Commodity</label>                      
+                      <label><input type="radio" name="commodity_category" id="specific_commodity" value="specify">Specify Commodity</label>                      
                     </div>   
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">                      
                     </div>   
@@ -130,7 +130,23 @@
                       </div>
                     </div>   
                   </div>  
+                  <div class="col-md-12" style="margin-top:1%;border:1px ridge;">
+                    <div class="col-md-12" style="margin-top:1%;"><h5>Select Commodity Size</h5></div>
+                    <br/>                    
+                    <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
+                      <label><input type="radio" name="commodity_size" checked="checked" value="packs">Packs</label>
+                    </div>
 
+                    <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
+                      <label><input type="radio" name="commodity_size" value="units">Units</label>
+                    </div>
+
+
+                    <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
+                      
+                    </div>
+                                        
+                  </div>
                   <div id="duration_normal" class="col-md-12" style="margin-top:1%;border:1px ridge;">
                     <div class="col-md-12" style="margin-top:1%;"><h5>Select the Duration</h5></div>
                     <br/>
@@ -146,7 +162,7 @@
                     </div>
 
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <button type="button" class="btn btn-success generate-annual">
+                      <button type="button" class="btn btn-success generate-annual" id="generate_annual">
                       <span class="glyphicon glyphicon-file"></span>  Generate Annual Report
                       </button>
                     </div>
@@ -161,14 +177,14 @@
                     <div class="col-md-12" style="margin-top:1%;"><h5>Select the Interval</h5></div>
                     <br/>
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <label><input type="radio" name="potential_interval" checked="checked">Next 3 Months</label>
+                      <label><input type="radio" name="potential_interval" checked="checked" value="3">Next 3 Months</label>
                     </div>
 
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <label><input type="radio" name="potential_interval">Next 6 Months</label>
+                      <label><input type="radio" name="potential_interval" value="6">Next 6 Months</label>
                     </div>
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <label><input type="radio" name="potential_interval">Next 1 Year</label>
+                      <label><input type="radio" name="potential_interval" value="12">Next 1 Year</label>
                     </div>
 
 
@@ -178,28 +194,12 @@
                                         
                   </div>     
 
-                  <div class="col-md-12" style="margin-top:1%;border:1px ridge;">
-                    <div class="col-md-12" style="margin-top:1%;"><h5>Select Comodity Size</h5></div>
-                    <br/>                    
-                    <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <label><input type="radio" name="commodity_size" checked="checked">Packs</label>
-                    </div>
-
-                    <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <label><input type="radio" name="commodity_size">Units</label>
-                    </div>
-
-
-                    <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      
-                    </div>
-                                        
-                  </div>
+                
                   <div class="col-md-12" style="margin-top:1%;border:1px ridge;">
                     <div class="col-md-12" style="margin-top:1%;"><h5>Generate Report</h5></div>
                     <br/>                    
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <button type="button" class="btn btn-success generate-annual">
+                      <button type="button" class="btn btn-success generate">
                       <span class="glyphicon glyphicon-file"></span>  Generate Excel Report
                       </button>
                     </div>
@@ -244,6 +244,109 @@
           <div class="clearfix"></div>
         </footer>
         <!-- /footer content -->
-        
+        <script type="text/javascript">
+          $(document).ready(function(){
+            var url ='<?php echo base_url()?>';
+            $("#generate_annual").click(function() {              
+              var county_id=$('#county_filter').val();
+              var district=$("#sub_county_filter").val();
+              var facility=$("#facility_id").val();
+              var interval=$("#potential_interval").val();
+              var criteria = $('input[name=report_type]:checked').val()
+              var commodity_size = $('input[name=commodity_size]:checked').val()
+              var type = 'excel';
+              var d = new Date();
+              var n = d.getFullYear();
+              var from =("1 Jan ")+ n;
+              var to =("31 Dec ")+ n;
+              var commodity_id=$('#specific_commodity').val();
+              var commodity_type = $('input[name=commodity_category]:checked').val()
+              var link='';        
+              if(from==''){from="NULL";}
+              if(to==''){to="NULL";}
+
+              if(criteria=='consumption'){
+                if(commodity_type=='tracer'){                
+                  link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/NULL/excel/'+encodeURI(from)+ '/'+encodeURI(to);
+                }
+                if(commodity_type=='all'){
+                  var commodity_id=$('#commodity_selected').val();                
+                  link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);
+                }
+                if(commodity_type=='specify'){
+                  var commodity_id=$('#commodity_selected').val();  
+                  link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/'+encodeURI(commodity_id)+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);  
+                }               
+              }else if(criteria=='stock_level'){
+                if(commodity_type=='tracer'){  
+                  if(commodity_size=='units'){
+                    link='national/stock_level_units/'+county_id+'/'+district+'/'+facility_id+'/NULL/excel';
+                  }else{
+                    link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility_id+'/NULL/excel';
+                  }             
+                  
+                }
+                if(commodity_type=='all'){
+                  var commodity_id=$('#commodity_selected').val();   
+                  if(commodity_size=='units'){
+                    link='national/stock_level_units/'+county_id+'/'+district+'/'+facility_id+'/'+commodity_id+'/excel';
+                  }else{
+                    link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility_id+'/NULL/excel';
+                  }               
+                  
+                }
+                if(commodity_type=='specify'){
+                  var commodity_id=$('#commodity_selected').val();  
+                  if(commodity_size=='units'){
+                    link='national/stock_level_units/'+county_id+'/'+district+'/'+facility_id+'/'+commodity_id+'/excel';
+                  }else{
+                    link='national/stock_level_packs/'+county_id+'/'+district+'/'+facility_id+'/'+commodity_id+'/excel';
+                  }  
+                  
+                }               
+              }else if(criteria=='orders'){
+                link='national/order/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';
+              }else if(criteria=='actual_expiries'){
+                if(commodity_type=='tracer'){  
+                  if(commodity_size=='units'){
+                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';
+                  }else{
+                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';
+                  }             
+                  
+                }
+                if(commodity_type=='all'){
+                  var commodity_id=$('#commodity_selected').val();   
+                  if(commodity_size=='units'){
+                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';
+                  }else{
+                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';
+                  }               
+                  
+                }
+                if(commodity_type=='specify'){
+                  var commodity_id=$('#commodity_selected').val();  
+                  if(commodity_size=='units'){
+                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel/'+commodity_id;                                
+                  }else{
+                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel/'+commodity_id;                                
+                  }  
+                  
+                }               
+              }else if(criteria=='potential_expiries'){                
+                if(commodity_type=='all'){
+                  var commodity_id=$('#commodity_selected').val();   
+                  link='national/potential/'+county_id+'/'+district+'/'+facility_id+'/excel/'+potential_interval;                           
+                }
+                if(commodity_type=='specify'){
+                  var commodity_id=$('#commodity_selected').val();  
+                  link='national/potential/'+county_id+'/'+district+'/'+facility_id+'/excel/'+potential_interval+'/'+commodity_id;
+                  
+                }               
+              }
+              window.open(url+link,'_parent');
+            });        
+          });
+        </script>
       </div>
     </div>
