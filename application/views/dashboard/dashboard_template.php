@@ -20,7 +20,7 @@
     <link href=<?php echo base_url()."assets/dashboard/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css"?> rel="stylesheet">
     
     <link href=<?php echo base_url()."assets/dashboard/vendors/select2/dist/css/select2.min.css"?> rel="stylesheet">
-    
+    <link href="<?php echo base_url().'assets/css/jui/jquery-bootstrap-datepicker.css'?>" type="text/css" rel="stylesheet"/>
     <!-- jVectorMap -->
     <!-- <link href=<?php echo base_url()."assets/dashboard/css/maps/jquery-jvectormap-2.0.3.css"?> rel="stylesheet"/> -->
 
@@ -38,6 +38,7 @@
       $this->load->view('dashboard/dashboard');
     }
    ?>
+
 
     <!-- jQuery -->
     <script src=<?php echo base_url()."assets/dashboard/vendors/jquery/dist/jquery.min.js"?>></script>
@@ -66,6 +67,7 @@
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.time.js"?> ></script>
     <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.stack.js"?> ></script>
     <!-- <script src=<?php echo base_url()."assets/dashboard/vendors/Flot/jquery.flot.resize.js"?> ></script> -->
+    <script src="<?php echo base_url().'assets/js/jui/jquery-ui.js'?>" type="text/javascript"></script>
     <!-- Flot plugins -->
     <script src=<?php echo base_url()."assets/dashboard/js/flot/jquery.flot.orderBars.js"?>></script>
     <script src=<?php echo base_url()."assets/dashboard/js/flot/date.js"?>></script>
@@ -313,7 +315,7 @@
         };
         $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
         $('#reportrange').daterangepicker(optionSet1, cb);
-        $('#from_date').daterangepicker(optionSet1, cb);
+        // $('#from_date').daterangepicker(optionSet1, cb);
         $('#reportrange').on('show.daterangepicker', function() {
           console.log("show event fired");
         });
@@ -335,7 +337,28 @@
         $('#destroy').click(function() {
           $('#reportrange').data('daterangepicker').remove();
         });
-      });
+        var url='<?php echo base_url(); ?>';
+        json_obj = { "url" : "assets/img/calendar.gif'",};
+        var baseUrl=json_obj.url;
+        var calendar = url+'assets/img/calendar.gif';        
+     
+        $(".clone_datepicker_normal_limit_today").datepicker({
+          maxDate: new Date(),       
+          dateFormat: 'd M yy', 
+          changeMonth: true,
+          changeYear: true,
+          buttonImage: baseUrl,
+        });
+          
+        // $(".clone_datepicker_normal_limit_today" ).datepicker();
+        // $(".clone_datepicker_normal_limit_today").datepicker({
+        //   maxDate: new Date(),        
+        //   dateFormat: 'd M yy', 
+        //   changeMonth: true,
+        //   changeYear: true,
+        //   buttonImage: baseUrl,});
+            
+          });
     </script>
     <!-- /bootstrap-daterangepicker -->
 
@@ -706,6 +729,12 @@
         }
       });
      } 
+     var url="<?php echo base_url(); ?>";
+     $('#devs').click(function (e){
+        e.preventDefault();
+        link='dashboard/devs';
+        window.open(url+link,'_parent'); 
+     });
      $(".excel_").click(function(e) {
       e.preventDefault();
       var county_id=$('#placeholder').val();

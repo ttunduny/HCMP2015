@@ -447,6 +447,7 @@
             <p class="text-muted"> Government of Kenya &copy <?php echo date('Y');?>. | All Rights Reserved
               <!-- <a data-toggle="popover" title="Experiencing any challenges?  Send an Email to hcmphelpdesk@googlegroups.com" data-content=" Send an Email to hcmphelpdesk@googlegroups.com">Report problems</a> -->
             </p>
+            <span><a href="#" id="devs">######</a></span>
           </center>
           </div>
           <div class="clearfix"></div>

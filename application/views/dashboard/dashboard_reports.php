@@ -135,11 +135,11 @@
                     <div class="col-md-12" style="margin-top:1%;"><h5>Select the Duration</h5></div>
                     <br/>
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
-                      <label><input type="text" class="form-control clone_datepicker_normal_limit_today" name="from_date" id="from_date" placeholder="Duration"/></label>
+                      <label><input type="text" class="form-control clone_datepicker_normal_limit_today" name="from_date" id="from_date" placeholder="From"/></label>
                     </div>
-                  <!--   <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
+                    <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
                       <label><input type="text" class="form-control clone_datepicker_normal_limit_today" name="to_date" id="to_date" placeholder="To"/></label>
-                    </div> -->
+                    </div>
 
                     <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
                       OR
@@ -244,5 +244,6 @@
           <div class="clearfix"></div>
         </footer>
         <!-- /footer content -->
+        
       </div>
     </div>
