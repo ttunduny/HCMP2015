@@ -1741,6 +1741,7 @@ class Dashboard extends MY_Controller {
 	{
 		$commodities = Dashboard_model::get_commodity_count();
 		$facility_count = Dashboard_model::get_online_offline_facility_count();
+		$division_details = Dashboard_model::get_division_details($division);
 		$data['title'] = "National Reports";
 		$data['page_title'] = "National Reports";
 		$commodity_divisions = Dashboard_model::get_division_details();
@@ -1753,9 +1754,22 @@ class Dashboard extends MY_Controller {
 		$data['county_data'] = $counties;		
 		$data['district_data'] = $districts;				
 		$data['counties'] = $county_name;
+		$data['programs'] = $division_details;
+		// echo "<pre>";print_r($division_details);die;
 		$data['commodities'] = Commodities::get_all();		
 		$data['content_view'] = 'dashboard/dashboard_reports';
 		return $this->load->view('dashboard/dashboard_template',$data); 
+	}
+	public function division_json($division){
+		$commodities = Dashboard_model::get_division_commodities($division);
+		$option = '';
+		foreach ($commodities as $key => $value) {
+			$id = $value['id'];
+			$commodity_name = $value['commodity_name'];
+			$option.='<option value="'.$id.'">'.$commodity_name.'</option>';
+		}
+		echo json_encode($option);
+		
 	}
 	public function facilities_json() {
 		echo json_encode(facilities::getAll_json());

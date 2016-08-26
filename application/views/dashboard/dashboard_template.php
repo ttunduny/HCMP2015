@@ -650,6 +650,9 @@
          });
         $("#commodity_dropdown_div").hide();
         $("#duration_potential").hide();
+        // $("#division_dropdown_div").hide();
+        $("#division_commodity_dropdown_div").hide();
+
         $("input[name='report_type']").change(function(){
           if($('#potential_expiries').is(':checked')){            
             $("#duration_normal").hide("slow");          
@@ -665,6 +668,36 @@
             $("#commodity_dropdown_div").show("slow");
           }else{
             $("#commodity_dropdown_div").hide("slow");            
+          }     
+        });
+        $("input[name='commodity_category']").change(function(){
+          if($('#programme_commodities').is(':checked')){                        
+            $("#division_dropdown_div").show("slow");
+          }else{
+            $("#division_dropdown_div").hide("slow");  
+            $("#division_commodity_dropdown_div").hide("slow");          
+          }     
+        });
+
+        $("#division_selected").change(function(){
+          var division = $("#division_selected").val();
+          if(division==0){                        
+            $("#division_commodity_dropdown_div").hide("slow");            
+          }else{
+            var url ='<?php echo base_url()?>';
+            var function_url =  url + 'dashboard/division_json/'+division;
+             $.ajax({
+              type: "POST",
+              url: function_url,
+              success: function(msg){  
+                var new_msg = JSON.parse(msg);                
+                $("#division_commodity_selected").html(new_msg);
+              },
+              error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(textStatus == 'timeout') {}
+              }
+         })
+            $("#division_commodity_dropdown_div").show("slow");            
           }     
         });
 
@@ -723,9 +756,9 @@
         url: function_url,
         beforeSend: function() {
           $(div).html("<img style='margin-top:20%;margin-left:50%;' src="+loading_icon+">");
-        },
-        success: function(msg) {
-          $(div).html(msg);
+        },ess: function(msg) {
+          $(
+        succdiv).html(msg);
         }
       });
      } 
