@@ -385,16 +385,20 @@
               if(to==''){to="NULL";}
                             
               if(criteria=='consumption'){
-                if(commodity_type=='tracer'){                
-                  link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/NULL/excel/'+encodeURI(from)+ '/'+encodeURI(to);
+                if(commodity_type=='tracer'){      
+                // $county_id=NULL,$district_id=NULL,$facility_code=NULL,$commodity_category=NULL,$programme=NULL,$commodity_id=NULL,$commodity_size=NULL,$from=NULL,$to=NULL){          
+                  link='national/reports_consumption_new/'+county_id+'/'+district+'/'+facility+'/tracer/NULL/NULL/'+commodity_type+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);
+                  // link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/NULL/excel/'+encodeURI(from)+ '/'+encodeURI(to);
                 }
-                if(commodity_type=='all'){
-                  var commodity_id=$('#commodity_selected').val();                
-                  link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);
-                }
+                // if(commodity_type=='all'){
+                //   var commodity_id=$('#commodity_selected').val();                
+                //   link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);
+                // }
                 if(commodity_type=='specify'){
-                  var commodity_id=$('#commodity_selected').val();  
-                  link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/'+encodeURI(commodity_id)+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);  
+                  var commodity_id=$('#commodity_selected').val(); 
+                  // $county_id=NULL,$district_id=NULL,$facility_code=NULL,$commodity_category=NULL,$programme=NULL,$commodity_id=NULL,$commodity_size=NULL,$from=NULL,$to=NULL){ 
+                  link='national/reports_consumption_new/'+county_id+'/'+district+'/'+facility+'/specify/NULL/'+commodity_id+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);
+                  // link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/'+encodeURI(commodity_id)+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);  
                 }               
               }else if(criteria=='stock_level'){
                 if(commodity_type=='tracer'){  
@@ -463,7 +467,8 @@
                   
                 }               
               }
-              window.open(url+link,'_parent');
+              // window.open(url+link,'_parent');
+              window.open(url+link,'_blank');
             });        
           });
         </script>

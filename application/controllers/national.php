@@ -1350,6 +1350,96 @@ public function new_consumption(){
 
 		echo "<pre>";print_r($final_array);die;
 }
+	public function reports_consumption_new($county_id=NULL,$district_id=NULL,$facility_code=NULL,$commodity_category=NULL,$programme=NULL,$commodity_id=NULL,$commodity_size=NULL,$from=NULL,$to=NULL){
+		
+		$county_id = ($county_id == "NULL") ? null : $county_id;
+		$district_id = ($district_id == "NULL") ? null : $district_id;
+		$facility_code = ($facility_code == "NULL") ? null : $facility_code;
+		$report_type = ($report_type == "NULL") ? 'consumption' : $report_type;
+		$commodity_category = ($commodity_category == "NULL") ? null : $commodity_category;	
+		$programme = ($programme == "NULL") ? null : $programme;	
+		$commodity_id = ($commodity_id == "NULL") ? null : $commodity_id;
+		$commodity_size = ($commodity_size == "NULL") ? 'packs' : $commodity_size;				
+		$from = ($from == "NULL" || !isset($from)) ? date('Y-m-d') : date('Y-m-d', strtotime(urldecode($from)));
+		$to = ($to == "NULL" || !isset($to)) ? date('Y-m-d') : date('Y-m-d', strtotime(urldecode($to)));
+		
+
+		$and_fac_data = ($county_id > 0) ? " AND c.id='$county_id'" : null;
+		$and_fac_data .= ($district_id > 0) ? " AND dist.id = '$district_id'" : null;
+		$and_fac_data .= ($facility_code > 0) ? " AND f.facility_code = '$facility_code'" : null;
+		
+		$and_fac_data = isset($and_fac_data) ? $and_fac_data : null;
+
+
+		$main_title = "Consumption Report ";
+		$and_size = '';
+		$title_size = '';
+		if($commodity_size=='packs'){
+			$and_size .="round(avg(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),1)";
+			$title = ' Quantity (In Packs)';
+		}else{
+			$and_size .="round(avg(IFNULL(ABS(f_i.`qty_issued`), 0)),1)";
+			$title = ' Quantity (In Units)';
+		}
+		$sql_consumption = "select c.county,dist.district as subcounty, f.facility_name,f.facility_code, d.commodity_name as drug_name,$and_size as total from facilities f,districts dist,counties c,commodities d	left join facility_issues f_i on f_i.`commodity_id`=d.id where f_i.facility_code = f.facility_code and f.district=dist.id and dist.county=c.id and f.using_hcmp in (1,2) and f_i.`qty_issued`>0 and f_i.created_at between '$from' and '$to' $and_fac_data group by d.id , f.facility_code	order by c.county asc , dist.district asc, f.facility_code asc";
+		
+		$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "$title Consumption (Packs) $time", 'file_name' => $title . ' Consumption');
+		$row_data = array();
+		$facility_consumption_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll($sql_consumption);		
+		foreach ($facility_consumption_data as $facility_consumption_item) :
+			array_push($row_data, array($facility_consumption_item["county"], $facility_consumption_item["subcounty"], $facility_consumption_item["facility_code"], $facility_consumption_item["facility_name"], $facility_consumption_item["drug_name"], $facility_consumption_item["total"]));
+		endforeach;
+
+		$inputFileName = 'print_docs/excel/excel_template/Reports_template.xlsx';	    
+		
+	    $excel2 = PHPExcel_IOFactory::createReader('Excel2007');
+		$excel2 = $excel2->load($inputFileName); // Empty Sheet
+		$excel2->setActiveSheetIndex(0);
+		$heading_title = '';
+	    $count = 7;
+	    if(count($row_data)>0){
+	    	$heading_title = "The following Commodities were consumed between ".$to." and ".$from;
+		    foreach ($row_data as $key => $value) {
+		    	$count++;
+		    	$row = 'B'.$count;
+		    	$row1 = 'C'.$count;
+		    	$row2 = 'D'.$count;
+		    	$row3 = 'E'.$count;
+		    	$row4 = 'F'.$count;
+		    	$row5 = 'G'.$count;
+		    	$county = $value[0];    	
+		    	$district = $value[1];    	
+		    	$mfl = $value[2];    	
+		    	$facility_name = $value[3];    	
+		    	$comodity_name = $value[4];    	
+		    	$quantity = $value[5];    	
+		    	$excel2->getActiveSheet()->setCellValue($row,$county);
+		    	$excel2->getActiveSheet()->setCellValue($row1,$district);
+		    	$excel2->getActiveSheet()->setCellValue($row2,$mfl);
+		    	$excel2->getActiveSheet()->setCellValue($row3,$facility_name);
+		    	$excel2->getActiveSheet()->setCellValue($row4,$commodity_name);
+		    	$excel2->getActiveSheet()->setCellValue($row5,$quantity);
+		    }
+		}else{
+			$heading_title = "There were no records matching the query";
+		}
+		$file_name =isset($file_name) ? $file_name: time().'.xlsx';
+		$objWriter = PHPExcel_IOFactory::createWriter($excel2, 'Excel2007');
+
+		$excel2->setActiveSheetIndex(0);
+		$excel2->getActiveSheet()->setCellValue("B5",$main_title);
+		$excel2->getActiveSheet()->setCellValue("B6",$heading_title);
+		ob_end_clean();
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");	
+		header("Content-Disposition: attachment; filename=$file_name");	
+		$objWriter -> save('php://output');
+		$excel2 -> disconnectWorksheets();
+		unset($excel2); 
+
+	}
 			public function consumption($county_id = null, $district_id = null, $facility_code = null, $commodity_id = null, $graph_type = null, $from = null, $to = null) {
 
 				$title = '';
