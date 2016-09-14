@@ -971,6 +971,56 @@ for ($row = 17; $row <= $highestRow; $row++){
 	unset($excel2);   
   
  }
+ public function clone_reports_template($file_name=null,$data){
+ 				
+    $inputFileName = 'print_docs/excel/excel_template/Reports_template.xlsx';
+    $commodities = commodities::get_all();    
+	
+    $excel2 = PHPExcel_IOFactory::createReader('Excel2007');
+	$excel2 = $excel2->load($inputFileName); // Empty Sheet
+	$excel2->setActiveSheetIndex(1);
+
+    $count = 1;
+    foreach ($commodities as $key => $value) {
+    	$count++;
+    	$row = 'A'.$count;
+    	$commodity = $value['commodity_name'];    	
+    	$excel2->getActiveSheet()->setCellValue($row,$commodity);
+    }
+	$file_name =isset($file_name) ? $file_name: time().'.xlsx';
+	$objWriter = PHPExcel_IOFactory::createWriter($excel2, 'Excel2007');
+
+	$excel2->setActiveSheetIndex(0);
+
+
+	for ($i=12; $i < 2000 ; $i++) { 
+		$cell = 'B'.$i;
+		// Set data validation
+		$objValidation = $excel2->getActiveSheet()->getCell($cell)->getDataValidation();
+		$objValidation->setType( PHPExcel_Cell_DataValidation::TYPE_LIST );
+		$objValidation->setErrorStyle( PHPExcel_Cell_DataValidation::STYLE_INFORMATION );
+		$objValidation->setAllowBlank(false);
+		$objValidation->setShowInputMessage(true);
+		$objValidation->setShowErrorMessage(true);
+		$objValidation->setShowDropDown(true);
+		$objValidation->setErrorTitle('Input error');
+		$objValidation->setError('Commodity is not In the List');
+		$objValidation->setPromptTitle('Pick from list');
+		$objValidation->setPrompt('Please pick a Commodity from the drop-down list');
+		$objValidation->setFormula1('\'Commodities\'!$A$2:$A$5000'); 		
+	}	
+	
+	ob_end_clean();
+	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+	header("Cache-Control: no-store, no-cache, must-revalidate");
+	header("Cache-Control: post-check=0, pre-check=0", false);
+	header("Pragma: no-cache");	
+	header("Content-Disposition: attachment; filename=$file_name");	
+	$objWriter -> save('php://output');
+	$excel2 -> disconnectWorksheets();
+	unset($excel2);   
+  
+ }
 
  //Upload the Redistribution Excel
  public function redistribution_excel_uploader($inputFileName){

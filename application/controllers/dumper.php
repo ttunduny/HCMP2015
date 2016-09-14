@@ -17,6 +17,7 @@ class Dumper extends MY_Controller {
 
 	public function create_zip($facility_code)
 	{
+		ini_set('memory_limit', -1);
 		$this->update_rollout_status($facility_code);
 		$this->create_core_tables($facility_code);
 		$this->create_bat($facility_code);
@@ -264,6 +265,7 @@ public function create_bat($facility_code)
  	// }
  	
    public function create_core_tables($facility_code,$database=null){
+   		ini_set('memory_limit', -1);
    		$database = (isset($database)) ? $database : 'hcmp_rtk';
    		$mysqli = new mysqli("localhost", "root", "", "hcmp_rtk");
 	   	 if (mysqli_connect_errno()) {
@@ -385,7 +387,7 @@ public function show_views($mysqli,$database){
 }
 public function create_inserts($table_name= null,$where=null,$mysqli)
    {
-   	 
+   	ini_set('memory_limit', -1);
    	$condition = ($where!=null) ? $where : '' ;
 	$sql_create = "SHOW CREATE TABLE `$table_name`";  
 
