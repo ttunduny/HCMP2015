@@ -2138,6 +2138,8 @@ class Dashboard extends MY_Controller {
 		return $this -> load -> view("shared_files/report_templates/high_charts_template_v_national", $data);
 		/*END OF THIS OLD SH!T*/
 	}
+
+	//Change
 	public function report_problems()
 	{
 		$commodities = Dashboard_model::get_commodity_count();
