@@ -756,9 +756,8 @@
         url: function_url,
         beforeSend: function() {
           $(div).html("<img style='margin-top:20%;margin-left:50%;' src="+loading_icon+">");
-        },ess: function(msg) {
-          $(
-        succdiv).html(msg);
+        },success: function(msg) {
+          $(div).html(msg);
         }
       });
      } 
