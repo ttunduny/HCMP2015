@@ -214,6 +214,17 @@
                     </div>
                                         
                   </div>     
+                  <div id="duration_stock_level" class="col-md-12" style="margin-top:1%;border:1px ridge;">
+                    <div class="col-md-12" style="margin-top:1%;"><h5><b>Select the Date</b></h5></div>
+                    <br/>
+                    <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
+                      <label><input type="text" class="form-control clone_datepicker_normal_limit_today" name="stock_date" id="stock_date" placeholder="Select Date"/></label>
+                    </div>                    
+                    <div class="col-md-2 padding-hor-sm" style="margin-top:1%;">
+                      
+                    </div>
+                                        
+                  </div>   
 
                 
                   <div class="col-md-12" style="margin-top:1%;border:1px ridge;">
@@ -376,6 +387,7 @@
               var commodity_size = $('input[name=commodity_size]:checked').val()
               var type = 'excel';
               var from =$("#from_date").val();
+              var from_new =$("#stock_date").val();
               var to =$("#to_date").val();
               var commodity_id=$('#specific_commodity').val();
               var division_commodity=$('#division_commodity_selected').val();
@@ -383,49 +395,33 @@
               var commodity_type = $('input[name=commodity_category]:checked').val()
               var link='';        
               if(from==''){from="NULL";}
+              if(from_new==''){from_new="NULL";}
               if(to==''){to="NULL";}
                             
               if(criteria=='consumption'){
-                if(commodity_type=='tracer'){      
-                // $county_id=NULL,$district_id=NULL,$facility_code=NULL,$commodity_category=NULL,$programme=NULL,$commodity_id=NULL,$commodity_size=NULL,$from=NULL,$to=NULL){          
-                  link='national/reports_consumption_new/'+county_id+'/'+district+'/'+facility+'/tracer/NULL/NULL/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);
-                  // link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/NULL/excel/'+encodeURI(from)+ '/'+encodeURI(to);
+                if(commodity_type=='tracer'){                      
+                  link='national/reports_consumption_new/'+county_id+'/'+district+'/'+facility+'/tracer/NULL/NULL/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);                  
                 }
-                if(commodity_type=='programme'){      
-                // $county_id=NULL,$district_id=NULL,$facility_code=NULL,$commodity_category=NULL,$programme=NULL,$commodity_id=NULL,$commodity_size=NULL,$from=NULL,$to=NULL){          
-                  link='national/reports_consumption_new/'+county_id+'/'+district+'/'+facility+'/programme/'+division+'/'+division_commodity+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);
-                  // link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/NULL/excel/'+encodeURI(from)+ '/'+encodeURI(to);
+                if(commodity_type=='programme'){                      
+                  link='national/reports_consumption_new/'+county_id+'/'+district+'/'+facility+'/programme/'+division+'/'+division_commodity+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);                  
                 }
-                // if(commodity_type=='all'){
-                //   var commodity_id=$('#commodity_selected').val();                
-                //   link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);
-                // }
+                
                 if(commodity_type=='specify'){
                   var commodity_id=$('#commodity_selected').val(); 
-                  // $county_id=NULL,$district_id=NULL,$facility_code=NULL,$commodity_category=NULL,$programme=NULL,$commodity_id=NULL,$commodity_size=NULL,$from=NULL,$to=NULL){ 
+                
                   link='national/reports_consumption_new/'+county_id+'/'+district+'/'+facility+'/specify/NULL/'+commodity_id+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);
-                  // link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/'+encodeURI(commodity_id)+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);  
+                
                 }               
               }else if(criteria=='stock_level'){
-                if(commodity_type=='tracer'){      
-                // $county_id=NULL,$district_id=NULL,$facility_code=NULL,$commodity_category=NULL,$programme=NULL,$commodity_id=NULL,$commodity_size=NULL,$from=NULL,$to=NULL){          
-                  link='national/reports_stocks_new/'+county_id+'/'+district+'/'+facility+'/tracer/NULL/NULL/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);
-                  // link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/NULL/excel/'+encodeURI(from)+ '/'+encodeURI(to);
+                if(commodity_type=='tracer'){                      
+                  link='national/reports_stocks_new/'+county_id+'/'+district+'/'+facility+'/tracer/NULL/NULL/'+commodity_size+'/'+encodeURI(from_new)+ '/'+encodeURI(to);                  
                 }
-                if(commodity_type=='programme'){      
-                // $county_id=NULL,$district_id=NULL,$facility_code=NULL,$commodity_category=NULL,$programme=NULL,$commodity_id=NULL,$commodity_size=NULL,$from=NULL,$to=NULL){          
-                  link='national/reports_stocks_new/'+county_id+'/'+district+'/'+facility+'/programme/'+division+'/'+division_commodity+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);
-                  // link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/NULL/excel/'+encodeURI(from)+ '/'+encodeURI(to);
-                }
-                // if(commodity_type=='all'){
-                //   var commodity_id=$('#commodity_selected').val();                
-                //   link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/'+commodity_id+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);
-                // }
+                if(commodity_type=='programme'){                      
+                  link='national/reports_stocks_new/'+county_id+'/'+district+'/'+facility+'/programme/'+division+'/'+division_commodity+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);                  
+                }                
                 if(commodity_type=='specify'){
-                  var commodity_id=$('#commodity_selected').val(); 
-                  // $county_id=NULL,$district_id=NULL,$facility_code=NULL,$commodity_category=NULL,$programme=NULL,$commodity_id=NULL,$commodity_size=NULL,$from=NULL,$to=NULL){ 
-                  link='national/reports_stocks_new/'+county_id+'/'+district+'/'+facility+'/specify/NULL/'+commodity_id+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);
-                  // link='national/consumption_annual_report/'+county_id+'/'+district+'/'+facility+'/'+encodeURI(commodity_id)+'/excel/'+encodeURI(from)+ '/'+encodeURI(to);  
+                  var commodity_id=$('#commodity_selected').val();                  
+                  link='national/reports_stocks_new/'+county_id+'/'+district+'/'+facility+'/specify/NULL/'+commodity_id+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);                  
                 }              
               }else if(criteria=='orders'){
                 link='national/order/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';

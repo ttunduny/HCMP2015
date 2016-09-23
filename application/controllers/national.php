@@ -1476,7 +1476,7 @@ public function new_consumption(){
 		$commodity_id = ($commodity_id == "NULL") ? null : $commodity_id;
 		$commodity_size = ($commodity_size == "NULL") ? 'packs' : $commodity_size;				
 		$from = ($from == "NULL" || !isset($from)) ? date('Y-m-d') : date('Y-m-d', strtotime(urldecode($from)));
-		$to = ($to == "NULL" || !isset($to)) ? date('Y-m-d') : date('Y-m-d', strtotime(urldecode($to)));
+		// $to = ($to == "NULL" || !isset($to)) ? date('Y-m-d') : date('Y-m-d', strtotime(urldecode($to)));
 		
 
 		$and_fac_data = ($county_id > 0) ? " AND c.id='$county_id'" : null;
@@ -1492,25 +1492,28 @@ public function new_consumption(){
 		$title_size = '';
 		$title_stuff = '';
 		if($commodity_size=='packs'){
-			$and_size .="round(avg(IFNULL(ABS(f_i.`qty_issued`), 0) / IFNULL(d.total_commodity_units, 0)),1)";
+			$and_size .="CASE WHEN d.total_commodity_units IS NULL THEN ROUND(AVG(IFNULL(ABS(f_s.`current_balance`), 0) / 1),1) 
+							WHEN d.total_commodity_units=0 THEN ROUND(AVG(IFNULL(ABS(f_s.`current_balance`), 0) / 1),1) 
+							ELSE ROUND(AVG(IFNULL(ABS(f_s.`current_balance`), 0) / IFNULL(d.total_commodity_units, 0)),1)  END as total";
 			$title = ' Quantity (In Packs)';
 			$title_stuff= "in Packs";
 		}else{
-			$and_size .="round(avg(IFNULL(ABS(f_i.`qty_issued`), 0)),1)";
+			$and_size .="round(avg(IFNULL(ABS(d.`total_commodity_units`), 0)),1) as total";
 			$title = ' Quantity (In Units)';
 			$title_stuff= "in Units";
 		}
 		
-		if ($commodity_category=='specify'){
-			$sql_consumption = "select c.county,dist.district as subcounty, f.facility_name,f.facility_code, d.commodity_name as drug_name,$and_size as total from facilities f,districts dist,counties c,commodities d	left join facility_stocks f_i on f_i.`commodity_id`=d.id where f_i.facility_code = f.facility_code and f.district=dist.id and dist.county=c.id and f.using_hcmp in (1,2) and f_i.`qty_issued`>0 and f_i.created_at between '$from' and '$to' $and_fac_data group by d.id , f.facility_code	order by c.county asc , dist.district asc, f.facility_code asc";
-
+		if ($commodity_category=='specify'){			
+			$sql_stocks = "select c.county,dist.district as subcounty,f.facility_name,f.facility_code, d.commodity_name as drug_name,$and_size 
+				from facilities f,districts dist,counties c,facility_stocks f_s,commodities d where f_s.facility_code = f.facility_code and f.district = dist.id and dist.county = c.id and f.using_hcmp in (1,2) and f_s.`current_balance`>0 and f_s.date_modified < '$from' and f_s.commodity_id = d.id $and_fac_data group by d.id,f.facility_code order by c.county asc,dist.district asc,f.facility_code asc";
 			$main_title.="Stock Level Report for Specific Commodities";
-		}else if ($commodity_category=='tracer'){
-			$sql_consumption = "select c.county,dist.district as subcounty, f.facility_name,f.facility_code, d.commodity_name as drug_name,$and_size as total from facilities f,districts dist,counties c,commodities d	left join facility_stocks f_i on f_i.`commodity_id`=d.id where f_i.facility_code = f.facility_code and f.district=dist.id and d.tracer_item=1 and dist.county=c.id and f.using_hcmp in (1,2) and f_i.`qty_issued`>0 and f_i.created_at between '$from' and '$to' $and_fac_data group by d.id , f.facility_code	order by c.county asc , dist.district asc, f.facility_code asc";
+		}else if ($commodity_category=='tracer'){			
+			$sql_stocks = "select c.county,dist.district as subcounty,f.facility_name,f.facility_code, d.commodity_name as drug_name,$and_size
+				from facilities f,districts dist,counties c,facility_stocks f_s,commodities d where f_s.facility_code = f.facility_code and f.district = dist.id and d.tracer_item=1 and dist.county = c.id and f.using_hcmp in (1,2) and f_s.`current_balance`>0 and f_s.date_modified < '$from' and f_s.commodity_id = d.id $and_fac_data group by d.id,f.facility_code order by c.county asc,dist.district asc,f.facility_code asc";
 			$main_title.="Stock Level for Tracer Commodities";
 			
-		}else if ($commodity_category=='programme'){			
-			$sql_consumption = "select c.county,dist.district as subcounty, f.facility_name,f.facility_code, d.commodity_name as drug_name,$and_size as total from facilities f,districts dist,counties c,commodities d	left join facility_stocks f_i on f_i.`commodity_id`=d.id where f_i.facility_code = f.facility_code and f.district=dist.id and d.commodity_division='$programme' and dist.county=c.id and f.using_hcmp in (1,2) and f_i.`qty_issued`>0 and f_i.created_at between '$from' and '$to' $and_fac_data group by d.id , f.facility_code	order by c.county asc , dist.district asc, f.facility_code asc";
+		}else if ($commodity_category=='programme'){						
+			$sql_stocks = "select c.county,dist.district as subcounty,f.facility_name,f.facility_code, d.commodity_name as drug_name,$and_size from facilities f,districts dist,counties c,facility_stocks f_s,commodities d where f_s.facility_code = f.facility_code and f.district = dist.id and d.commodity_division='$programme' and dist.county = c.id and f.using_hcmp in (1,2) and f_s.`current_balance`>0 and f_s.date_modified < '$from' and f_s.commodity_id = d.id $and_fac_data group by d.id,f.facility_code order by c.county asc,dist.district asc,f.facility_code asc";
 			$main_title.="Stock Level Report for Programme Commodities";
 			
 		}
@@ -1521,7 +1524,7 @@ public function new_consumption(){
 		$excel_data = array('doc_creator' => "HCMP", 'doc_title' => "$title $time", 'file_name' => $title . ' Consumption');
 
 		$row_data = array();
-		$facility_consumption_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll($sql_consumption);		
+		$facility_consumption_data = Doctrine_Manager::getInstance() -> getCurrentConnection() -> fetchAll($sql_stocks);		
 		foreach ($facility_consumption_data as $facility_consumption_item) :
 			array_push($row_data, array($facility_consumption_item["county"], $facility_consumption_item["subcounty"], $facility_consumption_item["facility_code"], $facility_consumption_item["facility_name"], $facility_consumption_item["drug_name"], $facility_consumption_item["total"]));
 		endforeach;
@@ -1535,7 +1538,7 @@ public function new_consumption(){
 		$heading_title = '';
 	    $count = 7;
 	    if(count($row_data)>0){
-	    	$heading_title = "The following are the Stock Levels between ".$to." and ".$from." (in ".$report_size." )";
+	    	$heading_title = "The following are the Stock Levels as at ".$from." (in ".$report_size." )";
 		    foreach ($row_data as $key => $value) {
 		    	$count++;
 		    	$row = 'B'.$count;

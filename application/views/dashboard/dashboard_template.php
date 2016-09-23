@@ -650,6 +650,7 @@
          });
         $("#commodity_dropdown_div").hide();
         $("#duration_potential").hide();
+        $("#duration_stock_level").hide();
         // $("#division_dropdown_div").hide();
         $("#division_commodity_dropdown_div").hide();
 
@@ -657,10 +658,16 @@
           if($('#potential_expiries').is(':checked')){            
             $("#duration_normal").hide("slow");          
             $("#duration_potential").show("slow");
+            $("#duration_stock_level").hide("slow");
+          }else if($('#stock_level').is(':checked')){            
+            $("#duration_potential").hide("slow");
+            $("#duration_normal").hide("slow");          
+            $("#duration_stock_level").show("slow");          
           }else{
             $("#duration_potential").hide("slow");
             $("#duration_normal").show("slow");          
-          }     
+            $("#duration_stock_level").hide("slow");          
+          }      
         });
 
         $("input[name='commodity_category']").change(function(){
