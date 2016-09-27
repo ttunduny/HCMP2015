@@ -392,7 +392,8 @@
               var commodity_id=$('#specific_commodity').val();
               var division_commodity=$('#division_commodity_selected').val();
               var division=$('#division_selected').val();
-              var commodity_type = $('input[name=commodity_category]:checked').val()
+              var commodity_type = $('input[name=commodity_category]:checked').val();
+              var potential_duration = $('input[name=potential_interval]:checked').val();
               var link='';        
               if(from==''){from="NULL";}
               if(from_new==''){from_new="NULL";}
@@ -423,45 +424,28 @@
                   var commodity_id=$('#commodity_selected').val();                  
                   link='national/reports_stocks_new/'+county_id+'/'+district+'/'+facility+'/specify/NULL/'+commodity_id+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);                  
                 }              
-              }else if(criteria=='orders'){
-                link='national/order/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';
-              }else if(criteria=='actual_expiries'){
-                if(commodity_type=='tracer'){  
-                  if(commodity_size=='units'){
-                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';
-                  }else{
-                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';
-                  }             
-                  
-                }
-                if(commodity_type=='all'){
-                  var commodity_id=$('#commodity_selected').val();   
-                  if(commodity_size=='units'){
-                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';
-                  }else{
-                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel';
-                  }               
-                  
-                }
-                if(commodity_type=='specify'){
-                  var commodity_id=$('#commodity_selected').val();  
-                  if(commodity_size=='units'){
-                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel/'+commodity_id;                                
-                  }else{
-                    link='national/expiry/NULL/'+county_id+'/'+district+'/'+facility_id+'/excel/'+commodity_id;                                
-                  }  
-                  
-                }               
               }else if(criteria=='potential_expiries'){                
-                if(commodity_type=='all'){
-                  var commodity_id=$('#commodity_selected').val();   
-                  link='national/potential/'+county_id+'/'+district+'/'+facility_id+'/excel/'+potential_interval;                           
+                if(commodity_type=='tracer'){                      
+                  link='national/reports_potential_new/'+county_id+'/'+district+'/'+facility+'/tracer/NULL/NULL/'+commodity_size+'/'+potential_duration+ '/'+encodeURI(to);                  
                 }
+                if(commodity_type=='programme'){                      
+                  link='national/reports_potential_new/'+county_id+'/'+district+'/'+facility+'/programme/'+division+'/'+division_commodity+'/'+commodity_size+'/'+potential_duration+ '/'+encodeURI(to);                  
+                }                
                 if(commodity_type=='specify'){
-                  var commodity_id=$('#commodity_selected').val();  
-                  link='national/potential/'+county_id+'/'+district+'/'+facility_id+'/excel/'+potential_interval+'/'+commodity_id;
-                  
-                }               
+                  var commodity_id=$('#commodity_selected').val();                  
+                  link='national/reports_potential_new/'+county_id+'/'+district+'/'+facility+'/specify/NULL/'+commodity_id+'/'+commodity_size+'/'+potential_duration+ '/'+encodeURI(to);                  
+                }                   
+              }else if(criteria=='actual_expiries'){                
+                if(commodity_type=='tracer'){                      
+                  link='national/reports_actual_new/'+county_id+'/'+district+'/'+facility+'/tracer/NULL/NULL/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);                  
+                }
+                if(commodity_type=='programme'){                      
+                  link='national/reports_actual_new/'+county_id+'/'+district+'/'+facility+'/programme/'+division+'/'+division_commodity+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);                  
+                }                
+                if(commodity_type=='specify'){
+                  var commodity_id=$('#commodity_selected').val();                  
+                  link='national/reports_actual_new/'+county_id+'/'+district+'/'+facility+'/specify/NULL/'+commodity_id+'/'+commodity_size+'/'+encodeURI(from)+ '/'+encodeURI(to);                  
+                }                   
               }
               // window.open(url+link,'_parent');
               window.open(url+link,'_blank');
