@@ -1454,6 +1454,7 @@ public function new_consumption(){
 		$excel2->getActiveSheet()->setCellValue("B5",$main_title);
 		$excel2->getActiveSheet()->setCellValue("B6",$heading_title);
 		ob_end_clean();
+		header("Content-Type: application/vnd.ms-excel");		
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate");
 		header("Cache-Control: post-check=0, pre-check=0", false);
@@ -1462,6 +1463,7 @@ public function new_consumption(){
 		$objWriter -> save('php://output');
 		$excel2 -> disconnectWorksheets();
 		unset($excel2); 
+		ob_end_flush();
 
 	}
 	public function reports_stocks_new($county_id=NULL,$district_id=NULL,$facility_code=NULL,$commodity_category=NULL,$programme=NULL,$commodity_id=NULL,$commodity_size=NULL,$from=NULL,$to=NULL){
