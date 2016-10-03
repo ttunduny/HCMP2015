@@ -230,11 +230,8 @@ class Synchronization extends MY_Controller {
 		    $days = (time() - strtotime($date_from_last_sync)) / (60 * 60 * 24);
 			echo abs(round($days,0));
 		}else{
-<<<<<<< HEAD
 			echo "FIRST";
-=======
 			echo "This will be your <b>first</b> synchronization";
->>>>>>> 43e07470a11b9e45127d04af6f88d6602abb96e6
 		}
 
 	}
