@@ -3361,7 +3361,7 @@ $subject = "System Usage as at ".$time;
 	
 	$email_address = $cp_emails_str;
 	$cc_email = $scp_emails_str;
-	$bcc_email = "smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com,ronohb@gmail.com,odiwuorybrian@gmail.com,mwakiojoy@gmail.com,kevgithuka@gmail.com,margie.odora@gmail.com,kiganyastephenthua@gmail.com";
+	$bcc_email = "smutheu@clintonhealthaccess.org,karsanrichard@gmail.com,ttunduny@gmail.com,teddyodera@gmail.com,ronohb@gmail.com,odiwuorybrian@gmail.com,mwakiojoy@gmail.com,kevgithuka@gmail.com,margie.dora@gmail.com,kiganyastephenthua@gmail.com";
 		
 	/*END OF ACTUAL EMAILS*/
 

@@ -511,9 +511,12 @@ class User extends MY_Controller {
 									endswitch;	
 									// echo "$county";die;								
 									$data['content_view'] = "Admin/users_v";
+									// $data['active_users']= array();
 									$data['active_users']= Users::get_user_list_all($county,$district,$facility,null,1);
+									// $data['inactive_users']= array();
 									$data['inactive_users']= Users::get_user_list_all($county,$district,$facility,null,0);									
-									$data['deactivated_users']= Users::get_user_list_all($county,$district,$facility,null,2);															
+									// $data['deactivated_users']= array();
+									$data['deactivated_users']= Users::get_user_list_all($county,$district,$facility,null,2);														
 									$data['counties']=Counties::getAll();
 									
 									$data['title'] = "User Management";
@@ -673,7 +676,7 @@ class User extends MY_Controller {
 									$district_code = ($_POST['district_name']=='NULL')? 0: $_POST['district_name'];
 									$user_type = $_POST['user_type'];
 									$full_name= $fname .''.$lname; 
-									$county=($_POST['county']=='NULL')? 0: $_POST['county'];
+									$county=($_POST['county_id']=='NULL')? 0: $_POST['county_id'];
 		//Generate a activation code
 									$range = microtime(true);
 									
@@ -704,7 +707,7 @@ class User extends MY_Controller {
 									case 'super_admin':
 									$county=($_POST['county_id']=='NULL')? 0: $_POST['county_id'];	
 									case 'county':
-									$county=$this -> session -> userdata('county_id');
+										$county=$this -> session -> userdata('county_id');
 									
 									break;	
 									endswitch;

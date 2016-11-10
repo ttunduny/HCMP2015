@@ -541,7 +541,7 @@
      $.ajax({ 
       type: "POST",
           data:{ 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),
-          'telephone': $('#telephone').val(),'email': $('#email').val(),
+          'telephone': $('#telephone').val(),'email': $('#email').val(),'county_id': $('#county').val(),
           'username': $('#username').val(),'facility_id': $('#facility_id').val(),
           'district_name': $('#district_name').val(),'user_type': $('#user_type').val()},
           url: url,
