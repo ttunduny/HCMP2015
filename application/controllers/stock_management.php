@@ -25,25 +25,25 @@ class Stock_Management extends auto_sms {
 	    $reset_facility_issues_table->execute("DELETE FROM `facility_issues` WHERE  facility_code=$facility_code");
 		
 		$facility_order_details_table = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $facility_order_details_table->fetchAll("select id from `ordertbl` WHERE  facilityCode=$facility_code");
+	    $facility_order_details_table->fetchAll("select id from `facility_orders` WHERE  facility_code=$facility_code");
 		
 		foreach ( $facility_order_details_table as $key => $value) {
 		$reset_facility_order_table = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $reset_facility_order_table->execute("DELETE FROM `orderdetails` WHERE  orderNumber=$value");	
+	    $reset_facility_order_table->execute("DELETE FROM `facility_orders` WHERE  id=$value");	
 		}
 	
-	    $reset_facility_order_table = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $reset_facility_order_table->execute("DELETE FROM `ordertbl` WHERE  facilityCode=$facility_code");
+	    // $reset_facility_order_table = Doctrine_Manager::getInstance()->getCurrentConnection();
+	    // $reset_facility_order_table->execute("DELETE FROM `ordertbl` WHERE  facilityCode=$facility_code");
 		
-		$reset_facility_historical_stock_table = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $reset_facility_historical_stock_table->execute("DELETE FROM `historical_stock` WHERE  facility_code=$facility_code");
+		// $reset_facility_historical_stock_table = Doctrine_Manager::getInstance()->getCurrentConnection();
+	    // $reset_facility_historical_stock_table->execute("DELETE FROM `historical_stock` WHERE  facility_code=$facility_code");
 		
-		$reset_facility_update_stock_first_temp = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $reset_facility_update_stock_first_temp->execute("DELETE FROM `update_stock_first_temp` WHERE  facility_code=$facility_code");
+		// $reset_facility_update_stock_first_temp = Doctrine_Manager::getInstance()->getCurrentConnection();
+	    //$reset_facility_update_stock_first_temp->execute("DELETE FROM `update_stock_first_temp` WHERE  facility_code=$facility_code");
 		
 		
 		$this->session->set_flashdata('system_success_message', 'Facility Stock Details Have Been Reset');
-		redirect('Home_Controller');
+		redirect('Home');
 	}
 	
 	public function getTempStock(){
