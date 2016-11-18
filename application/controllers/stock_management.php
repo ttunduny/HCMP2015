@@ -8,34 +8,39 @@ class Stock_Management extends auto_sms {
 	}
 	
 	
-	public function reset_facility_details(){
-		$facility_code=$this -> session -> userdata('news');
+	public function reset_facility_details($facility_code_new=null){	
+		if($facility_code_new==null){
+			$facility_code=$this -> session -> userdata('facility_id');
+		}else{
+			$facility_code=$facility_code_new;
+		}		
 		
+		echo "$facility_code";die;
 		$reset_facility_transaction_table = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $reset_facility_transaction_table->execute("DELETE FROM `facility_transaction_table` WHERE  facility_code=$facility_code; ");
+	    $reset_facility_transaction_table->execute("DELETE FROM `facility_transaction_table` WHERE  facility_code=$facility_code");
 	    
 		$reset_facility_stock_table = Doctrine_Manager::getInstance()->getCurrentConnection();
 	    $reset_facility_stock_table->execute("DELETE FROM `facility_stock` WHERE  facility_code=$facility_code");
 	    
 		$reset_facility_issues_table = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $reset_facility_issues_table->execute("DELETE FROM `facility_issues` WHERE  facility_code=$facility_code;");
+	    $reset_facility_issues_table->execute("DELETE FROM `facility_issues` WHERE  facility_code=$facility_code");
 		
 		$facility_order_details_table = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $facility_order_details_table->fetchAll("select id from `ordertbl` WHERE  facilityCode=$facility_code;");
+	    $facility_order_details_table->fetchAll("select id from `ordertbl` WHERE  facilityCode=$facility_code");
 		
 		foreach ( $facility_order_details_table as $key => $value) {
 		$reset_facility_order_table = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $reset_facility_order_table->execute("DELETE FROM `orderdetails` WHERE  orderNumber=$value; ");	
+	    $reset_facility_order_table->execute("DELETE FROM `orderdetails` WHERE  orderNumber=$value");	
 		}
 	
 	    $reset_facility_order_table = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $reset_facility_order_table->execute("DELETE FROM `ordertbl` WHERE  facilityCode=$facility_code; ");
+	    $reset_facility_order_table->execute("DELETE FROM `ordertbl` WHERE  facilityCode=$facility_code");
 		
 		$reset_facility_historical_stock_table = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $reset_facility_historical_stock_table->execute("DELETE FROM `historical_stock` WHERE  facility_code=$facility_code; ");
+	    $reset_facility_historical_stock_table->execute("DELETE FROM `historical_stock` WHERE  facility_code=$facility_code");
 		
 		$reset_facility_update_stock_first_temp = Doctrine_Manager::getInstance()->getCurrentConnection();
-	    $reset_facility_update_stock_first_temp->execute("DELETE FROM `update_stock_first_temp` WHERE  facility_code=$facility_code; ");
+	    $reset_facility_update_stock_first_temp->execute("DELETE FROM `update_stock_first_temp` WHERE  facility_code=$facility_code");
 		
 		
 		$this->session->set_flashdata('system_success_message', 'Facility Stock Details Have Been Reset');
