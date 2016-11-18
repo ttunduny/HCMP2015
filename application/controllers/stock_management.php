@@ -14,8 +14,7 @@ class Stock_Management extends auto_sms {
 		}else{
 			$facility_code=$facility_code_new;
 		}		
-		
-		echo "$facility_code";die;
+				
 		$reset_facility_transaction_table = Doctrine_Manager::getInstance()->getCurrentConnection();
 	    $reset_facility_transaction_table->execute("DELETE FROM `facility_transaction_table` WHERE  facility_code=$facility_code");
 	    
