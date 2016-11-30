@@ -32,7 +32,7 @@ class Commodity_source extends Doctrine_Record {
 	public static function check_name_exists($source_name){
 		$source_name = str_replace("%20", " ", $source_name);
 		$name_exists = Doctrine_Manager::getInstance()->getCurrentConnection()->fetchAll("
-			SELECT * FROM commodity_source_other WHERE source_name = '$source_name'");
+			SELECT source_name FROM commodity_source_other WHERE source_name = '$source_name'");
 		if($name_exists) return true;
 		else return false;
 	}

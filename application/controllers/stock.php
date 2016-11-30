@@ -416,7 +416,7 @@ class Stock extends MY_Controller {
 	// finally add the stock here, the final step to the first step of new facilities getting on board
 	public function add_stock_level() {
 		ini_set("max_execution_time", -1);
-		//echo "<pre>"; print_r($_POST); echo "</pre>"; exit;
+		// echo "<pre>"; print_r($_POST); echo "</pre>"; exit;
 		if ($this -> input -> post('commodity_id')) :
 			if($this->input->post('new_source_name')){
 				$source_name = $this->input->post('new_source_name');
@@ -441,6 +441,7 @@ class Stock extends MY_Controller {
 					//exit;
 				}
 			}
+
 			$facility_code = $this -> session -> userdata('facility_id');
 			$form_type = $this -> input -> post('form_type');
 			$commodity_id = array_values($this -> input -> post('desc'));
@@ -453,15 +454,14 @@ class Stock extends MY_Controller {
 			$commodity_price = array_values($this -> input-> post('price'));
 			$date_of_entry_ = ($form_type == 'first_run') ? date('y-m-d H:i:s') : array_values($this -> input -> post('date_received'));
 			$count = count($commodity_id);
-			$commodity_id_array = $data_array_facility_issues = $data_array_facility_transaction = array();
-
+			$commodity_id_array = $data_array_facility_issues = $data_array_facility_transaction = array();			
 			//collect n set the data in the array
 			for ($i = 0; $i < $count; $i++) :
 				$status = ($total_unit_count[$i] > 0) ? true : false;
 				$status = ($status && strtotime(str_replace(",", " ", $expiry_date[$i])) > strtotime('now')) ? 1 : 2;
 				$date_of_entry = ($form_type == 'first_run') ? date('y-m-d H:i:s') : date('Y-m-d', strtotime($date_of_entry_[$i]));
 				$mydata = array('facility_code' => $facility_code, 'commodity_id' => $commodity_id[$i], 'batch_no' => $batch_no[$i], 'manufacture' => $manu[$i], 'expiry_date' => date('y-m-d', strtotime(str_replace(",", " ", $expiry_date[$i]))), 'initial_quantity' => $total_unit_count[$i], 'current_balance' => $total_unit_count[$i], 'source_of_commodity' => $source_of_item[$i], 'other_source_id' => $other_source_id[$i], 'date_added' => $date_of_entry, 'status' => $status);
-				//echo "<pre>"; print_r($mydata); echo "</pre>";	
+				
 				if($this -> input -> post('price')):
 					$price_data = array('facility_code' => $facility_code, 'commodity_id' => $commodity_id[$i], 'batch_no' => $batch_no[$i], 'other_source_id' => $other_source_id[$i], 'price' => $commodity_price[$i]);
 					//echo "<pre>"; print_r($price_data); echo "</pre>"; exit;
