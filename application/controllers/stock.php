@@ -415,6 +415,7 @@ class Stock extends MY_Controller {
 
 	// finally add the stock here, the final step to the first step of new facilities getting on board
 	public function add_stock_level() {
+		ini_set("max_execution_time", -1);
 		//echo "<pre>"; print_r($_POST); echo "</pre>"; exit;
 		if ($this -> input -> post('commodity_id')) :
 			if($this->input->post('new_source_name')){
